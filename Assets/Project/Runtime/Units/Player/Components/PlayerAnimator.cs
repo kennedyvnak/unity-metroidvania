@@ -2,8 +2,10 @@ using UnityEngine;
 
 namespace Metroidvania.Player
 {
+    /// <summary>Player component for handle animations</summary>
     public class PlayerAnimator : PlayerComponent
     {
+        // Animations names constants
         public const string IdleAnimKey = "Idle";
         public const string RunAnimKey = "Run";
 
@@ -31,8 +33,9 @@ namespace Metroidvania.Player
 
         public const string HurtAnimKey = "Hurt";
         public const string DeathAnimKey = "Death";
+        
+        // Animation behaviours
         public readonly SpriteRenderer graphic;
-
         public readonly Animator machine;
 
         public PlayerAnimator(PlayerController target) : base(target)
@@ -40,7 +43,8 @@ namespace Metroidvania.Player
             machine = target.gfxGameObject.GetComponent<Animator>();
             graphic = target.gfxGameObject.GetComponent<SpriteRenderer>();
         }
-
+        
+        /// <summary>The animation which is running</summary>
         private string currentAnimation { get; set; }
 
         public void SwitchAnimation(string animationKey)
@@ -51,19 +55,22 @@ namespace Metroidvania.Player
             machine.Play(animationKey);
             currentAnimation = animationKey;
         }
-
+        
+        /// <summary>Flips the player if needed </summary>
         public void FlipCheck()
         {
             if (ShouldFlip())
                 Flip();
         }
-
+        
+        /// <summary>Horizontally flips the player</summary>
         public void Flip()
         {
             target.facingDirection *= -1;
             target.transform.localScale = new Vector2(target.facingDirection, 1);
         }
-
+        
+        /// <returns>True if the player needs flip</returns>
         public bool ShouldFlip()
         {
             var velocity = target.rb.velocity.x;

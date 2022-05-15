@@ -4,16 +4,56 @@ using UnityEngine.InputSystem;
 
 namespace Metroidvania.InputSystem
 {
+    /// <summary>
+    /// This class handle the unity input actions events. 
+    /// </summary>
+    /// <see cref="PlayerInput"/>
     [CreateAssetMenu(menuName = "Scriptables/Input/Reader")]
     public class InputReader : ScriptableObject, InputActions.IGameplayActions
     {
         private InputActions _inputActions;
+        
+        /// <summary>
+        /// Triggered when the move button is performed or canceled. arg0 is the move horizontal direction. 
+        /// </summary>
+        public event Action<float> MoveEvent;
+        
+        // This actions is: [...]Event: when the input button down; [...]CanceledEvent: when the input button up;
+        
+        public event Action AttackEvent;
+        public event Action AttackCanceledEvent;
+        
+        public event Action CrouchEvent;
+        public event Action CrouchCanceledEvent;
+        
+        public event Action DashEvent;
+        public event Action DashCanceledEvent;
+        
+        public event Action JumpEvent;
+        public event Action JumpCanceledEvent;
+        
+        /// <summary>
+        /// Enable the gameplay input.
+        /// </summary>
+        public void EnableGameplayInput()
+        {
+            _inputActions.Gameplay.Enable();
+        }
+        
+        /// <summary>
+        /// Disable All inputs.
+        /// </summary>
+        public void DisableAllInput()
+        {
+            _inputActions.Gameplay.Disable();
+        }
 
         private void OnEnable()
         {
             if (_inputActions == null)
             {
                 _inputActions = new InputActions();
+                // Use this method to implement callbacks On[Action](InputAction.CallbackContext)
                 _inputActions.Gameplay.SetCallbacks(this);
             }
 
@@ -88,26 +128,6 @@ namespace Metroidvania.InputSystem
                     JumpCanceledEvent?.Invoke();
                     break;
             }
-        }
-
-        public event Action<float> MoveEvent;
-        public event Action AttackEvent;
-        public event Action AttackCanceledEvent;
-        public event Action CrouchEvent;
-        public event Action CrouchCanceledEvent;
-        public event Action DashEvent;
-        public event Action DashCanceledEvent;
-        public event Action JumpEvent;
-        public event Action JumpCanceledEvent;
-
-        public void EnableGameplayInput()
-        {
-            _inputActions.Gameplay.Enable();
-        }
-
-        public void DisableAllInput()
-        {
-            _inputActions.Gameplay.Disable();
         }
     }
 }

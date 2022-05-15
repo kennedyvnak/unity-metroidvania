@@ -2,18 +2,26 @@
 
 namespace Metroidvania.Player
 {
+    /// <summary>Player Component used for handle collisions checks</summary>
     public class PlayerCollisions : PlayerComponent
     {
         public PlayerCollisions(PlayerController target) : base(target)
         {
             target.PhysicsUpdate += CollisionsCheck;
         }
-
+        /// <summary>Is the player touching the ground?</summary>
         public bool isGrounded { get; private set; }
-        public bool isTouchingLeftWall { get; private set; }
-        public bool isTouchingRightWall { get; private set; }
-        public bool isTouchingLedge { get; private set; }
 
+        /// <summary>Is the player left hand touching a wall?</summary>
+        public bool isTouchingLeftWall { get; private set; }
+        
+        /// <summary>Is the player right hand touching a wall?</summary>
+        public bool isTouchingRightWall { get; private set; }
+        
+        /// <summary>Is the player touching a ledge?</summary>
+        public bool isTouchingLedge { get; private set; }
+        
+        /// <summary>Is the player touching a wall?</summary>
         public bool isTouchingWall => isTouchingLeftWall || isTouchingRightWall;
 
         public override void OnDestroy()
@@ -21,7 +29,8 @@ namespace Metroidvania.Player
             base.OnDestroy();
             target.PhysicsUpdate -= CollisionsCheck;
         }
-
+        
+        /// <summary>Checks the player collisions</summary>
         public void CollisionsCheck()
         {
             var t = target.transform;

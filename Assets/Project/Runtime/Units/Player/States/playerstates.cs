@@ -84,7 +84,7 @@ namespace Metroidvania.Player.States
             {
                 var hit = hits[i];
                 if (hit.TryGetComponent<IHittableTarget>(out var hittableTarget))
-                    hittableTarget.OnTakeHit(new PlayerHitData(attackData.damage, attackData.force));
+                    hittableTarget.OnTakeHit(new PlayerHitData(attackData.damage, attackData.force, machine.target));
             }
         }
     }

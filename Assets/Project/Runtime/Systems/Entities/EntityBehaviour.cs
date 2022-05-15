@@ -1,21 +1,9 @@
+using UnityEngine;
+
 namespace Metroidvania.Entities
 {
-    public abstract class EntityBehaviour<TEntity, TState> : EntityObject
-        where TEntity : EntityBehaviour<TEntity, EntityBehaviourState<TEntity>>
-        where TState : EntityBehaviourState<TEntity>
+    /// <summary>Base class for handle all entity behaviours</summary>
+    public abstract class EntityBehaviour : MonoBehaviour
     {
-        protected virtual TState currentState { get; set; }
-
-        protected virtual void Update()
-        {
-            currentState?.LogicUpdate();
-        }
-
-        protected virtual void SwitchState(TState behaviour)
-        {
-            currentState?.Exit();
-            currentState = behaviour;
-            currentState.Enter();
-        }
     }
 }

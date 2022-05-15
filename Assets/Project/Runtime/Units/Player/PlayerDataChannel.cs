@@ -7,60 +7,187 @@ namespace Metroidvania.Player
     [CreateAssetMenu(menuName = "Scriptables/Player/Data")]
     public class PlayerDataChannel : ScriptableObject
     {
-        [Header("Properties")] public int m_maxLife;
+        [Serializable]
+        public struct Attack
+        {
+#if UNITY_EDITOR
+            [Tooltip("Draw the gizmos of this attack if true")] [SerializeField]
+            private bool m_drawGizmos;
+#endif
 
-        public int m_defaultInvincibilityTime;
+            [Tooltip("Duration of the attack")] [SerializeField, Space]
+            private float m_duration;
 
-        [Header("Input")] public InputReader m_inputReader;
+            [Tooltip("The offset that the player's move when the attack is triggered (don't be confused with started)")]
+            [SerializeField]
+            private float m_horizontalMoveOffset;
 
-        [Header("Ground Check")] public LayerMask m_groundLayer;
+            [Tooltip("Time after the attack start that triggers the attack")] [SerializeField, Space]
+            private float m_triggerTime;
 
-        public Vector2 m_feetOffset;
-        public Vector2 m_feetRadius;
+            [Tooltip("The area to make the collision check")] [SerializeField]
+            private Rect m_triggerCollider;
 
-        [Header("Wall Check")] public LayerMask m_wallLayer;
+            [Tooltip("Raw damage of the attack")] [SerializeField, Space]
+            private int m_damage;
 
-        public Vector2 m_leftHandOffset;
-        public Vector2 m_leftHandSize;
-        public Vector2 m_rightHandOffset;
-        public Vector2 m_rightHandSize;
-        public Vector2 m_ledgeCheckOffset;
-        public float m_ledgeCheckLenght;
+            [Tooltip("Raw force of the attack")] [SerializeField]
+            private float m_force;
 
-        [Header("Movement")] public float m_moveSpeed;
+#if UNITY_EDITOR
+            /// <summary>Draw the gizmos of this attack if true</summary>
+            public bool drawGizmos
+            {
+                get => m_drawGizmos;
+                set => m_drawGizmos = value;
+            }
+#endif
+            /// <summary>Duration of the attack</summary>
+            public float duration
+            {
+                get => m_duration;
+                set => m_duration = value;
+            }
 
-        [Header("Jump")] public float m_jumpSpeed;
+            /// <summary>The offset that the player's move when the attack is triggered (don't be confused with started)</summary>
+            public float horizontalMoveOffset
+            {
+                get => m_horizontalMoveOffset;
+                set => m_horizontalMoveOffset = value;
+            }
 
-        public float m_jumpDuration;
-        public AnimationCurve m_jumpCurve;
+            /// <summary>Time after the attack start that triggers the attack</summary>
+            public float triggerTime
+            {
+                get => m_triggerTime;
+                set => m_triggerTime = value;
+            }
 
-        [Header("Crouch")] public float m_crouchSpeed;
+            /// <summary>The area to make the collision check</summary>
+            public Rect triggerCollider
+            {
+                get => m_triggerCollider;
+                set => m_triggerCollider = value;
+            }
 
-        [Header("Slide")] public float m_slideDuration;
+            /// <summary>Raw damage of the attack</summary>
+            public int damage
+            {
+                get => m_damage;
+                set => m_damage = value;
+            }
 
-        public float m_slideSpeed;
-        public float m_slideCooldown;
-        public AnimationCurve m_slideCurve;
+            /// <summary>Raw force of the attack</summary>
+            public float force
+            {
+                get => m_force;
+                set => m_force = value;
+            }
+        }
 
-        [Header("Roll")] public float m_rollDuration;
+        [Tooltip("Max life of the player")] [Header("Properties")] [SerializeField]
+        private int m_maxLife;
 
-        public float m_rollSpeed;
-        public AnimationCurve m_rollCurve;
-        public float m_rollCooldown;
+        [Tooltip("Default invincibility time")] [SerializeField]
+        private int m_defaultInvincibilityTime;
 
-        [Header("Attacks")] public LayerMask m_hittableLayer;
+        [Tooltip("Input reader for input handling")] [Header("Input")] [SerializeField]
+        private InputReader m_inputReader;
 
-        public Attack m_attackOne;
-        public Attack m_attackTwo;
-        public Attack m_crouchAttack;
+        [Tooltip("Ground layer for collisions check")] [Header("Ground Check")] [SerializeField]
+        private LayerMask m_groundLayer;
 
-        [Header("Animations")] public float m_crouchTransitionTime;
+        [Tooltip("Feet offset based on center of player position")] [SerializeField]
+        private Vector2 m_feetOffset;
 
-        public float m_slideTransitionTime;
+        [SerializeField] [Tooltip("Size of the feet")]
+        private Vector2 m_feetRadius;
 
-        [Header("Wall Abilities")] public float m_wallSlideSpeed;
+        [Header("Wall Check")] [Tooltip("Wall layer for collisions check")] [SerializeField]
+        private LayerMask m_wallLayer;
 
-        [Header("Hurt")] public float m_hurtTime;
+        [Tooltip("Left hand offset based on center of the player position")] [SerializeField]
+        private Vector2 m_leftHandOffset;
+
+        [Tooltip("Size of the left hand")] [SerializeField]
+        private Vector2 m_leftHandSize;
+
+        [Tooltip("Right hand offset based on center of the player position")] [SerializeField]
+        private Vector2 m_rightHandOffset;
+
+        [Tooltip("Size of the right hand")] [SerializeField]
+        private Vector2 m_rightHandSize;
+
+        [Tooltip("Offset based on center of the player position")] [SerializeField]
+        private Vector2 m_ledgeCheckOffset;
+
+        [Tooltip("Size of the ledge check")] [SerializeField]
+        private float m_ledgeCheckLenght;
+
+        [Tooltip("Default movement speed")] [Header("Movement")] [SerializeField]
+        private float m_moveSpeed;
+
+        [Tooltip("Default jump speed")] [Header("Jump")] [SerializeField]
+        private float m_jumpSpeed;
+
+        [Tooltip("Jump duration")] [SerializeField]
+        private float m_jumpDuration;
+
+        [Tooltip("A curve for smooth jump velocity")] [SerializeField]
+        private AnimationCurve m_jumpCurve;
+
+        [Tooltip("Default crouch speed")] [Header("Crouch")] [SerializeField]
+        private float m_crouchSpeed;
+
+        [Tooltip("Slide duration")] [Header("Slide")] [SerializeField]
+        private float m_slideDuration;
+
+        [Tooltip("Slide speed")] [SerializeField]
+        private float m_slideSpeed;
+
+        [Tooltip("The slide cooldown")] [SerializeField]
+        private float m_slideCooldown;
+
+        [Tooltip("A curve for smooth slide speed")] [SerializeField]
+        private AnimationCurve m_slideCurve;
+
+        [Tooltip("Roll duration")] [Header("Roll")] [SerializeField]
+        private float m_rollDuration;
+
+        [Tooltip("Roll speed")] [SerializeField]
+        private float m_rollSpeed;
+
+        [Tooltip("The roll cooldown")] [SerializeField]
+        private float m_rollCooldown;
+
+        [Tooltip("A curve for smooth roll speed")] [SerializeField]
+        private AnimationCurve m_rollCurve;
+
+        [Tooltip("Layer for collisions check of hits")] [Header("Attacks")] [SerializeField]
+        private LayerMask m_hittableLayer;
+
+        [Tooltip("First attack data")] [SerializeField]
+        private Attack m_attackOne;
+
+        [Tooltip("Second attack data")] [SerializeField]
+        private Attack m_attackTwo;
+
+        [Tooltip("Crouch attack data")] [SerializeField]
+        private Attack m_crouchAttack;
+
+        [Tooltip("Duration of the crouch transition animation")] [Header("Animations")] [SerializeField]
+        private float m_crouchTransitionTime;
+
+        [Tooltip("Duration of the slide transition animation")] [SerializeField]
+        private float m_slideTransitionTime;
+
+        [Tooltip("Vertical velocity that will be applied on player's velocity when sliding down a wall")]
+        [Header("Wall Abilities")]
+        [SerializeField]
+        private float m_wallSlideSpeed;
+
+        [Tooltip("Time which the player stay on hurt state")] [Header("Hurt")] [SerializeField]
+        private float m_hurtTime;
 
         public int maxLife
         {
@@ -264,66 +391,6 @@ namespace Metroidvania.Player
         {
             get => m_hurtTime;
             set => m_hurtTime = value;
-        }
-
-        [Serializable]
-        public struct Attack
-        {
-            [SerializeField] private bool m_drawGizmos;
-
-            [Space] [SerializeField] private float m_duration;
-
-            [SerializeField] private float m_horizontalMoveOffset;
-
-            [Space] [SerializeField] private float m_triggerTime;
-
-            [SerializeField] private Rect m_triggerCollider;
-
-            [Space] [SerializeField] private int m_damage;
-
-            [SerializeField] private float m_force;
-
-            public bool drawGizmos
-            {
-                get => m_drawGizmos;
-                set => m_drawGizmos = value;
-            }
-
-            public float duration
-            {
-                get => m_duration;
-                set => m_duration = value;
-            }
-
-            public float horizontalMoveOffset
-            {
-                get => m_horizontalMoveOffset;
-                set => m_horizontalMoveOffset = value;
-            }
-
-            public float triggerTime
-            {
-                get => m_triggerTime;
-                set => m_triggerTime = value;
-            }
-
-            public Rect triggerCollider
-            {
-                get => m_triggerCollider;
-                set => m_triggerCollider = value;
-            }
-
-            public int damage
-            {
-                get => m_damage;
-                set => m_damage = value;
-            }
-
-            public float force
-            {
-                get => m_force;
-                set => m_force = value;
-            }
         }
     }
 }

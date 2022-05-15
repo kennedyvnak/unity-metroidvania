@@ -5,20 +5,32 @@ using UnityEngine.Events;
 
 namespace Metroidvania.Player
 {
+    /// <summary>
+    /// The main player clas
+    /// </summary>
     public class PlayerController : MonoBehaviour
     {
 #if UNITY_EDITOR
+        [Tooltip("If true, draw gizmos in the scene view. (Editor only)")]
         [SerializeField] private bool m_drawGizmos;
 #endif
-
+        
+        [Tooltip("The data active for this player. This field cannot be null")]
         [SerializeField] private PlayerDataChannel m_data;
-
+        
+        [Tooltip("The GFX GameObject")]
         [SerializeField] private GameObject m_gfxGameObject;
+        
+        /// <summary>The data active for this player. This field cannot be null</summary>
         public PlayerDataChannel data => m_data;
+        
+        /// <summary>The GFX GameObject</summary>
         public GameObject gfxGameObject => m_gfxGameObject;
 
+        /// <summary>The Rigidbody2D attached to the player</summary>
         public Rigidbody2D rb { get; private set; }
         
+        // Player components
         public PlayerAnimator animator { get; private set; }
         public PlayerCombat combat { get; private set; }
         public PlayerStateMachine stateMachine { get; private set; }
@@ -29,7 +41,24 @@ namespace Metroidvania.Player
         public List<PlayerComponent> playerComponents { get; private set; }
 
         public int life { get; set; }
+        
+        /// <summary>The direction that the player is facing (1: right, -1: left)</summary>
         public int facingDirection { get; set; }
+        
+        /// <summary>Called when <see cref="Update"/> is called</summary>
+        public event UnityAction LogicUpdated;
+
+        /// <summary>Called when <see cref="FixedUpdate"/> is called</summary>
+        public event UnityAction PhysicsUpdate;
+        
+        /// <summary>Called when <see cref="OnEnable"/> is called</summary>
+        public event UnityAction Enabled;
+        
+        /// <summary>Called when <see cref="OnDisable"/> is called</summary>
+        public event UnityAction Disabled;
+        
+        /// <summary>Called when <see cref="OnTriggerEnter2D"/> is called</summary>
+        public event UnityAction<Collider2D> TriggerEntered;
 
         private void Awake()
         {
@@ -79,6 +108,11 @@ namespace Metroidvania.Player
                 component.OnDestroy();
             playerComponents.Clear();
         }
+        
+        private void OnTriggerEnter2D(Collider2D col)
+        {
+            TriggerEntered?.Invoke(col);
+        }
 
 #if UNITY_EDITOR
         private void OnDrawGizmos()
@@ -115,24 +149,18 @@ namespace Metroidvania.Player
         }
 #endif
 
-        private void OnTriggerEnter2D(Collider2D col)
-        {
-            TriggerEntered?.Invoke(col);
-        }
-
-        public event UnityAction LogicUpdated;
-        public event UnityAction PhysicsUpdate;
-        public event UnityAction Enabled;
-        public event UnityAction Disabled;
-        public event UnityAction<Collider2D> TriggerEntered;
-
+        /// <summary>Shortcut for move the player using the input.horizontalMove * speed</summary>
+        /// <param name="speed">The move speed</param>
+        /// <param name="autoFlip">If true, checks the flip after apply the velocity</param>
         public void MoveHorizontalAxes(float speed, bool autoFlip = true)
         {
             SetHorizontalVelocity(input.horizontalMove * speed);
             if (autoFlip)
                 animator.FlipCheck();
         }
-
+        
+        /// <summary>Apply the horizontal velocity to the rigidbody without change the vertical velocity</summary>
+        /// <param name="x">The horizontal velocity</param>
         public void SetHorizontalVelocity(float x)
         {
             rb.velocity = new Vector2(x, rb.velocity.y);

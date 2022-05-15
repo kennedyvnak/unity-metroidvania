@@ -3,8 +3,10 @@ using UnityEngine;
 
 namespace Metroidvania.Player
 {
+    /// <summary>Player component for simulate a state machine</summary>
     public class PlayerStateMachine : PlayerComponent
     {
+        // States
         public readonly PlayerAttackOneState attackOneState;
         public readonly PlayerAttackTwoState attackTwoState;
         public readonly PlayerCrouchAttackState crouchAttackState;
@@ -13,7 +15,6 @@ namespace Metroidvania.Player
         public readonly PlayerDeathState deathState;
         public readonly PlayerFallState fallSate;
         public readonly PlayerHurtState hurtState;
-
         public readonly PlayerIdleState idleState;
         public readonly PlayerJumpState jumpState;
         public readonly PlayerRollState rollState;
@@ -45,7 +46,8 @@ namespace Metroidvania.Player
             target.LogicUpdated += Update;
             idleState.SetActive();
         }
-
+        
+        /// <summary>The state that is running</summary>
         public PlayerStateBase currentState { get; private set; }
 
         private void Update()
@@ -59,13 +61,15 @@ namespace Metroidvania.Player
             target.LogicUpdated -= Update;
         }
 
+        /// <summary>Switches the current state</summary>
         public void SwitchState(PlayerStateBase state)
         {
             currentState?.Exit();
             currentState = state;
             currentState.Enter();
         }
-
+        
+        // Shortcut methods for states, return null if cannot enter on state else return the entered state
         public PlayerStateBase EnterJump()
         {
             if (!target.input.virtualJumping || !target.collisions.isGrounded) return null;
@@ -128,8 +132,6 @@ namespace Metroidvania.Player
 
         public PlayerStateBase EnterWallState()
         {
-            Debug.Log(
-                $"Tried to enter in wall state, checks isTouchingWall: {target.collisions.isTouchingWall}, move: {target.input.horizontalMove}");
             if (target.collisions.isTouchingWall && target.input.horizontalMove != 0)
             {
                 wallSlideState.SetActive();

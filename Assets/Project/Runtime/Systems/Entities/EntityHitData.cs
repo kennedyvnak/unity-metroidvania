@@ -1,18 +1,19 @@
 ﻿using UnityEngine;
 
-namespace Metroidvania.Combat
+namespace Metroidvania.Entities
 {
     public readonly struct EntityHitData
     {
+        /// <summary>The damage to be applied in the player life</summary>
         public readonly int damage;
+        
+        /// <summary>The force to be applied in the player velocity</summary>
         public readonly Vector2 knockbackForce;
-        public readonly float invincibility;
-
+        
         public EntityHitData(int damage, Vector2 knockbackForce, float invincibility)
         {
             this.damage = damage;
             this.knockbackForce = knockbackForce;
-            this.invincibility = invincibility;
         }
     }
 }

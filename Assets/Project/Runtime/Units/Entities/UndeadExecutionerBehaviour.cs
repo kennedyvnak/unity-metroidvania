@@ -4,28 +4,21 @@ using UnityEngine;
 
 namespace Metroidvania.Entities.Units
 {
-    public class UndeadExecutionerBehaviour : EntityObject, IHittableTarget, ITouchHit
+    public class UndeadExecutionerBehaviour : EntityBehaviour, IHittableTarget, ITouchHit
     {
         [SerializeField] private int m_touchDamage;
         [SerializeField] private Vector2 m_knockbackForce;
 
         public void OnTakeHit(PlayerHitData hitData)
         {
+            // TODO: Implement this method
             Debug.Log((hitData.damage, hitData.force), gameObject);
         }
 
-        public void OnHitPlayer()
+        public EntityHitData OnHitPlayer(PlayerController playerController)
         {
-            Debug.Log("player is far...");
-        }
-
-        public EntityHitData GetHit(PlayerController playerController)
-        {
-            var playerPosition = (Vector2)playerController.transform.position;
-            var position = (Vector2)transform.position;
-
             return new EntityHitData(m_touchDamage,
-                EntitiesUtility.CalculateKnockback(position, playerPosition, m_knockbackForce),
+                m_knockbackForce,
                 playerController.data.defaultInvincibilityTime);
         }
 
@@ -43,10 +36,6 @@ namespace Metroidvania.Entities.Units
             }
 
             public virtual void LogicUpdate()
-            {
-            }
-
-            public virtual void Exit()
             {
             }
 
