@@ -7,9 +7,9 @@ namespace Metroidvania.Player
     public class PlayerStateMachine : PlayerComponent
     {
         // States
-        public readonly PlayerAttackOneState attackOneState;
-        public readonly PlayerAttackTwoState attackTwoState;
-        public readonly PlayerCrouchAttackState crouchAttackState;
+        public readonly PlayerAttackState attackOneState;
+        public readonly PlayerAttackState attackTwoState;
+        public readonly PlayerAttackState crouchAttackState;
         public readonly PlayerCrouchState crouchState;
         public readonly PlayerCrouchWalkState crouchWalkState;
         public readonly PlayerDeathState deathState;
@@ -34,19 +34,23 @@ namespace Metroidvania.Player
             rollState = new PlayerRollState(this);
             crouchState = new PlayerCrouchState(this);
             crouchWalkState = new PlayerCrouchWalkState(this);
-            crouchAttackState = new PlayerCrouchAttackState(this);
-            attackOneState = new PlayerAttackOneState(this);
-            attackTwoState = new PlayerAttackTwoState(this);
+            crouchAttackState =
+                new PlayerAttackState(this, target.data.crouchAttack, PlayerAnimator.CrouchAttackAnimKey);
+            attackOneState = new PlayerAttackState(this, target.data.attackOne, PlayerAnimator.AttackOneAnimKey);
+            attackTwoState = new PlayerAttackState(this, target.data.attackTwo, PlayerAnimator.AttackTwoAnimKey);
             wallSlideState = new PlayerWallSlideState(this);
             wallClimbState = new PlayerWallClimbState(this);
             wallHandState = new PlayerWallHandState(this);
             hurtState = new PlayerHurtState(this);
             deathState = new PlayerDeathState(this);
 
+            attackOneState.nextAttackState = attackTwoState;
+            attackTwoState.nextAttackState = attackOneState;
+
             target.LogicUpdated += Update;
             idleState.SetActive();
         }
-        
+
         /// <summary>The state that is running</summary>
         public PlayerStateBase currentState { get; private set; }
 
@@ -68,7 +72,7 @@ namespace Metroidvania.Player
             currentState = state;
             currentState.Enter();
         }
-        
+
         // Shortcut methods for states, return null if cannot enter on state else return the entered state
         public PlayerStateBase EnterJump()
         {
@@ -151,7 +155,7 @@ namespace Metroidvania.Player
             return rollState;
         }
 
-        public PlayerAttackStateBase EnterAttackState()
+        public PlayerAttackState EnterAttackState()
         {
             if (!target.input.virtualAttacking || !target.collisions.isGrounded)
                 return null;

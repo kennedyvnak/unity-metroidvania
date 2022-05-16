@@ -4,8 +4,10 @@ using UnityEngine;
 
 namespace Metroidvania.Player.States
 {
+    /// <summary>Base classes for all player states</summary>
     public abstract class PlayerStateBase
     {
+        /// <summary>The target machine</summary>
         public readonly PlayerStateMachine machine;
 
         protected PlayerStateBase(PlayerStateMachine machine)
@@ -13,53 +15,88 @@ namespace Metroidvania.Player.States
             this.machine = machine;
         }
 
+        /// <summary>This method should be called when the player switch to this state</summary> 
         public virtual void Enter()
         {
         }
 
+        /// <summary>This method should be called when the player is in this state and switch to another state</summary> 
         public virtual void Exit()
         {
         }
 
+        /// <summary>This method should be called in player.Update()</summary> 
         public virtual void LogicUpdate()
         {
         }
     }
 
-    public abstract class PlayerAttackStateBase : PlayerStateBase
+    /// <summary>Class for player attack states</summary>
+    public sealed class PlayerAttackState : PlayerStateBase
     {
-        protected readonly Collider2D[] hits = new Collider2D[8];
-        protected float elapsedTime;
-        protected bool triggered;
+        /// <summary>
+        /// Colliders hit on last trigger. 
+        /// Used for allocate hits array only once
+        /// </summary>
+        private readonly Collider2D[] _hits = new Collider2D[8];
 
-        protected PlayerAttackStateBase(PlayerStateMachine machine) : base(machine)
+        /// <summary>
+        /// The attack data that stores the collision rect, move offset, damage... 
+        /// </summary>
+        public readonly PlayerDataChannel.Attack attackData;
+
+        /// <summary>
+        /// The animation key of this attack
+        /// </summary>
+        public readonly string animKey;
+
+        /// <summary>
+        /// On reach the end and this prop don't is null, switch to this state
+        /// </summary>
+        public PlayerAttackState nextAttackState;
+
+        /// <summary>
+        /// Time elapsed after entering this state.
+        /// Used to deal with the attack trigger
+        /// </summary>
+        private float _elapsedTime;
+
+        /// <summary>
+        /// Is the state triggered?
+        /// Used to trigger the attack only once
+        /// </summary>
+        private bool _triggered;
+
+        public PlayerAttackState(PlayerStateMachine machine, PlayerDataChannel.Attack attackData, string animKey) :
+            base(machine)
         {
+            this.attackData = attackData;
+            this.animKey = animKey;
         }
-
-        protected abstract PlayerAttackStateBase nextAttackState { get; }
-        protected abstract PlayerDataChannel.Attack attackData { get; }
 
         public override void Enter()
         {
-            elapsedTime = 0;
-            triggered = false;
+            // Resets all properties
+            _elapsedTime = 0;
+            _triggered = false;
             machine.target.SetHorizontalVelocity(0);
+            machine.target.animator.SwitchAnimation(animKey);
         }
 
         public override void LogicUpdate()
         {
-            elapsedTime += Time.deltaTime;
+            _elapsedTime += Time.deltaTime;
 
             if (machine.EnterFallState() != null)
                 return;
 
-            if (!triggered && elapsedTime >= attackData.triggerTime)
+            if (!_triggered && _elapsedTime >= attackData.triggerTime)
             {
-                triggered = true;
+                _triggered = true;
                 TriggerAttack();
             }
 
-            if (elapsedTime >= attackData.duration)
+            if (_elapsedTime >= attackData.duration)
             {
                 if (machine.target.input.virtualAttacking && nextAttackState != null)
                 {
@@ -71,36 +108,66 @@ namespace Metroidvania.Player.States
             }
         }
 
-        protected virtual void TriggerAttack()
+        /// <summary>
+        /// Triggers the attack, note that method don't set or follow the property <see cref="_triggered"/>
+        /// </summary>
+        private void TriggerAttack()
         {
+            // Moves the player's position by the offset defined in the attack data
             machine.target.rb.MovePosition(machine.target.rb.position +
                                            new Vector2(attackData.horizontalMoveOffset * machine.target.facingDirection,
                                                0));
 
+            // Get the colliders in the attack rect without allocate a new array in the memory
             var hitCount = Physics2D.OverlapBoxNonAlloc(
                 machine.target.rb.position + attackData.triggerCollider.center * machine.target.transform.localScale,
-                attackData.triggerCollider.size, 0, hits, machine.target.data.hittableLayer);
+                attackData.triggerCollider.size, 0, _hits, machine.target.data.hittableLayer);
+
+            if (hitCount <= 0) return;
+
+            var hitData = new PlayerHitData(attackData.damage, attackData.force, machine.target);
             for (var i = 0; i < hitCount; i++)
             {
-                var hit = hits[i];
+                var hit = _hits[i];
+                // If the hit contains an IHittableTarget component, it will call the OnTakeHit method.  
                 if (hit.TryGetComponent<IHittableTarget>(out var hittableTarget))
-                    hittableTarget.OnTakeHit(new PlayerHitData(attackData.damage, attackData.force, machine.target));
+                    hittableTarget.OnTakeHit(hitData);
             }
         }
     }
 
+    /// <summary>Base class for crouch states, excluding the attack state</summary>
     public abstract class PlayerCrouchStateBase : PlayerStateBase
     {
+        /// <summary>
+        /// Time elapsed after entering this state
+        /// Used to deal with the transition animation.
+        /// </summary>
         protected float elapsedTime;
+
+        /// <summary>
+        /// True when is quitting in transition anim.
+        /// Used for not repeat the <see cref="PerformCrouchExitAnim"/> process
+        /// </summary>
         protected bool quittingAnim;
 
+        /// <summary>
+        /// Used for define if should make transition when enter in the state.
+        /// For example, idle to crouch idle should animate, but walking crouch to idle crouch should not
+        /// </summary>
         public bool shouldMakeTransition;
+
+        /// <summary>
+        /// Must be true if entry transition animation is already ove
+        /// </summary>
         protected bool swappedAnim;
 
         protected PlayerCrouchStateBase(PlayerStateMachine machine) : base(machine)
         {
         }
 
+        /// <summary>A coroutine to perform the exit transition animation and switch the state.</summary>
+        /// <param name="nextState">The state that will be active when the animation end</param>
         protected IEnumerator PerformCrouchExitAnim(PlayerStateBase nextState)
         {
             quittingAnim = true;
@@ -110,54 +177,9 @@ namespace Metroidvania.Player.States
         }
     }
 
-    public class PlayerAttackOneState : PlayerAttackStateBase
-    {
-        public PlayerAttackOneState(PlayerStateMachine machine) : base(machine)
-        {
-        }
-
-        protected override PlayerAttackStateBase nextAttackState => machine.attackTwoState;
-        protected override PlayerDataChannel.Attack attackData => machine.target.data.attackOne;
-
-        public override void Enter()
-        {
-            base.Enter();
-            machine.target.animator.SwitchAnimation(PlayerAnimator.AttackOneAnimKey);
-        }
-    }
-
-    public class PlayerAttackTwoState : PlayerAttackStateBase
-    {
-        public PlayerAttackTwoState(PlayerStateMachine machine) : base(machine)
-        {
-        }
-
-        protected override PlayerAttackStateBase nextAttackState => machine.attackOneState;
-        protected override PlayerDataChannel.Attack attackData => machine.target.data.attackTwo;
-
-        public override void Enter()
-        {
-            base.Enter();
-            machine.target.animator.SwitchAnimation(PlayerAnimator.AttackTwoAnimKey);
-        }
-    }
-
-    public class PlayerCrouchAttackState : PlayerAttackStateBase
-    {
-        public PlayerCrouchAttackState(PlayerStateMachine machine) : base(machine)
-        {
-        }
-
-        protected override PlayerAttackStateBase nextAttackState => null;
-        protected override PlayerDataChannel.Attack attackData => machine.target.data.crouchAttack;
-
-        public override void Enter()
-        {
-            base.Enter();
-            machine.target.animator.SwitchAnimation(PlayerAnimator.CrouchAttackAnimKey);
-        }
-    }
-
+    /// <summary>
+    /// Crouch idle state
+    /// </summary>
     public class PlayerCrouchState : PlayerCrouchStateBase
     {
         public PlayerCrouchState(PlayerStateMachine machine) : base(machine)
@@ -278,6 +300,7 @@ namespace Metroidvania.Player.States
         }
     }
 
+    // TODO: Implement this state
     public class PlayerDeathState : PlayerStateBase
     {
         public PlayerDeathState(PlayerStateMachine machine) : base(machine)
@@ -315,6 +338,9 @@ namespace Metroidvania.Player.States
 
     public class PlayerHurtState : PlayerStateBase
     {
+        /// <summary>
+        /// Time elapsed after entering this state
+        /// </summary>
         private float _elapsedTime;
 
         public PlayerHurtState(PlayerStateMachine machine) : base(machine)
@@ -376,7 +402,14 @@ namespace Metroidvania.Player.States
 
     public class PlayerJumpState : PlayerStateBase
     {
+        /// <summary>
+        /// Time elapsed after entering this state
+        /// </summary>
         private float _elapsedTime;
+
+        /// <summary>
+        /// True when the jump button is up 
+        /// </summary>
         private bool _jumpCanceled;
 
         public PlayerJumpState(PlayerStateMachine machine) : base(machine)
@@ -468,13 +501,19 @@ namespace Metroidvania.Player.States
 
     public class PlayerRollState : PlayerStateBase
     {
+        /// <summary>
+        /// Time elapsed after entering this state
+        /// </summary>
         private float _elapsedTime;
+
+        /// <summary>
+        /// Boolean to controls the slide cooldown
+        /// </summary>
+        public bool isInCooldown { get; private set; }
 
         public PlayerRollState(PlayerStateMachine machine) : base(machine)
         {
         }
-
-        public bool isInCooldown { get; private set; }
 
         public override void Enter()
         {
@@ -511,14 +550,24 @@ namespace Metroidvania.Player.States
 
     public class PlayerSlideState : PlayerStateBase
     {
+        /// <summary>
+        /// Time elapsed after entering this state
+        /// </summary>
         private float _elapsedTime;
+
+        /// <summary>
+        /// True when the quitting animation is running.
+        /// </summary>
         private bool _quittingAnim;
+
+        /// <summary>
+        /// Boolean to controls the slide cooldown
+        /// </summary>
+        public bool isInCooldown { get; private set; }
 
         public PlayerSlideState(PlayerStateMachine machine) : base(machine)
         {
         }
-
-        public bool isInCooldown { get; private set; }
 
         public override void Enter()
         {
@@ -566,6 +615,7 @@ namespace Metroidvania.Player.States
         }
     }
 
+    // TODO: Implement this
     public class PlayerWallClimbState : PlayerStateBase
     {
         public PlayerWallClimbState(PlayerStateMachine machine) : base(machine)
@@ -578,6 +628,7 @@ namespace Metroidvania.Player.States
         }
     }
 
+    // TODO: Implement this state
     public class PlayerWallHandState : PlayerStateBase
     {
         public PlayerWallHandState(PlayerStateMachine machine) : base(machine)
@@ -590,6 +641,7 @@ namespace Metroidvania.Player.States
         }
     }
 
+    //TODO: Implement this state
     public class PlayerWallSlideState : PlayerStateBase
     {
         public PlayerWallSlideState(PlayerStateMachine machine) : base(machine)
