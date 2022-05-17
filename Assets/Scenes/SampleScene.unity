@@ -243,7 +243,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_touchDamage: 0
-  m_knockbackForce: {x: 5, y: -0.2}
+  m_knockbackForce: {x: -10, y: 3.5}
 --- !u!61 &3261042
 BoxCollider2D:
   m_ObjectHideFlags: 0

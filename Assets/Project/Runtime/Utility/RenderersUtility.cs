@@ -2,14 +2,10 @@
 
 namespace Metroidvania
 {
-    /// <summary>
-    /// Utility class for renderers
-    /// </summary>
+    /// <summary>Utility class for renderers</summary>
     public static class RenderersUtility
     {
-        /// <summary>
-        /// Shortcut for change the sprite renderer alpha
-        /// </summary>
+        /// <summary>Shortcut for change the sprite renderer alpha</summary>
         /// <param name="renderer">Renderer that alpha will be applied</param>
         /// <param name="alpha">New renderer alpha</param>
         public static void SetAlpha(this SpriteRenderer renderer, float alpha)

@@ -2,6 +2,7 @@
 
 namespace Metroidvania.Player
 {
+    // TODO: Changes the collider based on the current animation
     /// <summary>Player Component used for handle collisions checks</summary>
     public class PlayerCollisions : PlayerComponent
     {
@@ -9,18 +10,19 @@ namespace Metroidvania.Player
         {
             target.PhysicsUpdate += CollisionsCheck;
         }
+
         /// <summary>Is the player touching the ground?</summary>
         public bool isGrounded { get; private set; }
 
         /// <summary>Is the player left hand touching a wall?</summary>
         public bool isTouchingLeftWall { get; private set; }
-        
+
         /// <summary>Is the player right hand touching a wall?</summary>
         public bool isTouchingRightWall { get; private set; }
-        
+
         /// <summary>Is the player touching a ledge?</summary>
         public bool isTouchingLedge { get; private set; }
-        
+
         /// <summary>Is the player touching a wall?</summary>
         public bool isTouchingWall => isTouchingLeftWall || isTouchingRightWall;
 
@@ -29,7 +31,7 @@ namespace Metroidvania.Player
             base.OnDestroy();
             target.PhysicsUpdate -= CollisionsCheck;
         }
-        
+
         /// <summary>Checks the player collisions</summary>
         public void CollisionsCheck()
         {

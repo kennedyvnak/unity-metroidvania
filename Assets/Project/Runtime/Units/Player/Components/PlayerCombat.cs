@@ -10,28 +10,28 @@ namespace Metroidvania.Player
     {
         public PlayerCombat(PlayerController target) : base(target)
         {
-            target.TriggerEntered += OnTriggerEnter;
+            target.TriggerStay += TriggerStay;
         }
 
         public override void OnDestroy()
         {
             base.OnDestroy();
-            target.TriggerEntered -= OnTriggerEnter;
+            target.TriggerStay -= TriggerStay;
         }
-        
-        /// <summary>Called when a trigger enter in the player collider</summary>
-        private void OnTriggerEnter(Collider2D col)
+
+        /// <summary>Called when a trigger stay in the player collider</summary>
+        private void TriggerStay(Collider2D col)
         {
-            if (!col.TryGetComponent<ITouchHit>(out var touchHit)) return;
+            if (!col.TryGetComponent<ITouchHit>(out var touchHit) || (!touchHit.ignoreInvincibility && target.invincibility.isInvincible)) return;
             TakeHit(touchHit.OnHitPlayer(target));
         }
-        
+
         /// <summary>Call this to hit the player</summary>
         /// <param name="entityHit">A hit data</param>
         public void TakeHit(EntityHitData entityHit)
         {
             target.life -= entityHit.damage;
-            target.invincibility.AddInvincibility(target.data.defaultInvincibilityTime);
+            target.invincibility.AddInvincibility(target.data.defaultInvincibilityTime, true);
 
             if (target.life <= 0)
                 target.stateMachine.deathState.SetActive();

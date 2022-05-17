@@ -3,11 +3,12 @@ using Metroidvania.Player;
 
 namespace Metroidvania.Combat
 {
-    /// <summary>
-    /// An interface used to define objects that hit the player on touch
-    /// </summary>
+    /// <summary>An interface used to define objects that hit the player on touch</summary>
     public interface ITouchHit
     {
+        /// <summary>Ignores the player invincibility if true</summary>
+        bool ignoreInvincibility { get; }
+
         /// <summary>Called when the player touch this object</summary>
         /// <param name="playerController">The player touched</param>
         /// <returns>An hit data</returns>

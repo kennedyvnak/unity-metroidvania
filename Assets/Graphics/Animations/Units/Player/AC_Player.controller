@@ -400,7 +400,7 @@ AnimatorController:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Player_AC
+  m_Name: AC_Player
   serializedVersion: 5
   m_AnimatorParameters: []
   m_AnimatorLayers:

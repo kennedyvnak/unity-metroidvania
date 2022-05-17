@@ -10,24 +10,24 @@ namespace Metroidvania.Player
             target.Enabled += Enable;
             target.Disabled += Disable;
         }
-        
+
         public InputReader reader => target.data.inputReader;
-        
+
         /// <summary>True if is reading reader events</summary>
         public bool enabled { get; private set; }
-        
+
         /// <summary>Raw horizontal input</summary>
         public float horizontalMove { get; private set; }
 
         /// <summary>Is the jump button pressed?</summary>
         public bool virtualJumping { get; private set; }
-        
+
         /// <summary>Is the crouch button pressed></summary>
         public bool virtualCrouching { get; private set; }
-        
+
         /// <summary>Is the dash button pressed?</summary>
         public bool virtualDashing { get; private set; }
-        
+
         /// <summary>Is the attack button pressed?</summary>
         public bool virtualAttacking { get; private set; }
 
@@ -73,7 +73,7 @@ namespace Metroidvania.Player
 
             enabled = false;
         }
-        
+
         // Events handles
         private void ReadMove(float move) => horizontalMove = move;
 

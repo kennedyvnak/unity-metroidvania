@@ -1,10 +1,8 @@
 namespace Metroidvania.Entities
 {
-    /// <summary>
-    /// The base class for entity behaviours.
-    /// </summary>
-    /// <typeparam name="TEntity">The entity behaviour type.</typeparam>
-    /// <typeparam name="TState">The state type.</typeparam>
+    /// <summary>The base class for entity behaviours</summary>
+    /// <typeparam name="TEntity">The entity behaviour type</typeparam>
+    /// <typeparam name="TState">The state type</typeparam>
     public abstract class EntityStateMachine<TEntity, TState> : EntityBehaviour
         where TEntity : EntityStateMachine<TEntity, EntityBehaviourState<TEntity>>
         where TState : EntityBehaviourState<TEntity>
@@ -16,7 +14,7 @@ namespace Metroidvania.Entities
         {
             currentState?.LogicUpdate();
         }
-        
+
         /// <summary>Switches the current state of this machine</summary>
         protected virtual void SwitchState(TState state)
         {

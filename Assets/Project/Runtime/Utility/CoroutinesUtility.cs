@@ -3,13 +3,11 @@ using UnityEngine;
 
 namespace Metroidvania
 {
-    /// <summary>
-    /// Utility class for Unity Coroutines
-    /// </summary>
+    /// <summary>Utility class for Unity Coroutines</summary>
     public static class CoroutinesUtility
     {
         private static readonly Dictionary<float, WaitForSeconds> k_YieldSecondsWait = new();
-        
+
         /// <summary>Use this method to get a cached <see cref="WaitForSeconds"/></summary>
         /// <param name="time">The yield time</param>
         /// <returns>A cached <see cref="WaitForSeconds"/></returns>

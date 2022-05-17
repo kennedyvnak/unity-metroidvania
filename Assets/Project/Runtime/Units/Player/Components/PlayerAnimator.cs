@@ -33,7 +33,7 @@ namespace Metroidvania.Player
 
         public const string HurtAnimKey = "Hurt";
         public const string DeathAnimKey = "Death";
-        
+
         // Animation behaviours
         public readonly SpriteRenderer graphic;
         public readonly Animator machine;
@@ -43,33 +43,36 @@ namespace Metroidvania.Player
             machine = target.gfxGameObject.GetComponent<Animator>();
             graphic = target.gfxGameObject.GetComponent<SpriteRenderer>();
         }
-        
+
         /// <summary>The animation which is running</summary>
         private string currentAnimation { get; set; }
 
-        public void SwitchAnimation(string animationKey)
+        /// <summary>Switch the running animation in the animator</summary>
+        /// <param name="animationKey">The new animation key</param>
+        /// <param name="force">If true, don't do animation check</param>
+        public void SwitchAnimation(string animationKey, bool force = false)
         {
-            if (currentAnimation == animationKey)
+            if (!force && currentAnimation == animationKey)
                 return;
 
             machine.Play(animationKey);
             currentAnimation = animationKey;
         }
-        
+
         /// <summary>Flips the player if needed </summary>
         public void FlipCheck()
         {
             if (ShouldFlip())
                 Flip();
         }
-        
+
         /// <summary>Horizontally flips the player</summary>
         public void Flip()
         {
             target.facingDirection *= -1;
             target.transform.localScale = new Vector2(target.facingDirection, 1);
         }
-        
+
         /// <returns>True if the player needs flip</returns>
         public bool ShouldFlip()
         {

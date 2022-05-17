@@ -9,6 +9,8 @@ namespace Metroidvania.Entities.Units
         [SerializeField] private int m_touchDamage;
         [SerializeField] private Vector2 m_knockbackForce;
 
+        public bool ignoreInvincibility => false;
+
         public void OnTakeHit(PlayerHitData hitData)
         {
             // TODO: Implement this method
@@ -18,8 +20,7 @@ namespace Metroidvania.Entities.Units
         public EntityHitData OnHitPlayer(PlayerController playerController)
         {
             return new EntityHitData(m_touchDamage,
-                m_knockbackForce,
-                playerController.data.defaultInvincibilityTime);
+                new Vector2(m_knockbackForce.x * playerController.facingDirection, m_knockbackForce.y));
         }
 
         public abstract class UndeadExecutionerStateBase
