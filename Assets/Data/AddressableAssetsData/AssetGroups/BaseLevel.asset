@@ -20,7 +20,8 @@ MonoBehaviour:
   - m_GUID: b5129a45de401fc49aef27e27ffe7714
     m_Address: Undead Executioner
     m_ReadOnly: 0
-    m_SerializedLabels: []
+    m_SerializedLabels:
+    - Entity
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 8259dc4f4d8e49b4dad3c97268d6350a, type: 2}
   m_SchemaSet:
