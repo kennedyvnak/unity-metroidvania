@@ -5,13 +5,13 @@ namespace Metroidvania.Player
     /// <summary>Player component used for handle player inputs</summary>
     public class PlayerInput : PlayerComponent
     {
-        public PlayerInput(PlayerController target) : base(target)
+        public PlayerInput(PlayerController player) : base(player)
         {
-            target.Enabled += Enable;
-            target.Disabled += Disable;
+            player.Enabled += Enable;
+            player.Disabled += Disable;
         }
 
-        public InputReader reader => target.data.inputReader;
+        private static InputReader reader => InputReader.instance;
 
         /// <summary>True if is reading reader events</summary>
         public bool enabled { get; private set; }
@@ -34,8 +34,8 @@ namespace Metroidvania.Player
         public override void OnDestroy()
         {
             base.OnDestroy();
-            target.Enabled -= Enable;
-            target.Disabled -= Disable;
+            player.Enabled -= Enable;
+            player.Disabled -= Disable;
         }
 
         public void Enable()

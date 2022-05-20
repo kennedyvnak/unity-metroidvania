@@ -18,7 +18,7 @@ namespace Metroidvania.Player
         /// <summary>Animation coroutine to create the fade</summary>
         private Coroutine _animationCoroutine;
 
-        public PlayerInvincibility(PlayerController target) : base(target)
+        public PlayerInvincibility(PlayerController player) : base(player)
         {
         }
         
@@ -29,7 +29,7 @@ namespace Metroidvania.Player
         /// <param name="shouldAnim">If true, the player fade while the invincibility is active</param>
         public void AddInvincibility(float time, bool shouldAnim)
         {
-            target.StartCoroutine(StartInvincibility(time, shouldAnim));
+            player.StartCoroutine(StartInvincibility(time, shouldAnim));
         }
 
         private IEnumerator StartInvincibility(float time, bool shouldAnim)
@@ -38,7 +38,7 @@ namespace Metroidvania.Player
             _invincibilityCount++;
 
             if (_animationsCount > 0 && _animationCoroutine == null)
-                _animationCoroutine = target.StartCoroutine(StartAnimation());
+                _animationCoroutine = player.StartCoroutine(StartAnimation());
 
             yield return CoroutinesUtility.GetYieldSeconds(time);
 
@@ -51,12 +51,12 @@ namespace Metroidvania.Player
             float elapsedTime = 0;
             while (_animationsCount > 0)
             {
-                elapsedTime += Time.deltaTime * target.data.invincibilityFadeSpeed;
-                target.animator.graphic.SetAlpha(1 - Mathf.PingPong(elapsedTime, target.data.invincibilityAlphaChange));
+                elapsedTime += Time.deltaTime * player.data.invincibilityFadeSpeed;
+                player.animator.graphic.SetAlpha(1 - Mathf.PingPong(elapsedTime, player.data.invincibilityAlphaChange));
                 yield return null;
             }
 
-            target.animator.graphic.SetAlpha(1);
+            player.animator.graphic.SetAlpha(1);
             _animationCoroutine = null;
         }
     }

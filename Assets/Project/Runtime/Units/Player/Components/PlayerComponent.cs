@@ -6,12 +6,12 @@ namespace Metroidvania.Player
     public class PlayerComponent
     {
         /// <summary>The target player behaviour</summary>
-        public readonly PlayerController target;
+        public readonly PlayerController player;
 
-        public PlayerComponent(PlayerController target)
+        public PlayerComponent(PlayerController player)
         {
-            this.target = target ? target : throw new ArgumentNullException(nameof(target));
-            target.playerComponents.Add(this);
+            this.player = player ? player : throw new ArgumentNullException(nameof(player));
+            player.playerComponents.Add(this);
         }
 
         /// <summary>Called when the player destroy this component</summary>

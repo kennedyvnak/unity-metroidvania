@@ -6,9 +6,9 @@ namespace Metroidvania.Player
     /// <summary>Player Component used for handle collisions checks</summary>
     public class PlayerCollisions : PlayerComponent
     {
-        public PlayerCollisions(PlayerController target) : base(target)
+        public PlayerCollisions(PlayerController player) : base(player)
         {
-            target.PhysicsUpdate += CollisionsCheck;
+            player.PhysicsUpdate += CollisionsCheck;
         }
 
         /// <summary>Is the player touching the ground?</summary>
@@ -29,29 +29,29 @@ namespace Metroidvania.Player
         public override void OnDestroy()
         {
             base.OnDestroy();
-            target.PhysicsUpdate -= CollisionsCheck;
+            player.PhysicsUpdate -= CollisionsCheck;
         }
 
         /// <summary>Checks the player collisions</summary>
         public void CollisionsCheck()
         {
-            var t = target.transform;
+            var t = player.transform;
             var localScale = (Vector2)t.localScale;
             var position = (Vector2)t.localPosition;
 
-            isGrounded = Physics2D.BoxCast(position + target.data.feetOffset * localScale, target.data.feetRadius, 0,
+            isGrounded = Physics2D.BoxCast(position + player.data.feetOffset * localScale, player.data.feetRadius, 0,
                 Vector2.zero, 0,
-                target.data.groundLayer);
+                player.data.groundLayer);
 
-            isTouchingLeftWall = Physics2D.BoxCast(position + target.data.leftHandOffset * localScale,
-                target.data.leftHandSize, 0,
-                Vector2.zero, 0, target.data.wallLayer);
-            isTouchingRightWall = Physics2D.BoxCast(position + target.data.rightHandOffset * localScale,
-                target.data.rightHandSize, 0,
-                Vector2.zero, 0, target.data.wallLayer);
+            isTouchingLeftWall = Physics2D.BoxCast(position + player.data.leftHandOffset * localScale,
+                player.data.leftHandSize, 0,
+                Vector2.zero, 0, player.data.wallLayer);
+            isTouchingRightWall = Physics2D.BoxCast(position + player.data.rightHandOffset * localScale,
+                player.data.rightHandSize, 0,
+                Vector2.zero, 0, player.data.wallLayer);
 
-            isTouchingLedge = Physics2D.Raycast(position + target.data.ledgeCheckOffset * localScale,
-                new Vector2(target.data.ledgeCheckLenght * localScale.x, 0), 0, target.data.wallLayer);
+            isTouchingLedge = Physics2D.Raycast(position + player.data.ledgeCheckOffset * localScale,
+                new Vector2(player.data.ledgeCheckLenght * localScale.x, 0), 0, player.data.wallLayer);
         }
     }
 }

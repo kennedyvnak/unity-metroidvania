@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using Metroidvania.Combat;
+using Metroidvania.InputSystem;
 using UnityEngine;
 
 namespace Metroidvania.Player.States
@@ -7,7 +8,7 @@ namespace Metroidvania.Player.States
     /// <summary>Base classes for all player states</summary>
     public abstract class PlayerStateBase
     {
-        /// <summary>The target machine</summary>
+        /// <summary>The entity machine</summary>
         public readonly PlayerStateMachine machine;
 
         protected PlayerStateBase(PlayerStateMachine machine) => this.machine = machine;
@@ -63,8 +64,8 @@ namespace Metroidvania.Player.States
             _triggered = false;
 
             // Set player's horizontal velocity to 0 and switch the animation
-            machine.target.SetHorizontalVelocity(0);
-            machine.target.animator.SwitchAnimation(animKey);
+            machine.player.SetHorizontalVelocity(0);
+            machine.player.animator.SwitchAnimation(animKey);
         }
 
         public override void LogicUpdate()
@@ -87,7 +88,7 @@ namespace Metroidvania.Player.States
             if (!(_elapsedTime >= attackData.duration)) return;
 
             // Switch to the next attack if it is not null and the player is holding attack button 
-            if (machine.target.input.virtualAttacking && nextAttackState != null)
+            if (machine.player.input.virtualAttacking && nextAttackState != null)
             {
                 nextAttackState.SetActive();
                 return;
@@ -101,19 +102,19 @@ namespace Metroidvania.Player.States
         private void TriggerAttack()
         {
             // Moves the player's position by the offset defined in the attack data
-            machine.target.rb.MovePosition(machine.target.rb.position +
-                                           new Vector2(attackData.horizontalMoveOffset * machine.target.facingDirection,
+            machine.player.rb.MovePosition(machine.player.rb.position +
+                                           new Vector2(attackData.horizontalMoveOffset * machine.player.facingDirection,
                                                0));
 
             // Get the colliders in the attack rect without allocate a new array in the memory
             var hitCount = Physics2D.OverlapBoxNonAlloc(
-                machine.target.rb.position + attackData.triggerCollider.center * machine.target.transform.localScale,
-                attackData.triggerCollider.size, 0, _hits, machine.target.data.hittableLayer);
+                machine.player.rb.position + attackData.triggerCollider.center * machine.player.transform.localScale,
+                attackData.triggerCollider.size, 0, _hits, machine.player.data.hittableLayer);
 
             // Do nothing if don't hit any object
             if (hitCount <= 0) return;
 
-            var hitData = new PlayerHitData(attackData.damage, attackData.force, machine.target);
+            var hitData = new PlayerHitData(attackData.damage, attackData.force, machine.player);
             for (var i = 0; i < hitCount; i++)
             {
                 var hit = _hits[i];
@@ -151,8 +152,8 @@ namespace Metroidvania.Player.States
         protected IEnumerator PerformCrouchExitAnim(PlayerStateBase nextState)
         {
             quittingAnim = true;
-            machine.target.animator.SwitchAnimation(PlayerAnimator.CrouchTransitionAnimKey);
-            yield return CoroutinesUtility.GetYieldSeconds(machine.target.data.crouchTransitionTime);
+            machine.player.animator.SwitchAnimation(PlayerAnimator.CrouchTransitionAnimKey);
+            yield return CoroutinesUtility.GetYieldSeconds(machine.player.data.crouchTransitionTime);
             nextState.SetActive();
         }
     }
@@ -171,11 +172,11 @@ namespace Metroidvania.Player.States
             quittingAnim = false;
 
             // Set player's horizontal velocity to 0
-            machine.target.SetHorizontalVelocity(0);
+            machine.player.SetHorizontalVelocity(0);
 
             // shouldMakeTransition property validation 
             swappedAnim = !shouldMakeTransition;
-            machine.target.animator.SwitchAnimation(shouldMakeTransition
+            machine.player.animator.SwitchAnimation(shouldMakeTransition
                 ? PlayerAnimator.CrouchTransitionAnimKey
                 : PlayerAnimator.CrouchAnimKey);
         }
@@ -189,10 +190,10 @@ namespace Metroidvania.Player.States
             elapsedTime += Time.deltaTime;
 
             // Switches to idle animation if not previously switched and elapsedTime is greater than or equal to transition time  
-            if (!swappedAnim && elapsedTime > machine.target.data.crouchTransitionTime)
+            if (!swappedAnim && elapsedTime > machine.player.data.crouchTransitionTime)
             {
                 swappedAnim = true;
-                machine.target.animator.SwitchAnimation(PlayerAnimator.CrouchAnimKey);
+                machine.player.animator.SwitchAnimation(PlayerAnimator.CrouchAnimKey);
             }
 
             // Try enter in other states
@@ -203,7 +204,7 @@ namespace Metroidvania.Player.States
                 return;
 
             // Switches to crouch walk state if the input horizontal move isn't equal 0
-            if (machine.target.input.horizontalMove != 0)
+            if (machine.player.input.horizontalMove != 0)
             {
                 machine.crouchWalkState.shouldMakeTransition = false;
                 machine.crouchWalkState.SetActive();
@@ -211,8 +212,8 @@ namespace Metroidvania.Player.States
             }
 
             // Switches to idle state if the player don't is pressing the crouch button 
-            if (machine.target.input.virtualCrouching == false)
-                machine.target.StartCoroutine(PerformCrouchExitAnim(machine.idleState));
+            if (machine.player.input.virtualCrouching == false)
+                machine.player.StartCoroutine(PerformCrouchExitAnim(machine.idleState));
         }
     }
 
@@ -231,7 +232,7 @@ namespace Metroidvania.Player.States
 
             // shouldMakeTransition property validation 
             swappedAnim = !shouldMakeTransition;
-            machine.target.animator.SwitchAnimation(shouldMakeTransition
+            machine.player.animator.SwitchAnimation(shouldMakeTransition
                 ? PlayerAnimator.CrouchTransitionAnimKey
                 : PlayerAnimator.CrouchWalkAnimKey);
         }
@@ -241,7 +242,7 @@ namespace Metroidvania.Player.States
             // Only move if is in the quitting anim
             if (quittingAnim)
             {
-                machine.target.MoveHorizontalAxesUsingInput(machine.target.data.crouchSpeed);
+                machine.player.MoveHorizontalAxesUsingInput(machine.player.data.crouchSpeed);
                 return;
             }
 
@@ -249,10 +250,10 @@ namespace Metroidvania.Player.States
             elapsedTime += Time.deltaTime;
 
             // Switches to idle animation if not previously switched and elapsedTime is greater than or equal to transition time  
-            if (!swappedAnim && elapsedTime > machine.target.data.crouchTransitionTime)
+            if (!swappedAnim && elapsedTime > machine.player.data.crouchTransitionTime)
             {
                 swappedAnim = true;
-                machine.target.animator.SwitchAnimation(PlayerAnimator.CrouchWalkAnimKey);
+                machine.player.animator.SwitchAnimation(PlayerAnimator.CrouchWalkAnimKey);
             }
 
             // Try enter in jump or fall state
@@ -260,7 +261,7 @@ namespace Metroidvania.Player.States
                 return;
 
             // Switch to idle state
-            if (machine.target.input.horizontalMove == 0)
+            if (machine.player.input.horizontalMove == 0)
             {
                 machine.crouchState.shouldMakeTransition = false;
                 machine.crouchState.SetActive();
@@ -268,9 +269,9 @@ namespace Metroidvania.Player.States
             }
 
             // Switch to run state
-            if (machine.target.input.virtualCrouching == false)
+            if (machine.player.input.virtualCrouching == false)
             {
-                machine.target.StartCoroutine(PerformCrouchExitAnim(machine.runState));
+                machine.player.StartCoroutine(PerformCrouchExitAnim(machine.runState));
                 return;
             }
 
@@ -279,7 +280,7 @@ namespace Metroidvania.Player.States
                 return;
 
             // Perform movement 
-            machine.target.MoveHorizontalAxesUsingInput(machine.target.data.crouchSpeed);
+            machine.player.MoveHorizontalAxesUsingInput(machine.player.data.crouchSpeed);
         }
     }
 
@@ -293,7 +294,7 @@ namespace Metroidvania.Player.States
 
         public override void Enter()
         {
-            machine.target.animator.SwitchAnimation(PlayerAnimator.DeathAnimKey);
+            machine.player.animator.SwitchAnimation(PlayerAnimator.DeathAnimKey);
         }
     }
 
@@ -306,18 +307,18 @@ namespace Metroidvania.Player.States
 
         public override void Enter()
         {
-            machine.target.animator.SwitchAnimation(PlayerAnimator.FallAnimKey);
+            machine.player.animator.SwitchAnimation(PlayerAnimator.FallAnimKey);
         }
 
         public override void LogicUpdate()
         {
-            if (machine.target.collisions.isGrounded)
+            if (machine.player.collisions.isGrounded)
             {
                 machine.EnterIdleState();
                 return;
             }
 
-            machine.target.MoveHorizontalAxesUsingInput(machine.target.data.moveSpeed);
+            machine.player.MoveHorizontalAxesUsingInput(machine.player.data.moveSpeed);
         }
     }
 
@@ -340,10 +341,10 @@ namespace Metroidvania.Player.States
             _elapsedTime = 0;
 
             // Reset the player velocity and add the knockback force to the player rigidbody force
-            machine.target.rb.velocity = Vector2.zero;
-            machine.target.rb.AddForce(knockbackForce, ForceMode2D.Impulse);
+            machine.player.rb.velocity = Vector2.zero;
+            machine.player.rb.AddForce(knockbackForce, ForceMode2D.Impulse);
 
-            machine.target.animator.SwitchAnimation(PlayerAnimator.HurtAnimKey);
+            machine.player.animator.SwitchAnimation(PlayerAnimator.HurtAnimKey);
         }
 
         public override void LogicUpdate()
@@ -352,7 +353,7 @@ namespace Metroidvania.Player.States
             _elapsedTime += Time.deltaTime;
 
             // Enter in a idle state when the state ends
-            if (_elapsedTime >= machine.target.data.hurtTime)
+            if (_elapsedTime >= machine.player.data.hurtTime)
                 machine.EnterIdleState();
         }
     }
@@ -367,8 +368,8 @@ namespace Metroidvania.Player.States
         public override void Enter()
         {
             // Set the player velocity to 0
-            machine.target.SetHorizontalVelocity(0);
-            machine.target.animator.SwitchAnimation(PlayerAnimator.IdleAnimKey);
+            machine.player.SetHorizontalVelocity(0);
+            machine.player.animator.SwitchAnimation(PlayerAnimator.IdleAnimKey);
         }
 
         public override void LogicUpdate()
@@ -382,7 +383,7 @@ namespace Metroidvania.Player.States
                 return;
 
             // Enter in run state if move input isn't equals 0
-            if (machine.target.input.horizontalMove != 0)
+            if (machine.player.input.horizontalMove != 0)
                 machine.runState.SetActive();
         }
     }
@@ -390,6 +391,8 @@ namespace Metroidvania.Player.States
     /// <summary>Player state when he is jumping</summary>
     public class PlayerJumpState : PlayerStateBase
     {
+        private static InputReader reader => InputReader.instance;
+
         /// <summary>Time elapsed after entering this state</summary>
         private float _elapsedTime;
 
@@ -407,15 +410,15 @@ namespace Metroidvania.Player.States
             _jumpCanceled = false;
 
             // Assign a method to the jumpCancelEvent in the reader to reference when the jump is canceled, to make a more smoother jump
-            machine.target.data.inputReader.JumpCanceledEvent += HandleJumpCancel;
-            
-            machine.target.animator.SwitchAnimation(PlayerAnimator.JumpAnimKey);
+            reader.JumpCanceledEvent += HandleJumpCancel;
+
+            machine.player.animator.SwitchAnimation(PlayerAnimator.JumpAnimKey);
         }
 
         public override void Exit()
         {
             // Remove the handle method so as not to cause an unexpected error
-            machine.target.data.inputReader.JumpCanceledEvent -= HandleJumpCancel;
+            reader.JumpCanceledEvent -= HandleJumpCancel;
         }
 
         public override void LogicUpdate()
@@ -424,7 +427,7 @@ namespace Metroidvania.Player.States
             _elapsedTime += Time.deltaTime;
 
             // Exits the state if the elapsed time reaches the duration
-            if (_elapsedTime > machine.target.data.jumpDuration)
+            if (_elapsedTime > machine.player.data.jumpDuration)
             {
                 machine.EnterIdleState();
                 return;
@@ -434,22 +437,22 @@ namespace Metroidvania.Player.States
             if (_jumpCanceled)
             {
                 // Set player velocity.y to 0.15 to make a smooth jump stop
-                machine.target.rb.velocity = new Vector2(machine.target.rb.velocity.x, .15f);
+                machine.player.rb.velocity = new Vector2(machine.player.rb.velocity.x, .15f);
                 machine.EnterIdleState();
                 return;
             }
 
             // Calculates the horizontal speed
-            var horizontalSpeed = machine.target.input.horizontalMove * machine.target.data.moveSpeed;
+            var horizontalSpeed = machine.player.input.horizontalMove * machine.player.data.moveSpeed;
 
             // Calculates the vertical speed using the data.JumpCurve curve to make a smooth jump
             var verticalSpeed =
-                machine.target.data.jumpCurve.Evaluate(_elapsedTime / machine.target.data.jumpDuration) *
-                machine.target.data.jumpSpeed;
+                machine.player.data.jumpCurve.Evaluate(_elapsedTime / machine.player.data.jumpDuration) *
+                machine.player.data.jumpSpeed;
 
-            machine.target.rb.velocity = new Vector2(horizontalSpeed, verticalSpeed);
+            machine.player.rb.velocity = new Vector2(horizontalSpeed, verticalSpeed);
 
-            machine.target.animator.FlipCheck();
+            machine.player.animator.FlipCheck();
         }
 
         private void HandleJumpCancel()
@@ -467,7 +470,7 @@ namespace Metroidvania.Player.States
 
         public override void Enter()
         {
-            machine.target.animator.SwitchAnimation(PlayerAnimator.RunAnimKey);
+            machine.player.animator.SwitchAnimation(PlayerAnimator.RunAnimKey);
         }
 
         public override void LogicUpdate()
@@ -481,14 +484,14 @@ namespace Metroidvania.Player.States
                 return;
 
             // Enter in idle state if the move input is 0
-            if (machine.target.input.horizontalMove == 0)
+            if (machine.player.input.horizontalMove == 0)
             {
                 machine.idleState.SetActive();
                 return;
             }
 
             // Movement the player
-            machine.target.MoveHorizontalAxesUsingInput(machine.target.data.moveSpeed);
+            machine.player.MoveHorizontalAxesUsingInput(machine.player.data.moveSpeed);
         }
     }
 
@@ -510,10 +513,10 @@ namespace Metroidvania.Player.States
             // Resets the properties
             _elapsedTime = 0;
             isInCooldown = true;
-            
-            machine.target.invincibility.AddInvincibility(machine.target.data.rollDuration, false);
 
-            machine.target.animator.SwitchAnimation(PlayerAnimator.RollAnimKey);
+            machine.player.invincibility.AddInvincibility(machine.player.data.rollDuration, false);
+
+            machine.player.animator.SwitchAnimation(PlayerAnimator.RollAnimKey);
         }
 
         public override void LogicUpdate()
@@ -522,26 +525,26 @@ namespace Metroidvania.Player.States
             _elapsedTime += Time.deltaTime;
 
             // Exits the state if the elapsed time reaches the duration
-            if (_elapsedTime >= machine.target.data.rollDuration)
+            if (_elapsedTime >= machine.player.data.rollDuration)
             {
                 machine.idleState.SetActive();
                 return;
             }
 
             // Calculates the vertical speed using the data.rollCurve curve to make a smooth roll
-            var speed = machine.target.data.rollSpeed * machine.target.facingDirection;
-            machine.target.SetHorizontalVelocity(
-                machine.target.data.rollCurve.Evaluate(_elapsedTime / machine.target.data.rollDuration) * speed);
+            var speed = machine.player.data.rollSpeed * machine.player.facingDirection;
+            machine.player.SetHorizontalVelocity(
+                machine.player.data.rollCurve.Evaluate(_elapsedTime / machine.player.data.rollDuration) * speed);
         }
 
         public override void Exit()
         {
-            machine.target.StartCoroutine(Cooldown());
+            machine.player.StartCoroutine(Cooldown());
         }
 
         private IEnumerator Cooldown()
         {
-            yield return CoroutinesUtility.GetYieldSeconds(machine.target.data.rollCooldown);
+            yield return CoroutinesUtility.GetYieldSeconds(machine.player.data.rollCooldown);
             isInCooldown = false;
         }
     }
@@ -569,7 +572,7 @@ namespace Metroidvania.Player.States
             _elapsedTime = 0;
             _quittingAnim = false;
 
-            machine.target.animator.SwitchAnimation(PlayerAnimator.SlideAnimKey);
+            machine.player.animator.SwitchAnimation(PlayerAnimator.SlideAnimKey);
         }
 
         public override void LogicUpdate()
@@ -579,14 +582,14 @@ namespace Metroidvania.Player.States
 
             // Starts the exit transition if it's near the end of the slide
             if (!_quittingAnim &&
-                _elapsedTime >= machine.target.data.slideDuration - machine.target.data.slideTransitionTime)
+                _elapsedTime >= machine.player.data.slideDuration - machine.player.data.slideTransitionTime)
             {
-                machine.target.animator.SwitchAnimation(PlayerAnimator.SlideEndAnimKey);
+                machine.player.animator.SwitchAnimation(PlayerAnimator.SlideEndAnimKey);
                 _quittingAnim = true;
             }
 
             // Exits the state if the elapsed time reaches the duration
-            if (_elapsedTime >= machine.target.data.slideDuration)
+            if (_elapsedTime >= machine.player.data.slideDuration)
             {
                 machine.crouchState.shouldMakeTransition = false;
                 machine.crouchState.SetActive();
@@ -598,19 +601,19 @@ namespace Metroidvania.Player.States
                 return;
 
             // Calculates and apply the speed
-            var speed = machine.target.data.slideCurve.Evaluate(_elapsedTime / machine.target.data.slideDuration) *
-                        machine.target.data.slideSpeed * machine.target.facingDirection;
-            machine.target.SetHorizontalVelocity(speed);
+            var speed = machine.player.data.slideCurve.Evaluate(_elapsedTime / machine.player.data.slideDuration) *
+                        machine.player.data.slideSpeed * machine.player.facingDirection;
+            machine.player.SetHorizontalVelocity(speed);
         }
 
         public override void Exit()
         {
-            machine.target.StartCoroutine(Cooldown());
+            machine.player.StartCoroutine(Cooldown());
         }
 
         private IEnumerator Cooldown()
         {
-            yield return CoroutinesUtility.GetYieldSeconds(machine.target.data.slideCooldown);
+            yield return CoroutinesUtility.GetYieldSeconds(machine.player.data.slideCooldown);
             isInCooldown = false;
         }
     }
@@ -625,7 +628,7 @@ namespace Metroidvania.Player.States
 
         public override void Enter()
         {
-            machine.target.animator.SwitchAnimation(PlayerAnimator.WallClimbAnimKey);
+            machine.player.animator.SwitchAnimation(PlayerAnimator.WallClimbAnimKey);
         }
     }
 
@@ -639,7 +642,7 @@ namespace Metroidvania.Player.States
 
         public override void Enter()
         {
-            machine.target.animator.SwitchAnimation(PlayerAnimator.WallHandAnimKey);
+            machine.player.animator.SwitchAnimation(PlayerAnimator.WallHandAnimKey);
         }
     }
 
@@ -653,24 +656,24 @@ namespace Metroidvania.Player.States
 
         public override void Enter()
         {
-            machine.target.animator.SwitchAnimation(PlayerAnimator.WallSlideAnimKey);
+            machine.player.animator.SwitchAnimation(PlayerAnimator.WallSlideAnimKey);
         }
 
         public override void LogicUpdate()
         {
-            if (machine.target.collisions.isGrounded)
+            if (machine.player.collisions.isGrounded)
             {
                 machine.idleState.SetActive();
                 return;
             }
 
-            if (machine.target.input.horizontalMove == 0)
+            if (machine.player.input.horizontalMove == 0)
             {
                 machine.EnterIdleState();
                 return;
             }
 
-            machine.target.rb.velocity = new Vector2(0, -machine.target.data.wallSlideSpeed);
+            machine.player.rb.velocity = new Vector2(0, -machine.player.data.wallSlideSpeed);
         }
     }
 }

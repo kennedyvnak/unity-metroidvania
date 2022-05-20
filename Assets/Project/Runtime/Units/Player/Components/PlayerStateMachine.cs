@@ -24,7 +24,7 @@ namespace Metroidvania.Player
         public readonly PlayerWallHandState wallHandState;
         public readonly PlayerWallSlideState wallSlideState;
 
-        public PlayerStateMachine(PlayerController target) : base(target)
+        public PlayerStateMachine(PlayerController player) : base(player)
         {
             idleState = new PlayerIdleState(this);
             runState = new PlayerRunState(this);
@@ -35,9 +35,9 @@ namespace Metroidvania.Player
             crouchState = new PlayerCrouchState(this);
             crouchWalkState = new PlayerCrouchWalkState(this);
             crouchAttackState =
-                new PlayerAttackState(this, target.data.crouchAttack, PlayerAnimator.CrouchAttackAnimKey);
-            attackOneState = new PlayerAttackState(this, target.data.attackOne, PlayerAnimator.AttackOneAnimKey);
-            attackTwoState = new PlayerAttackState(this, target.data.attackTwo, PlayerAnimator.AttackTwoAnimKey);
+                new PlayerAttackState(this, player.data.crouchAttack, PlayerAnimator.CrouchAttackAnimKey);
+            attackOneState = new PlayerAttackState(this, player.data.attackOne, PlayerAnimator.AttackOneAnimKey);
+            attackTwoState = new PlayerAttackState(this, player.data.attackTwo, PlayerAnimator.AttackTwoAnimKey);
             wallSlideState = new PlayerWallSlideState(this);
             wallClimbState = new PlayerWallClimbState(this);
             wallHandState = new PlayerWallHandState(this);
@@ -47,7 +47,7 @@ namespace Metroidvania.Player
             attackOneState.nextAttackState = attackTwoState;
             attackTwoState.nextAttackState = attackOneState;
 
-            target.LogicUpdated += Update;
+            player.LogicUpdated += Update;
             idleState.SetActive();
         }
 
@@ -62,7 +62,7 @@ namespace Metroidvania.Player
         public override void OnDestroy()
         {
             base.OnDestroy();
-            target.LogicUpdated -= Update;
+            player.LogicUpdated -= Update;
         }
 
         /// <summary>Switches the current state</summary>
@@ -76,29 +76,29 @@ namespace Metroidvania.Player
         // Shortcut methods for states, return null if cannot enter on state else return the entered state
         public PlayerStateBase EnterJump()
         {
-            if (!target.input.virtualJumping || !target.collisions.isGrounded) return null;
+            if (!player.input.virtualJumping || !player.collisions.isGrounded) return null;
             jumpState.SetActive();
             return jumpState;
         }
 
         public PlayerStateBase EnterCrouchState(bool shouldMakeTransition = true)
         {
-            if (!target.input.virtualCrouching || !target.collisions.isGrounded) return null;
-            if (target.input.horizontalMove != 0)
+            if (!player.input.virtualCrouching || !player.collisions.isGrounded) return null;
+            if (player.input.horizontalMove != 0)
             {
-                target.stateMachine.crouchWalkState.shouldMakeTransition = shouldMakeTransition;
+                player.stateMachine.crouchWalkState.shouldMakeTransition = shouldMakeTransition;
                 crouchWalkState.SetActive();
                 return crouchWalkState;
             }
 
-            target.stateMachine.crouchState.shouldMakeTransition = shouldMakeTransition;
+            player.stateMachine.crouchState.shouldMakeTransition = shouldMakeTransition;
             crouchState.SetActive();
             return crouchState;
         }
 
         public PlayerStateBase EnterFallState()
         {
-            if (target.collisions.isGrounded) return null;
+            if (player.collisions.isGrounded) return null;
             fallSate.SetActive();
             return fallSate;
         }
@@ -114,7 +114,7 @@ namespace Metroidvania.Player
             var enteredWallState = EnterWallState();
             if (enteredWallState != null) return enteredWallState;
 
-            if (target.input.horizontalMove == 0)
+            if (player.input.horizontalMove == 0)
             {
                 idleState.SetActive();
                 return idleState;
@@ -126,7 +126,7 @@ namespace Metroidvania.Player
 
         public PlayerStateBase EnterSlideState()
         {
-            if (!target.collisions.isGrounded || !target.input.virtualCrouching || !target.input.virtualDashing ||
+            if (!player.collisions.isGrounded || !player.input.virtualCrouching || !player.input.virtualDashing ||
                 slideState.isInCooldown)
                 return null;
 
@@ -136,7 +136,7 @@ namespace Metroidvania.Player
 
         public PlayerStateBase EnterWallState()
         {
-            if (target.collisions.isTouchingWall && target.input.horizontalMove != 0)
+            if (player.collisions.isTouchingWall && player.input.horizontalMove != 0)
             {
                 wallSlideState.SetActive();
                 return wallSlideState;
@@ -147,7 +147,7 @@ namespace Metroidvania.Player
 
         public PlayerStateBase EnterRollState()
         {
-            if (!target.collisions.isGrounded || target.input.virtualCrouching || !target.input.virtualDashing ||
+            if (!player.collisions.isGrounded || player.input.virtualCrouching || !player.input.virtualDashing ||
                 rollState.isInCooldown)
                 return null;
 
@@ -157,10 +157,10 @@ namespace Metroidvania.Player
 
         public PlayerAttackState EnterAttackState()
         {
-            if (!target.input.virtualAttacking || !target.collisions.isGrounded)
+            if (!player.input.virtualAttacking || !player.collisions.isGrounded)
                 return null;
 
-            if (target.input.virtualCrouching)
+            if (player.input.virtualCrouching)
             {
                 crouchAttackState.SetActive();
                 return crouchAttackState;

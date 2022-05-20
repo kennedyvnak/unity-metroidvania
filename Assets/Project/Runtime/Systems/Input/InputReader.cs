@@ -1,13 +1,12 @@
 using System;
-using UnityEngine;
 using UnityEngine.InputSystem;
 
 namespace Metroidvania.InputSystem
 {
     /// <summary>This class handle the unity input actions events</summary>
     /// <see cref="PlayerInput"/>
-    [CreateAssetMenu(menuName = "Scriptables/Input/Reader")]
-    public class InputReader : ScriptableObject, InputActions.IGameplayActions
+    [ResourceObjectPath("Data/Input Reader")]
+    public class InputReader : ScriptableSingleton<InputReader>, InputActions.IGameplayActions
     {
         private InputActions _inputActions;
 

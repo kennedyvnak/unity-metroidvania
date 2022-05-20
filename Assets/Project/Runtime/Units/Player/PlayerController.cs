@@ -127,22 +127,22 @@ namespace Metroidvania.Player
 
             if (data == null)
                 return;
+            
 
             var t = transform;
             var position = (Vector2)t.position;
             var scale = (Vector2)t.localScale;
 
-            Gizmos.color = Color.green;
-            Gizmos.DrawWireCube(position + data.feetOffset * scale, data.feetRadius);
-
-            Gizmos.color = Color.yellow;
-            Gizmos.DrawWireCube(position + data.leftHandOffset * scale, data.leftHandSize);
-            Gizmos.DrawWireCube(position + data.rightHandOffset * scale, data.rightHandSize);
-
-            Gizmos.color = Color.red;
-            Gizmos.DrawRay(position + data.ledgeCheckOffset * scale, new Vector2(data.ledgeCheckLenght * scale.x, 0));
-
-            Gizmos.color = Color.cyan;
+            var drawer = new GizmosDrawer()
+                .SetColor(GizmosColor.instance.playerFeet)
+                .DrawWireSquare(position + data.feetOffset * scale, data.feetRadius)
+                .SetColor(GizmosColor.instance.playerHand)
+                .DrawWireSquare(position + data.leftHandOffset * scale, data.leftHandSize)
+                .DrawWireSquare(position + data.rightHandOffset * scale, data.rightHandSize)
+                .SetColor(GizmosColor.instance.playerLedgeCheck)
+                .DrawRay(position + data.ledgeCheckOffset * scale, new Vector2(data.ledgeCheckLenght * scale.x, 0))
+                .SetColor(GizmosColor.instance.playerAttack);
+            
             DrawAttack(data.attackOne);
             DrawAttack(data.attackTwo);
             DrawAttack(data.crouchAttack);
@@ -150,7 +150,7 @@ namespace Metroidvania.Player
             void DrawAttack(PlayerDataChannel.Attack attack)
             {
                 if (attack.drawGizmos)
-                    Gizmos.DrawWireCube(position + attack.triggerCollider.center * scale, attack.triggerCollider.size);
+                    drawer.DrawWireSquare(position + attack.triggerCollider.center * scale, attack.triggerCollider.size);
             }
         }
 #endif

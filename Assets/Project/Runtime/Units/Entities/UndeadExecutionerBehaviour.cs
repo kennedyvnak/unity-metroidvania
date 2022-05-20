@@ -4,12 +4,24 @@ using UnityEngine;
 
 namespace Metroidvania.Entities.Units
 {
-    public class UndeadExecutionerBehaviour : EntityBehaviour, IHittableTarget, ITouchHit
+    public class UndeadExecutionerBehaviour : EntityStateMachine<UndeadExecutionerBehaviour>, IHittableTarget,
+        ITouchHit
     {
         [SerializeField] private int m_touchDamage;
         [SerializeField] private Vector2 m_knockbackForce;
 
         public bool ignoreInvincibility => false;
+
+        private IdleState _idleState;
+        private HurtState _hurtState;
+
+        private void Awake()
+        {
+            _idleState = new IdleState(this);
+            _hurtState = new HurtState(this);
+
+            SwitchState(_idleState);
+        }
 
         public void OnTakeHit(PlayerHitData hitData)
         {
@@ -23,31 +35,36 @@ namespace Metroidvania.Entities.Units
                 new Vector2(m_knockbackForce.x * playerController.facingDirection, m_knockbackForce.y));
         }
 
-        public abstract class UndeadExecutionerStateBase
+        private void EnterHurt(PlayerHitData hitData)
         {
-            public readonly UndeadExecutionerBehaviour target;
+            _hurtState.hitData = hitData;
+            SwitchState(_hurtState);
+        }
 
-            protected UndeadExecutionerStateBase(UndeadExecutionerBehaviour target)
-            {
-                this.target = target;
-            }
-
-            public virtual void Enter()
-            {
-            }
-
-            public virtual void LogicUpdate()
+        public abstract class BaseState : EntityBehaviourState<UndeadExecutionerBehaviour>
+        {
+            protected BaseState(UndeadExecutionerBehaviour entity) : base(entity)
             {
             }
 
             public virtual void OnTakeKit(PlayerHitData hitData)
             {
+                entity.EnterHurt(hitData);
             }
         }
 
-        public class UndeadExecutionerIdleState : UndeadExecutionerStateBase
+        public class IdleState : BaseState
         {
-            public UndeadExecutionerIdleState(UndeadExecutionerBehaviour target) : base(target)
+            public IdleState(UndeadExecutionerBehaviour target) : base(target)
+            {
+            }
+        }
+
+        public class HurtState : BaseState
+        {
+            public PlayerHitData hitData { get; set; }
+
+            public HurtState(UndeadExecutionerBehaviour target) : base(target)
             {
             }
         }

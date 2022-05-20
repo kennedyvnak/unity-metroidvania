@@ -8,35 +8,35 @@ namespace Metroidvania.Player
     /// <summary>Player component for handle combat</summary>
     public class PlayerCombat : PlayerComponent
     {
-        public PlayerCombat(PlayerController target) : base(target)
+        public PlayerCombat(PlayerController player) : base(player)
         {
-            target.TriggerStay += TriggerStay;
+            player.TriggerStay += TriggerStay;
         }
 
         public override void OnDestroy()
         {
             base.OnDestroy();
-            target.TriggerStay -= TriggerStay;
+            player.TriggerStay -= TriggerStay;
         }
 
         /// <summary>Called when a trigger stay in the player collider</summary>
         private void TriggerStay(Collider2D col)
         {
-            if (!col.TryGetComponent<ITouchHit>(out var touchHit) || (!touchHit.ignoreInvincibility && target.invincibility.isInvincible)) return;
-            TakeHit(touchHit.OnHitPlayer(target));
+            if (!col.TryGetComponent<ITouchHit>(out var touchHit) || (!touchHit.ignoreInvincibility && player.invincibility.isInvincible)) return;
+            TakeHit(touchHit.OnHitPlayer(player));
         }
 
         /// <summary>Call this to hit the player</summary>
         /// <param name="entityHit">A hit data</param>
         public void TakeHit(EntityHitData entityHit)
         {
-            target.life -= entityHit.damage;
-            target.invincibility.AddInvincibility(target.data.defaultInvincibilityTime, true);
+            player.life -= entityHit.damage;
+            player.invincibility.AddInvincibility(player.data.defaultInvincibilityTime, true);
 
-            if (target.life <= 0)
-                target.stateMachine.deathState.SetActive();
+            if (player.life <= 0)
+                player.stateMachine.deathState.SetActive();
             else
-                target.stateMachine.EnterHurt(entityHit.knockbackForce);
+                player.stateMachine.EnterHurt(entityHit.knockbackForce);
         }
     }
 }

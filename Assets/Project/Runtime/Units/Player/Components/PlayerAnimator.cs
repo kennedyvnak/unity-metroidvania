@@ -38,10 +38,10 @@ namespace Metroidvania.Player
         public readonly SpriteRenderer graphic;
         public readonly Animator machine;
 
-        public PlayerAnimator(PlayerController target) : base(target)
+        public PlayerAnimator(PlayerController player) : base(player)
         {
-            machine = target.gfxGameObject.GetComponent<Animator>();
-            graphic = target.gfxGameObject.GetComponent<SpriteRenderer>();
+            machine = player.gfxGameObject.GetComponent<Animator>();
+            graphic = player.gfxGameObject.GetComponent<SpriteRenderer>();
         }
 
         /// <summary>The animation which is running</summary>
@@ -69,15 +69,15 @@ namespace Metroidvania.Player
         /// <summary>Horizontally flips the player</summary>
         public void Flip()
         {
-            target.facingDirection *= -1;
-            target.transform.localScale = new Vector2(target.facingDirection, 1);
+            player.facingDirection *= -1;
+            player.transform.localScale = new Vector2(player.facingDirection, 1);
         }
 
         /// <returns>True if the player needs flip</returns>
         public bool ShouldFlip()
         {
-            var velocity = target.rb.velocity.x;
-            return (velocity > 0 && target.facingDirection == -1) || (velocity < 0 && target.facingDirection == 1);
+            var velocity = player.rb.velocity.x;
+            return (velocity > 0 && player.facingDirection == -1) || (velocity < 0 && player.facingDirection == 1);
         }
     }
 }

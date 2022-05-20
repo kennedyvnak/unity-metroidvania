@@ -1,5 +1,4 @@
 using System;
-using Metroidvania.InputSystem;
 using UnityEngine;
 
 namespace Metroidvania.Player
@@ -35,10 +34,7 @@ namespace Metroidvania.Player
 
         [Header("Properties")] [Tooltip("Max life of the player")]
         public int maxLife;
-
-        [Header("Input")] [Tooltip("Input reader for input handling")]
-        public InputReader inputReader;
-
+        
         [Header("Ground Check")] [Tooltip("Ground layer for collisions check")]
         public LayerMask groundLayer;
 
