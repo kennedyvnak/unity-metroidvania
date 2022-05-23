@@ -1,4 +1,4 @@
-﻿# 1.2.6-a.2 (2022-05-??)
+﻿# 1.2.6-a.2
 ## Release Highlights
 - Upgrade Unity to 2021.3.3f1
 - Add Unity AddressablesSystem
