@@ -12,4 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f3368096905540368a13cf1f550cbf0e, type: 3}
   m_Name: Undead Executioner
   m_EditorClassIdentifier: 
-  prefab: {fileID: 0}
+  prefab:
+    m_AssetGUID: b5129a45de401fc49aef27e27ffe7714
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
