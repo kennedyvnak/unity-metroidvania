@@ -1,0 +1,76 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: efad89dd3a81429c9f77d88a0e34bf4b, type: 3}
+  m_Name: Graphics Settings
+  m_EditorClassIdentifier: 
+  resolutionPrefsKey: Selected-Resolution
+  defaultResolutionIndex: 1
+  screenResolutions:
+  - {x: 960, y: 540}
+  - {x: 1366, y: 768}
+  - {x: 1920, y: 1080}
+  qualityPrefsKey: Selected-Quality
+  defaultQualityIndex: 3
+  qualitiesNames:
+  - m_TableReference:
+      m_TableCollectionName: GUID:f6f78405c08197848baa90616271b729
+    m_TableEntryReference:
+      m_KeyId: 669378046083072
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  - m_TableReference:
+      m_TableCollectionName: GUID:f6f78405c08197848baa90616271b729
+    m_TableEntryReference:
+      m_KeyId: 669747312607232
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  - m_TableReference:
+      m_TableCollectionName: GUID:f6f78405c08197848baa90616271b729
+    m_TableEntryReference:
+      m_KeyId: 669766337970176
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  - m_TableReference:
+      m_TableCollectionName: GUID:f6f78405c08197848baa90616271b729
+    m_TableEntryReference:
+      m_KeyId: 669792879525888
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  - m_TableReference:
+      m_TableCollectionName: GUID:f6f78405c08197848baa90616271b729
+    m_TableEntryReference:
+      m_KeyId: 669821870555136
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  - m_TableReference:
+      m_TableCollectionName: GUID:f6f78405c08197848baa90616271b729
+    m_TableEntryReference:
+      m_KeyId: 669848579883008
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  fullScreenPrefsKey: Is-Full-Screen
+  defaultFullScreenValue: 1
+  references:
+    version: 2
+    RefIds: []
