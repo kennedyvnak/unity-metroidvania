@@ -26,7 +26,8 @@ namespace Metroidvania.Entities.Units
         public void OnTakeHit(PlayerHitData hitData)
         {
             // TODO: Implement this method
-            Debug.Log((hitData.damage, hitData.force), gameObject);
+            if (GameDebugger.instance.enableEntitiesLogs)
+                GameDebugger.Log((hitData.damage, hitData.force), gameObject);
         }
 
         public EntityHitData OnHitPlayer(PlayerController playerController)

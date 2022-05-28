@@ -36,8 +36,9 @@ namespace Metroidvania.Project.Editor
 
                 if (!Directory.Exists(persistentDirectory))
                     Directory.CreateDirectory(persistentDirectory);
-                AssetDatabase.CreateAsset(ScriptableObject.CreateInstance(type),
-                    $"{persistentDirectory}/{Path.GetFileName(path)}.asset");
+                string fullPath = $"{persistentDirectory}/{Path.GetFileName(path)}.asset";
+                AssetDatabase.CreateAsset(ScriptableObject.CreateInstance(type), fullPath);
+                GameDebugger.Log($"Created a instance of {type.Name} at '{fullPath}'");
             }
         }
     }

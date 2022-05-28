@@ -6,15 +6,21 @@ using UnityEngine.UI;
 
 namespace Metroidvania.UI.Menus
 {
-    public class OptionsMenu : MonoBehaviour
+    public class OptionsMenu : CanvasMenuBase
     {
+        [SerializeField] private CanvasGroup m_canvasGroup;
+
+        [Header("Audio Settings")]
         [SerializeField] private Slider m_masterVolumeSlider;
         [SerializeField] private Slider m_musicsVolumeSlider;
         [SerializeField] private Slider m_sfxVolumeSlider;
 
+        [Header("Quality Settings")]
         [SerializeField] private TextMeshProUGUI m_resolutionText;
         [SerializeField] private LocalizeStringEvent m_qualityEvent;
         [SerializeField] private ToggleGraphic m_fullScreenToggle;
+
+        public event System.Action OnMenuDisable;
 
         private void Awake()
         {
@@ -54,6 +60,16 @@ namespace Metroidvania.UI.Menus
         private void QualityChangedHandler(int idx)
         {
             m_qualityEvent.StringReference = GameGraphicsSettings.instance.qualitiesNames[idx];
+        }
+
+        public void ActiveMenu()
+        {
+            m_canvasGroup.DOFade(true, UIUtility.TransitionTime, SetFirstSelected);
+        }
+
+        public void DesactiveMenu()
+        {
+            m_canvasGroup.DOFade(false, UIUtility.TransitionTime, () => OnMenuDisable?.Invoke());
         }
     }
 }

@@ -102,6 +102,22 @@ MonoBehaviour:
     m_Localized: "A\xFAdio"
     m_Metadata:
       m_Items: []
+  - m_Id: 1565368970133504
+    m_Localized: Voltar
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1908178701271040
+    m_Localized: Perfis
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1913381060100096
+    m_Localized: Vazio
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1943115970134016
+    m_Localized: Continuar
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

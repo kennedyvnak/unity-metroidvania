@@ -60,7 +60,7 @@ namespace Metroidvania.Audio
         private void OnValidate()
         {
             if (qualitiesNames.Length != QualitySettings.names.Length)
-                Debug.LogError($"{nameof(qualitiesNames)} lenght isn't equal the built-in quality names lenght.");
+                GameDebugger.LogError($"{nameof(qualitiesNames)} lenght isn't equal the built-in quality names lenght.");
         }
 #endif
     }
