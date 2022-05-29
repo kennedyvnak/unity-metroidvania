@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: Game Debugger
   m_EditorClassIdentifier: 
   m_forceDebug: 1
-  m_debugSerialization: 1
+  m_debugSerialization: 0
   m_enableEntitiesLogs: 1

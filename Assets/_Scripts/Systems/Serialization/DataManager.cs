@@ -8,6 +8,18 @@ namespace Metroidvania.Serialization
 {
     public static class DataManager
     {
+        public const string DefaultDataPath = "Data/Default Game Data";
+
+        private static GameDataAsset _defaultGameDataAsset;
+        public static GameDataAsset defaultGameDataAsset
+        {
+            get
+            {
+                if (_defaultGameDataAsset != null) return _defaultGameDataAsset;
+                return _defaultGameDataAsset = UnityEngine.Resources.Load<GameDataAsset>(DefaultDataPath);
+            }
+        }
+
         private static readonly DataHandler s_dataHandler = new FileDataHandler();
         public static DataHandler dataHandler => s_dataHandler;
 
@@ -56,7 +68,7 @@ namespace Metroidvania.Serialization
         {
             selectedUserId = newUserId;
             if (selectedUserId != -1)
-                _gameData = s_dataHandler.Deserialize(newUserId) ?? new GameData(newUserId);
+                _gameData = s_dataHandler.Deserialize(newUserId) ?? defaultGameDataAsset.GenerateNew(newUserId);
             else _gameData = null;
         }
 

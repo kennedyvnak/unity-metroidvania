@@ -9,14 +9,17 @@ namespace Metroidvania.Player
     public class PlayerController : MonoBehaviour
     {
 #if UNITY_EDITOR
-        [Tooltip("If true, draw gizmos in the scene view. (Editor only)")] [SerializeField]
+        [Tooltip("If true, draw gizmos in the scene view. (Editor only)")]
+        [SerializeField]
         private bool m_drawGizmos;
 #endif
 
-        [Tooltip("The data active for this player. This field cannot be null")] [SerializeField]
+        [Tooltip("The data active for this player. This field cannot be null")]
+        [SerializeField]
         private PlayerDataChannel m_data;
 
-        [Tooltip("The GFX GameObject. This field cannot be null")] [SerializeField]
+        [Tooltip("The GFX GameObject. This field cannot be null")]
+        [SerializeField]
         private GameObject m_gfxGameObject;
 
         /// <summary>The data active for this player. This field cannot be null</summary>
@@ -57,9 +60,9 @@ namespace Metroidvania.Player
 
         /// <summary>Called when <see cref="OnTriggerEnter2D"/> is called</summary>
         public event UnityAction<Collider2D> TriggerEntered;
-        
+
         /// <summary>Called when <see cref="OnTriggerStay2D"/> is called</summary>
-        public event UnityAction<Collider2D> TriggerStay; 
+        public event UnityAction<Collider2D> TriggerStay;
 
         private void Awake()
         {
@@ -127,7 +130,7 @@ namespace Metroidvania.Player
 
             if (data == null)
                 return;
-            
+
 
             var t = transform;
             var position = (Vector2)t.position;
@@ -142,7 +145,7 @@ namespace Metroidvania.Player
                 .SetColor(GizmosColor.instance.playerLedgeCheck)
                 .DrawRay(position + data.ledgeCheckOffset * scale, new Vector2(data.ledgeCheckLenght * scale.x, 0))
                 .SetColor(GizmosColor.instance.playerAttack);
-            
+
             DrawAttack(data.attackOne);
             DrawAttack(data.attackTwo);
             DrawAttack(data.crouchAttack);

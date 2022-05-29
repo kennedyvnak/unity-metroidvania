@@ -8,20 +8,20 @@ namespace Metroidvania.Player
     {
         /// <summary>True if the player has any invincibility</summary>
         public bool isInvincible => _invincibilityCount > 0;
-        
+
         /// <summary>The count of invincibility</summary>
         private int _invincibilityCount;
-        
+
         /// <summary>The count of animations</summary>
         private int _animationsCount;
-        
+
         /// <summary>Animation coroutine to create the fade</summary>
         private Coroutine _animationCoroutine;
 
         public PlayerInvincibility(PlayerController player) : base(player)
         {
         }
-        
+
         /// <summary>
         /// Add invincibility to the player
         /// </summary>

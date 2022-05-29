@@ -14,28 +14,33 @@ namespace Metroidvania.Player
             public bool drawGizmos;
 #endif
 
-            [Space] [Tooltip("Duration of the attack")]
+            [Space]
+            [Tooltip("Duration of the attack")]
             public float duration;
 
             [Tooltip("The offset that the player's move when the attack is triggered (don't be confused with started)")]
             public float horizontalMoveOffset;
 
-            [Space] [Tooltip("Time after the attack start that triggers the attack")]
+            [Space]
+            [Tooltip("Time after the attack start that triggers the attack")]
             public float triggerTime;
 
             [Tooltip("The area to make the collision check")]
             public Rect triggerCollider;
 
-            [Space] [Tooltip("Raw damage of the attack")]
+            [Space]
+            [Tooltip("Raw damage of the attack")]
             public int damage;
 
             [Tooltip("Raw force of the attack")] public float force;
         }
 
-        [Header("Properties")] [Tooltip("Max life of the player")]
+        [Header("Properties")]
+        [Tooltip("Max life of the player")]
         public int maxLife;
-        
-        [Header("Ground Check")] [Tooltip("Ground layer for collisions check")]
+
+        [Header("Ground Check")]
+        [Tooltip("Ground layer for collisions check")]
         public LayerMask groundLayer;
 
         [Tooltip("Feet offset based on center of player position")]
@@ -43,7 +48,8 @@ namespace Metroidvania.Player
 
         [Tooltip("Size of the feet")] public Vector2 feetRadius;
 
-        [Header("Wall Check")] [Tooltip("Wall layer for collisions check")]
+        [Header("Wall Check")]
+        [Tooltip("Wall layer for collisions check")]
         public LayerMask wallLayer;
 
         [Tooltip("Left hand offset based on center of the player position")]
@@ -61,10 +67,12 @@ namespace Metroidvania.Player
 
         [Tooltip("Size of the ledge check")] public float ledgeCheckLenght;
 
-        [Header("Movement")] [Tooltip("Default movement speed")]
+        [Header("Movement")]
+        [Tooltip("Default movement speed")]
         public float moveSpeed;
 
-        [Header("Jump")] [Tooltip("Default jump speed")]
+        [Header("Jump")]
+        [Tooltip("Default jump speed")]
         public float jumpSpeed;
 
         [Tooltip("Jump duration")] public float jumpDuration;
@@ -72,10 +80,12 @@ namespace Metroidvania.Player
         [Tooltip("A curve for smooth jump velocity")]
         public AnimationCurve jumpCurve;
 
-        [Header("Crouch")] [Tooltip("Default crouch speed")]
+        [Header("Crouch")]
+        [Tooltip("Default crouch speed")]
         public float crouchSpeed;
 
-        [Header("Slide")] [Tooltip("Slide duration")]
+        [Header("Slide")]
+        [Tooltip("Slide duration")]
         public float slideDuration;
 
         [Tooltip("Slide speed")] public float slideSpeed;
@@ -85,7 +95,8 @@ namespace Metroidvania.Player
         [Tooltip("A curve for smooth slide speed")]
         public AnimationCurve slideCurve;
 
-        [Header("Roll")] [Tooltip("Roll duration")]
+        [Header("Roll")]
+        [Tooltip("Roll duration")]
         public float rollDuration;
 
         [Tooltip("Roll speed")] public float rollSpeed;
@@ -95,7 +106,8 @@ namespace Metroidvania.Player
         [Tooltip("A curve for smooth roll speed")]
         public AnimationCurve rollCurve;
 
-        [Header("Attacks")] [Tooltip("Layer for collisions check of hits")]
+        [Header("Attacks")]
+        [Tooltip("Layer for collisions check of hits")]
         public LayerMask hittableLayer;
 
         [Tooltip("First attack data")] public Attack attackOne;
@@ -104,7 +116,8 @@ namespace Metroidvania.Player
 
         [Tooltip("Crouch attack data")] public Attack crouchAttack;
 
-        [Header("Animations")] [Tooltip("Duration of the crouch transition animation")]
+        [Header("Animations")]
+        [Tooltip("Duration of the crouch transition animation")]
         public float crouchTransitionTime;
 
         [Tooltip("Duration of the slide transition animation")]
@@ -114,10 +127,12 @@ namespace Metroidvania.Player
         [Tooltip("Vertical velocity that will be applied on player's velocity when sliding down a wall")]
         public float wallSlideSpeed;
 
-        [Tooltip("Time which the player stay on hurt state")] [Header("Hurt")]
+        [Tooltip("Time which the player stay on hurt state")]
+        [Header("Hurt")]
         public float hurtTime;
 
-        [Header("Invincibility")] [Tooltip("The alpha used in the invincibility animation to set the limits")]
+        [Header("Invincibility")]
+        [Tooltip("The alpha used in the invincibility animation to set the limits")]
         public float invincibilityAlphaChange;
 
         [Tooltip("The speed that interpolates the alpha when in invincibility")]

@@ -53,3 +53,14 @@
 - Add logs on project validator
 - Add UI units prefabs
 - Renamed scene 'SampleScene' to 'Level0'
+
+## 1.3.1-a.5
+
+- Add a .save file importer and editor
+- Add default game data asset
+
+----
+
+- DataHandler encryptation now in public
+- Set Game Debbuger to non editor-only
+- Improve files formating

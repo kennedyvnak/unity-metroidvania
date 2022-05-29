@@ -3,7 +3,7 @@ using UnityEngine;
 namespace Metroidvania
 {
     // TODO: Add in-game debug screen
-    [ResourceObjectPath("Data/Editor/Game Debugger")]
+    [ResourceObjectPath("Data/Game Debugger")]
     public class GameDebugger : ScriptableSingleton<GameDebugger>
     {
         [SerializeField] private bool m_forceDebug = true;
