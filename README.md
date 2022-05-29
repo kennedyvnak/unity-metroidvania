@@ -16,3 +16,8 @@ My goal here is make references for 2D game developers who are starting to devel
 - Player controller using State Machine and Component pattern
 - IAs using State Machines
 - Using scriptable objects to store data
+- Serialization System
+- Main menu and scene transition
+- Editor Scripts (GUI, Project Validator, ScriptedImporters...)
+- Audio System
+- Input Management
