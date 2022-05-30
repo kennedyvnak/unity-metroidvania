@@ -1,5 +1,4 @@
 ﻿using DG.Tweening;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -7,6 +6,15 @@ namespace Metroidvania.UI
 {
     public static class UIUtility
     {
+        private static Canvas s_mainCanvas;
+        public static Canvas mainCanvas
+        {
+            get
+            {
+                if (s_mainCanvas == null) s_mainCanvas = GameObject.FindGameObjectWithTag("MainCanvas").GetComponent<Canvas>();
+                return s_mainCanvas;
+            }
+        }
         public const float TransitionTime = .333F;
 
         private static readonly List<CanvasGroup> s_EventsBlocks = new List<CanvasGroup>();
@@ -21,7 +29,7 @@ namespace Metroidvania.UI
                 if (disableUIEvents)
                     s_EventsBlocks.Remove(group);
                 onComplete?.Invoke();
-            });
+            }).SetUpdate(true);
         }
     }
 }

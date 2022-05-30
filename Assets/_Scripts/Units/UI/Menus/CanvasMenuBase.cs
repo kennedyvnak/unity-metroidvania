@@ -7,6 +7,8 @@ namespace Metroidvania.UI.Menus
     {
         [SerializeField] protected GameObject firstSelected;
 
+        public bool menuEnabled { get; protected set; }
+
         public void SetFirstSelected()
         {
             EventSystem.current.SetSelectedGameObject(firstSelected);

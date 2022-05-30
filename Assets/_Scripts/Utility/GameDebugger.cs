@@ -11,25 +11,13 @@ namespace Metroidvania
         [Header("Instances")]
         [SerializeField] private bool m_debugSerialization;
         [SerializeField] private bool m_enableEntitiesLogs;
+        [SerializeField] private bool m_debugInput;
 
-        public bool debugSerialization
-        {
-            get
-            {
-                if (Application.isEditor || m_forceDebug)
-                    return m_debugSerialization;
-                return false;
-            }
-        }
-        public bool enableEntitiesLogs
-        {
-            get
-            {
-                if (Application.isEditor || m_forceDebug)
-                    return m_enableEntitiesLogs;
-                return false;
-            }
-        }
+        public bool debugSerialization => m_debugSerialization && debugEnabled;
+        public bool enableEntitiesLogs => m_enableEntitiesLogs && debugEnabled;
+        public bool debugInput => m_debugInput && debugEnabled;
+
+        public static bool debugEnabled => (Application.isEditor || instance.m_forceDebug);
 
         public static void Log(object message, Object target = null)
         {

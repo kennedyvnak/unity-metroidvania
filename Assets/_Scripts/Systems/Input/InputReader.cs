@@ -6,7 +6,7 @@ namespace Metroidvania.InputSystem
     /// <summary>This class handle the unity input actions events</summary>
     /// <see cref="PlayerInput"/>
     [ResourceObjectPath("Data/Input Reader")]
-    public class InputReader : ScriptableSingleton<InputReader>, InputActions.IGameplayActions
+    public class InputReader : ScriptableSingleton<InputReader>, InputActions.IGameplayActions, InputActions.IMenuActions
     {
         private InputActions _inputActions;
 
@@ -27,15 +27,31 @@ namespace Metroidvania.InputSystem
         public event Action JumpEvent;
         public event Action JumpCanceledEvent;
 
+        public event Action PauseEvent;
+
+        // Menus Actions
+        public event Action ReturnEvent;
+
         /// <summary>Enable the gameplay input</summary>
         public void EnableGameplayInput()
         {
+            _inputActions.Menu.Disable();
+
             _inputActions.Gameplay.Enable();
+        }
+
+        /// <summary>Enable menu input</summary>
+        public void EnableMenuInput()
+        {
+            _inputActions.Gameplay.Disable();
+
+            _inputActions.Menu.Enable();
         }
 
         /// <summary>Disable All inputs</summary>
         public void DisableAllInput()
         {
+            _inputActions.Menu.Disable();
             _inputActions.Gameplay.Disable();
         }
 
@@ -46,6 +62,7 @@ namespace Metroidvania.InputSystem
                 _inputActions = new InputActions();
                 // Use this method to implement callbacks On[Action](InputAction.CallbackContext)
                 _inputActions.Gameplay.SetCallbacks(this);
+                _inputActions.Menu.SetCallbacks(this);
             }
 
             EnableGameplayInput();
@@ -119,6 +136,18 @@ namespace Metroidvania.InputSystem
                     JumpCanceledEvent?.Invoke();
                     break;
             }
+        }
+
+        void InputActions.IGameplayActions.OnPause(InputAction.CallbackContext context)
+        {
+            if (context.phase == InputActionPhase.Performed)
+                PauseEvent?.Invoke();
+        }
+
+        void InputActions.IMenuActions.OnReturn(InputAction.CallbackContext context)
+        {
+            if (context.phase == InputActionPhase.Performed)
+                ReturnEvent?.Invoke();
         }
     }
 }

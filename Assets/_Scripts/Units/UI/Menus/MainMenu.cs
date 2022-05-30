@@ -5,6 +5,7 @@ using UnityEngine;
 namespace Metroidvania.UI.Menus
 {
     // TODO: Add credits menu
+    // TODO: Add perform key handler
     public class MainMenu : CanvasMenuBase
     {
         [Header("Menu Transition")]

@@ -73,6 +73,15 @@ namespace Metroidvania.InputSystem
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Pause"",
+                    ""type"": ""Button"",
+                    ""id"": ""ebaacd31-fe14-494b-a603-6b6df21a5b3d"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -152,6 +161,45 @@ namespace Metroidvania.InputSystem
                     ""action"": ""Move"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""084e8d8f-d3d5-4ee7-934a-d7aeeed1918d"",
+                    ""path"": ""<Keyboard>/escape"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Pause"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
+        },
+        {
+            ""name"": ""Menu"",
+            ""id"": ""473b0fb2-ba49-4bd6-91f6-78a98b0d9f42"",
+            ""actions"": [
+                {
+                    ""name"": ""Return"",
+                    ""type"": ""Button"",
+                    ""id"": ""3ec7d323-ae2b-4034-880b-59c025e5da74"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""434c5ceb-505e-4924-9996-9968c3d339ff"",
+                    ""path"": ""<Keyboard>/escape"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Return"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -165,6 +213,10 @@ namespace Metroidvania.InputSystem
             m_Gameplay_Dash = m_Gameplay.FindAction("Dash", throwIfNotFound: true);
             m_Gameplay_Crouch = m_Gameplay.FindAction("Crouch", throwIfNotFound: true);
             m_Gameplay_Attack = m_Gameplay.FindAction("Attack", throwIfNotFound: true);
+            m_Gameplay_Pause = m_Gameplay.FindAction("Pause", throwIfNotFound: true);
+            // Menu
+            m_Menu = asset.FindActionMap("Menu", throwIfNotFound: true);
+            m_Menu_Return = m_Menu.FindAction("Return", throwIfNotFound: true);
         }
 
         public void Dispose()
@@ -229,6 +281,7 @@ namespace Metroidvania.InputSystem
         private readonly InputAction m_Gameplay_Dash;
         private readonly InputAction m_Gameplay_Crouch;
         private readonly InputAction m_Gameplay_Attack;
+        private readonly InputAction m_Gameplay_Pause;
         public struct GameplayActions
         {
             private @InputActions m_Wrapper;
@@ -238,6 +291,7 @@ namespace Metroidvania.InputSystem
             public InputAction @Dash => m_Wrapper.m_Gameplay_Dash;
             public InputAction @Crouch => m_Wrapper.m_Gameplay_Crouch;
             public InputAction @Attack => m_Wrapper.m_Gameplay_Attack;
+            public InputAction @Pause => m_Wrapper.m_Gameplay_Pause;
             public InputActionMap Get() { return m_Wrapper.m_Gameplay; }
             public void Enable() { Get().Enable(); }
             public void Disable() { Get().Disable(); }
@@ -262,6 +316,9 @@ namespace Metroidvania.InputSystem
                     @Attack.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnAttack;
                     @Attack.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnAttack;
                     @Attack.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnAttack;
+                    @Pause.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnPause;
+                    @Pause.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnPause;
+                    @Pause.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnPause;
                 }
                 m_Wrapper.m_GameplayActionsCallbackInterface = instance;
                 if (instance != null)
@@ -281,10 +338,46 @@ namespace Metroidvania.InputSystem
                     @Attack.started += instance.OnAttack;
                     @Attack.performed += instance.OnAttack;
                     @Attack.canceled += instance.OnAttack;
+                    @Pause.started += instance.OnPause;
+                    @Pause.performed += instance.OnPause;
+                    @Pause.canceled += instance.OnPause;
                 }
             }
         }
         public GameplayActions @Gameplay => new GameplayActions(this);
+
+        // Menu
+        private readonly InputActionMap m_Menu;
+        private IMenuActions m_MenuActionsCallbackInterface;
+        private readonly InputAction m_Menu_Return;
+        public struct MenuActions
+        {
+            private @InputActions m_Wrapper;
+            public MenuActions(@InputActions wrapper) { m_Wrapper = wrapper; }
+            public InputAction @Return => m_Wrapper.m_Menu_Return;
+            public InputActionMap Get() { return m_Wrapper.m_Menu; }
+            public void Enable() { Get().Enable(); }
+            public void Disable() { Get().Disable(); }
+            public bool enabled => Get().enabled;
+            public static implicit operator InputActionMap(MenuActions set) { return set.Get(); }
+            public void SetCallbacks(IMenuActions instance)
+            {
+                if (m_Wrapper.m_MenuActionsCallbackInterface != null)
+                {
+                    @Return.started -= m_Wrapper.m_MenuActionsCallbackInterface.OnReturn;
+                    @Return.performed -= m_Wrapper.m_MenuActionsCallbackInterface.OnReturn;
+                    @Return.canceled -= m_Wrapper.m_MenuActionsCallbackInterface.OnReturn;
+                }
+                m_Wrapper.m_MenuActionsCallbackInterface = instance;
+                if (instance != null)
+                {
+                    @Return.started += instance.OnReturn;
+                    @Return.performed += instance.OnReturn;
+                    @Return.canceled += instance.OnReturn;
+                }
+            }
+        }
+        public MenuActions @Menu => new MenuActions(this);
         public interface IGameplayActions
         {
             void OnMove(InputAction.CallbackContext context);
@@ -292,6 +385,11 @@ namespace Metroidvania.InputSystem
             void OnDash(InputAction.CallbackContext context);
             void OnCrouch(InputAction.CallbackContext context);
             void OnAttack(InputAction.CallbackContext context);
+            void OnPause(InputAction.CallbackContext context);
+        }
+        public interface IMenuActions
+        {
+            void OnReturn(InputAction.CallbackContext context);
         }
     }
 }

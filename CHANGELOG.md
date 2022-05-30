@@ -64,3 +64,18 @@
 - DataHandler encryptation now in public
 - Set Game Debbuger to non editor-only
 - Improve files formating
+
+## 1.3.2-a.4
+
+- Add GameManager class for handle pause
+- Add pause menu
+- Add placeholder menu scene transition
+- Add support for menus in gameplay
+- Add support to return (ESC) key
+
+----
+
+- Add Gameplay Asset Group
+- Update "Base Scene" sorting layers (player, ground and undead executioner)
+- Update Input actions
+- Add "MainCanvas" tag

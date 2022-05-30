@@ -9,10 +9,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 210ddbd7cc6abaf4bb18d02065eda316, type: 3}
-  m_Name: Game Debugger
+  m_Script: {fileID: 11500000, guid: 5834b5087d578d24c926ce20cd31e6d6, type: 3}
+  m_Name: Gameplay_ContentUpdateGroupSchema
   m_EditorClassIdentifier: 
-  m_forceDebug: 1
-  m_debugSerialization: 0
-  m_enableEntitiesLogs: 1
-  m_debugInput: 1
+  m_Group: {fileID: 11400000, guid: b158aa2f91d7b9b4c8ed7e25017ac56e, type: 2}
+  m_StaticContent: 0

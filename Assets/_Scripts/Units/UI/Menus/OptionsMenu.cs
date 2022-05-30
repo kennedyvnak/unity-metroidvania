@@ -64,11 +64,13 @@ namespace Metroidvania.UI.Menus
 
         public void ActiveMenu()
         {
+            menuEnabled = true;
             m_canvasGroup.DOFade(true, UIUtility.TransitionTime, SetFirstSelected);
         }
 
         public void DesactiveMenu()
         {
+            menuEnabled = false;
             m_canvasGroup.DOFade(false, UIUtility.TransitionTime, () => OnMenuDisable?.Invoke());
         }
     }
