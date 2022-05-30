@@ -1,10 +1,11 @@
-﻿using Metroidvania.UI;
+﻿using Metroidvania.InputSystem;
+using Metroidvania.UI;
 using Metroidvania.UI.Menus;
 using UnityEngine;
 
 namespace Metroidvania.Serialization.Menus
 {
-    public class SaveSlotsMenu : CanvasMenuBase
+    public class SaveSlotsMenu : CanvasMenuBase, IMenuScreen
     {
         [SerializeField] private CanvasGroup m_canvasGroup;
 
@@ -40,6 +41,7 @@ namespace Metroidvania.Serialization.Menus
                 GameDebugger.Log($"Started a new game at user {userId}");
 
             UnityEngine.SceneManagement.SceneManager.LoadScene("Level0");
+            InputReader.instance.EnableGameplayInput();
         }
 
         private void ContinueGame(GameData data)
@@ -49,15 +51,18 @@ namespace Metroidvania.Serialization.Menus
                 GameDebugger.Log($"Continued a game {data.userId}");
 
             UnityEngine.SceneManagement.SceneManager.LoadScene("Level0");
+            InputReader.instance.EnableGameplayInput();
         }
 
         public void ActiveMenu()
         {
+            menuEnabled = true;
             m_canvasGroup.DOFade(true, UIUtility.TransitionTime, SetFirstSelected);
         }
 
         public void DesactiveMenu()
         {
+            menuEnabled = false;
             m_canvasGroup.DOFade(false, UIUtility.TransitionTime, () => OnMenuDisable?.Invoke());
         }
     }

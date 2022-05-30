@@ -8,12 +8,14 @@ namespace Metroidvania.UI.Menus
 {
     public class GamePauseMenu : GameplayMenuInstance
     {
-        [SerializeField] private CanvasGroup titleGroup;
-        [SerializeField] private OptionsMenu optionsMenu;
+        [SerializeField] private CanvasGroup m_titleGroup;
+        [SerializeField] private OptionsMenu m_optionsMenu;
+
+        public IMenuScreen activeScreen { get; private set; }
 
         private void Awake()
         {
-            optionsMenu.OnMenuDisable += ActiveMenu;
+            m_optionsMenu.OnMenuDisable += ActiveMenu;
             InputReader.instance.ReturnEvent += PerformReturn;
         }
 
@@ -25,7 +27,7 @@ namespace Metroidvania.UI.Menus
         public void ActiveMenu()
         {
             menuEnabled = true;
-            titleGroup.DOFade(true, UIUtility.TransitionTime);
+            m_titleGroup.DOFade(true, UIUtility.TransitionTime);
         }
 
         public void Resume()
@@ -35,8 +37,7 @@ namespace Metroidvania.UI.Menus
 
         public void OpenOptions()
         {
-            menuEnabled = false;
-            titleGroup.DOFade(false, UIUtility.TransitionTime, optionsMenu.ActiveMenu);
+            SwitchToScreen(m_optionsMenu);
         }
 
         public void ExitGameplay()
@@ -45,26 +46,33 @@ namespace Metroidvania.UI.Menus
             SceneManager.LoadScene("MainMenu");
         }
 
+        public void SwitchToScreen(IMenuScreen screen)
+        {
+            m_titleGroup.DOFade(false, UIUtility.TransitionTime, screen.ActiveMenu);
+            menuEnabled = false;
+            activeScreen = screen;
+        }
+
         public void PerformReturn()
         {
             if (menuEnabled)
                 Resume();
-            else if (optionsMenu.menuEnabled)
-                optionsMenu.DesactiveMenu();
+            else if (activeScreen != null)
+                activeScreen.DesactiveMenu();
         }
 
         public override IEnumerator InitOperation(GameplayMenuChannel channel)
         {
             this.channel = channel;
             menuEnabled = true;
-            var t = titleGroup.DOFade(true, UIUtility.TransitionTime);
+            var t = m_titleGroup.DOFade(true, UIUtility.TransitionTime);
             yield return t.WaitForCompletion();
             SetFirstSelected();
         }
 
         public override IEnumerator ReleaseOperation()
         {
-            var t = titleGroup.DOFade(false, UIUtility.TransitionTime);
+            var t = m_titleGroup.DOFade(false, UIUtility.TransitionTime);
             yield return t.WaitForCompletion();
         }
     }

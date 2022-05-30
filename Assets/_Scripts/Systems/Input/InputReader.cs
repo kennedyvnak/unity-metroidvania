@@ -64,8 +64,6 @@ namespace Metroidvania.InputSystem
                 _inputActions.Gameplay.SetCallbacks(this);
                 _inputActions.Menu.SetCallbacks(this);
             }
-
-            EnableGameplayInput();
         }
 
         private void OnDisable()

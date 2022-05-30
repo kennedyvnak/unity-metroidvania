@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 namespace Metroidvania.UI.Menus
 {
-    public class OptionsMenu : CanvasMenuBase
+    public class OptionsMenu : CanvasMenuBase, IMenuScreen
     {
         [SerializeField] private CanvasGroup m_canvasGroup;
 

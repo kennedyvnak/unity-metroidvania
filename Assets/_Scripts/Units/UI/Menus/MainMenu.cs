@@ -1,25 +1,31 @@
-﻿using Metroidvania.Serialization.Menus;
+﻿using Metroidvania.Credits;
+using Metroidvania.InputSystem;
+using Metroidvania.Serialization.Menus;
 using TMPro;
 using UnityEngine;
 
 namespace Metroidvania.UI.Menus
 {
-    // TODO: Add credits menu
-    // TODO: Add perform key handler
     public class MainMenu : CanvasMenuBase
     {
         [Header("Menu Transition")]
         [SerializeField] private CanvasGroup m_mainTitleGroup;
         [SerializeField] private OptionsMenu m_optionsMenu;
-        [SerializeField] private SaveSlotsMenu m_saveSlots;
+        [SerializeField] private SaveSlotsMenu m_saveSlotsMenu;
+        [SerializeField] private CreditsMenu m_creditsMenu;
 
         [SerializeField] private TextMeshProUGUI m_versionText;
+
+        public IMenuScreen activeScreen;
 
         private void Awake()
         {
             m_versionText.text = Application.version;
             m_optionsMenu.OnMenuDisable += ActiveMenu;
-            m_saveSlots.OnMenuDisable += ActiveMenu;
+            m_saveSlotsMenu.OnMenuDisable += ActiveMenu;
+            m_creditsMenu.OnMenuDisable += ActiveMenu;
+            InputReader.instance.ReturnEvent += PerformReturn;
+            InputReader.instance.EnableMenuInput();
         }
 
         private void Start()
@@ -27,19 +33,34 @@ namespace Metroidvania.UI.Menus
             SetFirstSelected();
         }
 
-        public void ShowOptions()
+        private void OnDestroy()
         {
-            m_mainTitleGroup.DOFade(false, UIUtility.TransitionTime, m_optionsMenu.ActiveMenu);
+            InputReader.instance.ReturnEvent -= PerformReturn;
         }
 
-        public void ShowSaveSlots()
+        public void ShowOptions() => SwitchToScreen(m_optionsMenu);
+
+        public void ShowSaveSlots() => SwitchToScreen(m_saveSlotsMenu);
+
+        public void ShowCredits() => SwitchToScreen(m_creditsMenu);
+
+        public void SwitchToScreen(IMenuScreen screen)
         {
-            m_mainTitleGroup.DOFade(false, UIUtility.TransitionTime, m_saveSlots.ActiveMenu);
+            m_mainTitleGroup.DOFade(false, UIUtility.TransitionTime, screen.ActiveMenu);
+            menuEnabled = false;
+            activeScreen = screen;
         }
 
         public void ActiveMenu()
         {
+            activeScreen = null;
+            menuEnabled = true;
             m_mainTitleGroup.DOFade(true, UIUtility.TransitionTime, SetFirstSelected);
+        }
+
+        private void PerformReturn()
+        {
+            activeScreen?.DesactiveMenu();
         }
 
         public void ExitGame()

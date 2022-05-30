@@ -79,3 +79,15 @@
 - Update "Base Scene" sorting layers (player, ground and undead executioner)
 - Update Input actions
 - Add "MainCanvas" tag
+
+## 1.3.2-a.6
+
+- Add credits screen
+- Add return key perform in main menu
+- Fix members names
+- Add text hyperlinks support
+
+----
+
+- Add CameraUtility class
+- Update TextMesh Pro settings pats
