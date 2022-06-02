@@ -22,13 +22,13 @@ namespace Metroidvania
 
         private void PauseGame()
         {
-            GameManager.PauseGame();
+            GameManager.instance.PauseGame();
             StartCoroutine(m_pauseMenuChannel.LoadMenu());
         }
 
         private void ResumeGame()
         {
-            GameManager.ResumeGame();
+            GameManager.instance.ResumeGame();
         }
     }
 }

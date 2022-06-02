@@ -2,12 +2,16 @@
 using Metroidvania.UI;
 using Metroidvania.UI.Menus;
 using UnityEngine;
+using UnityEngine.AddressableAssets;
 
 namespace Metroidvania.Serialization.Menus
 {
     public class SaveSlotsMenu : CanvasMenuBase, IMenuScreen
     {
         [SerializeField] private CanvasGroup m_canvasGroup;
+        [SerializeField] private DataManager m_dataManager;
+
+        [SerializeField] private AssetReference m_level0Ref;
 
         public event System.Action OnMenuDisable;
         private SaveSlot[] _saveSlots;
@@ -18,7 +22,7 @@ namespace Metroidvania.Serialization.Menus
 
             foreach (SaveSlot saveSlot in _saveSlots)
             {
-                GameData saveUserData = DataManager.dataHandler.Deserialize(saveSlot.GetUserId());
+                GameData saveUserData = m_dataManager.dataHandler.Deserialize(saveSlot.GetUserId());
                 saveSlot.SetData(saveUserData);
                 saveSlot.button.onClick.AddListener(() => OnSaveSlotClick(saveSlot));
             }
@@ -26,7 +30,7 @@ namespace Metroidvania.Serialization.Menus
 
         public void OnSaveSlotClick(SaveSlot saveSlot)
         {
-            DataManager.ChangeSelectedUser(saveSlot.GetUserId());
+            m_dataManager.ChangeSelectedUser(saveSlot.GetUserId());
             GameData slotData = saveSlot.GetData();
             if (slotData != null)
                 ContinueGame(slotData);
@@ -40,7 +44,7 @@ namespace Metroidvania.Serialization.Menus
             if (GameDebugger.instance.debugSerialization)
                 GameDebugger.Log($"Started a new game at user {userId}");
 
-            UnityEngine.SceneManagement.SceneManager.LoadScene("Level0");
+            m_level0Ref.LoadSceneAsync();
             InputReader.instance.EnableGameplayInput();
         }
 
@@ -50,7 +54,7 @@ namespace Metroidvania.Serialization.Menus
             if (GameDebugger.instance.debugSerialization)
                 GameDebugger.Log($"Continued a game {data.userId}");
 
-            UnityEngine.SceneManagement.SceneManager.LoadScene("Level0");
+            m_level0Ref.LoadSceneAsync();
             InputReader.instance.EnableGameplayInput();
         }
 

@@ -176,14 +176,86 @@ namespace Metroidvania.InputSystem
             ]
         },
         {
-            ""name"": ""Menu"",
-            ""id"": ""473b0fb2-ba49-4bd6-91f6-78a98b0d9f42"",
+            ""name"": ""Menus"",
+            ""id"": ""55516c67-fc80-4d4c-9684-ba253df184b8"",
             ""actions"": [
                 {
-                    ""name"": ""Return"",
+                    ""name"": ""MoveSelection"",
+                    ""type"": ""Value"",
+                    ""id"": ""a291d37b-cd0e-4364-83e4-930aacb13d15"",
+                    ""expectedControlType"": ""Vector2"",
+                    ""processors"": ""StickDeadzone"",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""Navigate"",
+                    ""type"": ""Value"",
+                    ""id"": ""215d7fc8-2318-4454-93b3-eec7d1331522"",
+                    ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""Submit"",
                     ""type"": ""Button"",
-                    ""id"": ""3ec7d323-ae2b-4034-880b-59c025e5da74"",
+                    ""id"": ""097bff98-c7d1-4fa7-b3d9-a16dfade58e1"",
                     ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Confirm"",
+                    ""type"": ""Button"",
+                    ""id"": ""1c2f4374-c3fb-463b-841b-b0673ad9d4f5"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Cancel"",
+                    ""type"": ""Button"",
+                    ""id"": ""20cadb26-ad56-4f56-aace-20e705d61dc6"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Unpause"",
+                    ""type"": ""Button"",
+                    ""id"": ""e859f2a1-6709-46d1-b06a-4ce0ba340dd9"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Click"",
+                    ""type"": ""PassThrough"",
+                    ""id"": ""a56bb4dc-7fc2-4077-ab95-554ddcfb4d62"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Point"",
+                    ""type"": ""PassThrough"",
+                    ""id"": ""ff3e83ac-80e1-4744-a73c-479480b797c7"",
+                    ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""RightClick"",
+                    ""type"": ""PassThrough"",
+                    ""id"": ""6889c341-f140-449c-951d-f342eaa9ab09"",
+                    ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
@@ -192,14 +264,256 @@ namespace Metroidvania.InputSystem
             ""bindings"": [
                 {
                     ""name"": """",
-                    ""id"": ""434c5ceb-505e-4924-9996-9968c3d339ff"",
-                    ""path"": ""<Keyboard>/escape"",
+                    ""id"": ""e2997f15-b996-47a9-bcfa-e2917b83154a"",
+                    ""path"": ""<Keyboard>/space"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""KeyboardOrGamepad"",
+                    ""action"": ""Confirm"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""530337a1-7efe-43b0-9760-002cacfcfd99"",
+                    ""path"": ""<Gamepad>/buttonSouth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""KeyboardOrGamepad"",
+                    ""action"": ""Jump"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""7ee1513b-cd68-4977-8d37-415cf7b823c1"",
+                    ""path"": ""<Keyboard>/enter"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""KeyboardOrGamepad"",
+                    ""action"": ""Confirm"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""Keyboard Arrows"",
+                    ""id"": ""80a38d7a-d568-424e-a05f-494408e4ab17"",
+                    ""path"": ""2DVector(mode=1)"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Return"",
+                    ""action"": ""MoveSelection"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""up"",
+                    ""id"": ""a9005d82-f25d-444a-ac65-946250b77491"",
+                    ""path"": ""<Keyboard>/upArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""KeyboardOrGamepad"",
+                    ""action"": ""MoveSelection"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""down"",
+                    ""id"": ""1c0ee52a-75c0-428a-91d9-e9e0c1a99616"",
+                    ""path"": ""<Keyboard>/downArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""KeyboardOrGamepad"",
+                    ""action"": ""MoveSelection"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""left"",
+                    ""id"": ""c5e815ac-ba81-4899-a642-d0ec29241f1b"",
+                    ""path"": ""<Keyboard>/leftArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""KeyboardOrGamepad"",
+                    ""action"": ""MoveSelection"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""right"",
+                    ""id"": ""6f470f82-edd7-47e2-ad6d-53e524fdb631"",
+                    ""path"": ""<Keyboard>/rightArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""KeyboardOrGamepad"",
+                    ""action"": ""MoveSelection"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""97f2209c-9475-41e3-abb3-16ec67400fb9"",
+                    ""path"": ""<Keyboard>/escape"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""KeyboardOrGamepad"",
+                    ""action"": ""Cancel"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""f38b604c-db45-413d-a902-da732a62b758"",
+                    ""path"": ""<Keyboard>/escape"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""KeyboardOrGamepad"",
+                    ""action"": ""Unpause"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""ec1b122f-a9d9-464b-8fb6-767684e6acc2"",
+                    ""path"": ""<Mouse>/leftButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Keyboard&Mouse"",
+                    ""action"": ""Click"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""986b34ef-dcb3-41be-bc35-5fc72f323918"",
+                    ""path"": ""<Mouse>/position"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse"",
+                    ""action"": ""Point"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""9cede429-872e-4942-9226-d159ec0c9cb6"",
+                    ""path"": ""<Mouse>/rightButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Keyboard&Mouse"",
+                    ""action"": ""RightClick"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""76b5b381-a44a-4ea3-9e73-934527e7d976"",
+                    ""path"": ""*/{Submit}"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Submit"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""Keyboard"",
+                    ""id"": ""cb23f984-6e7e-4806-937b-943e75701325"",
+                    ""path"": ""2DVector"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Navigate"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""up"",
+                    ""id"": ""c381f4dc-2033-420f-8e1b-f327cb290a20"",
+                    ""path"": ""<Keyboard>/w"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse"",
+                    ""action"": ""Navigate"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""up"",
+                    ""id"": ""a60b371b-c4a9-4f5f-9190-838263d00e17"",
+                    ""path"": ""<Keyboard>/upArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse"",
+                    ""action"": ""Navigate"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""down"",
+                    ""id"": ""ca01f2b1-1173-4176-81d3-55b5a9a6f084"",
+                    ""path"": ""<Keyboard>/s"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse"",
+                    ""action"": ""Navigate"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""down"",
+                    ""id"": ""4f389a0b-1db0-4c18-8db6-a8221908192a"",
+                    ""path"": ""<Keyboard>/downArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse"",
+                    ""action"": ""Navigate"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""left"",
+                    ""id"": ""b9bfbbd6-4d1e-42b7-8368-984987accb39"",
+                    ""path"": ""<Keyboard>/a"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse"",
+                    ""action"": ""Navigate"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""left"",
+                    ""id"": ""0c001e82-b6d6-4acb-92a4-413ee4396266"",
+                    ""path"": ""<Keyboard>/leftArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse"",
+                    ""action"": ""Navigate"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""right"",
+                    ""id"": ""86af22b7-4d50-404e-b67b-a99cb11a747a"",
+                    ""path"": ""<Keyboard>/d"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse"",
+                    ""action"": ""Navigate"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""right"",
+                    ""id"": ""774392a6-b672-4925-8430-6d1a2f60be6e"",
+                    ""path"": ""<Keyboard>/rightArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse"",
+                    ""action"": ""Navigate"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
                 }
             ]
         }
@@ -214,9 +528,17 @@ namespace Metroidvania.InputSystem
             m_Gameplay_Crouch = m_Gameplay.FindAction("Crouch", throwIfNotFound: true);
             m_Gameplay_Attack = m_Gameplay.FindAction("Attack", throwIfNotFound: true);
             m_Gameplay_Pause = m_Gameplay.FindAction("Pause", throwIfNotFound: true);
-            // Menu
-            m_Menu = asset.FindActionMap("Menu", throwIfNotFound: true);
-            m_Menu_Return = m_Menu.FindAction("Return", throwIfNotFound: true);
+            // Menus
+            m_Menus = asset.FindActionMap("Menus", throwIfNotFound: true);
+            m_Menus_MoveSelection = m_Menus.FindAction("MoveSelection", throwIfNotFound: true);
+            m_Menus_Navigate = m_Menus.FindAction("Navigate", throwIfNotFound: true);
+            m_Menus_Submit = m_Menus.FindAction("Submit", throwIfNotFound: true);
+            m_Menus_Confirm = m_Menus.FindAction("Confirm", throwIfNotFound: true);
+            m_Menus_Cancel = m_Menus.FindAction("Cancel", throwIfNotFound: true);
+            m_Menus_Unpause = m_Menus.FindAction("Unpause", throwIfNotFound: true);
+            m_Menus_Click = m_Menus.FindAction("Click", throwIfNotFound: true);
+            m_Menus_Point = m_Menus.FindAction("Point", throwIfNotFound: true);
+            m_Menus_RightClick = m_Menus.FindAction("RightClick", throwIfNotFound: true);
         }
 
         public void Dispose()
@@ -346,38 +668,102 @@ namespace Metroidvania.InputSystem
         }
         public GameplayActions @Gameplay => new GameplayActions(this);
 
-        // Menu
-        private readonly InputActionMap m_Menu;
-        private IMenuActions m_MenuActionsCallbackInterface;
-        private readonly InputAction m_Menu_Return;
-        public struct MenuActions
+        // Menus
+        private readonly InputActionMap m_Menus;
+        private IMenusActions m_MenusActionsCallbackInterface;
+        private readonly InputAction m_Menus_MoveSelection;
+        private readonly InputAction m_Menus_Navigate;
+        private readonly InputAction m_Menus_Submit;
+        private readonly InputAction m_Menus_Confirm;
+        private readonly InputAction m_Menus_Cancel;
+        private readonly InputAction m_Menus_Unpause;
+        private readonly InputAction m_Menus_Click;
+        private readonly InputAction m_Menus_Point;
+        private readonly InputAction m_Menus_RightClick;
+        public struct MenusActions
         {
             private @InputActions m_Wrapper;
-            public MenuActions(@InputActions wrapper) { m_Wrapper = wrapper; }
-            public InputAction @Return => m_Wrapper.m_Menu_Return;
-            public InputActionMap Get() { return m_Wrapper.m_Menu; }
+            public MenusActions(@InputActions wrapper) { m_Wrapper = wrapper; }
+            public InputAction @MoveSelection => m_Wrapper.m_Menus_MoveSelection;
+            public InputAction @Navigate => m_Wrapper.m_Menus_Navigate;
+            public InputAction @Submit => m_Wrapper.m_Menus_Submit;
+            public InputAction @Confirm => m_Wrapper.m_Menus_Confirm;
+            public InputAction @Cancel => m_Wrapper.m_Menus_Cancel;
+            public InputAction @Unpause => m_Wrapper.m_Menus_Unpause;
+            public InputAction @Click => m_Wrapper.m_Menus_Click;
+            public InputAction @Point => m_Wrapper.m_Menus_Point;
+            public InputAction @RightClick => m_Wrapper.m_Menus_RightClick;
+            public InputActionMap Get() { return m_Wrapper.m_Menus; }
             public void Enable() { Get().Enable(); }
             public void Disable() { Get().Disable(); }
             public bool enabled => Get().enabled;
-            public static implicit operator InputActionMap(MenuActions set) { return set.Get(); }
-            public void SetCallbacks(IMenuActions instance)
+            public static implicit operator InputActionMap(MenusActions set) { return set.Get(); }
+            public void SetCallbacks(IMenusActions instance)
             {
-                if (m_Wrapper.m_MenuActionsCallbackInterface != null)
+                if (m_Wrapper.m_MenusActionsCallbackInterface != null)
                 {
-                    @Return.started -= m_Wrapper.m_MenuActionsCallbackInterface.OnReturn;
-                    @Return.performed -= m_Wrapper.m_MenuActionsCallbackInterface.OnReturn;
-                    @Return.canceled -= m_Wrapper.m_MenuActionsCallbackInterface.OnReturn;
+                    @MoveSelection.started -= m_Wrapper.m_MenusActionsCallbackInterface.OnMoveSelection;
+                    @MoveSelection.performed -= m_Wrapper.m_MenusActionsCallbackInterface.OnMoveSelection;
+                    @MoveSelection.canceled -= m_Wrapper.m_MenusActionsCallbackInterface.OnMoveSelection;
+                    @Navigate.started -= m_Wrapper.m_MenusActionsCallbackInterface.OnNavigate;
+                    @Navigate.performed -= m_Wrapper.m_MenusActionsCallbackInterface.OnNavigate;
+                    @Navigate.canceled -= m_Wrapper.m_MenusActionsCallbackInterface.OnNavigate;
+                    @Submit.started -= m_Wrapper.m_MenusActionsCallbackInterface.OnSubmit;
+                    @Submit.performed -= m_Wrapper.m_MenusActionsCallbackInterface.OnSubmit;
+                    @Submit.canceled -= m_Wrapper.m_MenusActionsCallbackInterface.OnSubmit;
+                    @Confirm.started -= m_Wrapper.m_MenusActionsCallbackInterface.OnConfirm;
+                    @Confirm.performed -= m_Wrapper.m_MenusActionsCallbackInterface.OnConfirm;
+                    @Confirm.canceled -= m_Wrapper.m_MenusActionsCallbackInterface.OnConfirm;
+                    @Cancel.started -= m_Wrapper.m_MenusActionsCallbackInterface.OnCancel;
+                    @Cancel.performed -= m_Wrapper.m_MenusActionsCallbackInterface.OnCancel;
+                    @Cancel.canceled -= m_Wrapper.m_MenusActionsCallbackInterface.OnCancel;
+                    @Unpause.started -= m_Wrapper.m_MenusActionsCallbackInterface.OnUnpause;
+                    @Unpause.performed -= m_Wrapper.m_MenusActionsCallbackInterface.OnUnpause;
+                    @Unpause.canceled -= m_Wrapper.m_MenusActionsCallbackInterface.OnUnpause;
+                    @Click.started -= m_Wrapper.m_MenusActionsCallbackInterface.OnClick;
+                    @Click.performed -= m_Wrapper.m_MenusActionsCallbackInterface.OnClick;
+                    @Click.canceled -= m_Wrapper.m_MenusActionsCallbackInterface.OnClick;
+                    @Point.started -= m_Wrapper.m_MenusActionsCallbackInterface.OnPoint;
+                    @Point.performed -= m_Wrapper.m_MenusActionsCallbackInterface.OnPoint;
+                    @Point.canceled -= m_Wrapper.m_MenusActionsCallbackInterface.OnPoint;
+                    @RightClick.started -= m_Wrapper.m_MenusActionsCallbackInterface.OnRightClick;
+                    @RightClick.performed -= m_Wrapper.m_MenusActionsCallbackInterface.OnRightClick;
+                    @RightClick.canceled -= m_Wrapper.m_MenusActionsCallbackInterface.OnRightClick;
                 }
-                m_Wrapper.m_MenuActionsCallbackInterface = instance;
+                m_Wrapper.m_MenusActionsCallbackInterface = instance;
                 if (instance != null)
                 {
-                    @Return.started += instance.OnReturn;
-                    @Return.performed += instance.OnReturn;
-                    @Return.canceled += instance.OnReturn;
+                    @MoveSelection.started += instance.OnMoveSelection;
+                    @MoveSelection.performed += instance.OnMoveSelection;
+                    @MoveSelection.canceled += instance.OnMoveSelection;
+                    @Navigate.started += instance.OnNavigate;
+                    @Navigate.performed += instance.OnNavigate;
+                    @Navigate.canceled += instance.OnNavigate;
+                    @Submit.started += instance.OnSubmit;
+                    @Submit.performed += instance.OnSubmit;
+                    @Submit.canceled += instance.OnSubmit;
+                    @Confirm.started += instance.OnConfirm;
+                    @Confirm.performed += instance.OnConfirm;
+                    @Confirm.canceled += instance.OnConfirm;
+                    @Cancel.started += instance.OnCancel;
+                    @Cancel.performed += instance.OnCancel;
+                    @Cancel.canceled += instance.OnCancel;
+                    @Unpause.started += instance.OnUnpause;
+                    @Unpause.performed += instance.OnUnpause;
+                    @Unpause.canceled += instance.OnUnpause;
+                    @Click.started += instance.OnClick;
+                    @Click.performed += instance.OnClick;
+                    @Click.canceled += instance.OnClick;
+                    @Point.started += instance.OnPoint;
+                    @Point.performed += instance.OnPoint;
+                    @Point.canceled += instance.OnPoint;
+                    @RightClick.started += instance.OnRightClick;
+                    @RightClick.performed += instance.OnRightClick;
+                    @RightClick.canceled += instance.OnRightClick;
                 }
             }
         }
-        public MenuActions @Menu => new MenuActions(this);
+        public MenusActions @Menus => new MenusActions(this);
         public interface IGameplayActions
         {
             void OnMove(InputAction.CallbackContext context);
@@ -387,9 +773,17 @@ namespace Metroidvania.InputSystem
             void OnAttack(InputAction.CallbackContext context);
             void OnPause(InputAction.CallbackContext context);
         }
-        public interface IMenuActions
+        public interface IMenusActions
         {
-            void OnReturn(InputAction.CallbackContext context);
+            void OnMoveSelection(InputAction.CallbackContext context);
+            void OnNavigate(InputAction.CallbackContext context);
+            void OnSubmit(InputAction.CallbackContext context);
+            void OnConfirm(InputAction.CallbackContext context);
+            void OnCancel(InputAction.CallbackContext context);
+            void OnUnpause(InputAction.CallbackContext context);
+            void OnClick(InputAction.CallbackContext context);
+            void OnPoint(InputAction.CallbackContext context);
+            void OnRightClick(InputAction.CallbackContext context);
         }
     }
 }

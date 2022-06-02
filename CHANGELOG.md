@@ -61,9 +61,9 @@
 
 ----
 
-- DataHandler encryptation now in public
-- Set Game Debbuger to non editor-only
-- Improve files formating
+- DataHandler encryption now in public
+- Set Game Debugger to non editor-only
+- Improve files formatting
 
 ## 1.3.2-a.4
 
@@ -91,3 +91,23 @@
 
 - Add CameraUtility class
 - Update TextMesh Pro settings pats
+
+## 1.3.4-a.10
+
+- Upgrade all project to unity addressables
+- Add Scene control
+- Update project folders and scenes hierarchy structure
+- Normalize files names
+- Create scriptable objects to handle events
+- Add menu handling to inputActions
+
+----
+
+- Rename "Plugins" folder to "Addons"
+- Add GameInitializer
+- Set GameManager as MonoBehaviour
+- Set DataManager as ScriptableObject
+- Change ScriptableSingleton instance load behaviour
+- Fix some typo
+- Create player prefab
+- Rename "Textures/Enemies" to "Textures/Entities"

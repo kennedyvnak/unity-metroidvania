@@ -143,7 +143,7 @@ namespace Metroidvania.Player
                 .DrawWireSquare(position + data.leftHandOffset * scale, data.leftHandSize)
                 .DrawWireSquare(position + data.rightHandOffset * scale, data.rightHandSize)
                 .SetColor(GizmosColor.instance.playerLedgeCheck)
-                .DrawRay(position + data.ledgeCheckOffset * scale, new Vector2(data.ledgeCheckLenght * scale.x, 0))
+                .DrawRay(position + data.ledgeCheckOffset * scale, new Vector2(data.ledgeCheckLength * scale.x, 0))
                 .SetColor(GizmosColor.instance.playerAttack);
 
             DrawAttack(data.attackOne);

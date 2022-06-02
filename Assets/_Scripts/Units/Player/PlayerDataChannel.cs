@@ -65,7 +65,8 @@ namespace Metroidvania.Player
         [Tooltip("Offset based on center of the player position")]
         public Vector2 ledgeCheckOffset;
 
-        [Tooltip("Size of the ledge check")] public float ledgeCheckLenght;
+        [UnityEngine.Serialization.FormerlySerializedAs("ledgeCheckLenght")]
+        [Tooltip("Size of the ledge check")] public float ledgeCheckLength;
 
         [Header("Movement")]
         [Tooltip("Default movement speed")]

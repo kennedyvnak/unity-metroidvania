@@ -1,21 +1,19 @@
 ﻿using UnityEngine;
 using UnityEngine.Localization;
 using UnityEngine.Localization.Settings;
+using Metroidvania.Events;
 
 namespace Metroidvania.Localization
 {
-    [ResourceObjectPath("Settings/Localization Settings")]
     public class GameLocalizationSettings : ScriptableSingleton<GameLocalizationSettings>
     {
         public string localizationPrefsKey = "Selected-Locale";
 
-        public static event System.Action<Locale> SelectedLocaleChange;
+        public IntEventChannel changeLocaleChannel;
 
-        [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
-        public static void LoadPrefs()
+        public void LoadPrefs()
         {
-            var i = instance;
-            i.SetLocale(PlayerPrefs.GetInt(i.localizationPrefsKey, 0), false);
+            SetLocale(PlayerPrefs.GetInt(localizationPrefsKey, 0), false);
         }
 
         public void SetLocale(int localeIdx, bool setPrefs)
@@ -33,7 +31,7 @@ namespace Metroidvania.Localization
                 LocalizationSettings.SelectedLocale = locale;
                 if (setPrefs)
                     PlayerPrefs.SetInt(localizationPrefsKey, localeIdx);
-                SelectedLocaleChange?.Invoke(locale);
+                changeLocaleChannel?.Raise(localeIdx);
             }
         }
 

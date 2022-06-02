@@ -1,11 +1,11 @@
 ﻿using System.IO;
 using System.Linq;
-using System.Reflection;
 using UnityEditor;
 using UnityEngine;
 
 namespace Metroidvania.Project.Editor
 {
+    // TODO: Set project validator as editor window
     /// <summary>Class for handle project validation</summary>
     public static class ProjectValidator
     {
@@ -26,14 +26,22 @@ namespace Metroidvania.Project.Editor
 
             foreach (var type in result)
             {
-                var at = type.GetCustomAttribute<ResourceObjectPathAttribute>();
-                var path = at != null ? at.path : type.Name;
+                var assetsOfType = AssetDatabase.FindAssets($"t:{type.Name}");
 
-                var persistentDirectory = $"Assets/Resources/{Path.GetDirectoryName(path)}";
-                var persistentPath = $"{persistentDirectory}/{Path.GetFileName(path)}.asset";
-                if (File.Exists(persistentPath))
+                if (assetsOfType.Length == 1) continue;
+                if (assetsOfType.Length > 1)
+                {
+                    string foundedAssets = string.Empty;
+                    for (int i = 0; i < assetsOfType.Length; i++)
+                        foundedAssets += $"{AssetDatabase.GUIDToAssetPath(assetsOfType[i])}\n";
+                    GameDebugger.LogWarning($"More than one instance of singleton type '{type.Name}' fount in project. Founded assets path:\n{foundedAssets}");
                     continue;
+                }
 
+                var path = type.Name;
+
+                var persistentDirectory = $"Assets/Data/Settings/{Path.GetDirectoryName(path)}";
+                var persistentPath = $"{persistentDirectory}/{Path.GetFileName(path)}.asset";
                 if (!Directory.Exists(persistentDirectory))
                     Directory.CreateDirectory(persistentDirectory);
                 string fullPath = $"{persistentDirectory}/{Path.GetFileName(path)}.asset";

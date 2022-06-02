@@ -1,31 +1,48 @@
+using Metroidvania.Events;
 using Metroidvania.InputSystem;
 using UnityEngine;
 
 namespace Metroidvania
 {
-    public static class GameManager
+    public class GameManager : MonoBehaviour
     {
-        public static System.Action GamePaused;
-        public static System.Action GameResumed;
+        public static GameManager instance { get; private set; }
 
-        public static bool gameIsPaused { get; private set; }
+        [SerializeField] private VoidEventChannel m_gamePausedChannel;
 
-        public static void PauseGame()
+        [SerializeField] private VoidEventChannel m_gameResumedChannel;
+
+        public bool gameIsPaused { get; private set; }
+
+        public void Initialize()
+        {
+            var go = gameObject;
+            if (instance)
+            {
+                Destroy(go);
+                return;
+            }
+            instance = this;
+            go.name = "[GameManager]";
+            DontDestroyOnLoad(go);
+        }
+
+        public void PauseGame()
         {
             if (gameIsPaused) return;
             InputReader.instance.EnableMenuInput();
             Time.timeScale = 0;
             gameIsPaused = true;
-            GamePaused?.Invoke();
+            m_gamePausedChannel?.Raise();
         }
 
-        public static void ResumeGame()
+        public void ResumeGame()
         {
             if (!gameIsPaused) return;
             InputReader.instance.EnableGameplayInput();
             Time.timeScale = 1;
             gameIsPaused = false;
-            GameResumed?.Invoke();
+            m_gameResumedChannel?.Raise();
         }
     }
 }

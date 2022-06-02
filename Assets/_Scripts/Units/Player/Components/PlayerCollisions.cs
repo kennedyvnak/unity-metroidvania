@@ -51,7 +51,7 @@ namespace Metroidvania.Player
                 Vector2.zero, 0, player.data.wallLayer);
 
             isTouchingLedge = Physics2D.Raycast(position + player.data.ledgeCheckOffset * localScale,
-                new Vector2(player.data.ledgeCheckLenght * localScale.x, 0), 0, player.data.wallLayer);
+                new Vector2(player.data.ledgeCheckLength * localScale.x, 0), 0, player.data.wallLayer);
         }
     }
 }

@@ -6,30 +6,20 @@ using UnityEngine.SceneManagement;
 
 namespace Metroidvania.Serialization
 {
-    public static class DataManager
+    [CreateAssetMenu(fileName = "new Data Manager", menuName = "Scriptables/Serialization/Data Manager")]
+    public class DataManager : ScriptableObject
     {
-        public const string DefaultDataPath = "Data/Default Game Data";
+        public GameDataAsset defaultGameDataAsset;
 
-        private static GameDataAsset _defaultGameDataAsset;
-        public static GameDataAsset defaultGameDataAsset
-        {
-            get
-            {
-                if (_defaultGameDataAsset != null) return _defaultGameDataAsset;
-                return _defaultGameDataAsset = UnityEngine.Resources.Load<GameDataAsset>(DefaultDataPath);
-            }
-        }
+        private readonly DataHandler s_dataHandler = new FileDataHandler();
+        public DataHandler dataHandler => s_dataHandler;
 
-        private static readonly DataHandler s_dataHandler = new FileDataHandler();
-        public static DataHandler dataHandler => s_dataHandler;
+        private GameData _gameData;
+        private readonly List<IDataPersistance> _persistenceObjects = new List<IDataPersistance>();
 
-        private static GameData _gameData;
-        private static readonly List<IDataPersistance> _persistenceObjects = new List<IDataPersistance>();
+        public int selectedUserId { get; private set; }
 
-        public static int selectedUserId { get; private set; }
-
-        [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
-        private static void LoadInstance()
+        public void Initialize()
         {
             DisposeDataInstance();
             SceneManager.sceneLoaded += OnSceneLoad;
@@ -38,7 +28,7 @@ namespace Metroidvania.Serialization
             Application.quitting += ApplicationQuit;
         }
 
-        private static void OnSceneLoad(Scene scene, LoadSceneMode mode)
+        private void OnSceneLoad(Scene scene, LoadSceneMode mode)
         {
             _persistenceObjects.Clear();
             foreach (GameObject root in scene.GetRootGameObjects())
@@ -46,12 +36,12 @@ namespace Metroidvania.Serialization
             DeserializePersistances();
         }
 
-        private static void OnSceneUnload(Scene scene)
+        private void OnSceneUnload(Scene scene)
         {
             SerializePersistances();
         }
 
-        private static void ApplicationQuit()
+        private void ApplicationQuit()
         {
             SceneManager.sceneLoaded -= OnSceneLoad;
             SceneManager.sceneUnloaded -= OnSceneUnload;
@@ -59,12 +49,12 @@ namespace Metroidvania.Serialization
                 SerializePersistances();
         }
 
-        public static void DisposeDataInstance()
+        public void DisposeDataInstance()
         {
             ChangeSelectedUser(-1);
         }
 
-        public static void ChangeSelectedUser(int newUserId)
+        public void ChangeSelectedUser(int newUserId)
         {
             selectedUserId = newUserId;
             if (selectedUserId != -1)
@@ -72,14 +62,18 @@ namespace Metroidvania.Serialization
             else _gameData = null;
         }
 
-        public static void DeserializePersistances()
+        public void DeserializePersistances()
         {
+            if (selectedUserId == -1) return;
+
             foreach (IDataPersistance persistanceObject in _persistenceObjects)
                 persistanceObject.LoadData(_gameData);
         }
 
-        public static void SerializePersistances()
+        public void SerializePersistances()
         {
+            if (selectedUserId == -1) return;
+
             foreach (IDataPersistance persistanceObject in _persistenceObjects)
                 persistanceObject.SaveData(_gameData);
 

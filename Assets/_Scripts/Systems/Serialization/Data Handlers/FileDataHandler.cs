@@ -31,7 +31,6 @@ namespace Metroidvania.Serialization.Handlers
 
         public override void Serialize(GameData data)
         {
-
             string path = GetFilePath(data.userId);
 
             try

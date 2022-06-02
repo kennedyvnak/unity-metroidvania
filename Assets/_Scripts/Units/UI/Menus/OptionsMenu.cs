@@ -3,6 +3,7 @@ using UnityEngine.Localization.Components;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using Metroidvania.Events;
 
 namespace Metroidvania.UI.Menus
 {
@@ -19,6 +20,11 @@ namespace Metroidvania.UI.Menus
         [SerializeField] private TextMeshProUGUI m_resolutionText;
         [SerializeField] private LocalizeStringEvent m_qualityEvent;
         [SerializeField] private ToggleGraphic m_fullScreenToggle;
+
+        [Header("Events")]
+        [SerializeField] private IntEventChannel m_resolutionChangedChannel;
+        [SerializeField] private IntEventChannel m_qualityChangedChannel;
+        [SerializeField] private BoolEventChannel m_fullScreenChangedChannel;
 
         public event System.Action OnMenuDisable;
 
@@ -37,8 +43,8 @@ namespace Metroidvania.UI.Menus
             ResolutionChangedHandler(PlayerPrefs.GetInt(GameGraphicsSettings.instance.resolutionPrefsKey, GameGraphicsSettings.instance.defaultResolutionIndex));
             QualityChangedHandler(PlayerPrefs.GetInt(GameGraphicsSettings.instance.qualityPrefsKey, GameGraphicsSettings.instance.defaultQualityIndex));
 
-            GameGraphicsSettings.ResolutionChanged += ResolutionChangedHandler;
-            GameGraphicsSettings.QualityChanged += QualityChangedHandler;
+            m_resolutionChangedChannel.OnEventRaise += ResolutionChangedHandler;
+            m_qualityChangedChannel.OnEventRaise += QualityChangedHandler;
         }
 
         private void OnDestroy()
@@ -47,8 +53,8 @@ namespace Metroidvania.UI.Menus
             m_musicsVolumeSlider.onValueChanged.RemoveListener(GameAudioSettings.instance.SetMusicsField);
             m_sfxVolumeSlider.onValueChanged.RemoveListener(GameAudioSettings.instance.SetSfxField);
 
-            GameGraphicsSettings.ResolutionChanged -= ResolutionChangedHandler;
-            GameGraphicsSettings.QualityChanged -= QualityChangedHandler;
+            m_resolutionChangedChannel.OnEventRaise -= ResolutionChangedHandler;
+            m_qualityChangedChannel.OnEventRaise -= QualityChangedHandler;
         }
 
         private void ResolutionChangedHandler(int idx)

@@ -4,7 +4,6 @@ using UnityEngine;
 namespace Metroidvania
 {
     /// <summary>Object for handle all gizmos color used in game</summary>
-    [ResourceObjectPath("Data/Editor/Gizmos Color")]
     public class GizmosColor : ScriptableSingleton<GizmosColor>
     {
         [Header("Player")]

@@ -24,7 +24,7 @@ namespace Metroidvania.UI.Menus
             m_optionsMenu.OnMenuDisable += ActiveMenu;
             m_saveSlotsMenu.OnMenuDisable += ActiveMenu;
             m_creditsMenu.OnMenuDisable += ActiveMenu;
-            InputReader.instance.ReturnEvent += PerformReturn;
+            InputReader.instance.MenuCloseEvent += PerformMenuClose;
             InputReader.instance.EnableMenuInput();
         }
 
@@ -35,7 +35,7 @@ namespace Metroidvania.UI.Menus
 
         private void OnDestroy()
         {
-            InputReader.instance.ReturnEvent -= PerformReturn;
+            InputReader.instance.MenuCloseEvent -= PerformMenuClose;
         }
 
         public void ShowOptions() => SwitchToScreen(m_optionsMenu);
@@ -58,7 +58,7 @@ namespace Metroidvania.UI.Menus
             m_mainTitleGroup.DOFade(true, UIUtility.TransitionTime, SetFirstSelected);
         }
 
-        private void PerformReturn()
+        private void PerformMenuClose()
         {
             activeScreen?.DesactiveMenu();
         }

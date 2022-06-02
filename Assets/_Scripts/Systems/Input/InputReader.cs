@@ -5,8 +5,7 @@ namespace Metroidvania.InputSystem
 {
     /// <summary>This class handle the unity input actions events</summary>
     /// <see cref="PlayerInput"/>
-    [ResourceObjectPath("Data/Input Reader")]
-    public class InputReader : ScriptableSingleton<InputReader>, InputActions.IGameplayActions, InputActions.IMenuActions
+    public class InputReader : ScriptableSingleton<InputReader>, InputActions.IGameplayActions, InputActions.IMenusActions
     {
         private InputActions _inputActions;
 
@@ -29,13 +28,30 @@ namespace Metroidvania.InputSystem
 
         public event Action PauseEvent;
 
-        // Menus Actions
-        public event Action ReturnEvent;
+        public event Action MenuUnpauseEvent;
+        public event Action MenuCloseEvent;
+
+        private void OnEnable()
+        {
+            if (_inputActions == null)
+            {
+                _inputActions = new InputActions();
+
+                // Use this method to implement callbacks On[Action](InputAction.CallbackContext)
+                _inputActions.Gameplay.SetCallbacks(this);
+                _inputActions.Menus.SetCallbacks(this);
+            }
+        }
+
+        private void OnDisable()
+        {
+            DisableAllInput();
+        }
 
         /// <summary>Enable the gameplay input</summary>
         public void EnableGameplayInput()
         {
-            _inputActions.Menu.Disable();
+            _inputActions.Menus.Disable();
 
             _inputActions.Gameplay.Enable();
         }
@@ -45,30 +61,14 @@ namespace Metroidvania.InputSystem
         {
             _inputActions.Gameplay.Disable();
 
-            _inputActions.Menu.Enable();
+            _inputActions.Menus.Enable();
         }
 
         /// <summary>Disable All inputs</summary>
         public void DisableAllInput()
         {
-            _inputActions.Menu.Disable();
+            _inputActions.Menus.Disable();
             _inputActions.Gameplay.Disable();
-        }
-
-        private void OnEnable()
-        {
-            if (_inputActions == null)
-            {
-                _inputActions = new InputActions();
-                // Use this method to implement callbacks On[Action](InputAction.CallbackContext)
-                _inputActions.Gameplay.SetCallbacks(this);
-                _inputActions.Menu.SetCallbacks(this);
-            }
-        }
-
-        private void OnDisable()
-        {
-            DisableAllInput();
         }
 
         void InputActions.IGameplayActions.OnMove(InputAction.CallbackContext context)
@@ -97,7 +97,7 @@ namespace Metroidvania.InputSystem
             }
         }
 
-        public void OnCrouch(InputAction.CallbackContext context)
+        void InputActions.IGameplayActions.OnCrouch(InputAction.CallbackContext context)
         {
             switch (context.phase)
             {
@@ -142,10 +142,45 @@ namespace Metroidvania.InputSystem
                 PauseEvent?.Invoke();
         }
 
-        void InputActions.IMenuActions.OnReturn(InputAction.CallbackContext context)
+
+        void InputActions.IMenusActions.OnMoveSelection(InputAction.CallbackContext context)
+        {
+        }
+
+        void InputActions.IMenusActions.OnNavigate(InputAction.CallbackContext context)
+        {
+        }
+
+        void InputActions.IMenusActions.OnSubmit(InputAction.CallbackContext context)
+        {
+        }
+
+        void InputActions.IMenusActions.OnConfirm(InputAction.CallbackContext context)
+        {
+        }
+
+        void InputActions.IMenusActions.OnCancel(InputAction.CallbackContext context)
         {
             if (context.phase == InputActionPhase.Performed)
-                ReturnEvent?.Invoke();
+                MenuCloseEvent.Invoke();
+        }
+
+        void InputActions.IMenusActions.OnUnpause(InputAction.CallbackContext context)
+        {
+            if (context.phase == InputActionPhase.Performed)
+                MenuUnpauseEvent?.Invoke();
+        }
+
+        void InputActions.IMenusActions.OnClick(InputAction.CallbackContext context)
+        {
+        }
+
+        void InputActions.IMenusActions.OnPoint(InputAction.CallbackContext context)
+        {
+        }
+
+        void InputActions.IMenusActions.OnRightClick(InputAction.CallbackContext context)
+        {
         }
     }
 }

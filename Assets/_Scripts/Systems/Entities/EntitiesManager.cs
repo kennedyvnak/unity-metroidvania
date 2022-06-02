@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Metroidvania.Events;
 using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
@@ -9,7 +10,6 @@ namespace Metroidvania.Entities
     // Why don't I make the player the only target? To not create dependencies and allow the creation of 
     // a multiplayer system or others systems that include multiples targets in the future
     /// <summary>Class for make entity management. see also <see cref="Addressables"/></summary>
-    [ResourceObjectPath("Data/Managers/Entities Manager")]
     public class EntitiesManager : ScriptableSingleton<EntitiesManager>
     {
         public delegate void OnEntityDelegate(EntityBehaviour entity);
@@ -21,45 +21,43 @@ namespace Metroidvania.Entities
         public List<EntityBehaviour> entities { get; private set; } = new List<EntityBehaviour>();
 
         /// <summary>Called when a target is added to the manager</summary>
-        public event System.Action<EntityTarget> TargetAdded;
+        public ObjectEventChannel targetValidated;
 
         /// <summary>Called when a target is removed from the manager</summary>
-        public event System.Action<EntityTarget> TargetRemoved;
+        public ObjectEventChannel targetReleased;
 
         /// <summary>Called when a entity is instantiated by the manager. see also <see cref="InstantiateEntity"/></summary>
-        public event OnEntityDelegate EntityInstantiated;
+        public ObjectEventChannel entityInstantiated;
 
         /// <summary>Called when a entity is destroyed by the manager. see also <see cref="DestroyEntity"/></summary>
-        public event OnEntityDelegate EntityDestroyed;
-        
+        public ObjectEventChannel entityDestroyed;
+
         /// <summary>Instantiate a new entity to the given position</summary>
         /// <param name="entityObject">Entity to be instantiated</param>
         /// <param name="position">Position where the entity will be instantiated in world position units</param>
         /// <param name="entityInstantiated">Event called when the entity is instantiated</param>
         /// <returns>The instantiation operation</returns>
-        public AsyncOperationHandle<GameObject> InstantiateEntity(EntityObject entityObject, Vector2 position,
-            OnEntityDelegate entityInstantiated = null)
+        public AsyncOperationHandle<GameObject> InstantiateEntity(EntityObject entityObject, Vector2 position)
         {
             var op = entityObject.prefab.InstantiateAsync(position, quaternion.identity);
             op.Completed += opHandle =>
             {
                 var instantiatedEntity = opHandle.Result.GetComponent<EntityBehaviour>();
                 entities.Add(instantiatedEntity);
-                entityInstantiated?.Invoke(instantiatedEntity);
-                EntityInstantiated?.Invoke(instantiatedEntity);
+                entityInstantiated?.Raise(instantiatedEntity);
             };
             return op;
         }
-        
+
         /// <summary>Destroy the given entity</summary>
         /// <param name="entity">The entity that will be destroyed</param>
         public void DestroyEntity(EntityBehaviour entity)
         {
-            if(!entities.Contains(entity)) return;
-            
-            Addressables.ReleaseInstance(entity.gameObject);
+            if (!entities.Contains(entity)) return;
+
             entities.Remove(entity);
-            EntityDestroyed?.Invoke(entity);
+            entityDestroyed?.Raise(entity);
+            Addressables.ReleaseInstance(entity.gameObject);
         }
 
         /// <summary>Add a target to the manager</summary>
@@ -69,7 +67,7 @@ namespace Metroidvania.Entities
             if (targets.Contains(target))
                 return;
             targets.Add(target);
-            TargetAdded?.Invoke(target);
+            targetValidated?.Raise(target);
         }
 
         /// <summary>Remove a target from the manager</summary>
@@ -79,7 +77,7 @@ namespace Metroidvania.Entities
             if (!targets.Contains(target))
                 return;
             targets.Remove(target);
-            TargetRemoved?.Invoke(target);
+            targetReleased?.Raise(target);
         }
 
         /// <summary>Get the closest available target in the scene</summary>

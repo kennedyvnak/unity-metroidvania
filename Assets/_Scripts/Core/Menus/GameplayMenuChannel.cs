@@ -11,7 +11,7 @@ namespace Metroidvania.UI.Menus
         [SerializeField] protected AssetReferenceGameObject prefabReference;
 
         protected AsyncOperationHandle<GameObject> currentOperation { get; set; }
-        protected GameObject runingInstance { get; set; }
+        protected GameObject runningInstance { get; set; }
 
         public AssetReferenceGameObject PrefabReference => prefabReference;
 
@@ -19,10 +19,10 @@ namespace Metroidvania.UI.Menus
 
         public IEnumerator LoadMenu(System.Action<GameplayMenuInstance> onCompleteOperation = null)
         {
-            if (runingInstance != null) yield break;
+            if (runningInstance != null) yield break;
 
             currentOperation = prefabReference.InstantiateAsync(UIUtility.mainCanvas.transform, false);
-            currentOperation.Completed += (op) => runingInstance = op.Result;
+            currentOperation.Completed += (op) => runningInstance = op.Result;
             yield return currentOperation;
 
             var menuInstance = currentOperation.Result.GetComponent<GameplayMenuInstance>();
@@ -37,13 +37,13 @@ namespace Metroidvania.UI.Menus
 
         public IEnumerator UnloadMenuInstance()
         {
-            if (runingInstance == null) yield break;
+            if (runningInstance == null) yield break;
 
-            yield return runingInstance.GetComponent<GameplayMenuInstance>()?.ReleaseOperation();
+            yield return runningInstance.GetComponent<GameplayMenuInstance>()?.ReleaseOperation();
 
             Addressables.ReleaseInstance(currentOperation);
-            Addressables.ReleaseInstance(runingInstance.gameObject);
-            runingInstance = null;
+            Addressables.ReleaseInstance(runningInstance.gameObject);
+            runningInstance = null;
             MenuReleased?.Invoke();
         }
     }

@@ -1,6 +1,7 @@
 using System.Collections;
 using DG.Tweening;
 using Metroidvania.InputSystem;
+using Metroidvania.SceneManagement;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -16,12 +17,12 @@ namespace Metroidvania.UI.Menus
         private void Awake()
         {
             m_optionsMenu.OnMenuDisable += ActiveMenu;
-            InputReader.instance.ReturnEvent += PerformReturn;
+            InputReader.instance.MenuCloseEvent += PerformMenuClose;
         }
 
         private void OnDestroy()
         {
-            InputReader.instance.ReturnEvent -= PerformReturn;
+            InputReader.instance.MenuCloseEvent -= PerformMenuClose;
         }
 
         public void ActiveMenu()
@@ -42,8 +43,8 @@ namespace Metroidvania.UI.Menus
 
         public void ExitGameplay()
         {
-            GameManager.ResumeGame();
-            SceneManager.LoadScene("MainMenu");
+            GameManager.instance.ResumeGame();
+            SceneLoader.instance.LoadMainMenu();
         }
 
         public void SwitchToScreen(IMenuScreen screen)
@@ -53,7 +54,7 @@ namespace Metroidvania.UI.Menus
             activeScreen = screen;
         }
 
-        public void PerformReturn()
+        public void PerformMenuClose()
         {
             if (menuEnabled)
                 Resume();

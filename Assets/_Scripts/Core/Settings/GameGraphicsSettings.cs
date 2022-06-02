@@ -1,27 +1,26 @@
-﻿using UnityEngine;
+﻿using Metroidvania.Events;
+using UnityEngine;
 using UnityEngine.Localization;
 
 namespace Metroidvania.Audio
 {
-    [ResourceObjectPath("Settings/Graphics Settings")]
     public class GameGraphicsSettings : ScriptableSingleton<GameGraphicsSettings>
     {
         [Header("Resolution")] public string resolutionPrefsKey = "Selected-Resolution";
         public int defaultResolutionIndex;
         public Vector2Int[] screenResolutions;
 
-        public static event System.Action<int> ResolutionChanged;
-
         [Header("Quality")] public string qualityPrefsKey = "Selected-Quality";
         public int defaultQualityIndex;
         public LocalizedString[] qualitiesNames;
 
-        public static event System.Action<int> QualityChanged;
-
         [Header("Full Screen")] public string fullScreenPrefsKey = "Is-Full-Screen";
         public bool defaultFullScreenValue;
 
-        public static event System.Action<bool> FullScreenChanged;
+        [Header("Events")]
+        public IntEventChannel changeResolutionChannel;
+        public IntEventChannel changeQualityChannel;
+        public BoolEventChannel changeFullScreenChannel;
 
         public void SetResolution(int idx, bool setPrefs)
         {
@@ -30,7 +29,7 @@ namespace Metroidvania.Audio
             Screen.SetResolution(resolution.x, resolution.y, Screen.fullScreen);
             if (setPrefs)
                 PlayerPrefs.SetInt(resolutionPrefsKey, idx);
-            ResolutionChanged?.Invoke(idx);
+            changeResolutionChannel?.Raise(idx);
         }
 
         public void SetQuality(int idx, bool setPrefs)
@@ -39,7 +38,7 @@ namespace Metroidvania.Audio
             QualitySettings.SetQualityLevel(idx);
             if (setPrefs)
                 PlayerPrefs.SetInt(qualityPrefsKey, idx);
-            QualityChanged?.Invoke(idx);
+            changeQualityChannel?.Raise(idx);
         }
 
         public void SetFullScreen(bool isFullScreen, bool setPrefs)
@@ -47,7 +46,7 @@ namespace Metroidvania.Audio
             Screen.fullScreen = isFullScreen;
             if (setPrefs)
                 PlayerPrefs.SetInt(fullScreenPrefsKey, isFullScreen ? 1 : 0);
-            FullScreenChanged?.Invoke(isFullScreen);
+            changeFullScreenChannel?.Raise(isFullScreen);
         }
 
         public void ToggleFullScreen(bool isFullScreen) => SetFullScreen(isFullScreen, true);
@@ -60,7 +59,7 @@ namespace Metroidvania.Audio
         private void OnValidate()
         {
             if (qualitiesNames.Length != QualitySettings.names.Length)
-                GameDebugger.LogError($"{nameof(qualitiesNames)} lenght isn't equal the built-in quality names lenght.");
+                GameDebugger.LogError($"{nameof(qualitiesNames)} length isn't equal the built-in quality names length.");
         }
 #endif
     }
