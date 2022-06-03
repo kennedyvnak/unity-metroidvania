@@ -1,0 +1,10 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="True">
+    <uie:Toolbar>
+        <ui:VisualElement name="type-status-icon" tooltip="The type status. Green: Unique instance; Orange: No instance; Red: More than one instance;" style="flex-shrink: 0; height: 16px; width: 16px; margin-left: 2px; margin-right: 2px; background-image: url(&apos;project://database/Packages/com.unity.render-pipelines.core/Editor/Lighting/Icons/IESProfile.png?fileID=2800000&amp;guid=0283fe60f65159b4a86ebabf444e23f9&amp;type=3#IESProfile&apos;); top: 2px;" />
+        <ui:VisualElement style="height: 100%; width: 1px; background-color: rgb(35, 35, 35); margin-right: 2px;" />
+        <ui:Label text="Type Name" display-tooltip-when-elided="true" name="type-name" style="-unity-text-align: middle-left; width: 172px;" />
+        <ui:VisualElement style="height: 100%; width: 1px; background-color: rgb(35, 35, 35); margin-right: 2px;" />
+        <ui:Label text="Path" display-tooltip-when-elided="true" name="type-name" style="-unity-text-align: middle-left; flex-grow: 1;" />
+    </uie:Toolbar>
+    <ui:ListView fixed-item-height="18" name="objects-list-view" show-alternating-row-backgrounds="All" />
+</ui:UXML>

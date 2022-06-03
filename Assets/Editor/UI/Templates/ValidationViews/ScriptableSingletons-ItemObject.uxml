@@ -1,0 +1,9 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="True">
+    <ui:VisualElement focusable="true" style="flex-direction: row; height: 18px; width: auto;">
+        <ui:VisualElement name="state-icon" style="width: 16px; height: 16px; margin-left: 2px; margin-right: 2px; background-image: url(&apos;project://database/Assets/Graphics/Textures/Units/UI/Box_0.png?fileID=2800000&amp;guid=36a9fd8e994460943a793f2a32da3709&amp;type=3#Box_0&apos;); top: 1px; flex-shrink: 0;" />
+        <ui:VisualElement style="width: 1px; background-color: rgb(35, 35, 35); margin-right: 2px;" />
+        <ui:Label text="TypeName" display-tooltip-when-elided="true" name="type-name" style="-unity-text-align: middle-left; width: 172px;" />
+        <ui:VisualElement style="width: 1px; background-color: rgb(35, 35, 35); margin-right: 2px;" />
+        <ui:Label text="Assets/Data/Path" display-tooltip-when-elided="true" name="asset-path" style="flex-grow: 1;" />
+    </ui:VisualElement>
+</ui:UXML>

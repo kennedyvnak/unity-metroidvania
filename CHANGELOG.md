@@ -111,3 +111,9 @@
 - Fix some typo
 - Create player prefab
 - Rename "Textures/Enemies" to "Textures/Entities"
+
+## 1.3.4-a.12
+
+- Add project validator window
+- Add scriptable singletons validator
+- Change GameDebugger path

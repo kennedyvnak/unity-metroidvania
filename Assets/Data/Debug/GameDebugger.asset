@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_forceDebug: 1
   m_debugSerialization: 0
-  m_enableEntitiesLogs: 1
-  m_debugInput: 1
+  m_enableEntitiesLogs: 0
+  m_debugInput: 0
