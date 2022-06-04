@@ -47,6 +47,8 @@ namespace MetroidvaniaEditor.Validation.Views
                 if (!singletonsPath.ContainsKey(path))
                 {
                     var asset = AssetDatabase.LoadAssetAtPath(path, typeof(ScriptableObject));
+                    if (!asset)
+                        return;
                     var assetType = asset.GetType();
                     if (IsSubclassOfRawGeneric(assetType, typeof(Metroidvania.ScriptableSingleton<>)))
                     {
@@ -278,6 +280,9 @@ namespace MetroidvaniaEditor.Validation.Views
 
         private void ShowTypeSelection(Type type)
         {
+            if (GetInstanceStatus(type) == InstanceStatus.None)
+                return;
+
             var obj = LoadSingleInstanceType(type);
             if (obj != null)
                 EditorGUIUtility.PingObject(obj);
