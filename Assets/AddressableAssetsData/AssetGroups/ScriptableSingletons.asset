@@ -1,0 +1,65 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
+  m_Name: ScriptableSingletons
+  m_EditorClassIdentifier: 
+  m_GroupName: ScriptableSingletons
+  m_Data:
+    m_SerializedData: []
+  m_GUID: 89500ef65a6719d42bbe4c96a3cb6a71
+  m_SerializeEntries:
+  - m_GUID: c86d03e787884bf43b86fa2cee1d06fd
+    m_Address: Metroidvania.GizmosColor
+    m_ReadOnly: 1
+    m_SerializedLabels:
+    - Scriptable Singleton
+  - m_GUID: cbc3d0ee97ddde34faedd192869d90ac
+    m_Address: Metroidvania.InputSystem.InputReader
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Scriptable Singleton
+  - m_GUID: 57e0bb8ffb8f91d4d813ebf04ecf7b6c
+    m_Address: Metroidvania.Events.Tracker.EventsTracker
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Scriptable Singleton
+  - m_GUID: 9f7e7a76d930751448524a78be74f153
+    m_Address: Metroidvania.Entities.EntitiesManager
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Scriptable Singleton
+  - m_GUID: 8e27a49112e84e249bbcc461bc2073f1
+    m_Address: Metroidvania.Localization.GameLocalizationSettings
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Scriptable Singleton
+  - m_GUID: 4acd2cf305ff6804c95e712c1a6b2389
+    m_Address: Metroidvania.Audio.GameAudioSettings
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Scriptable Singleton
+  - m_GUID: 2f8fe53a855b2fe4f99c05092964a4e6
+    m_Address: Metroidvania.Audio.GameGraphicsSettings
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Scriptable Singleton
+  - m_GUID: f02369ae3b97b0240abe243d2513f644
+    m_Address: Metroidvania.GameDebugger
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Scriptable Singleton
+  m_ReadOnly: 0
+  m_Settings: {fileID: 11400000, guid: 8259dc4f4d8e49b4dad3c97268d6350a, type: 2}
+  m_SchemaSet:
+    m_Schemas:
+    - {fileID: 11400000, guid: 879acfe6cead2284a98b28e27d5b6686, type: 2}
+    - {fileID: 11400000, guid: f89b6f25fb091ca4bb5b20c99eb3b951, type: 2}

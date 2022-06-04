@@ -2,6 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEditor;
+using UnityEditor.AddressableAssets;
+using UnityEditor.AddressableAssets.Settings;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -20,6 +22,7 @@ namespace MetroidvaniaEditor.Validation.Views
             public event System.Action<System.Type> SingletonImported;
             public event System.Action<System.Type> SingletonDeleted;
             public event System.Action<System.Type, string, string> SingletonMoved;
+            public event System.Action AddressablesChanged;
 
             public AssetHandler()
             {
@@ -33,6 +36,7 @@ namespace MetroidvaniaEditor.Validation.Views
                 e_AssetImported += AssetImported;
                 e_AssetDeleted += AssetDeleted;
                 e_AssetMoved += AssetMoved;
+                AddressableAssetSettingsDefaultObject.Settings.OnModification += AddressablesModificationHandle;
             }
 
             ~AssetHandler()
@@ -40,6 +44,22 @@ namespace MetroidvaniaEditor.Validation.Views
                 e_AssetImported -= AssetImported;
                 e_AssetDeleted -= AssetDeleted;
                 e_AssetMoved -= AssetMoved;
+                AddressableAssetSettingsDefaultObject.Settings.OnModification -= AddressablesModificationHandle;
+            }
+
+            private void AddressablesModificationHandle(AddressableAssetSettings settings, AddressableAssetSettings.ModificationEvent modificationEvent, object evtArgs)
+            {
+                if (modificationEvent == AddressableAssetSettings.ModificationEvent.EntryRemoved
+                   || modificationEvent == AddressableAssetSettings.ModificationEvent.EntryAdded
+                   || modificationEvent == AddressableAssetSettings.ModificationEvent.EntryCreated
+                   || modificationEvent == AddressableAssetSettings.ModificationEvent.EntryModified
+                   || modificationEvent == AddressableAssetSettings.ModificationEvent.EntryMoved
+                   || modificationEvent == AddressableAssetSettings.ModificationEvent.GroupAdded
+                   || modificationEvent == AddressableAssetSettings.ModificationEvent.GroupRemoved
+                   || modificationEvent == AddressableAssetSettings.ModificationEvent.GroupRenamed)
+                {
+                    AddressablesChanged?.Invoke();
+                }
             }
 
             private void AssetImported(string path)
@@ -119,6 +139,9 @@ namespace MetroidvaniaEditor.Validation.Views
         private const string k_TemplatePath = "Assets/Editor/UI/Templates/ValidationViews/ScriptableSingletons.uxml";
         private const string k_ItemObjectTemplatePath = "Assets/Editor/UI/Templates/ValidationViews/ScriptableSingletons-ItemObject.uxml";
 
+        private const string k_SingletonsGroupName = "ScriptableSingletons";
+        private const string k_SingletonsEntryLabel = "Scriptable Singleton";
+
         private static List<Type> scriptableSingletons { get; set; }
 
         private VisualTreeAsset _itemObjectTemplate;
@@ -161,6 +184,7 @@ namespace MetroidvaniaEditor.Validation.Views
             _assetHandler.SingletonDeleted += SingletonDeleted;
             _assetHandler.SingletonImported += SingletonImported;
             _assetHandler.SingletonMoved += SingletonMoved;
+            _assetHandler.AddressablesChanged += AddressablesChanged;
 
             _objectsListView.makeItem = () =>
             {
@@ -180,9 +204,12 @@ namespace MetroidvaniaEditor.Validation.Views
             {
                 var type = _singletonTypes[i];
                 var status = GetInstanceStatus(type);
+
                 e.Q<Label>("type-name").text = type.Name;
-                e.Q<VisualElement>("state-icon").style.backgroundImage = GetStatusTexture(status);
                 e.Q<Label>("asset-path").text = GetInstancePathDisplay(type);
+
+                var statusIcon = status == InstanceStatus.Single && !InstanceAddressIsCorrect(type) ? _errorTexture : GetStatusTexture(status);
+                e.Q<VisualElement>("state-icon").style.backgroundImage = statusIcon;
 
                 if (_elementsEvents.TryGetValue(e, out var oldEvt))
                     e.UnregisterCallback<ContextualMenuPopulateEvent>(oldEvt);
@@ -196,6 +223,10 @@ namespace MetroidvaniaEditor.Validation.Views
                     evt.menu.AppendAction("Select All Instances",
                         (a) => SelectAllInstancesOfType(type),
                         (a) => DropdownMenuAction.Status.Normal);
+
+                    evt.menu.AppendAction("Fix instance address",
+                        (a) => SetInstanceAddress(type),
+                        (a) => InstanceAddressIsCorrect(type) ? DropdownMenuAction.Status.Disabled : DropdownMenuAction.Status.Normal);
                 };
 
                 _elementsEvents[e] = newEvt;
@@ -233,6 +264,8 @@ namespace MetroidvaniaEditor.Validation.Views
         private void SingletonDeleted(Type obj) => RefreshTypeElement(obj);
 
         private void SingletonMoved(Type obj, string oldPath, string newPath) => RefreshTypeElement(obj);
+
+        private void AddressablesChanged() => _objectsListView.RefreshItems();
 
         private void RefreshTypeElement(Type type)
         {
@@ -294,5 +327,47 @@ namespace MetroidvaniaEditor.Validation.Views
         }
 
         private string GetInstancePath(Type type) => _assetHandler.singletonsPath.First(t => t.Value == type).Key;
+
+        private void SetInstanceAddress(Type type)
+        {
+            var instanceStatus = GetInstanceStatus(type);
+
+            if (instanceStatus == InstanceStatus.Single)
+            {
+                var settings = AddressableAssetSettingsDefaultObject.Settings;
+                var group = settings.FindGroup(k_SingletonsGroupName);
+                if (group == null)
+                    group = settings.CreateGroup(k_SingletonsGroupName, false, false, false, settings.DefaultGroup.Schemas);
+
+                var instancePath = GetInstancePath(type);
+                var instanceGuid = AssetDatabase.AssetPathToGUID(instancePath);
+
+                var entry = settings.CreateOrMoveEntry(instanceGuid, group, readOnly: false, postEvent: false);
+                if (!settings.GetLabels().Contains(k_SingletonsEntryLabel))
+                    settings.AddLabel(k_SingletonsEntryLabel, false);
+                entry.labels.Add(k_SingletonsEntryLabel);
+                entry.SetAddress(type.FullName);
+
+                settings.SetDirty(AddressableAssetSettings.ModificationEvent.EntryMoved, entry, true);
+            }
+        }
+
+        private bool InstanceAddressIsCorrect(Type type)
+        {
+            var instanceStatus = GetInstanceStatus(type);
+
+            if (instanceStatus == InstanceStatus.Single)
+            {
+                var settings = AddressableAssetSettingsDefaultObject.Settings;
+
+                var instancePath = GetInstancePath(type);
+                var instanceGuid = AssetDatabase.AssetPathToGUID(instancePath);
+
+                var entry = settings.FindAssetEntry(instanceGuid);
+                return entry != null && entry.address == type.FullName && entry.parentGroup.Name == k_SingletonsGroupName;
+            }
+
+            return false;
+        }
     }
 }

@@ -1,10 +1,12 @@
 using System.Reflection;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
+using UnityEngine.ResourceManagement.AsyncOperations;
 
 namespace Metroidvania
 {
     /// <summary>Base class for handle scriptable objects singleton</summary>
+    // FIXME: instance loading
     public abstract class ScriptableSingleton<T> : ScriptableObject where T : ScriptableSingleton<T>
     {
         private static T s_instance;
@@ -19,19 +21,13 @@ namespace Metroidvania
             {
                 if (s_instance != null) return s_instance;
 
-#if UNITY_EDITOR
-                T[] results = System.Array.ConvertAll(UnityEditor.AssetDatabase.FindAssets($"t:{typeof(T).Name}"),
-                    x => UnityEditor.AssetDatabase.LoadAssetAtPath<T>(UnityEditor.AssetDatabase.GUIDToAssetPath(x)));
-#else
-                T[] results = Resources.FindObjectsOfTypeAll<T>();
-#endif
-                if (results.Length == 1)
-                    return s_instance = results[0];
-                else if (results.Length > 1)
-                    GameDebugger.LogError($"More than one instance of singleton type {typeof(T).Name} was found in project.");
-
-                GameDebugger.LogWarning($"Creating an instance of singleton type {typeof(T).Name}");
-                return s_instance = CreateInstance<T>();
+                var handle = Addressables.LoadAssetAsync<T>(typeof(T).FullName);
+                if (handle.Status == AsyncOperationStatus.Failed)
+                {
+                    Debug.LogWarning("Singleton instance load failed. Creating a new default instance.");
+                    return s_instance = ScriptableObject.CreateInstance<T>();
+                }
+                return s_instance = handle.WaitForCompletion();
             }
         }
     }

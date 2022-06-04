@@ -21,10 +21,6 @@ MonoBehaviour:
     m_Address: Assets/Scenes/MainMenu.unity
     m_ReadOnly: 0
     m_SerializedLabels: []
-  - m_GUID: c2a716383b3bd4a4495727041d42dcc2
-    m_Address: Assets/Data/Misc/Game Credits.asset
-    m_ReadOnly: 0
-    m_SerializedLabels: []
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 8259dc4f4d8e49b4dad3c97268d6350a, type: 2}
   m_SchemaSet:
