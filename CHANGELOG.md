@@ -117,3 +117,7 @@
 - Add project validator window
 - Add scriptable singletons validator
 - Change GameDebugger path
+
+## 1.3.5-a.2
+
+- Add channels event tracking system

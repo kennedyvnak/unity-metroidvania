@@ -7,6 +7,10 @@ namespace Metroidvania.Events
     {
         public EventChannelAction OnEventRaise;
 
-        public void Raise() => OnEventRaise?.Invoke();
+        public void Raise()
+        {
+            OnEventRaise?.Invoke();
+            SendTrack();
+        }
     }
 }

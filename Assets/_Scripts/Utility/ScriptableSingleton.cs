@@ -6,7 +6,6 @@ using UnityEngine.ResourceManagement.AsyncOperations;
 namespace Metroidvania
 {
     /// <summary>Base class for handle scriptable objects singleton</summary>
-    // FIXME: instance loading
     public abstract class ScriptableSingleton<T> : ScriptableObject where T : ScriptableSingleton<T>
     {
         private static T s_instance;
