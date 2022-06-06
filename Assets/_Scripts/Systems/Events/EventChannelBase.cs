@@ -1,7 +1,6 @@
 using Metroidvania.Events.Tracker;
 using UnityEngine;
 
-// TODO: An events tracker window
 namespace Metroidvania.Events
 {
     public abstract class EventChannelBase : ScriptableObject

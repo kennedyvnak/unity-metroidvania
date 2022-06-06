@@ -5,7 +5,6 @@ using System;
 
 namespace Metroidvania.Events.Tracker
 {
-    // TODO: Add editor UI and add an text file in runtime to handle events tacking
     public class EventsTracker : ScriptableSingleton<EventsTracker>
     {
         [System.Flags]
