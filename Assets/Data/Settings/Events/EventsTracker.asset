@@ -12,4 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ebf8057ac59de9747939d5b4d42f4379, type: 3}
   m_Name: EventsTracker
   m_EditorClassIdentifier: 
-  trackingEnabled: 1
+  m_trackingEnabled: 1
+  m_enabledHandlers: 2

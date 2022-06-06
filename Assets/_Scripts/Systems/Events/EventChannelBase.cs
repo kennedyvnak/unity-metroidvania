@@ -8,12 +8,12 @@ namespace Metroidvania.Events
     {
         [TextArea()] public string eventDescription;
 
-        protected void SendTrack(params object[] args)
+        protected EventsTracker.EventTrack BeginTrack(params object[] args)
         {
             if (!EventsTracker.instance.trackingEnabled)
-                return;
+                return default(EventsTracker.EventTrack);
 
-            EventsTracker.instance.TrackEvent(channel: this, args);
+            return EventsTracker.instance.BeginEventTrack(channel: this, args);
         }
     }
 
@@ -23,8 +23,8 @@ namespace Metroidvania.Events
 
         public void Raise(T0 arg0)
         {
-            OnEventRaise?.Invoke(arg0);
-            SendTrack(arg0);
+            using (BeginTrack(arg0))
+                OnEventRaise?.Invoke(arg0);
         }
     }
 
@@ -34,8 +34,8 @@ namespace Metroidvania.Events
 
         public void Raise(T0 arg0, T1 arg1)
         {
-            OnEventRaise?.Invoke(arg0, arg1);
-            SendTrack(arg0, arg1);
+            using (BeginTrack(arg0, arg1))
+                OnEventRaise?.Invoke(arg0, arg1);
         }
     }
 }

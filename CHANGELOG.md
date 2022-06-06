@@ -121,3 +121,4 @@
 ## 1.3.5-a.2
 
 - Add channels event tracking system
+- Add handler to log event tracking in a file
