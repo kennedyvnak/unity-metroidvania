@@ -122,3 +122,7 @@
 
 - Add channels event tracking system
 - Add handler to log event tracking in a file
+
+----
+
+- Add game initialization in editor

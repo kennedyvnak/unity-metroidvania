@@ -9,9 +9,12 @@ using UnityEngine.Localization.Settings;
 
 namespace Metroidvania.Settings
 {
-    // TODO: Initialize the game in the editor when play in a scene other than the initialization scene
     public class GameInitializer : MonoBehaviour
     {
+#if UNITY_EDITOR
+        public static event System.Action InitializationFinish;
+#endif
+
         [Header("Scenes")]
         [SerializeField] private AssetReference m_mainMenuSceneRef;
 
@@ -59,6 +62,12 @@ namespace Metroidvania.Settings
             var sceneLoaderHandle = m_sceneLoader.InstantiateAsync();
             yield return sceneLoaderHandle;
             sceneLoaderHandle.Result.GetComponent<SceneLoader>().Initialize();
+
+            if (InitializationFinish != null)
+            {
+                InitializationFinish.Invoke();
+                yield break;
+            }
 
             yield return Addressables.LoadSceneAsync(m_mainMenuSceneRef);
         }
