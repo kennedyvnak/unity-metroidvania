@@ -16,17 +16,6 @@ MonoBehaviour:
   groundLayer:
     serializedVersion: 2
     m_Bits: 64
-  feetOffset: {x: 0.049999997, y: -1.25}
-  feetRadius: {x: 0.39, y: 0.1}
-  wallLayer:
-    serializedVersion: 2
-    m_Bits: 64
-  leftHandOffset: {x: -0.15, y: -0.6}
-  leftHandSize: {x: 0.1, y: 0.75}
-  rightHandOffset: {x: 0.25, y: -0.6}
-  rightHandSize: {x: 0.1, y: 0.75}
-  ledgeCheckOffset: {x: 0.35, y: -0.275}
-  ledgeCheckLenght: 0.25
   moveSpeed: 5
   jumpSpeed: 8
   jumpDuration: 0.3
@@ -171,8 +160,70 @@ MonoBehaviour:
     force: 0.4
   crouchTransitionTime: 0.1
   slideTransitionTime: 0.1
-  wallSlideSpeed: 0
+  wallSlideSpeed: 3
   hurtTime: 0.3
   invincibilityAlphaChange: 0.45
   invincibilityFadeSpeed: 3
   defaultInvincibilityTime: 1.75
+  standColliderData:
+    drawGizmos: 0
+    bounds:
+      serializedVersion: 2
+      x: 0.05
+      y: -0.7
+      width: 0.4
+      height: 1.1
+    feetRect:
+      serializedVersion: 2
+      x: 0.05
+      y: -1.25
+      width: 0.35
+      height: 0.1
+    leftHandRect:
+      serializedVersion: 2
+      x: -0.15
+      y: -0.6
+      width: 0.1
+      height: 0.5
+    rightHandRect:
+      serializedVersion: 2
+      x: 0.25
+      y: -0.6
+      width: 0.1
+      height: 0.5
+    ledgeCheckOffset: {x: 0.35, y: -0.275}
+    ledgeCheckLength: 0.25
+  crouchColliderData:
+    drawGizmos: 0
+    bounds:
+      serializedVersion: 2
+      x: 0.05
+      y: -0.9
+      width: 0.4
+      height: 0.7
+    feetRect:
+      serializedVersion: 2
+      x: 0.05
+      y: -1.25
+      width: 0.35
+      height: 0.1
+    leftHandRect:
+      serializedVersion: 2
+      x: -0.15
+      y: -0.9
+      width: 0.1
+      height: 0.45
+    rightHandRect:
+      serializedVersion: 2
+      x: 0.25
+      y: -0.9
+      width: 0.1
+      height: 0.45
+    ledgeCheckOffset: {x: 0.35, y: -0.5}
+    ledgeCheckLength: 0.25
+  crouchHeadRect:
+    serializedVersion: 2
+    x: 0.05
+    y: -0.35
+    width: 0.35
+    height: 0.4

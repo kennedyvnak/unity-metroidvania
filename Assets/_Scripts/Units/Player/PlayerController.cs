@@ -64,6 +64,9 @@ namespace Metroidvania.Player
         /// <summary>Called when <see cref="OnTriggerStay2D"/> is called</summary>
         public event UnityAction<Collider2D> TriggerStay;
 
+        /// <summary>Called when <see cref="OnCollisionEnter2D"/> is called</summary>
+        public event UnityAction<Collision2D> CollisionEntered;
+
         private void Awake()
         {
             if (data is null)
@@ -123,37 +126,57 @@ namespace Metroidvania.Player
             TriggerStay?.Invoke(other);
         }
 
+        private void OnCollisionEnter2D(Collision2D other)
+        {
+            CollisionEntered?.Invoke(other);
+        }
+
 #if UNITY_EDITOR
         private void OnDrawGizmos()
         {
-            if (!m_drawGizmos) return;
-
-            if (data == null)
+            if (!m_drawGizmos || !data)
                 return;
-
 
             var t = transform;
             var position = (Vector2)t.position;
             var scale = (Vector2)t.localScale;
 
-            var drawer = new GizmosDrawer()
-                .SetColor(GizmosColor.instance.playerFeet)
-                .DrawWireSquare(position + data.feetOffset * scale, data.feetRadius)
-                .SetColor(GizmosColor.instance.playerHand)
-                .DrawWireSquare(position + data.leftHandOffset * scale, data.leftHandSize)
-                .DrawWireSquare(position + data.rightHandOffset * scale, data.rightHandSize)
-                .SetColor(GizmosColor.instance.playerLedgeCheck)
-                .DrawRay(position + data.ledgeCheckOffset * scale, new Vector2(data.ledgeCheckLength * scale.x, 0))
-                .SetColor(GizmosColor.instance.playerAttack);
+            var drawer = new GizmosDrawer();
 
+            drawer.SetColor(GizmosColor.instance.playerAttack);
             DrawAttack(data.attackOne);
             DrawAttack(data.attackTwo);
             DrawAttack(data.crouchAttack);
 
+            DrawColliderData(data.standColliderData);
+            DrawColliderData(data.crouchColliderData);
+
+            if (data.crouchColliderData.drawGizmos)
+                drawer.SetColor(GizmosColor.instance.playerFeet)
+                    .DrawWireSquare(position + data.crouchHeadRect.min * scale, data.crouchHeadRect.size);
+
             void DrawAttack(PlayerDataChannel.Attack attack)
             {
-                if (attack.drawGizmos)
-                    drawer.DrawWireSquare(position + attack.triggerCollider.center * scale, attack.triggerCollider.size);
+                if (!attack.drawGizmos)
+                    return;
+
+                drawer.DrawWireSquare(position + attack.triggerCollider.center * scale, attack.triggerCollider.size);
+            }
+
+            void DrawColliderData(PlayerDataChannel.ColliderData colliderData)
+            {
+                if (!colliderData.drawGizmos)
+                    return;
+
+                drawer.SetColor(GizmosColor.instance.playerColliderData)
+                    .DrawWireSquare(position + colliderData.bounds.min * scale, colliderData.bounds.size)
+                    .SetColor(GizmosColor.instance.playerFeet)
+                    .DrawWireSquare(position + colliderData.feetRect.min * scale, colliderData.feetRect.size)
+                    .SetColor(GizmosColor.instance.playerHand)
+                    .DrawWireSquare(position + colliderData.leftHandRect.min * scale, colliderData.leftHandRect.size)
+                    .DrawWireSquare(position + colliderData.rightHandRect.min * scale, colliderData.rightHandRect.size)
+                    .SetColor(GizmosColor.instance.playerLedgeCheck)
+                    .DrawRay(position + colliderData.ledgeCheckOffset * scale, new Vector2(colliderData.ledgeCheckLength * scale.x, 0)); ;
             }
         }
 #endif

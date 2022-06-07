@@ -35,6 +35,24 @@ namespace Metroidvania.Player
             [Tooltip("Raw force of the attack")] public float force;
         }
 
+        [Serializable]
+        public struct ColliderData
+        {
+#if UNITY_EDITOR
+            public bool drawGizmos;
+#endif
+            public Rect bounds;
+
+            public Rect feetRect;
+
+            public Rect leftHandRect;
+            public Rect rightHandRect;
+
+            public Vector2 ledgeCheckOffset;
+            public float ledgeCheckLength;
+        }
+
+
         [Header("Properties")]
         [Tooltip("Max life of the player")]
         public int maxLife;
@@ -42,31 +60,6 @@ namespace Metroidvania.Player
         [Header("Ground Check")]
         [Tooltip("Ground layer for collisions check")]
         public LayerMask groundLayer;
-
-        [Tooltip("Feet offset based on center of player position")]
-        public Vector2 feetOffset;
-
-        [Tooltip("Size of the feet")] public Vector2 feetRadius;
-
-        [Header("Wall Check")]
-        [Tooltip("Wall layer for collisions check")]
-        public LayerMask wallLayer;
-
-        [Tooltip("Left hand offset based on center of the player position")]
-        public Vector2 leftHandOffset;
-
-        [Tooltip("Size of the left hand")] public Vector2 leftHandSize;
-
-        [Tooltip("Right hand offset based on center of the player position")]
-        public Vector2 rightHandOffset;
-
-        [Tooltip("Size of the right hand")] public Vector2 rightHandSize;
-
-        [Tooltip("Offset based on center of the player position")]
-        public Vector2 ledgeCheckOffset;
-
-        [UnityEngine.Serialization.FormerlySerializedAs("ledgeCheckLenght")]
-        [Tooltip("Size of the ledge check")] public float ledgeCheckLength;
 
         [Header("Movement")]
         [Tooltip("Default movement speed")]
@@ -141,5 +134,10 @@ namespace Metroidvania.Player
 
         [Tooltip("Default invincibility time")]
         public float defaultInvincibilityTime;
+
+        [Header("Colliders")]
+        public ColliderData standColliderData;
+        public ColliderData crouchColliderData;
+        public Rect crouchHeadRect;
     }
 }

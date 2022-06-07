@@ -11,6 +11,7 @@ namespace Metroidvania
         public Color playerHand = Color.yellow;
         public Color playerLedgeCheck = Color.red;
         public Color playerAttack = Color.cyan;
+        public Color playerColliderData = Color.green;
     }
 }
 #endif

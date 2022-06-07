@@ -12,7 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f2c6e358fb3e27744baf6a5695a82528, type: 3}
   m_Name: GizmosColor
   m_EditorClassIdentifier: 
-  playerFeet: {r: 0, g: 1, b: 0, a: 1}
-  playerHand: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
-  playerLedgeCheck: {r: 1, g: 0, b: 0, a: 1}
+  playerFeet: {r: 0.9378414, g: 0, b: 1, a: 1}
+  playerHand: {r: 0.8584906, g: 0.7618168, b: 0, a: 1}
+  playerLedgeCheck: {r: 1, g: 0.2971698, b: 0.2971698, a: 1}
   playerAttack: {r: 0, g: 1, b: 1, a: 1}
+  playerColliderData: {r: 0.2971698, g: 1, b: 0.2971698, a: 1}

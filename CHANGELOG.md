@@ -126,3 +126,10 @@
 ----
 
 - Add game initialization in editor
+
+## 1.4.0 (1.4 will focus on improving player behaviours)
+
+- Update playerstates.cs file structure
+- Add dynamic player collision
+- Improve crouch states
+- Improve jump

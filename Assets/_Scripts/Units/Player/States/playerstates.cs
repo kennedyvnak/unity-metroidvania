@@ -5,6 +5,7 @@ using UnityEngine;
 
 namespace Metroidvania.Player.States
 {
+    //TODO: Implement wall states
     /// <summary>Base classes for all player states</summary>
     public abstract class PlayerStateBase
     {
@@ -26,102 +27,6 @@ namespace Metroidvania.Player.States
         /// <summary>This method should be called in player.Update()</summary> 
         public virtual void LogicUpdate()
         {
-        }
-    }
-
-    /// <summary>Class for use attack states</summary>
-    public class PlayerAttackState : PlayerStateBase
-    {
-        /// <summary>Colliders hit on last trigger. Used for allocate hits array only once</summary>
-        private readonly Collider2D[] _hits = new Collider2D[8];
-
-        /// <summary>The attack data that stores the collision rect, move offset, damage...</summary>
-        public readonly PlayerDataChannel.Attack attackData;
-
-        /// <summary>The animation key of this attack</summary>
-        public readonly string animKey;
-
-        /// <summary>On reach the end and this prop don't is null, switch to this state</summary>
-        public PlayerAttackState nextAttackState;
-
-        /// <summary>Time elapsed after entering this state. Used to deal with the attack trigger</summary>
-        private float _elapsedTime;
-
-        /// <summary>Is the state triggered? Used to trigger the attack only once</summary>
-        private bool _triggered;
-
-        public PlayerAttackState(PlayerStateMachine machine, PlayerDataChannel.Attack attackData, string animKey) :
-            base(machine)
-        {
-            this.attackData = attackData;
-            this.animKey = animKey;
-        }
-
-        public override void Enter()
-        {
-            // Resets all properties
-            _elapsedTime = 0;
-            _triggered = false;
-
-            // Set player's horizontal velocity to 0 and switch the animation
-            machine.player.SetHorizontalVelocity(0);
-            machine.player.animator.SwitchAnimation(animKey);
-        }
-
-        public override void LogicUpdate()
-        {
-            // Increases deltaTime in elapsedTime to simulate seconds
-            _elapsedTime += Time.deltaTime;
-
-            // Check if the player is not floating
-            if (machine.EnterFallState() != null)
-                return;
-
-            // Trigger the attack if it hasn't triggered and the elapsedTime is greater than or equal to the triggerTime
-            if (!_triggered && _elapsedTime >= attackData.triggerTime)
-            {
-                _triggered = true;
-                TriggerAttack();
-            }
-
-            // Exit the state if the elapsedTime is greater than or equal to the attack duration 
-            if (!(_elapsedTime >= attackData.duration)) return;
-
-            // Switch to the next attack if it is not null and the player is holding attack button 
-            if (machine.player.input.virtualAttacking && nextAttackState != null)
-            {
-                nextAttackState.SetActive();
-                return;
-            }
-
-            // Switch to the preferred idle state in machine, like fall, crouching or the default idle. 
-            machine.EnterIdleState();
-        }
-
-        /// <summary>Triggers the attack, note that method don't set or follow the property <see cref="_triggered"/></summary>
-        private void TriggerAttack()
-        {
-            // Moves the player's position by the offset defined in the attack data
-            machine.player.rb.MovePosition(machine.player.rb.position +
-                                           new Vector2(attackData.horizontalMoveOffset * machine.player.facingDirection,
-                                               0));
-
-            // Get the colliders in the attack rect without allocate a new array in the memory
-            var hitCount = Physics2D.OverlapBoxNonAlloc(
-                machine.player.rb.position + attackData.triggerCollider.center * machine.player.transform.localScale,
-                attackData.triggerCollider.size, 0, _hits, machine.player.data.hittableLayer);
-
-            // Do nothing if don't hit any object
-            if (hitCount <= 0) return;
-
-            var hitData = new PlayerHitData(attackData.damage, attackData.force, machine.player);
-            for (var i = 0; i < hitCount; i++)
-            {
-                var hit = _hits[i];
-                // If the hit contains an IHittableTarget component, it will call the OnTakeHit method.  
-                if (hit.TryGetComponent<IHittableTarget>(out var hittableTarget))
-                    hittableTarget.OnTakeHit(hitData);
-            }
         }
     }
 
@@ -156,6 +61,250 @@ namespace Metroidvania.Player.States
             yield return CoroutinesUtility.GetYieldSeconds(machine.player.data.crouchTransitionTime);
             nextState.SetActive();
         }
+
+        public override void Enter()
+        {
+            machine.isCrouching = true;
+        }
+
+        public override void Exit()
+        {
+            machine.isCrouching = false;
+        }
+    }
+
+    /// <summary>Player state when he is standing and idle</summary>
+    public class PlayerIdleState : PlayerStateBase
+    {
+        public PlayerIdleState(PlayerStateMachine machine) : base(machine)
+        {
+        }
+
+        public override void Enter()
+        {
+            // Set the player velocity to 0
+            machine.player.collisions.SetCollisionsData(machine.player.data.standColliderData);
+            machine.player.SetHorizontalVelocity(0);
+            machine.player.animator.SwitchAnimation(PlayerAnimator.IdleAnimKey);
+        }
+
+        public override void LogicUpdate()
+        {
+            // Try switch states
+            if (machine.EnterFallState() != null ||
+                machine.EnterCrouchState() != null ||
+                machine.EnterJump() != null ||
+                machine.EnterRollState() != null ||
+                machine.EnterAttackState() != null)
+                return;
+
+            // Enter in run state if move input isn't equals 0
+            if (machine.player.input.horizontalMove != 0)
+                machine.runState.SetActive();
+        }
+    }
+
+    /// <summary>Player state when he is standing and walking</summary>
+    public class PlayerRunState : PlayerStateBase
+    {
+        public PlayerRunState(PlayerStateMachine machine) : base(machine)
+        {
+        }
+
+        public override void Enter()
+        {
+            machine.player.collisions.SetCollisionsData(machine.player.data.standColliderData);
+            machine.player.animator.SwitchAnimation(PlayerAnimator.RunAnimKey);
+        }
+
+        public override void LogicUpdate()
+        {
+            // Try enter in other state
+            if (machine.EnterFallState() != null ||
+                machine.EnterCrouchState() != null ||
+                machine.EnterJump() != null ||
+                machine.EnterRollState() != null ||
+                machine.EnterAttackState() != null)
+                return;
+
+            // Enter in idle state if the move input is 0
+            if (machine.player.input.horizontalMove == 0)
+            {
+                machine.idleState.SetActive();
+                return;
+            }
+
+            // Movement the player
+            machine.player.MoveHorizontalAxesUsingInput(machine.player.data.moveSpeed);
+        }
+    }
+
+    /// <summary>Player state when he is jumping</summary>
+    public class PlayerJumpState : PlayerStateBase
+    {
+        private static InputReader reader => InputReader.instance;
+
+        /// <summary>Time elapsed after entering this state</summary>
+        private float _elapsedTime;
+
+        /// <summary>True when the jump button is up</summary>
+        private bool _jumpCanceled;
+
+        /// <summary>True when the player collides with the top of the collider</summary>
+        private bool _collidedTop;
+
+        public PlayerJumpState(PlayerStateMachine machine) : base(machine)
+        {
+        }
+
+        public override void Enter()
+        {
+            // Resets the properties
+            _elapsedTime = 0;
+            _jumpCanceled = false;
+            _collidedTop = false;
+
+            // Assign a method to the jumpCancelEvent in the reader to reference when the jump is canceled, to make a more smoother jump
+            reader.JumpCanceledEvent += HandleJumpCancel;
+
+            machine.player.collisions.SetCollisionsData(machine.player.data.standColliderData);
+            machine.player.animator.SwitchAnimation(PlayerAnimator.JumpAnimKey);
+            machine.player.CollisionEntered += CollisionEntered;
+        }
+
+        public override void Exit()
+        {
+            // Remove the handle method so as not to cause an unexpected error
+            reader.JumpCanceledEvent -= HandleJumpCancel;
+            machine.player.CollisionEntered -= CollisionEntered;
+        }
+
+        public override void LogicUpdate()
+        {
+            // Increases deltaTime in elapsedTime to simulate seconds
+            _elapsedTime += Time.deltaTime;
+
+            // Exits the state if the elapsed time reaches the duration
+            if (_elapsedTime > machine.player.data.jumpDuration || _collidedTop)
+            {
+                machine.EnterIdleState();
+                return;
+            }
+
+            // Exits the state if the jump was canceled
+            if (_jumpCanceled)
+            {
+                // Set player velocity.y to 0.15 to make a smooth jump stop
+                machine.player.rb.velocity = new Vector2(machine.player.rb.velocity.x, .15f);
+                machine.EnterIdleState();
+                return;
+            }
+
+            // Calculates the horizontal speed
+            var horizontalSpeed = machine.player.input.horizontalMove * machine.player.data.moveSpeed;
+
+            // Calculates the vertical speed using the data.JumpCurve curve to make a smooth jump
+            var verticalSpeed =
+                machine.player.data.jumpCurve.Evaluate(_elapsedTime / machine.player.data.jumpDuration) *
+                machine.player.data.jumpSpeed;
+
+            machine.player.rb.velocity = new Vector2(horizontalSpeed, verticalSpeed);
+
+            machine.player.animator.FlipCheck();
+        }
+
+        private void HandleJumpCancel()
+        {
+            _jumpCanceled = true;
+        }
+
+        private void CollisionEntered(Collision2D collision)
+        {
+            // Check if the contact is on top
+            // x == 1 = left   || x == -1 = right
+            // y == 1 = bottom || y == -1 = top   
+            if (collision.GetContact(0).normal.y == -1)
+                _collidedTop = true;
+        }
+    }
+
+    /// <summary>Player state when he is not grounded</summary>
+    public class PlayerFallState : PlayerStateBase
+    {
+        public PlayerFallState(PlayerStateMachine machine) : base(machine)
+        {
+        }
+
+        public override void Enter()
+        {
+            machine.player.animator.SwitchAnimation(PlayerAnimator.FallAnimKey);
+        }
+
+        public override void LogicUpdate()
+        {
+            if (machine.player.collisions.isGrounded)
+            {
+                machine.EnterIdleState();
+                return;
+            }
+
+            machine.player.MoveHorizontalAxesUsingInput(machine.player.data.moveSpeed);
+        }
+    }
+
+    /// <summary>Player state when he is standing and starts a dash</summary>
+    public class PlayerRollState : PlayerStateBase
+    {
+        /// <summary>Time elapsed after entering this state</summary>
+        private float _elapsedTime;
+
+        /// <summary>Boolean to controls the slide cooldown</summary>
+        public bool isInCooldown { get; private set; }
+
+        public PlayerRollState(PlayerStateMachine machine) : base(machine)
+        {
+        }
+
+        public override void Enter()
+        {
+            // Resets the properties
+            _elapsedTime = 0;
+            isInCooldown = true;
+
+            machine.player.collisions.SetCollisionsData(machine.player.data.standColliderData);
+            machine.player.invincibility.AddInvincibility(machine.player.data.rollDuration, false);
+
+            machine.player.animator.SwitchAnimation(PlayerAnimator.RollAnimKey);
+        }
+
+        public override void LogicUpdate()
+        {
+            // Increases deltaTime in elapsedTime to simulate seconds
+            _elapsedTime += Time.deltaTime;
+
+            // Exits the state if the elapsed time reaches the duration
+            if (_elapsedTime >= machine.player.data.rollDuration)
+            {
+                machine.idleState.SetActive();
+                return;
+            }
+
+            // Calculates the vertical speed using the data.rollCurve curve to make a smooth roll
+            var speed = machine.player.data.rollSpeed * machine.player.facingDirection;
+            machine.player.SetHorizontalVelocity(
+                machine.player.data.rollCurve.Evaluate(_elapsedTime / machine.player.data.rollDuration) * speed);
+        }
+
+        public override void Exit()
+        {
+            machine.player.StartCoroutine(Cooldown());
+        }
+
+        private IEnumerator Cooldown()
+        {
+            yield return CoroutinesUtility.GetYieldSeconds(machine.player.data.rollCooldown);
+            isInCooldown = false;
+        }
     }
 
     /// <summary>Player state when he is crouched and idle</summary>
@@ -167,12 +316,14 @@ namespace Metroidvania.Player.States
 
         public override void Enter()
         {
+            base.Enter();
             // Setup properties
             elapsedTime = 0;
             quittingAnim = false;
 
             // Set player's horizontal velocity to 0
             machine.player.SetHorizontalVelocity(0);
+            machine.player.collisions.SetCollisionsData(machine.player.data.crouchColliderData);
 
             // shouldMakeTransition property validation 
             swappedAnim = !shouldMakeTransition;
@@ -212,7 +363,7 @@ namespace Metroidvania.Player.States
             }
 
             // Switches to idle state if the player don't is pressing the crouch button 
-            if (machine.player.input.virtualCrouching == false)
+            if (machine.player.input.virtualCrouching == false && machine.player.collisions.canStand)
                 machine.player.StartCoroutine(PerformCrouchExitAnim(machine.idleState));
         }
     }
@@ -226,11 +377,14 @@ namespace Metroidvania.Player.States
 
         public override void Enter()
         {
+            base.Enter();
+
             // Resets the properties
             elapsedTime = 0;
             quittingAnim = false;
 
             // shouldMakeTransition property validation 
+            machine.player.collisions.SetCollisionsData(machine.player.data.crouchColliderData);
             swappedAnim = !shouldMakeTransition;
             machine.player.animator.SwitchAnimation(shouldMakeTransition
                 ? PlayerAnimator.CrouchTransitionAnimKey
@@ -269,7 +423,7 @@ namespace Metroidvania.Player.States
             }
 
             // Switch to run state
-            if (machine.player.input.virtualCrouching == false)
+            if (machine.player.input.virtualCrouching == false && machine.player.collisions.canStand)
             {
                 machine.player.StartCoroutine(PerformCrouchExitAnim(machine.runState));
                 return;
@@ -284,268 +438,23 @@ namespace Metroidvania.Player.States
         }
     }
 
-    // TODO: Implement this state
-    /// <summary>Player state for handle he death</summary>
-    public class PlayerDeathState : PlayerStateBase
+    public class PlayerCrouchAttackState : PlayerAttackState
     {
-        public PlayerDeathState(PlayerStateMachine machine) : base(machine)
+        public PlayerCrouchAttackState(PlayerStateMachine machine)
+            : base(machine, machine.player.data.crouchAttack, PlayerAnimator.CrouchAttackAnimKey, machine.player.data.crouchColliderData)
         {
         }
 
         public override void Enter()
         {
-            machine.player.animator.SwitchAnimation(PlayerAnimator.DeathAnimKey);
-        }
-    }
-
-    /// <summary>Player state when he is not grounded</summary>
-    public class PlayerFallState : PlayerStateBase
-    {
-        public PlayerFallState(PlayerStateMachine machine) : base(machine)
-        {
-        }
-
-        public override void Enter()
-        {
-            machine.player.animator.SwitchAnimation(PlayerAnimator.FallAnimKey);
-        }
-
-        public override void LogicUpdate()
-        {
-            if (machine.player.collisions.isGrounded)
-            {
-                machine.EnterIdleState();
-                return;
-            }
-
-            machine.player.MoveHorizontalAxesUsingInput(machine.player.data.moveSpeed);
-        }
-    }
-
-    /// <summary>Player state after take a hit</summary>
-    public class PlayerHurtState : PlayerStateBase
-    {
-        /// <summary>Time elapsed after entering this state</summary>
-        private float _elapsedTime;
-
-        /// <summary>The force that will be applied to the rigidbody upon entering this state</summary>
-        public Vector2 knockbackForce { get; set; }
-
-        public PlayerHurtState(PlayerStateMachine machine) : base(machine)
-        {
-        }
-
-        public override void Enter()
-        {
-            // Reset elapsed time
-            _elapsedTime = 0;
-
-            // Reset the player velocity and add the knockback force to the player rigidbody force
-            machine.player.rb.velocity = Vector2.zero;
-            machine.player.rb.AddForce(knockbackForce, ForceMode2D.Impulse);
-
-            machine.player.animator.SwitchAnimation(PlayerAnimator.HurtAnimKey);
-        }
-
-        public override void LogicUpdate()
-        {
-            // Increases deltaTime in elapsedTime to simulate seconds
-            _elapsedTime += Time.deltaTime;
-
-            // Enter in a idle state when the state ends
-            if (_elapsedTime >= machine.player.data.hurtTime)
-                machine.EnterIdleState();
-        }
-    }
-
-    /// <summary>Player state when he is standing and idle</summary>
-    public class PlayerIdleState : PlayerStateBase
-    {
-        public PlayerIdleState(PlayerStateMachine machine) : base(machine)
-        {
-        }
-
-        public override void Enter()
-        {
-            // Set the player velocity to 0
-            machine.player.SetHorizontalVelocity(0);
-            machine.player.animator.SwitchAnimation(PlayerAnimator.IdleAnimKey);
-        }
-
-        public override void LogicUpdate()
-        {
-            // Try switch states
-            if (machine.EnterFallState() != null ||
-                machine.EnterCrouchState() != null ||
-                machine.EnterJump() != null ||
-                machine.EnterRollState() != null ||
-                machine.EnterAttackState() != null)
-                return;
-
-            // Enter in run state if move input isn't equals 0
-            if (machine.player.input.horizontalMove != 0)
-                machine.runState.SetActive();
-        }
-    }
-
-    /// <summary>Player state when he is jumping</summary>
-    public class PlayerJumpState : PlayerStateBase
-    {
-        private static InputReader reader => InputReader.instance;
-
-        /// <summary>Time elapsed after entering this state</summary>
-        private float _elapsedTime;
-
-        /// <summary>True when the jump button is up </summary>
-        private bool _jumpCanceled;
-
-        public PlayerJumpState(PlayerStateMachine machine) : base(machine)
-        {
-        }
-
-        public override void Enter()
-        {
-            // Resets the properties
-            _elapsedTime = 0;
-            _jumpCanceled = false;
-
-            // Assign a method to the jumpCancelEvent in the reader to reference when the jump is canceled, to make a more smoother jump
-            reader.JumpCanceledEvent += HandleJumpCancel;
-
-            machine.player.animator.SwitchAnimation(PlayerAnimator.JumpAnimKey);
+            machine.isCrouching = true;
+            base.Enter();
         }
 
         public override void Exit()
         {
-            // Remove the handle method so as not to cause an unexpected error
-            reader.JumpCanceledEvent -= HandleJumpCancel;
-        }
-
-        public override void LogicUpdate()
-        {
-            // Increases deltaTime in elapsedTime to simulate seconds
-            _elapsedTime += Time.deltaTime;
-
-            // Exits the state if the elapsed time reaches the duration
-            if (_elapsedTime > machine.player.data.jumpDuration)
-            {
-                machine.EnterIdleState();
-                return;
-            }
-
-            // Exits the state if the jump was canceled
-            if (_jumpCanceled)
-            {
-                // Set player velocity.y to 0.15 to make a smooth jump stop
-                machine.player.rb.velocity = new Vector2(machine.player.rb.velocity.x, .15f);
-                machine.EnterIdleState();
-                return;
-            }
-
-            // Calculates the horizontal speed
-            var horizontalSpeed = machine.player.input.horizontalMove * machine.player.data.moveSpeed;
-
-            // Calculates the vertical speed using the data.JumpCurve curve to make a smooth jump
-            var verticalSpeed =
-                machine.player.data.jumpCurve.Evaluate(_elapsedTime / machine.player.data.jumpDuration) *
-                machine.player.data.jumpSpeed;
-
-            machine.player.rb.velocity = new Vector2(horizontalSpeed, verticalSpeed);
-
-            machine.player.animator.FlipCheck();
-        }
-
-        private void HandleJumpCancel()
-        {
-            _jumpCanceled = true;
-        }
-    }
-
-    /// <summary>Player state when he is standing and walking</summary>
-    public class PlayerRunState : PlayerStateBase
-    {
-        public PlayerRunState(PlayerStateMachine machine) : base(machine)
-        {
-        }
-
-        public override void Enter()
-        {
-            machine.player.animator.SwitchAnimation(PlayerAnimator.RunAnimKey);
-        }
-
-        public override void LogicUpdate()
-        {
-            // Try enter in other state
-            if (machine.EnterFallState() != null ||
-                machine.EnterCrouchState() != null ||
-                machine.EnterJump() != null ||
-                machine.EnterRollState() != null ||
-                machine.EnterAttackState() != null)
-                return;
-
-            // Enter in idle state if the move input is 0
-            if (machine.player.input.horizontalMove == 0)
-            {
-                machine.idleState.SetActive();
-                return;
-            }
-
-            // Movement the player
-            machine.player.MoveHorizontalAxesUsingInput(machine.player.data.moveSpeed);
-        }
-    }
-
-    /// <summary>Player state when he is standing and starts a dash</summary>
-    public class PlayerRollState : PlayerStateBase
-    {
-        /// <summary>Time elapsed after entering this state</summary>
-        private float _elapsedTime;
-
-        /// <summary>Boolean to controls the slide cooldown</summary>
-        public bool isInCooldown { get; private set; }
-
-        public PlayerRollState(PlayerStateMachine machine) : base(machine)
-        {
-        }
-
-        public override void Enter()
-        {
-            // Resets the properties
-            _elapsedTime = 0;
-            isInCooldown = true;
-
-            machine.player.invincibility.AddInvincibility(machine.player.data.rollDuration, false);
-
-            machine.player.animator.SwitchAnimation(PlayerAnimator.RollAnimKey);
-        }
-
-        public override void LogicUpdate()
-        {
-            // Increases deltaTime in elapsedTime to simulate seconds
-            _elapsedTime += Time.deltaTime;
-
-            // Exits the state if the elapsed time reaches the duration
-            if (_elapsedTime >= machine.player.data.rollDuration)
-            {
-                machine.idleState.SetActive();
-                return;
-            }
-
-            // Calculates the vertical speed using the data.rollCurve curve to make a smooth roll
-            var speed = machine.player.data.rollSpeed * machine.player.facingDirection;
-            machine.player.SetHorizontalVelocity(
-                machine.player.data.rollCurve.Evaluate(_elapsedTime / machine.player.data.rollDuration) * speed);
-        }
-
-        public override void Exit()
-        {
-            machine.player.StartCoroutine(Cooldown());
-        }
-
-        private IEnumerator Cooldown()
-        {
-            yield return CoroutinesUtility.GetYieldSeconds(machine.player.data.rollCooldown);
-            isInCooldown = false;
+            machine.isCrouching = false;
+            base.Exit();
         }
     }
 
@@ -572,6 +481,7 @@ namespace Metroidvania.Player.States
             _elapsedTime = 0;
             _quittingAnim = false;
 
+            machine.player.collisions.SetCollisionsData(machine.player.data.crouchColliderData);
             machine.player.animator.SwitchAnimation(PlayerAnimator.SlideAnimKey);
         }
 
@@ -618,7 +528,6 @@ namespace Metroidvania.Player.States
         }
     }
 
-    // TODO: Implement this state
     /// <summary>Player state when he is on wall-hand state and presses to climb it</summary>
     public class PlayerWallClimbState : PlayerStateBase
     {
@@ -632,7 +541,6 @@ namespace Metroidvania.Player.States
         }
     }
 
-    // TODO: Implement this state
     /// <summary>Player state when he is on the edge of a wall/floor</summary>
     public class PlayerWallHandState : PlayerStateBase
     {
@@ -646,7 +554,6 @@ namespace Metroidvania.Player.States
         }
     }
 
-    //TODO: Implement this state
     /// <summary>Player state when he is falling and walking towards the wall</summary>
     public class PlayerWallSlideState : PlayerStateBase
     {
@@ -674,6 +581,158 @@ namespace Metroidvania.Player.States
             }
 
             machine.player.rb.velocity = new Vector2(0, -machine.player.data.wallSlideSpeed);
+        }
+    }
+
+    // TODO: Add interaction frames during the attack perform (to use the roll or other action)
+    /// <summary>Class for use attack states</summary>
+    public class PlayerAttackState : PlayerStateBase
+    {
+        /// <summary>Colliders hit on last trigger. Used for allocate hits array only once</summary>
+        private readonly Collider2D[] _hits = new Collider2D[8];
+
+        /// <summary>The attack data that stores the collision rect, move offset, damage...</summary>
+        public readonly PlayerDataChannel.Attack attackData;
+
+        /// <summary>The animation key of this attack</summary>
+        public readonly string animKey;
+
+        /// <summary>The collider data of this attack</summary>
+        public readonly PlayerDataChannel.ColliderData colliderData;
+
+        /// <summary>On reach the end and this prop don't is null, switch to this state</summary>
+        public PlayerAttackState nextAttackState;
+
+        /// <summary>Time elapsed after entering this state. Used to deal with the attack trigger</summary>
+        protected float elapsedTime { get; set; }
+
+        /// <summary>Is the state triggered? Used to trigger the attack only once</summary>
+        protected bool triggered { get; set; }
+
+        public PlayerAttackState(PlayerStateMachine machine, PlayerDataChannel.Attack attackData, string animKey, PlayerDataChannel.ColliderData colliderData) :
+            base(machine)
+        {
+            this.attackData = attackData;
+            this.animKey = animKey;
+            this.colliderData = colliderData;
+        }
+
+        public override void Enter()
+        {
+            // Resets all properties
+            elapsedTime = 0;
+            triggered = false;
+
+            // Set player's horizontal velocity to 0 and switch the animation
+            machine.player.SetHorizontalVelocity(0);
+            machine.player.animator.SwitchAnimation(animKey);
+            machine.player.collisions.SetCollisionsData(colliderData);
+        }
+
+        public override void LogicUpdate()
+        {
+            // Increases deltaTime in elapsedTime to simulate seconds
+            elapsedTime += Time.deltaTime;
+
+            // Check if the player is not floating
+            if (machine.EnterFallState() != null)
+                return;
+
+            // Trigger the attack if it hasn't triggered and the elapsedTime is greater than or equal to the triggerTime
+            if (!triggered && elapsedTime >= attackData.triggerTime)
+            {
+                triggered = true;
+                TriggerAttack();
+            }
+
+            // Exit the state if the elapsedTime is greater than or equal to the attack duration 
+            if (elapsedTime < attackData.duration) return;
+
+            // Switch to the next attack if it is not null and the player is holding attack button 
+            if (machine.player.input.virtualAttacking && nextAttackState != null)
+            {
+                nextAttackState.SetActive();
+                return;
+            }
+
+            // Switch to the preferred idle state in machine, like fall, crouching or the default idle.
+            machine.EnterIdleState();
+        }
+
+        /// <summary>Triggers the attack, note that the method don't set or follow the property <see cref="triggered"/></summary>
+        private void TriggerAttack()
+        {
+            // Moves the player's position by the offset defined in the attack data
+            machine.player.rb.MovePosition(machine.player.rb.position +
+                new Vector2(attackData.horizontalMoveOffset * machine.player.facingDirection, 0));
+
+            // Get the colliders in the attack rect without allocate a new array in the memory
+            var hitCount = Physics2D.OverlapBoxNonAlloc(
+                machine.player.rb.position + attackData.triggerCollider.center * machine.player.transform.localScale,
+                attackData.triggerCollider.size, 0, _hits, machine.player.data.hittableLayer);
+
+            // Do nothing if don't hit any object
+            if (hitCount <= 0) return;
+
+            var hitData = new PlayerHitData(attackData.damage, attackData.force, machine.player);
+            for (var i = 0; i < hitCount; i++)
+            {
+                var hit = _hits[i];
+                // If the hit contains an IHittableTarget component, it will call the OnTakeHit method.  
+                if (hit.TryGetComponent<IHittableTarget>(out var hittableTarget))
+                    hittableTarget.OnTakeHit(hitData);
+            }
+        }
+    }
+
+    /// <summary>Player state after take a hit</summary>
+    public class PlayerHurtState : PlayerStateBase
+    {
+        /// <summary>Time elapsed after entering this state</summary>
+        private float _elapsedTime;
+
+        /// <summary>The force that will be applied to the rigidbody upon entering this state</summary>
+        public Vector2 knockbackForce { get; set; }
+
+        public PlayerHurtState(PlayerStateMachine machine) : base(machine)
+        {
+        }
+
+        public override void Enter()
+        {
+            // Reset elapsed time
+            _elapsedTime = 0;
+
+            // Reset the player velocity and add the knockback force to the player rigidbody force
+            machine.player.rb.velocity = Vector2.zero;
+            machine.player.rb.AddForce(knockbackForce, ForceMode2D.Impulse);
+
+            machine.player.collisions.SetCollisionsData(machine.player.data.standColliderData);
+            machine.player.animator.SwitchAnimation(PlayerAnimator.HurtAnimKey);
+        }
+
+        public override void LogicUpdate()
+        {
+            // Increases deltaTime in elapsedTime to simulate seconds
+            _elapsedTime += Time.deltaTime;
+
+            // Enter in a idle state when the state ends
+            if (_elapsedTime >= machine.player.data.hurtTime)
+                machine.EnterIdleState();
+        }
+    }
+
+    // TODO: Implement death state
+    /// <summary>Player state for handle he death</summary>
+    public class PlayerDeathState : PlayerStateBase
+    {
+        public PlayerDeathState(PlayerStateMachine machine) : base(machine)
+        {
+        }
+
+        public override void Enter()
+        {
+            machine.player.animator.SwitchAnimation(PlayerAnimator.DeathAnimKey);
         }
     }
 }
