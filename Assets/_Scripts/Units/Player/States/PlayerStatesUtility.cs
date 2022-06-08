@@ -9,5 +9,10 @@
         {
             state.machine.SwitchState(state);
         }
+
+        public static bool IsCrouchState(PlayerStateBase previousState)
+        {
+            return previousState.metadatas.TryGetMetadata<PlayerCrouchMetadata>(out var md);
+        }
     }
 }

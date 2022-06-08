@@ -9,13 +9,20 @@ namespace Metroidvania.Player.States
     /// <summary>Base classes for all player states</summary>
     public abstract class PlayerStateBase
     {
-        /// <summary>The entity machine</summary>
+        private readonly PlayerStateMetadatas _metadatas;
+        public PlayerStateMetadatas metadatas => _metadatas;
+
+        /// <summary>The player machine</summary>
         public readonly PlayerStateMachine machine;
 
-        protected PlayerStateBase(PlayerStateMachine machine) => this.machine = machine;
+        protected PlayerStateBase(PlayerStateMachine machine)
+        {
+            this.machine = machine;
+            _metadatas = new PlayerStateMetadatas(this);
+        }
 
         /// <summary>This method should be called when the player switch to this state</summary> 
-        public virtual void Enter()
+        public virtual void Enter(PlayerStateBase previousState)
         {
         }
 
@@ -30,46 +37,16 @@ namespace Metroidvania.Player.States
         }
     }
 
-    /// <summary>Base class for crouch states, excluding the attack state</summary>
-    public abstract class PlayerCrouchStateBase : PlayerStateBase
+    /// <summary>This state is the first state of player, used for always make the Enter(previousState) not null</summary>
+    public class PlayerValidationState : PlayerStateBase
     {
-        /// <summary>Time elapsed after entering this state. Used to deal with the transition animation</summary>
-        protected float elapsedTime;
-
-        /// <summary>True when is quitting in transition anim. Used for not repeat the <see cref="PerformCrouchExitAnim"/> process</summary>
-        protected bool quittingAnim;
-
-        /// <summary>
-        /// Used for define if should make transition when enter in the state.
-        /// For example, idle to crouch idle should animate, but walking crouch to idle crouch should not
-        /// </summary>
-        public bool shouldMakeTransition;
-
-        /// <summary>Must be true if entry transition animation is already over</summary>
-        protected bool swappedAnim;
-
-        protected PlayerCrouchStateBase(PlayerStateMachine machine) : base(machine)
+        public PlayerValidationState(PlayerStateMachine machine) : base(machine)
         {
         }
 
-        /// <summary>A coroutine to perform the exit transition animation and switch the state.</summary>
-        /// <param name="nextState">The state that will be active when the animation end</param>
-        protected IEnumerator PerformCrouchExitAnim(PlayerStateBase nextState)
+        public override void Enter(PlayerStateBase previousState)
         {
-            quittingAnim = true;
-            machine.player.animator.SwitchAnimation(PlayerAnimator.CrouchTransitionAnimKey);
-            yield return CoroutinesUtility.GetYieldSeconds(machine.player.data.crouchTransitionTime);
-            nextState.SetActive();
-        }
-
-        public override void Enter()
-        {
-            machine.isCrouching = true;
-        }
-
-        public override void Exit()
-        {
-            machine.isCrouching = false;
+            machine.idleState.SetActive();
         }
     }
 
@@ -80,7 +57,7 @@ namespace Metroidvania.Player.States
         {
         }
 
-        public override void Enter()
+        public override void Enter(PlayerStateBase previousState)
         {
             // Set the player velocity to 0
             machine.player.collisions.SetCollisionsData(machine.player.data.standColliderData);
@@ -111,7 +88,7 @@ namespace Metroidvania.Player.States
         {
         }
 
-        public override void Enter()
+        public override void Enter(PlayerStateBase previousState)
         {
             machine.player.collisions.SetCollisionsData(machine.player.data.standColliderData);
             machine.player.animator.SwitchAnimation(PlayerAnimator.RunAnimKey);
@@ -144,8 +121,7 @@ namespace Metroidvania.Player.States
     {
         private static InputReader reader => InputReader.instance;
 
-        /// <summary>Time elapsed after entering this state</summary>
-        private float _elapsedTime;
+        private PlayerDurationModule _durationModule;
 
         /// <summary>True when the jump button is up</summary>
         private bool _jumpCanceled;
@@ -155,12 +131,13 @@ namespace Metroidvania.Player.States
 
         public PlayerJumpState(PlayerStateMachine machine) : base(machine)
         {
+            _durationModule = new PlayerDurationModule(this);
         }
 
-        public override void Enter()
+        public override void Enter(PlayerStateBase previousState)
         {
             // Resets the properties
-            _elapsedTime = 0;
+            _durationModule.Enter();
             _jumpCanceled = false;
             _collidedTop = false;
 
@@ -181,11 +158,8 @@ namespace Metroidvania.Player.States
 
         public override void LogicUpdate()
         {
-            // Increases deltaTime in elapsedTime to simulate seconds
-            _elapsedTime += Time.deltaTime;
-
             // Exits the state if the elapsed time reaches the duration
-            if (_elapsedTime > machine.player.data.jumpDuration || _collidedTop)
+            if (_durationModule.HasElapsed(machine.player.data.jumpDuration) || _collidedTop)
             {
                 machine.EnterIdleState();
                 return;
@@ -204,9 +178,8 @@ namespace Metroidvania.Player.States
             var horizontalSpeed = machine.player.input.horizontalMove * machine.player.data.moveSpeed;
 
             // Calculates the vertical speed using the data.JumpCurve curve to make a smooth jump
-            var verticalSpeed =
-                machine.player.data.jumpCurve.Evaluate(_elapsedTime / machine.player.data.jumpDuration) *
-                machine.player.data.jumpSpeed;
+            var verticalSpeed = machine.player.data.jumpSpeed *
+                machine.player.data.jumpCurve.Evaluate(_durationModule.GetElapsedTime() / machine.player.data.jumpDuration);
 
             machine.player.rb.velocity = new Vector2(horizontalSpeed, verticalSpeed);
 
@@ -235,7 +208,7 @@ namespace Metroidvania.Player.States
         {
         }
 
-        public override void Enter()
+        public override void Enter(PlayerStateBase previousState)
         {
             machine.player.animator.SwitchAnimation(PlayerAnimator.FallAnimKey);
         }
@@ -255,20 +228,20 @@ namespace Metroidvania.Player.States
     /// <summary>Player state when he is standing and starts a dash</summary>
     public class PlayerRollState : PlayerStateBase
     {
-        /// <summary>Time elapsed after entering this state</summary>
-        private float _elapsedTime;
+        private PlayerDurationModule _durationModule;
 
         /// <summary>Boolean to controls the slide cooldown</summary>
         public bool isInCooldown { get; private set; }
 
         public PlayerRollState(PlayerStateMachine machine) : base(machine)
         {
+            _durationModule = new PlayerDurationModule(this);
         }
 
-        public override void Enter()
+        public override void Enter(PlayerStateBase previousState)
         {
             // Resets the properties
-            _elapsedTime = 0;
+            _durationModule.Enter();
             isInCooldown = true;
 
             machine.player.collisions.SetCollisionsData(machine.player.data.standColliderData);
@@ -279,11 +252,8 @@ namespace Metroidvania.Player.States
 
         public override void LogicUpdate()
         {
-            // Increases deltaTime in elapsedTime to simulate seconds
-            _elapsedTime += Time.deltaTime;
-
             // Exits the state if the elapsed time reaches the duration
-            if (_elapsedTime >= machine.player.data.rollDuration)
+            if (_durationModule.HasElapsed(machine.player.data.rollDuration))
             {
                 machine.idleState.SetActive();
                 return;
@@ -292,7 +262,7 @@ namespace Metroidvania.Player.States
             // Calculates the vertical speed using the data.rollCurve curve to make a smooth roll
             var speed = machine.player.data.rollSpeed * machine.player.facingDirection;
             machine.player.SetHorizontalVelocity(
-                machine.player.data.rollCurve.Evaluate(_elapsedTime / machine.player.data.rollDuration) * speed);
+                machine.player.data.rollCurve.Evaluate(_durationModule.GetElapsedTime() / machine.player.data.rollDuration) * speed);
         }
 
         public override void Exit()
@@ -308,25 +278,38 @@ namespace Metroidvania.Player.States
     }
 
     /// <summary>Player state when he is crouched and idle</summary>
-    public class PlayerCrouchState : PlayerCrouchStateBase
+    public class PlayerCrouchState : PlayerStateBase
     {
+        private PlayerCrouchMetadata _crouchMetadata;
+
+        private PlayerDurationModule _durationModule;
+
+        /// <summary>True when is quitting in transition anim. Used for not repeat the <see cref="_crouchMetadata.ExitCrouchState"/> process</summary>
+        private bool _quittingAnim;
+
+        /// <summary>Must be true if entry transition animation is already over</summary>
+        private bool _swappedAnim;
+
         public PlayerCrouchState(PlayerStateMachine machine) : base(machine)
         {
+            _crouchMetadata = new PlayerCrouchMetadata(this);
+
+            _durationModule = new PlayerDurationModule(this);
         }
 
-        public override void Enter()
+        public override void Enter(PlayerStateBase previousState)
         {
-            base.Enter();
-            // Setup properties
-            elapsedTime = 0;
-            quittingAnim = false;
+            var shouldMakeTransition = !PlayerStatesUtility.IsCrouchState(previousState);
+
+            _durationModule.Enter();
+            _quittingAnim = false;
 
             // Set player's horizontal velocity to 0
             machine.player.SetHorizontalVelocity(0);
             machine.player.collisions.SetCollisionsData(machine.player.data.crouchColliderData);
 
             // shouldMakeTransition property validation 
-            swappedAnim = !shouldMakeTransition;
+            _swappedAnim = !shouldMakeTransition;
             machine.player.animator.SwitchAnimation(shouldMakeTransition
                 ? PlayerAnimator.CrouchTransitionAnimKey
                 : PlayerAnimator.CrouchAnimKey);
@@ -335,15 +318,12 @@ namespace Metroidvania.Player.States
         public override void LogicUpdate()
         {
             // Do nothing if is in the quitting anim
-            if (quittingAnim) return;
-
-            // Increases deltaTime in elapsedTime to simulate seconds
-            elapsedTime += Time.deltaTime;
+            if (_quittingAnim) return;
 
             // Switches to idle animation if not previously switched and elapsedTime is greater than or equal to transition time  
-            if (!swappedAnim && elapsedTime > machine.player.data.crouchTransitionTime)
+            if (!_swappedAnim && _durationModule.HasElapsed(machine.player.data.crouchTransitionTime))
             {
-                swappedAnim = true;
+                _swappedAnim = true;
                 machine.player.animator.SwitchAnimation(PlayerAnimator.CrouchAnimKey);
             }
 
@@ -357,35 +337,47 @@ namespace Metroidvania.Player.States
             // Switches to crouch walk state if the input horizontal move isn't equal 0
             if (machine.player.input.horizontalMove != 0)
             {
-                machine.crouchWalkState.shouldMakeTransition = false;
                 machine.crouchWalkState.SetActive();
                 return;
             }
 
             // Switches to idle state if the player don't is pressing the crouch button 
             if (machine.player.input.virtualCrouching == false && machine.player.collisions.canStand)
-                machine.player.StartCoroutine(PerformCrouchExitAnim(machine.idleState));
+                machine.player.StartCoroutine(_crouchMetadata.ExitCrouchState(machine.idleState));
         }
     }
 
     /// <summary>Player state when he is crouched and walking</summary>
-    public class PlayerCrouchWalkState : PlayerCrouchStateBase
+    public class PlayerCrouchWalkState : PlayerStateBase
     {
+        private PlayerCrouchMetadata _crouchMetadata;
+
+        private PlayerDurationModule _durationMetadata;
+
+        /// <summary>True when is quitting in transition anim. Used for not repeat the <see cref="_crouchMetadata.ExitCrouchState"/> process</summary>
+        private bool _quittingAnim;
+
+        /// <summary>Must be true if entry transition animation is already over</summary>
+        private bool _swappedAnim;
+
         public PlayerCrouchWalkState(PlayerStateMachine machine) : base(machine)
         {
+            _crouchMetadata = new PlayerCrouchMetadata(this);
+
+            _durationMetadata = new PlayerDurationModule(this);
         }
 
-        public override void Enter()
+        public override void Enter(PlayerStateBase previousState)
         {
-            base.Enter();
+            var shouldMakeTransition = !PlayerStatesUtility.IsCrouchState(previousState);
 
             // Resets the properties
-            elapsedTime = 0;
-            quittingAnim = false;
+            _durationMetadata.Enter();
+            _quittingAnim = false;
 
             // shouldMakeTransition property validation 
             machine.player.collisions.SetCollisionsData(machine.player.data.crouchColliderData);
-            swappedAnim = !shouldMakeTransition;
+            _swappedAnim = !shouldMakeTransition;
             machine.player.animator.SwitchAnimation(shouldMakeTransition
                 ? PlayerAnimator.CrouchTransitionAnimKey
                 : PlayerAnimator.CrouchWalkAnimKey);
@@ -394,19 +386,16 @@ namespace Metroidvania.Player.States
         public override void LogicUpdate()
         {
             // Only move if is in the quitting anim
-            if (quittingAnim)
+            if (_quittingAnim)
             {
                 machine.player.MoveHorizontalAxesUsingInput(machine.player.data.crouchSpeed);
                 return;
             }
 
-            // Increases deltaTime in elapsedTime to simulate seconds
-            elapsedTime += Time.deltaTime;
-
             // Switches to idle animation if not previously switched and elapsedTime is greater than or equal to transition time  
-            if (!swappedAnim && elapsedTime > machine.player.data.crouchTransitionTime)
+            if (!_swappedAnim && _durationMetadata.HasElapsed(machine.player.data.crouchTransitionTime))
             {
-                swappedAnim = true;
+                _swappedAnim = true;
                 machine.player.animator.SwitchAnimation(PlayerAnimator.CrouchWalkAnimKey);
             }
 
@@ -417,7 +406,6 @@ namespace Metroidvania.Player.States
             // Switch to idle state
             if (machine.player.input.horizontalMove == 0)
             {
-                machine.crouchState.shouldMakeTransition = false;
                 machine.crouchState.SetActive();
                 return;
             }
@@ -425,7 +413,7 @@ namespace Metroidvania.Player.States
             // Switch to run state
             if (machine.player.input.virtualCrouching == false && machine.player.collisions.canStand)
             {
-                machine.player.StartCoroutine(PerformCrouchExitAnim(machine.runState));
+                machine.player.StartCoroutine(_crouchMetadata.ExitCrouchState(machine.runState));
                 return;
             }
 
@@ -438,31 +426,10 @@ namespace Metroidvania.Player.States
         }
     }
 
-    public class PlayerCrouchAttackState : PlayerAttackState
-    {
-        public PlayerCrouchAttackState(PlayerStateMachine machine)
-            : base(machine, machine.player.data.crouchAttack, PlayerAnimator.CrouchAttackAnimKey, machine.player.data.crouchColliderData)
-        {
-        }
-
-        public override void Enter()
-        {
-            machine.isCrouching = true;
-            base.Enter();
-        }
-
-        public override void Exit()
-        {
-            machine.isCrouching = false;
-            base.Exit();
-        }
-    }
-
     /// <summary>Player state when he is crouching and starts a dash</summary>
     public class PlayerSlideState : PlayerStateBase
     {
-        /// <summary>Time elapsed after entering this state</summary>
-        private float _elapsedTime;
+        private PlayerDurationModule _durationModule;
 
         /// <summary>True when the quitting animation is running.</summary>
         private bool _quittingAnim;
@@ -472,13 +439,15 @@ namespace Metroidvania.Player.States
 
         public PlayerSlideState(PlayerStateMachine machine) : base(machine)
         {
+            new PlayerCrouchMetadata(this);
+            _durationModule = new PlayerDurationModule(this);
         }
 
-        public override void Enter()
+        public override void Enter(PlayerStateBase previousState)
         {
             // Resets the properties
+            _durationModule.Enter();
             isInCooldown = true;
-            _elapsedTime = 0;
             _quittingAnim = false;
 
             machine.player.collisions.SetCollisionsData(machine.player.data.crouchColliderData);
@@ -487,21 +456,17 @@ namespace Metroidvania.Player.States
 
         public override void LogicUpdate()
         {
-            // Increases deltaTime in elapsedTime to simulate seconds
-            _elapsedTime += Time.deltaTime;
-
             // Starts the exit transition if it's near the end of the slide
             if (!_quittingAnim &&
-                _elapsedTime >= machine.player.data.slideDuration - machine.player.data.slideTransitionTime)
+                _durationModule.HasElapsed(machine.player.data.slideDuration - machine.player.data.slideTransitionTime))
             {
                 machine.player.animator.SwitchAnimation(PlayerAnimator.SlideEndAnimKey);
                 _quittingAnim = true;
             }
 
             // Exits the state if the elapsed time reaches the duration
-            if (_elapsedTime >= machine.player.data.slideDuration)
+            if (_durationModule.HasElapsed(machine.player.data.slideDuration))
             {
-                machine.crouchState.shouldMakeTransition = false;
                 machine.crouchState.SetActive();
                 return;
             }
@@ -511,7 +476,7 @@ namespace Metroidvania.Player.States
                 return;
 
             // Calculates and apply the speed
-            var speed = machine.player.data.slideCurve.Evaluate(_elapsedTime / machine.player.data.slideDuration) *
+            var speed = machine.player.data.slideCurve.Evaluate(_durationModule.GetElapsedTime() / machine.player.data.slideDuration) *
                         machine.player.data.slideSpeed * machine.player.facingDirection;
             machine.player.SetHorizontalVelocity(speed);
         }
@@ -535,7 +500,7 @@ namespace Metroidvania.Player.States
         {
         }
 
-        public override void Enter()
+        public override void Enter(PlayerStateBase previousState)
         {
             machine.player.animator.SwitchAnimation(PlayerAnimator.WallClimbAnimKey);
         }
@@ -548,7 +513,7 @@ namespace Metroidvania.Player.States
         {
         }
 
-        public override void Enter()
+        public override void Enter(PlayerStateBase previousState)
         {
             machine.player.animator.SwitchAnimation(PlayerAnimator.WallHandAnimKey);
         }
@@ -561,7 +526,7 @@ namespace Metroidvania.Player.States
         {
         }
 
-        public override void Enter()
+        public override void Enter(PlayerStateBase previousState)
         {
             machine.player.animator.SwitchAnimation(PlayerAnimator.WallSlideAnimKey);
         }
@@ -588,6 +553,8 @@ namespace Metroidvania.Player.States
     /// <summary>Class for use attack states</summary>
     public class PlayerAttackState : PlayerStateBase
     {
+        protected PlayerDurationModule durationModule;
+
         /// <summary>Colliders hit on last trigger. Used for allocate hits array only once</summary>
         private readonly Collider2D[] _hits = new Collider2D[8];
 
@@ -603,9 +570,6 @@ namespace Metroidvania.Player.States
         /// <summary>On reach the end and this prop don't is null, switch to this state</summary>
         public PlayerAttackState nextAttackState;
 
-        /// <summary>Time elapsed after entering this state. Used to deal with the attack trigger</summary>
-        protected float elapsedTime { get; set; }
-
         /// <summary>Is the state triggered? Used to trigger the attack only once</summary>
         protected bool triggered { get; set; }
 
@@ -615,12 +579,14 @@ namespace Metroidvania.Player.States
             this.attackData = attackData;
             this.animKey = animKey;
             this.colliderData = colliderData;
+
+            durationModule = new PlayerDurationModule(this);
         }
 
-        public override void Enter()
+        public override void Enter(PlayerStateBase previousState)
         {
             // Resets all properties
-            elapsedTime = 0;
+            durationModule.Enter();
             triggered = false;
 
             // Set player's horizontal velocity to 0 and switch the animation
@@ -631,22 +597,19 @@ namespace Metroidvania.Player.States
 
         public override void LogicUpdate()
         {
-            // Increases deltaTime in elapsedTime to simulate seconds
-            elapsedTime += Time.deltaTime;
-
             // Check if the player is not floating
             if (machine.EnterFallState() != null)
                 return;
 
             // Trigger the attack if it hasn't triggered and the elapsedTime is greater than or equal to the triggerTime
-            if (!triggered && elapsedTime >= attackData.triggerTime)
+            if (!triggered && durationModule.HasElapsed(attackData.triggerTime))
             {
                 triggered = true;
                 TriggerAttack();
             }
 
             // Exit the state if the elapsedTime is greater than or equal to the attack duration 
-            if (elapsedTime < attackData.duration) return;
+            if (!durationModule.HasElapsed(attackData.duration)) return;
 
             // Switch to the next attack if it is not null and the player is holding attack button 
             if (machine.player.input.virtualAttacking && nextAttackState != null)
@@ -688,8 +651,7 @@ namespace Metroidvania.Player.States
     /// <summary>Player state after take a hit</summary>
     public class PlayerHurtState : PlayerStateBase
     {
-        /// <summary>Time elapsed after entering this state</summary>
-        private float _elapsedTime;
+        private PlayerDurationModule _durationModule;
 
         /// <summary>The force that will be applied to the rigidbody upon entering this state</summary>
         public Vector2 knockbackForce { get; set; }
@@ -698,10 +660,10 @@ namespace Metroidvania.Player.States
         {
         }
 
-        public override void Enter()
+        public override void Enter(PlayerStateBase previousState)
         {
             // Reset elapsed time
-            _elapsedTime = 0;
+            _durationModule.Enter();
 
             // Reset the player velocity and add the knockback force to the player rigidbody force
             machine.player.rb.velocity = Vector2.zero;
@@ -713,11 +675,8 @@ namespace Metroidvania.Player.States
 
         public override void LogicUpdate()
         {
-            // Increases deltaTime in elapsedTime to simulate seconds
-            _elapsedTime += Time.deltaTime;
-
             // Enter in a idle state when the state ends
-            if (_elapsedTime >= machine.player.data.hurtTime)
+            if (_durationModule.HasElapsed(machine.player.data.hurtTime))
                 machine.EnterIdleState();
         }
     }
@@ -730,7 +689,7 @@ namespace Metroidvania.Player.States
         {
         }
 
-        public override void Enter()
+        public override void Enter(PlayerStateBase previousState)
         {
             machine.player.animator.SwitchAnimation(PlayerAnimator.DeathAnimKey);
         }

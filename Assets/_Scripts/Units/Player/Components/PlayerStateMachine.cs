@@ -13,7 +13,7 @@ namespace Metroidvania.Player
         public readonly PlayerFallState fallSate;
         public readonly PlayerCrouchState crouchState;
         public readonly PlayerCrouchWalkState crouchWalkState;
-        public readonly PlayerCrouchAttackState crouchAttackState;
+        public readonly PlayerAttackState crouchAttackState;
         public readonly PlayerSlideState slideState;
         public readonly PlayerRollState rollState;
         public readonly PlayerDeathState deathState;
@@ -24,7 +24,9 @@ namespace Metroidvania.Player
         public readonly PlayerAttackState attackOneState;
         public readonly PlayerAttackState attackTwoState;
 
-        public bool isCrouching { get; set; }
+        public Coroutine crouchTransitionCoroutine;
+
+        public bool isCrouching { get; private set; }
 
         public PlayerStateMachine(PlayerController player) : base(player)
         {
@@ -36,7 +38,7 @@ namespace Metroidvania.Player
             rollState = new PlayerRollState(this);
             crouchState = new PlayerCrouchState(this);
             crouchWalkState = new PlayerCrouchWalkState(this);
-            crouchAttackState = new PlayerCrouchAttackState(this);
+            crouchAttackState = new PlayerAttackState(this, player.data.crouchAttack, PlayerAnimator.CrouchAttackAnimKey, player.data.crouchColliderData);
             attackOneState = new PlayerAttackState(this, player.data.attackOne, PlayerAnimator.AttackOneAnimKey, player.data.standColliderData);
             attackTwoState = new PlayerAttackState(this, player.data.attackTwo, PlayerAnimator.AttackTwoAnimKey, player.data.standColliderData);
             wallSlideState = new PlayerWallSlideState(this);
@@ -48,8 +50,10 @@ namespace Metroidvania.Player
             attackOneState.nextAttackState = attackTwoState;
             attackTwoState.nextAttackState = attackOneState;
 
+            new PlayerCrouchMetadata(crouchAttackState);
+
             player.LogicUpdated += Update;
-            idleState.SetActive();
+            new PlayerValidationState(this).SetActive();
         }
 
         /// <summary>The state that is running</summary>
@@ -69,9 +73,11 @@ namespace Metroidvania.Player
         /// <summary>Switches the current state</summary>
         public void SwitchState(PlayerStateBase state)
         {
-            currentState?.Exit();
+            var oldState = currentState;
+            oldState?.Exit();
             currentState = state;
-            currentState.Enter();
+            isCrouching = PlayerStatesUtility.IsCrouchState(state);
+            currentState.Enter(oldState);
         }
 
         // Shortcut methods for states, return null if cannot enter on state else return the entered state
@@ -82,18 +88,16 @@ namespace Metroidvania.Player
             return jumpState;
         }
 
-        public PlayerStateBase EnterCrouchState(bool shouldMakeTransition = true)
+        public PlayerStateBase EnterCrouchState()
         {
             if ((!player.input.virtualCrouching && player.collisions.canStand) || !player.collisions.isGrounded) return null;
 
             if (player.input.horizontalMove != 0)
             {
-                player.stateMachine.crouchWalkState.shouldMakeTransition = shouldMakeTransition;
                 crouchWalkState.SetActive();
                 return crouchWalkState;
             }
 
-            player.stateMachine.crouchState.shouldMakeTransition = shouldMakeTransition;
             crouchState.SetActive();
             return crouchState;
         }
@@ -148,8 +152,7 @@ namespace Metroidvania.Player
 
         public PlayerStateBase EnterRollState()
         {
-            if (!player.collisions.isGrounded || isCrouching || !player.input.virtualDashing ||
-                rollState.isInCooldown)
+            if (!player.collisions.isGrounded || isCrouching || !player.input.virtualDashing || rollState.isInCooldown)
                 return null;
 
             rollState.SetActive();

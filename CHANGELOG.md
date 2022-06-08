@@ -133,3 +133,10 @@
 - Add dynamic player collision
 - Improve crouch states
 - Improve jump
+
+> 1.4.0.1
+
+- Add metadata and modules to states
+- Add previous state param to PlayerState.Enter
+- Improve crouch states
+- Add validator state to player state machine
