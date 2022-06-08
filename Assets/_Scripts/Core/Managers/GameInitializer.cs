@@ -63,11 +63,13 @@ namespace Metroidvania.Settings
             yield return sceneLoaderHandle;
             sceneLoaderHandle.Result.GetComponent<SceneLoader>().Initialize();
 
+#if UNITY_EDITOR
             if (InitializationFinish != null)
             {
                 InitializationFinish.Invoke();
                 yield break;
             }
+#endif
 
             yield return Addressables.LoadSceneAsync(m_mainMenuSceneRef);
         }
