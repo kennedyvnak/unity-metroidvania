@@ -49,11 +49,12 @@ namespace Metroidvania.Player
 
             attackOneState.nextAttackState = attackTwoState;
             attackTwoState.nextAttackState = attackOneState;
+            crouchAttackState.nextAttackState = crouchAttackState;
 
             new PlayerCrouchMetadata(crouchAttackState);
 
-            player.LogicUpdated += Update;
             new PlayerValidationState(this).SetActive();
+            player.LogicUpdated += Update;
         }
 
         /// <summary>The state that is running</summary>

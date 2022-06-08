@@ -105,4 +105,20 @@ namespace Metroidvania.Player.States
 
         public float GetElapsedTime() => Time.time - enterTime;
     }
+
+    public class PlayerCooldownModule : PlayerStateModuleBase
+    {
+        private float _cooldownStartTime;
+
+        public float cooldownDuration;
+
+        public PlayerCooldownModule(PlayerStateBase state, float cooldownDuration) : base(state)
+        {
+            this.cooldownDuration = cooldownDuration;
+        }
+
+        public bool IsInCooldown() => Time.time - _cooldownStartTime <= cooldownDuration;
+
+        public void StartCooldown() => _cooldownStartTime = Time.time;
+    }
 }

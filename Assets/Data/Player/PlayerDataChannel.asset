@@ -55,7 +55,7 @@ MonoBehaviour:
   crouchSpeed: 3
   slideDuration: 0.6
   slideSpeed: 12
-  slideCooldown: 0.333
+  slideCooldown: 0.4
   slideCurve:
     serializedVersion: 2
     m_Curve:
@@ -82,7 +82,7 @@ MonoBehaviour:
     m_RotationOrder: 4
   rollDuration: 0.75
   rollSpeed: 6
-  rollCooldown: 0.1333
+  rollCooldown: 0.35
   rollCurve:
     serializedVersion: 2
     m_Curve:
@@ -122,8 +122,9 @@ MonoBehaviour:
   attackOne:
     drawGizmos: 0
     duration: 0.4
-    horizontalMoveOffset: 0.05
+    horizontalMoveOffset: 0.04
     triggerTime: 0.1665
+    attackEndOffset: 0.09
     triggerCollider:
       serializedVersion: 2
       x: 0.4
@@ -134,9 +135,10 @@ MonoBehaviour:
     force: 0.2
   attackTwo:
     drawGizmos: 0
-    duration: 0.575
-    horizontalMoveOffset: 0.1
+    duration: 0.567
+    horizontalMoveOffset: 0.08
     triggerTime: 0.25
+    attackEndOffset: 0.09
     triggerCollider:
       serializedVersion: 2
       x: 0
@@ -148,8 +150,9 @@ MonoBehaviour:
   crouchAttack:
     drawGizmos: 0
     duration: 0.4
-    horizontalMoveOffset: -0.075
-    triggerTime: 0.1665
+    horizontalMoveOffset: -0.035
+    triggerTime: 0.085
+    attackEndOffset: 0.07
     triggerCollider:
       serializedVersion: 2
       x: 0

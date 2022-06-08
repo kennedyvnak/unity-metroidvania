@@ -1,11 +1,11 @@
-﻿using System.Collections;
-using Metroidvania.Combat;
-using Metroidvania.InputSystem;
+﻿using Metroidvania.InputSystem;
 using UnityEngine;
 
 namespace Metroidvania.Player.States
 {
-    //TODO: Implement wall states
+    // TODO: Implement wall states
+    // TODO: Add sounds
+    // TODO: Implement death state
     /// <summary>Base classes for all player states</summary>
     public abstract class PlayerStateBase
     {
@@ -230,24 +230,26 @@ namespace Metroidvania.Player.States
     {
         private PlayerDurationModule _durationModule;
 
+        private PlayerCooldownModule _cooldownModule;
+
         /// <summary>Boolean to controls the slide cooldown</summary>
-        public bool isInCooldown { get; private set; }
+        public bool isInCooldown => _cooldownModule.IsInCooldown();
 
         public PlayerRollState(PlayerStateMachine machine) : base(machine)
         {
             _durationModule = new PlayerDurationModule(this);
+            _cooldownModule = new PlayerCooldownModule(this, machine.player.data.rollCooldown);
         }
 
         public override void Enter(PlayerStateBase previousState)
         {
             // Resets the properties
             _durationModule.Enter();
-            isInCooldown = true;
 
             machine.player.collisions.SetCollisionsData(machine.player.data.standColliderData);
             machine.player.invincibility.AddInvincibility(machine.player.data.rollDuration, false);
 
-            machine.player.animator.SwitchAnimation(PlayerAnimator.RollAnimKey);
+            machine.player.animator.SwitchAnimation(PlayerAnimator.RollAnimKey, true);
         }
 
         public override void LogicUpdate()
@@ -267,13 +269,7 @@ namespace Metroidvania.Player.States
 
         public override void Exit()
         {
-            machine.player.StartCoroutine(Cooldown());
-        }
-
-        private IEnumerator Cooldown()
-        {
-            yield return CoroutinesUtility.GetYieldSeconds(machine.player.data.rollCooldown);
-            isInCooldown = false;
+            _cooldownModule.StartCooldown();
         }
     }
 
@@ -431,27 +427,29 @@ namespace Metroidvania.Player.States
     {
         private PlayerDurationModule _durationModule;
 
+        private PlayerCooldownModule _cooldownModule;
+
         /// <summary>True when the quitting animation is running.</summary>
         private bool _quittingAnim;
 
         /// <summary>Boolean to controls the slide cooldown</summary>
-        public bool isInCooldown { get; private set; }
+        public bool isInCooldown => _cooldownModule.IsInCooldown();
 
         public PlayerSlideState(PlayerStateMachine machine) : base(machine)
         {
             new PlayerCrouchMetadata(this);
             _durationModule = new PlayerDurationModule(this);
+            _cooldownModule = new PlayerCooldownModule(this, machine.player.data.slideCooldown);
         }
 
         public override void Enter(PlayerStateBase previousState)
         {
             // Resets the properties
             _durationModule.Enter();
-            isInCooldown = true;
             _quittingAnim = false;
 
             machine.player.collisions.SetCollisionsData(machine.player.data.crouchColliderData);
-            machine.player.animator.SwitchAnimation(PlayerAnimator.SlideAnimKey);
+            machine.player.animator.SwitchAnimation(PlayerAnimator.SlideAnimKey, true);
         }
 
         public override void LogicUpdate()
@@ -460,7 +458,7 @@ namespace Metroidvania.Player.States
             if (!_quittingAnim &&
                 _durationModule.HasElapsed(machine.player.data.slideDuration - machine.player.data.slideTransitionTime))
             {
-                machine.player.animator.SwitchAnimation(PlayerAnimator.SlideEndAnimKey);
+                machine.player.animator.SwitchAnimation(PlayerAnimator.SlideEndAnimKey, true);
                 _quittingAnim = true;
             }
 
@@ -483,13 +481,7 @@ namespace Metroidvania.Player.States
 
         public override void Exit()
         {
-            machine.player.StartCoroutine(Cooldown());
-        }
-
-        private IEnumerator Cooldown()
-        {
-            yield return CoroutinesUtility.GetYieldSeconds(machine.player.data.slideCooldown);
-            isInCooldown = false;
+            _cooldownModule.StartCooldown();
         }
     }
 
@@ -549,20 +541,18 @@ namespace Metroidvania.Player.States
         }
     }
 
-    // TODO: Add interaction frames during the attack perform (to use the roll or other action)
     /// <summary>Class for use attack states</summary>
     public class PlayerAttackState : PlayerStateBase
     {
-        protected PlayerDurationModule durationModule;
+        protected enum ExitAttackCommand { None, Roll, Slide }
 
-        /// <summary>Colliders hit on last trigger. Used for allocate hits array only once</summary>
-        private readonly Collider2D[] _hits = new Collider2D[8];
+        protected PlayerDurationModule durationModule;
 
         /// <summary>The attack data that stores the collision rect, move offset, damage...</summary>
         public readonly PlayerDataChannel.Attack attackData;
 
         /// <summary>The animation key of this attack</summary>
-        public readonly string animKey;
+        public readonly int animKey;
 
         /// <summary>The collider data of this attack</summary>
         public readonly PlayerDataChannel.ColliderData colliderData;
@@ -572,8 +562,9 @@ namespace Metroidvania.Player.States
 
         /// <summary>Is the state triggered? Used to trigger the attack only once</summary>
         protected bool triggered { get; set; }
+        protected ExitAttackCommand currentExitCommand { get; set; }
 
-        public PlayerAttackState(PlayerStateMachine machine, PlayerDataChannel.Attack attackData, string animKey, PlayerDataChannel.ColliderData colliderData) :
+        public PlayerAttackState(PlayerStateMachine machine, PlayerDataChannel.Attack attackData, int animKey, PlayerDataChannel.ColliderData colliderData) :
             base(machine)
         {
             this.attackData = attackData;
@@ -588,11 +579,19 @@ namespace Metroidvania.Player.States
             // Resets all properties
             durationModule.Enter();
             triggered = false;
+            currentExitCommand = ExitAttackCommand.None;
 
             // Set player's horizontal velocity to 0 and switch the animation
             machine.player.SetHorizontalVelocity(0);
-            machine.player.animator.SwitchAnimation(animKey);
+            machine.player.animator.SwitchAnimation(animKey, true);
             machine.player.collisions.SetCollisionsData(colliderData);
+            InputReader.instance.DashEvent += OnDashKeyDown;
+        }
+
+        public override void Exit()
+        {
+            InputReader.instance.DashEvent -= OnDashKeyDown;
+            machine.player.animator.FlipCheck();
         }
 
         public override void LogicUpdate()
@@ -605,46 +604,45 @@ namespace Metroidvania.Player.States
             if (!triggered && durationModule.HasElapsed(attackData.triggerTime))
             {
                 triggered = true;
-                TriggerAttack();
+                machine.player.combat.PerformAttack(attackData);
             }
 
             // Exit the state if the elapsedTime is greater than or equal to the attack duration 
-            if (!durationModule.HasElapsed(attackData.duration)) return;
+            if (!durationModule.HasElapsed(attackData.duration - attackData.attackEndOffset)) return;
 
-            // Switch to the next attack if it is not null and the player is holding attack button 
-            if (machine.player.input.virtualAttacking && nextAttackState != null)
+            switch (currentExitCommand)
             {
-                nextAttackState.SetActive();
-                return;
+                case ExitAttackCommand.None:
+                    if (!machine.player.input.virtualAttacking || nextAttackState == null) break;
+
+                    if (PlayerStatesUtility.IsCrouchState(this) && !machine.player.input.virtualCrouching && machine.player.collisions.canStand)
+                        machine.attackOneState.SetActive();
+                    else if (machine.player.input.virtualCrouching)
+                        machine.crouchAttackState.SetActive();
+                    else nextAttackState.SetActive();
+                    return;
+
+                case ExitAttackCommand.Roll:
+                    if (machine.rollState.isInCooldown) break;
+                    machine.rollState.SetActive();
+                    return;
+
+                case ExitAttackCommand.Slide:
+                    if (machine.slideState.isInCooldown) break;
+                    machine.slideState.SetActive();
+                    return;
             }
 
-            // Switch to the preferred idle state in machine, like fall, crouching or the default idle.
-            machine.EnterIdleState();
+            if (durationModule.HasElapsed(attackData.duration))
+                machine.EnterIdleState();
         }
 
-        /// <summary>Triggers the attack, note that the method don't set or follow the property <see cref="triggered"/></summary>
-        private void TriggerAttack()
+        private void OnDashKeyDown()
         {
-            // Moves the player's position by the offset defined in the attack data
-            machine.player.rb.MovePosition(machine.player.rb.position +
-                new Vector2(attackData.horizontalMoveOffset * machine.player.facingDirection, 0));
-
-            // Get the colliders in the attack rect without allocate a new array in the memory
-            var hitCount = Physics2D.OverlapBoxNonAlloc(
-                machine.player.rb.position + attackData.triggerCollider.center * machine.player.transform.localScale,
-                attackData.triggerCollider.size, 0, _hits, machine.player.data.hittableLayer);
-
-            // Do nothing if don't hit any object
-            if (hitCount <= 0) return;
-
-            var hitData = new PlayerHitData(attackData.damage, attackData.force, machine.player);
-            for (var i = 0; i < hitCount; i++)
-            {
-                var hit = _hits[i];
-                // If the hit contains an IHittableTarget component, it will call the OnTakeHit method.  
-                if (hit.TryGetComponent<IHittableTarget>(out var hittableTarget))
-                    hittableTarget.OnTakeHit(hitData);
-            }
+            if (machine.player.input.virtualCrouching)
+                currentExitCommand = ExitAttackCommand.Slide;
+            else if (machine.player.collisions.canStand)
+                currentExitCommand = ExitAttackCommand.Roll;
         }
     }
 
@@ -658,6 +656,7 @@ namespace Metroidvania.Player.States
 
         public PlayerHurtState(PlayerStateMachine machine) : base(machine)
         {
+            _durationModule = new PlayerDurationModule(this);
         }
 
         public override void Enter(PlayerStateBase previousState)
@@ -681,7 +680,6 @@ namespace Metroidvania.Player.States
         }
     }
 
-    // TODO: Implement death state
     /// <summary>Player state for handle he death</summary>
     public class PlayerDeathState : PlayerStateBase
     {
@@ -691,7 +689,7 @@ namespace Metroidvania.Player.States
 
         public override void Enter(PlayerStateBase previousState)
         {
-            machine.player.animator.SwitchAnimation(PlayerAnimator.DeathAnimKey);
+            machine.player.animator.SwitchAnimation(PlayerAnimator.DeathAnimKey, true);
         }
     }
 }

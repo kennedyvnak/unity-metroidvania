@@ -6,33 +6,33 @@ namespace Metroidvania.Player
     public class PlayerAnimator : PlayerComponent
     {
         // Animations names constants
-        public const string IdleAnimKey = "Idle";
-        public const string RunAnimKey = "Run";
+        public static readonly int IdleAnimKey = Animator.StringToHash("Idle");
+        public static readonly int RunAnimKey = Animator.StringToHash("Run");
 
-        public const string JumpAnimKey = "Jump";
-        public const string FallAnimKey = "Fall";
+        public static readonly int JumpAnimKey = Animator.StringToHash("Jump");
+        public static readonly int FallAnimKey = Animator.StringToHash("Fall");
 
-        public const string DashAnimKey = "Dash";
-        public const string RollAnimKey = "Roll";
+        public static readonly int DashAnimKey = Animator.StringToHash("Dash");
+        public static readonly int RollAnimKey = Animator.StringToHash("Roll");
 
-        public const string SlideStartAnimKey = "Slide-Start";
-        public const string SlideAnimKey = "Slide";
-        public const string SlideEndAnimKey = "Slide-End";
+        public static readonly int SlideStartAnimKey = Animator.StringToHash("Slide-Start");
+        public static readonly int SlideAnimKey = Animator.StringToHash("Slide");
+        public static readonly int SlideEndAnimKey = Animator.StringToHash("Slide-End");
 
-        public const string WallHandAnimKey = "Wall-Hang";
-        public const string WallSlideAnimKey = "Wall-Slide";
-        public const string WallClimbAnimKey = "Wall-Climb";
+        public static readonly int WallHandAnimKey = Animator.StringToHash("Wall-Hang");
+        public static readonly int WallSlideAnimKey = Animator.StringToHash("Wall-Slide");
+        public static readonly int WallClimbAnimKey = Animator.StringToHash("Wall-Climb");
 
-        public const string CrouchAnimKey = "Crouch";
-        public const string CrouchWalkAnimKey = "Crouch-Walk";
-        public const string CrouchTransitionAnimKey = "Crouch-Transition";
-        public const string CrouchAttackAnimKey = "Crouch-Attack";
+        public static readonly int CrouchAnimKey = Animator.StringToHash("Crouch");
+        public static readonly int CrouchWalkAnimKey = Animator.StringToHash("Crouch-Walk");
+        public static readonly int CrouchTransitionAnimKey = Animator.StringToHash("Crouch-Transition");
+        public static readonly int CrouchAttackAnimKey = Animator.StringToHash("Crouch-Attack");
 
-        public const string AttackOneAnimKey = "Attack-One";
-        public const string AttackTwoAnimKey = "Attack-Two";
+        public static readonly int AttackOneAnimKey = Animator.StringToHash("Attack-One");
+        public static readonly int AttackTwoAnimKey = Animator.StringToHash("Attack-Two");
 
-        public const string HurtAnimKey = "Hurt";
-        public const string DeathAnimKey = "Death";
+        public static readonly int HurtAnimKey = Animator.StringToHash("Hurt");
+        public static readonly int DeathAnimKey = Animator.StringToHash("Death");
 
         // Animation behaviours
         public readonly SpriteRenderer graphic;
@@ -45,17 +45,17 @@ namespace Metroidvania.Player
         }
 
         /// <summary>The animation which is running</summary>
-        private string currentAnimation { get; set; }
+        private int currentAnimation { get; set; }
 
         /// <summary>Switch the running animation in the animator</summary>
         /// <param name="animationKey">The new animation key</param>
         /// <param name="force">If true, don't do animation check</param>
-        public void SwitchAnimation(string animationKey, bool force = false)
+        public void SwitchAnimation(int animationKey, bool force = false)
         {
             if (!force && currentAnimation == animationKey)
                 return;
 
-            machine.Play(animationKey);
+            machine.Play(animationKey, -1, 0);
             currentAnimation = animationKey;
         }
 
@@ -76,8 +76,8 @@ namespace Metroidvania.Player
         /// <returns>True if the player needs flip</returns>
         public bool ShouldFlip()
         {
-            var velocity = player.rb.velocity.x;
-            return (velocity > 0 && player.facingDirection == -1) || (velocity < 0 && player.facingDirection == 1);
+            var hMove = player.input.horizontalMove;
+            return (hMove > 0 && player.facingDirection == -1) || (hMove < 0 && player.facingDirection == 1);
         }
     }
 }

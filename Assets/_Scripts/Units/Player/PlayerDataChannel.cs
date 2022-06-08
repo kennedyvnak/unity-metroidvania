@@ -7,7 +7,7 @@ namespace Metroidvania.Player
     public class PlayerDataChannel : ScriptableObject
     {
         [Serializable]
-        public struct Attack
+        public class Attack
         {
 #if UNITY_EDITOR
             [Tooltip("Draw the gizmos of this attack if true")]
@@ -25,6 +25,9 @@ namespace Metroidvania.Player
             [Tooltip("Time after the attack start that triggers the attack")]
             public float triggerTime;
 
+            [Tooltip("The time before attack end that the player can use an ability (perform other attack, use roll...)")]
+            public float attackEndOffset;
+
             [Tooltip("The area to make the collision check")]
             public Rect triggerCollider;
 
@@ -36,7 +39,7 @@ namespace Metroidvania.Player
         }
 
         [Serializable]
-        public struct ColliderData
+        public class ColliderData
         {
 #if UNITY_EDITOR
             public bool drawGizmos;

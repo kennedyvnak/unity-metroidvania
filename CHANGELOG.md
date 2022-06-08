@@ -140,3 +140,9 @@
 - Add previous state param to PlayerState.Enter
 - Improve crouch states
 - Add validator state to player state machine
+
+> 1.4.0.2
+
+- Improve player attacks
+- Update animator play mode (changed from string to hash)
+- Add cooldown module
