@@ -1,11 +1,11 @@
-﻿using Metroidvania.InputSystem;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace Metroidvania.Player.States
 {
     // TODO: Implement wall states
     // TODO: Add sounds
     // TODO: Implement death state
+    // TODO: Add particles
     /// <summary>Base classes for all player states</summary>
     public abstract class PlayerStateBase
     {
@@ -70,7 +70,7 @@ namespace Metroidvania.Player.States
             // Try switch states
             if (machine.EnterFallState() != null ||
                 machine.EnterCrouchState() != null ||
-                machine.EnterJump() != null ||
+                machine.EnterJumpState() != null ||
                 machine.EnterRollState() != null ||
                 machine.EnterAttackState() != null)
                 return;
@@ -99,7 +99,7 @@ namespace Metroidvania.Player.States
             // Try enter in other state
             if (machine.EnterFallState() != null ||
                 machine.EnterCrouchState() != null ||
-                machine.EnterJump() != null ||
+                machine.EnterJumpState() != null ||
                 machine.EnterRollState() != null ||
                 machine.EnterAttackState() != null)
                 return;
@@ -119,12 +119,7 @@ namespace Metroidvania.Player.States
     /// <summary>Player state when he is jumping</summary>
     public class PlayerJumpState : PlayerStateBase
     {
-        private static InputReader reader => InputReader.instance;
-
         private PlayerDurationModule _durationModule;
-
-        /// <summary>True when the jump button is up</summary>
-        private bool _jumpCanceled;
 
         /// <summary>True when the player collides with the top of the collider</summary>
         private bool _collidedTop;
@@ -138,11 +133,7 @@ namespace Metroidvania.Player.States
         {
             // Resets the properties
             _durationModule.Enter();
-            _jumpCanceled = false;
             _collidedTop = false;
-
-            // Assign a method to the jumpCancelEvent in the reader to reference when the jump is canceled, to make a more smoother jump
-            reader.JumpCanceledEvent += HandleJumpCancel;
 
             machine.player.collisions.SetCollisionsData(machine.player.data.standColliderData);
             machine.player.animator.SwitchAnimation(PlayerAnimator.JumpAnimKey);
@@ -151,8 +142,6 @@ namespace Metroidvania.Player.States
 
         public override void Exit()
         {
-            // Remove the handle method so as not to cause an unexpected error
-            reader.JumpCanceledEvent -= HandleJumpCancel;
             machine.player.CollisionEntered -= CollisionEntered;
         }
 
@@ -166,7 +155,7 @@ namespace Metroidvania.Player.States
             }
 
             // Exits the state if the jump was canceled
-            if (_jumpCanceled)
+            if (machine.player.input.jumpAction.WasReleasedThisFrame())
             {
                 // Set player velocity.y to 0.15 to make a smooth jump stop
                 machine.player.rb.velocity = new Vector2(machine.player.rb.velocity.x, .15f);
@@ -178,17 +167,13 @@ namespace Metroidvania.Player.States
             var horizontalSpeed = machine.player.input.horizontalMove * machine.player.data.moveSpeed;
 
             // Calculates the vertical speed using the data.JumpCurve curve to make a smooth jump
-            var verticalSpeed = machine.player.data.jumpSpeed *
-                machine.player.data.jumpCurve.Evaluate(_durationModule.GetElapsedTime() / machine.player.data.jumpDuration);
+            var jumpProgressNormalized = _durationModule.GetElapsedTime() / machine.player.data.jumpDuration;
+            var jumpCurveSpeed = machine.player.data.jumpCurve.Evaluate(jumpProgressNormalized);
+            var verticalSpeed = machine.player.data.jumpSpeed * jumpCurveSpeed;
 
             machine.player.rb.velocity = new Vector2(horizontalSpeed, verticalSpeed);
 
             machine.player.animator.FlipCheck();
-        }
-
-        private void HandleJumpCancel()
-        {
-            _jumpCanceled = true;
         }
 
         private void CollisionEntered(Collision2D collision)
@@ -220,6 +205,9 @@ namespace Metroidvania.Player.States
                 machine.EnterIdleState();
                 return;
             }
+
+            if (machine.EnterWallState() != null)
+                return;
 
             machine.player.MoveHorizontalAxesUsingInput(machine.player.data.moveSpeed);
         }
@@ -324,7 +312,7 @@ namespace Metroidvania.Player.States
             }
 
             // Try enter in other states
-            if (machine.EnterJump() != null ||
+            if (machine.EnterJumpState() != null ||
                 machine.EnterFallState() != null ||
                 machine.EnterSlideState() != null ||
                 machine.EnterAttackState() != null)
@@ -338,7 +326,7 @@ namespace Metroidvania.Player.States
             }
 
             // Switches to idle state if the player don't is pressing the crouch button 
-            if (machine.player.input.virtualCrouching == false && machine.player.collisions.canStand)
+            if (!machine.player.input.crouchAction.IsPressed() && machine.player.collisions.canStand)
                 machine.player.StartCoroutine(_crouchMetadata.ExitCrouchState(machine.idleState));
         }
     }
@@ -396,7 +384,7 @@ namespace Metroidvania.Player.States
             }
 
             // Try enter in jump or fall state
-            if (machine.EnterJump() != null || machine.EnterFallState() != null)
+            if (machine.EnterJumpState() != null || machine.EnterFallState() != null)
                 return;
 
             // Switch to idle state
@@ -407,7 +395,7 @@ namespace Metroidvania.Player.States
             }
 
             // Switch to run state
-            if (machine.player.input.virtualCrouching == false && machine.player.collisions.canStand)
+            if (!machine.player.input.crouchAction.IsPressed() && machine.player.collisions.canStand)
             {
                 machine.player.StartCoroutine(_crouchMetadata.ExitCrouchState(machine.runState));
                 return;
@@ -455,8 +443,7 @@ namespace Metroidvania.Player.States
         public override void LogicUpdate()
         {
             // Starts the exit transition if it's near the end of the slide
-            if (!_quittingAnim &&
-                _durationModule.HasElapsed(machine.player.data.slideDuration - machine.player.data.slideTransitionTime))
+            if (!_quittingAnim && _durationModule.HasElapsed(machine.player.data.slideDuration - machine.player.data.slideTransitionTime))
             {
                 machine.player.animator.SwitchAnimation(PlayerAnimator.SlideEndAnimKey, true);
                 _quittingAnim = true;
@@ -473,41 +460,15 @@ namespace Metroidvania.Player.States
             if (machine.EnterFallState() != null)
                 return;
 
-            // Calculates and apply the speed
-            var speed = machine.player.data.slideCurve.Evaluate(_durationModule.GetElapsedTime() / machine.player.data.slideDuration) *
-                        machine.player.data.slideSpeed * machine.player.facingDirection;
+            var slideProgressNormalized = _durationModule.GetElapsedTime() / machine.player.data.slideDuration;
+            var slideCurveSpeed = machine.player.data.slideCurve.Evaluate(slideProgressNormalized);
+            var speed = slideCurveSpeed * machine.player.data.slideSpeed * machine.player.facingDirection;
             machine.player.SetHorizontalVelocity(speed);
         }
 
         public override void Exit()
         {
             _cooldownModule.StartCooldown();
-        }
-    }
-
-    /// <summary>Player state when he is on wall-hand state and presses to climb it</summary>
-    public class PlayerWallClimbState : PlayerStateBase
-    {
-        public PlayerWallClimbState(PlayerStateMachine machine) : base(machine)
-        {
-        }
-
-        public override void Enter(PlayerStateBase previousState)
-        {
-            machine.player.animator.SwitchAnimation(PlayerAnimator.WallClimbAnimKey);
-        }
-    }
-
-    /// <summary>Player state when he is on the edge of a wall/floor</summary>
-    public class PlayerWallHandState : PlayerStateBase
-    {
-        public PlayerWallHandState(PlayerStateMachine machine) : base(machine)
-        {
-        }
-
-        public override void Enter(PlayerStateBase previousState)
-        {
-            machine.player.animator.SwitchAnimation(PlayerAnimator.WallHandAnimKey);
         }
     }
 
@@ -521,23 +482,68 @@ namespace Metroidvania.Player.States
         public override void Enter(PlayerStateBase previousState)
         {
             machine.player.animator.SwitchAnimation(PlayerAnimator.WallSlideAnimKey);
+            machine.player.collisions.SetCollisionsData(machine.player.data.standColliderData);
         }
 
         public override void LogicUpdate()
         {
-            if (machine.player.collisions.isGrounded)
-            {
-                machine.idleState.SetActive();
-                return;
-            }
+            if (machine.player.input.jumpAction.WasPerformedThisFrame())
+                machine.wallJumpState.SetActive();
+            else if (machine.player.collisions.isGrounded || !machine.player.collisions.isTouchingWall || machine.player.input.horizontalMove != machine.player.facingDirection)
+                machine.EnterIdleState();
+            else
+                machine.player.rb.velocity = new Vector2(0, -machine.player.data.wallSlideSpeed);
+        }
+    }
 
-            if (machine.player.input.horizontalMove == 0)
+    public class PlayerWallJumpState : PlayerStateBase
+    {
+        private PlayerDurationModule _durationModule;
+
+        private bool _collidedInAnything;
+
+        public PlayerWallJumpState(PlayerStateMachine machine) : base(machine)
+        {
+            _durationModule = new PlayerDurationModule(this);
+        }
+
+        public override void Enter(PlayerStateBase previousState)
+        {
+            _collidedInAnything = false;
+
+            machine.player.animator.SwitchAnimation(PlayerAnimator.JumpAnimKey);
+            machine.player.collisions.SetCollisionsData(machine.player.data.standColliderData);
+
+            machine.player.animator.Flip();
+            machine.player.rb.velocity = GetJumpForce();
+
+            machine.player.CollisionEntered += OnCollisionEnter;
+
+            _durationModule.Enter();
+        }
+
+        public override void Exit()
+        {
+            machine.player.CollisionEntered -= OnCollisionEnter;
+        }
+
+        public override void LogicUpdate()
+        {
+            if (_durationModule.HasElapsed(machine.player.data.wallJumpDuration) || _collidedInAnything)
             {
                 machine.EnterIdleState();
                 return;
             }
+        }
 
-            machine.player.rb.velocity = new Vector2(0, -machine.player.data.wallSlideSpeed);
+        private void OnCollisionEnter(Collision2D collision)
+        {
+            _collidedInAnything = true;
+        }
+
+        public Vector2 GetJumpForce()
+        {
+            return new Vector2(machine.player.data.wallJumpForce.x * machine.player.facingDirection, machine.player.data.wallJumpForce.y);
         }
     }
 
@@ -585,12 +591,10 @@ namespace Metroidvania.Player.States
             machine.player.SetHorizontalVelocity(0);
             machine.player.animator.SwitchAnimation(animKey, true);
             machine.player.collisions.SetCollisionsData(colliderData);
-            InputReader.instance.DashEvent += OnDashKeyDown;
         }
 
         public override void Exit()
         {
-            InputReader.instance.DashEvent -= OnDashKeyDown;
             machine.player.animator.FlipCheck();
         }
 
@@ -599,6 +603,14 @@ namespace Metroidvania.Player.States
             // Check if the player is not floating
             if (machine.EnterFallState() != null)
                 return;
+
+            if (machine.player.input.dashAction.WasPerformedThisFrame())
+            {
+                if (machine.player.input.crouchAction.IsPressed())
+                    currentExitCommand = ExitAttackCommand.Slide;
+                else if (machine.player.collisions.canStand)
+                    currentExitCommand = ExitAttackCommand.Roll;
+            }
 
             // Trigger the attack if it hasn't triggered and the elapsedTime is greater than or equal to the triggerTime
             if (!triggered && durationModule.HasElapsed(attackData.triggerTime))
@@ -613,11 +625,11 @@ namespace Metroidvania.Player.States
             switch (currentExitCommand)
             {
                 case ExitAttackCommand.None:
-                    if (!machine.player.input.virtualAttacking || nextAttackState == null) break;
+                    if (!machine.player.input.attackAction.IsPressed() || nextAttackState == null) break;
 
-                    if (PlayerStatesUtility.IsCrouchState(this) && !machine.player.input.virtualCrouching && machine.player.collisions.canStand)
+                    if (PlayerStatesUtility.IsCrouchState(this) && !machine.player.input.crouchAction.IsPressed() && machine.player.collisions.canStand)
                         machine.attackOneState.SetActive();
-                    else if (machine.player.input.virtualCrouching)
+                    else if (machine.player.input.crouchAction.IsPressed())
                         machine.crouchAttackState.SetActive();
                     else nextAttackState.SetActive();
                     return;
@@ -635,14 +647,6 @@ namespace Metroidvania.Player.States
 
             if (durationModule.HasElapsed(attackData.duration))
                 machine.EnterIdleState();
-        }
-
-        private void OnDashKeyDown()
-        {
-            if (machine.player.input.virtualCrouching)
-                currentExitCommand = ExitAttackCommand.Slide;
-            else if (machine.player.collisions.canStand)
-                currentExitCommand = ExitAttackCommand.Roll;
         }
     }
 

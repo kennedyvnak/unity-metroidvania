@@ -1,4 +1,6 @@
 using Metroidvania.InputSystem;
+using UnityEngine;
+using UnityEngine.InputSystem;
 
 namespace Metroidvania.Player
 {
@@ -11,7 +13,7 @@ namespace Metroidvania.Player
             player.Disabled += Disable;
         }
 
-        private static InputReader reader => InputReader.instance;
+        public static InputReader reader => InputReader.instance;
 
         /// <summary>True if is reading reader events</summary>
         public bool enabled { get; private set; }
@@ -19,17 +21,12 @@ namespace Metroidvania.Player
         /// <summary>Raw horizontal input</summary>
         public float horizontalMove { get; private set; }
 
-        /// <summary>Is the jump button pressed?</summary>
-        public bool virtualJumping { get; private set; }
+        public float lastJumpInputTime;
 
-        /// <summary>Is the crouch button pressed></summary>
-        public bool virtualCrouching { get; private set; }
-
-        /// <summary>Is the dash button pressed?</summary>
-        public bool virtualDashing { get; private set; }
-
-        /// <summary>Is the attack button pressed?</summary>
-        public bool virtualAttacking { get; private set; }
+        public InputAction crouchAction => PlayerInput.reader.inputActions.Gameplay.Crouch;
+        public InputAction dashAction => PlayerInput.reader.inputActions.Gameplay.Dash;
+        public InputAction attackAction => PlayerInput.reader.inputActions.Gameplay.Attack;
+        public InputAction jumpAction => PlayerInput.reader.inputActions.Gameplay.Jump;
 
         public override void OnDestroy()
         {
@@ -44,14 +41,7 @@ namespace Metroidvania.Player
                 return;
 
             reader.MoveEvent += ReadMove;
-            reader.JumpEvent += JumpPerformed;
-            reader.JumpCanceledEvent += JumpCanceled;
-            reader.CrouchEvent += CrouchPerformed;
-            reader.CrouchCanceledEvent += CrouchCanceled;
-            reader.DashEvent += DashPerformed;
-            reader.DashCanceledEvent += DashCanceled;
-            reader.AttackEvent += AttackPerformed;
-            reader.AttackCanceledEvent += AttackCanceled;
+            reader.JumpEvent += ReadJump;
 
             enabled = true;
         }
@@ -62,14 +52,7 @@ namespace Metroidvania.Player
                 return;
 
             reader.MoveEvent -= ReadMove;
-            reader.JumpEvent -= JumpPerformed;
-            reader.JumpCanceledEvent -= JumpCanceled;
-            reader.CrouchEvent -= CrouchPerformed;
-            reader.CrouchCanceledEvent -= CrouchCanceled;
-            reader.DashEvent -= DashPerformed;
-            reader.DashCanceledEvent -= DashCanceled;
-            reader.AttackEvent -= AttackPerformed;
-            reader.AttackCanceledEvent -= AttackCanceled;
+            reader.JumpEvent -= ReadJump;
 
             enabled = false;
         }
@@ -77,16 +60,9 @@ namespace Metroidvania.Player
         // Events handles
         private void ReadMove(float move) => horizontalMove = move;
 
-        private void JumpPerformed() => virtualJumping = true;
-        private void JumpCanceled() => virtualJumping = false;
-
-        private void CrouchPerformed() => virtualCrouching = true;
-        private void CrouchCanceled() => virtualCrouching = false;
-
-        private void DashPerformed() => virtualDashing = true;
-        private void DashCanceled() => virtualDashing = false;
-
-        private void AttackCanceled() => virtualAttacking = false;
-        private void AttackPerformed() => virtualAttacking = true;
+        private void ReadJump()
+        {
+            lastJumpInputTime = Time.time;
+        }
     }
 }

@@ -5,9 +5,10 @@
     {
         /// <summary>Enter this state on the machine</summary>
         /// <param name="state">The state to enter</param>
-        public static void SetActive(this PlayerStateBase state)
+        public static T SetActive<T>(this T state) where T : PlayerStateBase
         {
             state.machine.SwitchState(state);
+            return state;
         }
 
         public static bool IsCrouchState(PlayerStateBase previousState)

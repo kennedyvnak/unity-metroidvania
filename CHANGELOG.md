@@ -146,3 +146,12 @@
 - Improve player attacks
 - Update animator play mode (changed from string to hash)
 - Add cooldown module
+
+## 1.4.1
+
+- Add wall slide/jump states
+- Improve jump
+- Update hand collision check
+- Improve code readability
+- Improve player input
+- Remove unused player assets

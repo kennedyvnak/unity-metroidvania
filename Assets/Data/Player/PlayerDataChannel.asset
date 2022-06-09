@@ -17,8 +17,9 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 64
   moveSpeed: 5
-  jumpSpeed: 8
-  jumpDuration: 0.3
+  jumpSpeed: 8.5
+  jumpDuration: 0.35
+  jumpInputDelay: 0.2
   jumpCurve:
     serializedVersion: 2
     m_Curve:
@@ -163,13 +164,15 @@ MonoBehaviour:
     force: 0.4
   crouchTransitionTime: 0.1
   slideTransitionTime: 0.1
-  wallSlideSpeed: 3
+  wallSlideSpeed: 1.5
+  wallJumpForce: {x: 5, y: 8}
+  wallJumpDuration: 0.2
   hurtTime: 0.3
   invincibilityAlphaChange: 0.45
   invincibilityFadeSpeed: 3
   defaultInvincibilityTime: 1.75
   standColliderData:
-    drawGizmos: 0
+    drawGizmos: 1
     bounds:
       serializedVersion: 2
       x: 0.05
@@ -182,13 +185,7 @@ MonoBehaviour:
       y: -1.25
       width: 0.35
       height: 0.1
-    leftHandRect:
-      serializedVersion: 2
-      x: -0.15
-      y: -0.6
-      width: 0.1
-      height: 0.5
-    rightHandRect:
+    handRect:
       serializedVersion: 2
       x: 0.25
       y: -0.6
@@ -210,13 +207,7 @@ MonoBehaviour:
       y: -1.25
       width: 0.35
       height: 0.1
-    leftHandRect:
-      serializedVersion: 2
-      x: -0.15
-      y: -0.9
-      width: 0.1
-      height: 0.45
-    rightHandRect:
+    handRect:
       serializedVersion: 2
       x: 0.25
       y: -0.9

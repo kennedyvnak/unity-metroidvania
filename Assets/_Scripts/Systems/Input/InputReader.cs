@@ -7,7 +7,7 @@ namespace Metroidvania.InputSystem
     /// <see cref="PlayerInput"/>
     public class InputReader : ScriptableSingleton<InputReader>, InputActions.IGameplayActions, InputActions.IMenusActions
     {
-        private InputActions _inputActions;
+        public InputActions inputActions { get; private set; }
 
         /// <summary>Triggered when the move button is performed or canceled. arg0 is the move horizontal direction</summary>
         public event Action<float> MoveEvent;
@@ -33,13 +33,13 @@ namespace Metroidvania.InputSystem
 
         private void OnEnable()
         {
-            if (_inputActions == null)
+            if (inputActions == null)
             {
-                _inputActions = new InputActions();
+                inputActions = new InputActions();
 
                 // Use this method to implement callbacks On[Action](InputAction.CallbackContext)
-                _inputActions.Gameplay.SetCallbacks(this);
-                _inputActions.Menus.SetCallbacks(this);
+                inputActions.Gameplay.SetCallbacks(this);
+                inputActions.Menus.SetCallbacks(this);
             }
         }
 
@@ -51,24 +51,24 @@ namespace Metroidvania.InputSystem
         /// <summary>Enable the gameplay input</summary>
         public void EnableGameplayInput()
         {
-            _inputActions.Menus.Disable();
+            inputActions.Menus.Disable();
 
-            _inputActions.Gameplay.Enable();
+            inputActions.Gameplay.Enable();
         }
 
         /// <summary>Enable menu input</summary>
         public void EnableMenuInput()
         {
-            _inputActions.Gameplay.Disable();
+            inputActions.Gameplay.Disable();
 
-            _inputActions.Menus.Enable();
+            inputActions.Menus.Enable();
         }
 
         /// <summary>Disable All inputs</summary>
         public void DisableAllInput()
         {
-            _inputActions.Menus.Disable();
-            _inputActions.Gameplay.Disable();
+            inputActions.Menus.Disable();
+            inputActions.Gameplay.Disable();
         }
 
         void InputActions.IGameplayActions.OnMove(InputAction.CallbackContext context)

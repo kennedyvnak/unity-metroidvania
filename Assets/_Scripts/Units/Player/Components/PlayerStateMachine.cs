@@ -18,9 +18,8 @@ namespace Metroidvania.Player
         public readonly PlayerRollState rollState;
         public readonly PlayerDeathState deathState;
         public readonly PlayerHurtState hurtState;
-        public readonly PlayerWallClimbState wallClimbState;
-        public readonly PlayerWallHandState wallHandState;
         public readonly PlayerWallSlideState wallSlideState;
+        public readonly PlayerWallJumpState wallJumpState;
         public readonly PlayerAttackState attackOneState;
         public readonly PlayerAttackState attackTwoState;
 
@@ -42,8 +41,7 @@ namespace Metroidvania.Player
             attackOneState = new PlayerAttackState(this, player.data.attackOne, PlayerAnimator.AttackOneAnimKey, player.data.standColliderData);
             attackTwoState = new PlayerAttackState(this, player.data.attackTwo, PlayerAnimator.AttackTwoAnimKey, player.data.standColliderData);
             wallSlideState = new PlayerWallSlideState(this);
-            wallClimbState = new PlayerWallClimbState(this);
-            wallHandState = new PlayerWallHandState(this);
+            wallJumpState = new PlayerWallJumpState(this);
             hurtState = new PlayerHurtState(this);
             deathState = new PlayerDeathState(this);
 
@@ -82,32 +80,27 @@ namespace Metroidvania.Player
         }
 
         // Shortcut methods for states, return null if cannot enter on state else return the entered state
-        public PlayerStateBase EnterJump()
+        public PlayerStateBase EnterJumpState()
         {
-            if (!player.input.virtualJumping || !player.collisions.canStand || !player.collisions.isGrounded) return null;
-            jumpState.SetActive();
-            return jumpState;
+            bool jumpPressed = Time.time - player.input.lastJumpInputTime < player.data.jumpInputDelay;
+            if (!jumpPressed || !player.collisions.canStand || !player.collisions.isGrounded) return null;
+            return jumpState.SetActive();
         }
 
         public PlayerStateBase EnterCrouchState()
         {
-            if ((!player.input.virtualCrouching && player.collisions.canStand) || !player.collisions.isGrounded) return null;
+            if ((!player.input.crouchAction.IsPressed() && player.collisions.canStand) || !player.collisions.isGrounded) return null;
 
             if (player.input.horizontalMove != 0)
-            {
-                crouchWalkState.SetActive();
-                return crouchWalkState;
-            }
+                return crouchWalkState.SetActive();
 
-            crouchState.SetActive();
-            return crouchState;
+            return crouchState.SetActive();
         }
 
         public PlayerStateBase EnterFallState()
         {
             if (player.collisions.isGrounded) return null;
-            fallSate.SetActive();
-            return fallSate;
+            return fallSate.SetActive();
         }
 
         public PlayerStateBase EnterIdleState()
@@ -122,64 +115,53 @@ namespace Metroidvania.Player
             if (enteredWallState != null) return enteredWallState;
 
             if (player.input.horizontalMove == 0)
-            {
-                idleState.SetActive();
-                return idleState;
-            }
+                return idleState.SetActive();
 
-            runState.SetActive();
-            return runState;
+            return runState.SetActive();
         }
 
         public PlayerStateBase EnterSlideState()
         {
-            if (!player.collisions.isGrounded || !isCrouching || !player.input.virtualDashing || slideState.isInCooldown)
+            if (!player.collisions.isGrounded || !isCrouching || !player.input.dashAction.WasPerformedThisFrame() || slideState.isInCooldown)
                 return null;
 
-            slideState.SetActive();
-            return slideState;
+            return slideState.SetActive();
         }
 
         public PlayerStateBase EnterWallState()
         {
-            if (player.collisions.isTouchingWall && player.input.horizontalMove != 0)
-            {
-                wallSlideState.SetActive();
-                return wallSlideState;
-            }
+            if (player.collisions.isGrounded)
+                return null;
+
+            if (player.collisions.isTouchingWall && player.input.horizontalMove == player.facingDirection)
+                return wallSlideState.SetActive();
 
             return null;
         }
 
         public PlayerStateBase EnterRollState()
         {
-            if (!player.collisions.isGrounded || isCrouching || !player.input.virtualDashing || rollState.isInCooldown)
+            if (!player.collisions.isGrounded || isCrouching || !player.input.dashAction.WasPerformedThisFrame() || rollState.isInCooldown)
                 return null;
 
-            rollState.SetActive();
-            return rollState;
+            return rollState.SetActive();
         }
 
         public PlayerAttackState EnterAttackState()
         {
-            if (!player.input.virtualAttacking || !player.collisions.isGrounded)
+            if (!player.input.attackAction.WasPerformedThisFrame() || !player.collisions.isGrounded)
                 return null;
 
             if (isCrouching)
-            {
-                crouchAttackState.SetActive();
-                return crouchAttackState;
-            }
+                return crouchAttackState.SetActive();
 
-            attackOneState.SetActive();
-            return attackOneState;
+            return attackOneState.SetActive();
         }
 
         public PlayerStateBase EnterHurt(Vector2 entityHitDirection)
         {
             hurtState.knockbackForce = entityHitDirection;
-            hurtState.SetActive();
-            return hurtState;
+            return hurtState.SetActive();
         }
     }
 }

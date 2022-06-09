@@ -12,16 +12,12 @@ namespace Metroidvania.Player
         public static readonly int JumpAnimKey = Animator.StringToHash("Jump");
         public static readonly int FallAnimKey = Animator.StringToHash("Fall");
 
-        public static readonly int DashAnimKey = Animator.StringToHash("Dash");
         public static readonly int RollAnimKey = Animator.StringToHash("Roll");
 
-        public static readonly int SlideStartAnimKey = Animator.StringToHash("Slide-Start");
         public static readonly int SlideAnimKey = Animator.StringToHash("Slide");
         public static readonly int SlideEndAnimKey = Animator.StringToHash("Slide-End");
 
-        public static readonly int WallHandAnimKey = Animator.StringToHash("Wall-Hang");
         public static readonly int WallSlideAnimKey = Animator.StringToHash("Wall-Slide");
-        public static readonly int WallClimbAnimKey = Animator.StringToHash("Wall-Climb");
 
         public static readonly int CrouchAnimKey = Animator.StringToHash("Crouch");
         public static readonly int CrouchWalkAnimKey = Animator.StringToHash("Crouch-Walk");

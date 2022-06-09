@@ -173,10 +173,7 @@ namespace Metroidvania.Player
                     .SetColor(GizmosColor.instance.playerFeet)
                     .DrawWireSquare(position + colliderData.feetRect.min * scale, colliderData.feetRect.size)
                     .SetColor(GizmosColor.instance.playerHand)
-                    .DrawWireSquare(position + colliderData.leftHandRect.min * scale, colliderData.leftHandRect.size)
-                    .DrawWireSquare(position + colliderData.rightHandRect.min * scale, colliderData.rightHandRect.size)
-                    .SetColor(GizmosColor.instance.playerLedgeCheck)
-                    .DrawRay(position + colliderData.ledgeCheckOffset * scale, new Vector2(colliderData.ledgeCheckLength * scale.x, 0)); ;
+                    .DrawWireSquare(position + colliderData.handRect.min * scale, colliderData.handRect.size);
             }
         }
 #endif

@@ -48,11 +48,8 @@ namespace Metroidvania.Player
 
             public Rect feetRect;
 
-            public Rect leftHandRect;
-            public Rect rightHandRect;
-
-            public Vector2 ledgeCheckOffset;
-            public float ledgeCheckLength;
+            [UnityEngine.Serialization.FormerlySerializedAs("rightHandRect")]
+            public Rect handRect;
         }
 
 
@@ -71,35 +68,38 @@ namespace Metroidvania.Player
         [Header("Jump")]
         [Tooltip("Default jump speed")]
         public float jumpSpeed;
-
-        [Tooltip("Jump duration")] public float jumpDuration;
-
+        [Tooltip("Jump duration")]
+        public float jumpDuration;
+        [Tooltip("Time considering that the jump input is pressed")]
+        public float jumpInputDelay;
         [Tooltip("A curve for smooth jump velocity")]
         public AnimationCurve jumpCurve;
 
         [Header("Crouch")]
         [Tooltip("Default crouch speed")]
         public float crouchSpeed;
+        [Tooltip("Duration of the crouch transition animation")]
+        public float crouchTransitionTime;
 
         [Header("Slide")]
         [Tooltip("Slide duration")]
         public float slideDuration;
-
-        [Tooltip("Slide speed")] public float slideSpeed;
-
-        [Tooltip("The slide cooldown")] public float slideCooldown;
-
+        [Tooltip("Slide speed")]
+        public float slideSpeed;
+        [Tooltip("The slide cooldown")]
+        public float slideCooldown;
         [Tooltip("A curve for smooth slide speed")]
         public AnimationCurve slideCurve;
+        [Tooltip("Duration of the slide transition animation")]
+        public float slideTransitionTime;
 
         [Header("Roll")]
         [Tooltip("Roll duration")]
         public float rollDuration;
-
-        [Tooltip("Roll speed")] public float rollSpeed;
-
-        [Tooltip("The roll cooldown")] public float rollCooldown;
-
+        [Tooltip("Roll speed")]
+        public float rollSpeed;
+        [Tooltip("The roll cooldown")]
+        public float rollCooldown;
         [Tooltip("A curve for smooth roll speed")]
         public AnimationCurve rollCurve;
 
@@ -107,34 +107,28 @@ namespace Metroidvania.Player
         [Tooltip("Layer for collisions check of hits")]
         public LayerMask hittableLayer;
 
-        [Tooltip("First attack data")] public Attack attackOne;
-
-        [Tooltip("Second attack data")] public Attack attackTwo;
-
-        [Tooltip("Crouch attack data")] public Attack crouchAttack;
-
-        [Header("Animations")]
-        [Tooltip("Duration of the crouch transition animation")]
-        public float crouchTransitionTime;
-
-        [Tooltip("Duration of the slide transition animation")]
-        public float slideTransitionTime;
+        [Tooltip("First attack data")]
+        public Attack attackOne;
+        [Tooltip("Second attack data")]
+        public Attack attackTwo;
+        [Tooltip("Crouch attack data")]
+        public Attack crouchAttack;
 
         [Header("Wall Abilities")]
         [Tooltip("Vertical velocity that will be applied on player's velocity when sliding down a wall")]
         public float wallSlideSpeed;
+        public Vector2 wallJumpForce;
+        public float wallJumpDuration;
 
-        [Tooltip("Time which the player stay on hurt state")]
         [Header("Hurt")]
+        [Tooltip("Time which the player stay on hurt state")]
         public float hurtTime;
 
         [Header("Invincibility")]
         [Tooltip("The alpha used in the invincibility animation to set the limits")]
         public float invincibilityAlphaChange;
-
         [Tooltip("The speed that interpolates the alpha when in invincibility")]
         public float invincibilityFadeSpeed;
-
         [Tooltip("Default invincibility time")]
         public float defaultInvincibilityTime;
 
