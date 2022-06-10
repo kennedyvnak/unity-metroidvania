@@ -75,6 +75,10 @@ namespace Metroidvania.Player
         [Tooltip("A curve for smooth jump velocity")]
         public AnimationCurve jumpCurve;
 
+        [Header("Fall")]
+        public float fallParticlesDistance;
+
+
         [Header("Crouch")]
         [Tooltip("Default crouch speed")]
         public float crouchSpeed;

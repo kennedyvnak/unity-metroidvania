@@ -8,6 +8,16 @@ namespace Metroidvania.Player
     /// <summary>The main player class which controls all components and actions</summary>
     public class PlayerController : MonoBehaviour
     {
+        [System.Serializable]
+        public class Particles
+        {
+            public ParticleSystem jump;
+            public ParticleSystem wallSlide;
+            public ParticleSystem wallJump;
+            public ParticleSystem landing;
+            public ParticleSystem slide;
+        }
+
 #if UNITY_EDITOR
         [Tooltip("If true, draw gizmos in the scene view. (Editor only)")]
         [SerializeField]
@@ -22,11 +32,16 @@ namespace Metroidvania.Player
         [SerializeField]
         private GameObject m_gfxGameObject;
 
+        [SerializeField]
+        private Particles m_particles;
+
         /// <summary>The data active for this player. This field cannot be null</summary>
         public PlayerDataChannel data => m_data;
 
         /// <summary>The GFX GameObject</summary>
         public GameObject gfxGameObject => m_gfxGameObject;
+
+        public Particles particles => m_particles;
 
         /// <summary>The Rigidbody2D attached to the player</summary>
         public Rigidbody2D rb { get; private set; }

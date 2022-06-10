@@ -155,3 +155,9 @@
 - Improve code readability
 - Improve player input
 - Remove unused player assets
+
+## 1.4.2
+
+- Add player particles
+- Update wall detection
+- Add fall distance detection

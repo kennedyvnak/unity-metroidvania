@@ -53,7 +53,9 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+  fallParticlesDistance: 2
   crouchSpeed: 3
+  crouchTransitionTime: 0.1
   slideDuration: 0.6
   slideSpeed: 12
   slideCooldown: 0.4
@@ -81,6 +83,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+  slideTransitionTime: 0.1
   rollDuration: 0.75
   rollSpeed: 6
   rollCooldown: 0.35
@@ -162,8 +165,6 @@ MonoBehaviour:
       height: 0.75
     damage: 5
     force: 0.4
-  crouchTransitionTime: 0.1
-  slideTransitionTime: 0.1
   wallSlideSpeed: 1.5
   wallJumpForce: {x: 5, y: 8}
   wallJumpDuration: 0.2
@@ -172,7 +173,7 @@ MonoBehaviour:
   invincibilityFadeSpeed: 3
   defaultInvincibilityTime: 1.75
   standColliderData:
-    drawGizmos: 1
+    drawGizmos: 0
     bounds:
       serializedVersion: 2
       x: 0.05
@@ -188,11 +189,9 @@ MonoBehaviour:
     handRect:
       serializedVersion: 2
       x: 0.25
-      y: -0.6
+      y: -0.35
       width: 0.1
-      height: 0.5
-    ledgeCheckOffset: {x: 0.35, y: -0.275}
-    ledgeCheckLength: 0.25
+      height: 0.2
   crouchColliderData:
     drawGizmos: 0
     bounds:
@@ -213,8 +212,6 @@ MonoBehaviour:
       y: -0.9
       width: 0.1
       height: 0.45
-    ledgeCheckOffset: {x: 0.35, y: -0.5}
-    ledgeCheckLength: 0.25
   crouchHeadRect:
     serializedVersion: 2
     x: 0.05

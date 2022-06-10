@@ -2,10 +2,8 @@
 
 namespace Metroidvania.Player.States
 {
-    // TODO: Implement wall states
     // TODO: Add sounds
     // TODO: Implement death state
-    // TODO: Add particles
     /// <summary>Base classes for all player states</summary>
     public abstract class PlayerStateBase
     {
@@ -138,6 +136,7 @@ namespace Metroidvania.Player.States
             machine.player.collisions.SetCollisionsData(machine.player.data.standColliderData);
             machine.player.animator.SwitchAnimation(PlayerAnimator.JumpAnimKey);
             machine.player.CollisionEntered += CollisionEntered;
+            machine.player.particles.jump.Play();
         }
 
         public override void Exit()
@@ -189,6 +188,8 @@ namespace Metroidvania.Player.States
     /// <summary>Player state when he is not grounded</summary>
     public class PlayerFallState : PlayerStateBase
     {
+        private float _fallStartY;
+
         public PlayerFallState(PlayerStateMachine machine) : base(machine)
         {
         }
@@ -196,12 +197,15 @@ namespace Metroidvania.Player.States
         public override void Enter(PlayerStateBase previousState)
         {
             machine.player.animator.SwitchAnimation(PlayerAnimator.FallAnimKey);
+            _fallStartY = machine.player.rb.position.y;
         }
 
         public override void LogicUpdate()
         {
             if (machine.player.collisions.isGrounded)
             {
+                if (_fallStartY - machine.player.rb.position.y > machine.player.data.fallParticlesDistance)
+                    machine.player.particles.landing.Play();
                 machine.EnterIdleState();
                 return;
             }
@@ -438,6 +442,13 @@ namespace Metroidvania.Player.States
 
             machine.player.collisions.SetCollisionsData(machine.player.data.crouchColliderData);
             machine.player.animator.SwitchAnimation(PlayerAnimator.SlideAnimKey, true);
+            machine.player.particles.slide.Play();
+        }
+
+        public override void Exit()
+        {
+            _cooldownModule.StartCooldown();
+            machine.player.particles.slide.Stop(true, ParticleSystemStopBehavior.StopEmitting);
         }
 
         public override void LogicUpdate()
@@ -465,11 +476,6 @@ namespace Metroidvania.Player.States
             var speed = slideCurveSpeed * machine.player.data.slideSpeed * machine.player.facingDirection;
             machine.player.SetHorizontalVelocity(speed);
         }
-
-        public override void Exit()
-        {
-            _cooldownModule.StartCooldown();
-        }
     }
 
     /// <summary>Player state when he is falling and walking towards the wall</summary>
@@ -483,6 +489,12 @@ namespace Metroidvania.Player.States
         {
             machine.player.animator.SwitchAnimation(PlayerAnimator.WallSlideAnimKey);
             machine.player.collisions.SetCollisionsData(machine.player.data.standColliderData);
+            machine.player.particles.wallSlide.Play();
+        }
+
+        public override void Exit()
+        {
+            machine.player.particles.wallSlide.Stop(true, ParticleSystemStopBehavior.StopEmitting);
         }
 
         public override void LogicUpdate()
@@ -513,12 +525,15 @@ namespace Metroidvania.Player.States
 
             machine.player.animator.SwitchAnimation(PlayerAnimator.JumpAnimKey);
             machine.player.collisions.SetCollisionsData(machine.player.data.standColliderData);
-
             machine.player.animator.Flip();
+            {
+                var shape = machine.player.particles.wallJump.shape;
+                shape.rotation = new Vector3(0, 0, 90 * -machine.player.facingDirection);
+                machine.player.particles.wallJump.Play();
+            }
             machine.player.rb.velocity = GetJumpForce();
 
             machine.player.CollisionEntered += OnCollisionEnter;
-
             _durationModule.Enter();
         }
 
