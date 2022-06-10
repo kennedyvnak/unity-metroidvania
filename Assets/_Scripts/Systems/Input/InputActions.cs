@@ -91,7 +91,18 @@ namespace Metroidvania.InputSystem
                     ""path"": ""<Keyboard>/z"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": """",
+                    ""groups"": ""Keyboard"",
+                    ""action"": ""Jump"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""75c73b42-9e1e-46e6-a10a-9d42d8c2dc27"",
+                    ""path"": ""<Gamepad>/buttonSouth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
                     ""action"": ""Jump"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
@@ -102,7 +113,18 @@ namespace Metroidvania.InputSystem
                     ""path"": ""<Keyboard>/c"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": """",
+                    ""groups"": ""Keyboard"",
+                    ""action"": ""Dash"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""c9038213-013e-4299-9952-f83aabd260db"",
+                    ""path"": ""<Gamepad>/buttonEast"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
                     ""action"": ""Dash"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
@@ -113,7 +135,18 @@ namespace Metroidvania.InputSystem
                     ""path"": ""<Keyboard>/downArrow"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": """",
+                    ""groups"": ""Keyboard"",
+                    ""action"": ""Crouch"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""22e203b7-7bd1-4748-a9a3-60c901c066a4"",
+                    ""path"": ""<Gamepad>/buttonNorth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
                     ""action"": ""Crouch"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
@@ -124,13 +157,24 @@ namespace Metroidvania.InputSystem
                     ""path"": ""<Keyboard>/x"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": """",
+                    ""groups"": ""Keyboard"",
                     ""action"": ""Attack"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
                 {
-                    ""name"": ""Arrows"",
+                    ""name"": """",
+                    ""id"": ""ff424ff7-7557-4927-9a1a-3fcc0be2739e"",
+                    ""path"": ""<Gamepad>/buttonWest"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""Attack"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""Arrows Keys"",
                     ""id"": ""f3d11f6f-e80f-4e07-a062-cdc537ee9a7e"",
                     ""path"": ""1DAxis"",
                     ""interactions"": """",
@@ -146,7 +190,7 @@ namespace Metroidvania.InputSystem
                     ""path"": ""<Keyboard>/leftArrow"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": """",
+                    ""groups"": ""Keyboard"",
                     ""action"": ""Move"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
@@ -157,10 +201,21 @@ namespace Metroidvania.InputSystem
                     ""path"": ""<Keyboard>/rightArrow"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": """",
+                    ""groups"": ""Keyboard"",
                     ""action"": ""Move"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""15ad0c5f-a101-41be-be26-61abf41029b9"",
+                    ""path"": ""<Gamepad>/leftStick/x"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""Move"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 },
                 {
                     ""name"": """",
@@ -168,7 +223,18 @@ namespace Metroidvania.InputSystem
                     ""path"": ""<Keyboard>/escape"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": """",
+                    ""groups"": ""Keyboard"",
+                    ""action"": ""Pause"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""99d67c3f-4db5-462a-b628-0a704315e35a"",
+                    ""path"": ""<Gamepad>/start"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
                     ""action"": ""Pause"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
@@ -180,36 +246,18 @@ namespace Metroidvania.InputSystem
             ""id"": ""55516c67-fc80-4d4c-9684-ba253df184b8"",
             ""actions"": [
                 {
-                    ""name"": ""MoveSelection"",
-                    ""type"": ""Value"",
-                    ""id"": ""a291d37b-cd0e-4364-83e4-930aacb13d15"",
-                    ""expectedControlType"": ""Vector2"",
-                    ""processors"": ""StickDeadzone"",
-                    ""interactions"": """",
-                    ""initialStateCheck"": true
-                },
-                {
                     ""name"": ""Navigate"",
-                    ""type"": ""Value"",
-                    ""id"": ""215d7fc8-2318-4454-93b3-eec7d1331522"",
+                    ""type"": ""PassThrough"",
+                    ""id"": ""24d63142-d234-4ec1-8732-923dba459b3e"",
                     ""expectedControlType"": ""Vector2"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": true
-                },
-                {
-                    ""name"": ""Submit"",
-                    ""type"": ""Button"",
-                    ""id"": ""097bff98-c7d1-4fa7-b3d9-a16dfade58e1"",
-                    ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""Confirm"",
+                    ""name"": ""Submit"",
                     ""type"": ""Button"",
-                    ""id"": ""1c2f4374-c3fb-463b-841b-b0673ad9d4f5"",
+                    ""id"": ""54cbc2ef-7182-4ad2-aa9a-b127ac0e1af4"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """",
@@ -218,25 +266,7 @@ namespace Metroidvania.InputSystem
                 {
                     ""name"": ""Cancel"",
                     ""type"": ""Button"",
-                    ""id"": ""20cadb26-ad56-4f56-aace-20e705d61dc6"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
-                },
-                {
-                    ""name"": ""Unpause"",
-                    ""type"": ""Button"",
-                    ""id"": ""e859f2a1-6709-46d1-b06a-4ce0ba340dd9"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
-                },
-                {
-                    ""name"": ""Click"",
-                    ""type"": ""PassThrough"",
-                    ""id"": ""a56bb4dc-7fc2-4077-ab95-554ddcfb4d62"",
+                    ""id"": ""37e5c961-4b42-4716-946b-84831a7d04b7"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """",
@@ -245,8 +275,35 @@ namespace Metroidvania.InputSystem
                 {
                     ""name"": ""Point"",
                     ""type"": ""PassThrough"",
-                    ""id"": ""ff3e83ac-80e1-4744-a73c-479480b797c7"",
+                    ""id"": ""805e82aa-e085-4390-a181-ac910aeb2509"",
                     ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""Click"",
+                    ""type"": ""PassThrough"",
+                    ""id"": ""6f3402a3-ddd3-4964-b642-31d18b87d9a2"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""ScrollWheel"",
+                    ""type"": ""PassThrough"",
+                    ""id"": ""51dec444-3ee4-4817-9ca7-e1df107d5fc0"",
+                    ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""MiddleClick"",
+                    ""type"": ""PassThrough"",
+                    ""id"": ""c3c74769-c2a1-457f-8b78-37ef162009e7"",
+                    ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
@@ -254,25 +311,32 @@ namespace Metroidvania.InputSystem
                 {
                     ""name"": ""RightClick"",
                     ""type"": ""PassThrough"",
-                    ""id"": ""6889c341-f140-449c-951d-f342eaa9ab09"",
-                    ""expectedControlType"": """",
+                    ""id"": ""d8c406b7-ede1-41bb-8189-bb98a411bb37"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""TrackedDevicePosition"",
+                    ""type"": ""PassThrough"",
+                    ""id"": ""76767a1e-c871-40cc-860b-9879f66dbcc4"",
+                    ""expectedControlType"": ""Vector3"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""TrackedDeviceOrientation"",
+                    ""type"": ""PassThrough"",
+                    ""id"": ""05bf019e-26fa-4446-9f39-2840594fdcad"",
+                    ""expectedControlType"": ""Quaternion"",
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
-                {
-                    ""name"": """",
-                    ""id"": ""e2997f15-b996-47a9-bcfa-e2917b83154a"",
-                    ""path"": ""<Keyboard>/space"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""KeyboardOrGamepad"",
-                    ""action"": ""Confirm"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
                 {
                     ""name"": """",
                     ""id"": ""530337a1-7efe-43b0-9760-002cacfcfd99"",
@@ -285,140 +349,41 @@ namespace Metroidvania.InputSystem
                     ""isPartOfComposite"": false
                 },
                 {
-                    ""name"": """",
-                    ""id"": ""7ee1513b-cd68-4977-8d37-415cf7b823c1"",
-                    ""path"": ""<Keyboard>/enter"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""KeyboardOrGamepad"",
-                    ""action"": ""Confirm"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": ""Keyboard Arrows"",
-                    ""id"": ""80a38d7a-d568-424e-a05f-494408e4ab17"",
-                    ""path"": ""2DVector(mode=1)"",
+                    ""name"": ""tempName"",
+                    ""id"": ""714457eb-4c41-4b2a-a780-1b921120e307"",
+                    ""path"": """",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""MoveSelection"",
-                    ""isComposite"": true,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": ""up"",
-                    ""id"": ""a9005d82-f25d-444a-ac65-946250b77491"",
-                    ""path"": ""<Keyboard>/upArrow"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""KeyboardOrGamepad"",
-                    ""action"": ""MoveSelection"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
-                    ""name"": ""down"",
-                    ""id"": ""1c0ee52a-75c0-428a-91d9-e9e0c1a99616"",
-                    ""path"": ""<Keyboard>/downArrow"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""KeyboardOrGamepad"",
-                    ""action"": ""MoveSelection"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
-                    ""name"": ""left"",
-                    ""id"": ""c5e815ac-ba81-4899-a642-d0ec29241f1b"",
-                    ""path"": ""<Keyboard>/leftArrow"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""KeyboardOrGamepad"",
-                    ""action"": ""MoveSelection"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
-                    ""name"": ""right"",
-                    ""id"": ""6f470f82-edd7-47e2-ad6d-53e524fdb631"",
-                    ""path"": ""<Keyboard>/rightArrow"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""KeyboardOrGamepad"",
-                    ""action"": ""MoveSelection"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""97f2209c-9475-41e3-abb3-16ec67400fb9"",
-                    ""path"": ""<Keyboard>/escape"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""KeyboardOrGamepad"",
-                    ""action"": ""Cancel"",
+                    ""action"": """",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
                 {
-                    ""name"": """",
-                    ""id"": ""f38b604c-db45-413d-a902-da732a62b758"",
-                    ""path"": ""<Keyboard>/escape"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""KeyboardOrGamepad"",
-                    ""action"": ""Unpause"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""ec1b122f-a9d9-464b-8fb6-767684e6acc2"",
-                    ""path"": ""<Mouse>/leftButton"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": "";Keyboard&Mouse"",
-                    ""action"": ""Click"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""986b34ef-dcb3-41be-bc35-5fc72f323918"",
-                    ""path"": ""<Mouse>/position"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Keyboard&Mouse"",
-                    ""action"": ""Point"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""9cede429-872e-4942-9226-d159ec0c9cb6"",
-                    ""path"": ""<Mouse>/rightButton"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": "";Keyboard&Mouse"",
-                    ""action"": ""RightClick"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""76b5b381-a44a-4ea3-9e73-934527e7d976"",
-                    ""path"": ""*/{Submit}"",
+                    ""name"": ""tempName1"",
+                    ""id"": ""5a44d68c-5425-40ae-8bae-3c6c39257242"",
+                    ""path"": """",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Submit"",
+                    ""action"": """",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
                 {
-                    ""name"": ""Keyboard"",
-                    ""id"": ""cb23f984-6e7e-4806-937b-943e75701325"",
+                    ""name"": ""tempName2"",
+                    ""id"": ""7ac6a874-32a5-48ad-8e8a-00309d38dc32"",
+                    ""path"": """",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": """",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""Gamepad"",
+                    ""id"": ""0df376ee-b85d-4fb8-a03e-5cb62960c0fa"",
                     ""path"": ""2DVector"",
                     ""interactions"": """",
                     ""processors"": """",
@@ -429,96 +394,306 @@ namespace Metroidvania.InputSystem
                 },
                 {
                     ""name"": ""up"",
-                    ""id"": ""c381f4dc-2033-420f-8e1b-f327cb290a20"",
-                    ""path"": ""<Keyboard>/w"",
+                    ""id"": ""d71b4b15-9ca3-480e-9de6-c7e111f03c2a"",
+                    ""path"": ""<Gamepad>/leftStick/up"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": ""Keyboard&Mouse"",
+                    ""groups"": ""Gamepad"",
                     ""action"": ""Navigate"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""down"",
+                    ""id"": ""9c26faed-36de-4d17-b195-8f50d9390042"",
+                    ""path"": ""<Gamepad>/leftStick/down"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""Navigate"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""left"",
+                    ""id"": ""72badbf8-64f3-44c4-85b4-6b279d1d3d68"",
+                    ""path"": ""<Gamepad>/leftStick/left"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""Navigate"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""right"",
+                    ""id"": ""9857132f-b768-47d8-8cfa-5e7146d55e45"",
+                    ""path"": ""<Gamepad>/leftStick/right"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""Navigate"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""4c21c6e0-09a9-41df-b00a-6ece62ca1d2f"",
+                    ""path"": ""<Gamepad>/dpad"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""Navigate"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""Keyboard"",
+                    ""id"": ""255e31a0-97d2-4d3a-b789-2b777645b7ad"",
+                    ""path"": ""2DVector"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Navigate"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
                 },
                 {
                     ""name"": ""up"",
-                    ""id"": ""a60b371b-c4a9-4f5f-9190-838263d00e17"",
+                    ""id"": ""aa1b38e1-46cf-42a1-bb36-2c3d548ec106"",
                     ""path"": ""<Keyboard>/upArrow"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": ""Keyboard&Mouse"",
+                    ""groups"": ""Keyboard"",
                     ""action"": ""Navigate"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
                 },
                 {
                     ""name"": ""down"",
-                    ""id"": ""ca01f2b1-1173-4176-81d3-55b5a9a6f084"",
-                    ""path"": ""<Keyboard>/s"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Keyboard&Mouse"",
-                    ""action"": ""Navigate"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
-                    ""name"": ""down"",
-                    ""id"": ""4f389a0b-1db0-4c18-8db6-a8221908192a"",
+                    ""id"": ""9404a5b3-3ffd-425e-8b2e-eeae076a3fdb"",
                     ""path"": ""<Keyboard>/downArrow"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": ""Keyboard&Mouse"",
+                    ""groups"": ""Keyboard"",
                     ""action"": ""Navigate"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
                 },
                 {
                     ""name"": ""left"",
-                    ""id"": ""b9bfbbd6-4d1e-42b7-8368-984987accb39"",
-                    ""path"": ""<Keyboard>/a"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Keyboard&Mouse"",
-                    ""action"": ""Navigate"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
-                    ""name"": ""left"",
-                    ""id"": ""0c001e82-b6d6-4acb-92a4-413ee4396266"",
+                    ""id"": ""4f6da20b-0c58-4c66-8f7d-10ca584accff"",
                     ""path"": ""<Keyboard>/leftArrow"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": ""Keyboard&Mouse"",
+                    ""groups"": ""Keyboard"",
                     ""action"": ""Navigate"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
                 },
                 {
                     ""name"": ""right"",
-                    ""id"": ""86af22b7-4d50-404e-b67b-a99cb11a747a"",
-                    ""path"": ""<Keyboard>/d"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Keyboard&Mouse"",
-                    ""action"": ""Navigate"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
-                    ""name"": ""right"",
-                    ""id"": ""774392a6-b672-4925-8430-6d1a2f60be6e"",
+                    ""id"": ""ea2fa79c-d50b-415e-9eb0-2d7814f56420"",
                     ""path"": ""<Keyboard>/rightArrow"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": ""Keyboard&Mouse"",
+                    ""groups"": ""Keyboard"",
                     ""action"": ""Navigate"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""e766142a-1468-4ff4-9e2f-5879e308c861"",
+                    ""path"": ""*/{Submit}"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Submit"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""7f5be32c-9d74-48e7-8ab9-a84a9abc4859"",
+                    ""path"": ""*/{Cancel}"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Cancel"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""7eed4f15-bc43-4254-8f9b-b47214c7e75d"",
+                    ""path"": ""<Mouse>/position"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Point"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""0f6fbbaa-c416-4a7e-b378-ba6ee4039dc7"",
+                    ""path"": ""<Pen>/position"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Point"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""8d2e27a0-a7a6-4921-b39b-ae9d7d5212dd"",
+                    ""path"": ""<Touchscreen>/touch*/position"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Touch"",
+                    ""action"": ""Point"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""ab4a6b80-f2c8-4818-a915-cb6535bc3c74"",
+                    ""path"": ""<Mouse>/leftButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Click"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""8699e657-b965-4633-9ab4-bbbec779d8bf"",
+                    ""path"": ""<Pen>/tip"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Click"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""5f64a5da-a414-4c40-94d1-9802ca3180f9"",
+                    ""path"": ""<Touchscreen>/touch*/press"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Touch"",
+                    ""action"": ""Click"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""5c8009dd-ac1e-4da1-b4d7-47b004d97807"",
+                    ""path"": ""<XRController>/trigger"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Click"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""6a47818b-7435-4f61-8858-aa35413dcc85"",
+                    ""path"": ""<Mouse>/scroll"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""ScrollWheel"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""34ad5006-5997-44cd-a6d4-e8db2bc824c3"",
+                    ""path"": ""<Mouse>/middleButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""MiddleClick"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""9acd344c-70c6-4fce-8648-9238e07e6678"",
+                    ""path"": ""<Mouse>/rightButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""RightClick"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""5921f458-ef1b-48f5-888b-e7f121455b44"",
+                    ""path"": ""<XRController>/devicePosition"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""TrackedDevicePosition"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""01546441-b942-49f6-a240-675b2a6d3c50"",
+                    ""path"": ""<XRController>/deviceRotation"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""TrackedDeviceOrientation"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
     ],
-    ""controlSchemes"": []
+    ""controlSchemes"": [
+        {
+            ""name"": ""Keyboard"",
+            ""bindingGroup"": ""Keyboard"",
+            ""devices"": [
+                {
+                    ""devicePath"": ""<Keyboard>"",
+                    ""isOptional"": false,
+                    ""isOR"": false
+                }
+            ]
+        },
+        {
+            ""name"": ""Gamepad"",
+            ""bindingGroup"": ""Gamepad"",
+            ""devices"": [
+                {
+                    ""devicePath"": ""<Gamepad>"",
+                    ""isOptional"": false,
+                    ""isOR"": false
+                }
+            ]
+        },
+        {
+            ""name"": ""Touch"",
+            ""bindingGroup"": ""Touch"",
+            ""devices"": [
+                {
+                    ""devicePath"": ""<Touchscreen>"",
+                    ""isOptional"": false,
+                    ""isOR"": false
+                }
+            ]
+        }
+    ]
 }");
             // Gameplay
             m_Gameplay = asset.FindActionMap("Gameplay", throwIfNotFound: true);
@@ -530,15 +705,16 @@ namespace Metroidvania.InputSystem
             m_Gameplay_Pause = m_Gameplay.FindAction("Pause", throwIfNotFound: true);
             // Menus
             m_Menus = asset.FindActionMap("Menus", throwIfNotFound: true);
-            m_Menus_MoveSelection = m_Menus.FindAction("MoveSelection", throwIfNotFound: true);
             m_Menus_Navigate = m_Menus.FindAction("Navigate", throwIfNotFound: true);
             m_Menus_Submit = m_Menus.FindAction("Submit", throwIfNotFound: true);
-            m_Menus_Confirm = m_Menus.FindAction("Confirm", throwIfNotFound: true);
             m_Menus_Cancel = m_Menus.FindAction("Cancel", throwIfNotFound: true);
-            m_Menus_Unpause = m_Menus.FindAction("Unpause", throwIfNotFound: true);
-            m_Menus_Click = m_Menus.FindAction("Click", throwIfNotFound: true);
             m_Menus_Point = m_Menus.FindAction("Point", throwIfNotFound: true);
+            m_Menus_Click = m_Menus.FindAction("Click", throwIfNotFound: true);
+            m_Menus_ScrollWheel = m_Menus.FindAction("ScrollWheel", throwIfNotFound: true);
+            m_Menus_MiddleClick = m_Menus.FindAction("MiddleClick", throwIfNotFound: true);
             m_Menus_RightClick = m_Menus.FindAction("RightClick", throwIfNotFound: true);
+            m_Menus_TrackedDevicePosition = m_Menus.FindAction("TrackedDevicePosition", throwIfNotFound: true);
+            m_Menus_TrackedDeviceOrientation = m_Menus.FindAction("TrackedDeviceOrientation", throwIfNotFound: true);
         }
 
         public void Dispose()
@@ -671,28 +847,30 @@ namespace Metroidvania.InputSystem
         // Menus
         private readonly InputActionMap m_Menus;
         private IMenusActions m_MenusActionsCallbackInterface;
-        private readonly InputAction m_Menus_MoveSelection;
         private readonly InputAction m_Menus_Navigate;
         private readonly InputAction m_Menus_Submit;
-        private readonly InputAction m_Menus_Confirm;
         private readonly InputAction m_Menus_Cancel;
-        private readonly InputAction m_Menus_Unpause;
-        private readonly InputAction m_Menus_Click;
         private readonly InputAction m_Menus_Point;
+        private readonly InputAction m_Menus_Click;
+        private readonly InputAction m_Menus_ScrollWheel;
+        private readonly InputAction m_Menus_MiddleClick;
         private readonly InputAction m_Menus_RightClick;
+        private readonly InputAction m_Menus_TrackedDevicePosition;
+        private readonly InputAction m_Menus_TrackedDeviceOrientation;
         public struct MenusActions
         {
             private @InputActions m_Wrapper;
             public MenusActions(@InputActions wrapper) { m_Wrapper = wrapper; }
-            public InputAction @MoveSelection => m_Wrapper.m_Menus_MoveSelection;
             public InputAction @Navigate => m_Wrapper.m_Menus_Navigate;
             public InputAction @Submit => m_Wrapper.m_Menus_Submit;
-            public InputAction @Confirm => m_Wrapper.m_Menus_Confirm;
             public InputAction @Cancel => m_Wrapper.m_Menus_Cancel;
-            public InputAction @Unpause => m_Wrapper.m_Menus_Unpause;
-            public InputAction @Click => m_Wrapper.m_Menus_Click;
             public InputAction @Point => m_Wrapper.m_Menus_Point;
+            public InputAction @Click => m_Wrapper.m_Menus_Click;
+            public InputAction @ScrollWheel => m_Wrapper.m_Menus_ScrollWheel;
+            public InputAction @MiddleClick => m_Wrapper.m_Menus_MiddleClick;
             public InputAction @RightClick => m_Wrapper.m_Menus_RightClick;
+            public InputAction @TrackedDevicePosition => m_Wrapper.m_Menus_TrackedDevicePosition;
+            public InputAction @TrackedDeviceOrientation => m_Wrapper.m_Menus_TrackedDeviceOrientation;
             public InputActionMap Get() { return m_Wrapper.m_Menus; }
             public void Enable() { Get().Enable(); }
             public void Disable() { Get().Disable(); }
@@ -702,68 +880,101 @@ namespace Metroidvania.InputSystem
             {
                 if (m_Wrapper.m_MenusActionsCallbackInterface != null)
                 {
-                    @MoveSelection.started -= m_Wrapper.m_MenusActionsCallbackInterface.OnMoveSelection;
-                    @MoveSelection.performed -= m_Wrapper.m_MenusActionsCallbackInterface.OnMoveSelection;
-                    @MoveSelection.canceled -= m_Wrapper.m_MenusActionsCallbackInterface.OnMoveSelection;
                     @Navigate.started -= m_Wrapper.m_MenusActionsCallbackInterface.OnNavigate;
                     @Navigate.performed -= m_Wrapper.m_MenusActionsCallbackInterface.OnNavigate;
                     @Navigate.canceled -= m_Wrapper.m_MenusActionsCallbackInterface.OnNavigate;
                     @Submit.started -= m_Wrapper.m_MenusActionsCallbackInterface.OnSubmit;
                     @Submit.performed -= m_Wrapper.m_MenusActionsCallbackInterface.OnSubmit;
                     @Submit.canceled -= m_Wrapper.m_MenusActionsCallbackInterface.OnSubmit;
-                    @Confirm.started -= m_Wrapper.m_MenusActionsCallbackInterface.OnConfirm;
-                    @Confirm.performed -= m_Wrapper.m_MenusActionsCallbackInterface.OnConfirm;
-                    @Confirm.canceled -= m_Wrapper.m_MenusActionsCallbackInterface.OnConfirm;
                     @Cancel.started -= m_Wrapper.m_MenusActionsCallbackInterface.OnCancel;
                     @Cancel.performed -= m_Wrapper.m_MenusActionsCallbackInterface.OnCancel;
                     @Cancel.canceled -= m_Wrapper.m_MenusActionsCallbackInterface.OnCancel;
-                    @Unpause.started -= m_Wrapper.m_MenusActionsCallbackInterface.OnUnpause;
-                    @Unpause.performed -= m_Wrapper.m_MenusActionsCallbackInterface.OnUnpause;
-                    @Unpause.canceled -= m_Wrapper.m_MenusActionsCallbackInterface.OnUnpause;
-                    @Click.started -= m_Wrapper.m_MenusActionsCallbackInterface.OnClick;
-                    @Click.performed -= m_Wrapper.m_MenusActionsCallbackInterface.OnClick;
-                    @Click.canceled -= m_Wrapper.m_MenusActionsCallbackInterface.OnClick;
                     @Point.started -= m_Wrapper.m_MenusActionsCallbackInterface.OnPoint;
                     @Point.performed -= m_Wrapper.m_MenusActionsCallbackInterface.OnPoint;
                     @Point.canceled -= m_Wrapper.m_MenusActionsCallbackInterface.OnPoint;
+                    @Click.started -= m_Wrapper.m_MenusActionsCallbackInterface.OnClick;
+                    @Click.performed -= m_Wrapper.m_MenusActionsCallbackInterface.OnClick;
+                    @Click.canceled -= m_Wrapper.m_MenusActionsCallbackInterface.OnClick;
+                    @ScrollWheel.started -= m_Wrapper.m_MenusActionsCallbackInterface.OnScrollWheel;
+                    @ScrollWheel.performed -= m_Wrapper.m_MenusActionsCallbackInterface.OnScrollWheel;
+                    @ScrollWheel.canceled -= m_Wrapper.m_MenusActionsCallbackInterface.OnScrollWheel;
+                    @MiddleClick.started -= m_Wrapper.m_MenusActionsCallbackInterface.OnMiddleClick;
+                    @MiddleClick.performed -= m_Wrapper.m_MenusActionsCallbackInterface.OnMiddleClick;
+                    @MiddleClick.canceled -= m_Wrapper.m_MenusActionsCallbackInterface.OnMiddleClick;
                     @RightClick.started -= m_Wrapper.m_MenusActionsCallbackInterface.OnRightClick;
                     @RightClick.performed -= m_Wrapper.m_MenusActionsCallbackInterface.OnRightClick;
                     @RightClick.canceled -= m_Wrapper.m_MenusActionsCallbackInterface.OnRightClick;
+                    @TrackedDevicePosition.started -= m_Wrapper.m_MenusActionsCallbackInterface.OnTrackedDevicePosition;
+                    @TrackedDevicePosition.performed -= m_Wrapper.m_MenusActionsCallbackInterface.OnTrackedDevicePosition;
+                    @TrackedDevicePosition.canceled -= m_Wrapper.m_MenusActionsCallbackInterface.OnTrackedDevicePosition;
+                    @TrackedDeviceOrientation.started -= m_Wrapper.m_MenusActionsCallbackInterface.OnTrackedDeviceOrientation;
+                    @TrackedDeviceOrientation.performed -= m_Wrapper.m_MenusActionsCallbackInterface.OnTrackedDeviceOrientation;
+                    @TrackedDeviceOrientation.canceled -= m_Wrapper.m_MenusActionsCallbackInterface.OnTrackedDeviceOrientation;
                 }
                 m_Wrapper.m_MenusActionsCallbackInterface = instance;
                 if (instance != null)
                 {
-                    @MoveSelection.started += instance.OnMoveSelection;
-                    @MoveSelection.performed += instance.OnMoveSelection;
-                    @MoveSelection.canceled += instance.OnMoveSelection;
                     @Navigate.started += instance.OnNavigate;
                     @Navigate.performed += instance.OnNavigate;
                     @Navigate.canceled += instance.OnNavigate;
                     @Submit.started += instance.OnSubmit;
                     @Submit.performed += instance.OnSubmit;
                     @Submit.canceled += instance.OnSubmit;
-                    @Confirm.started += instance.OnConfirm;
-                    @Confirm.performed += instance.OnConfirm;
-                    @Confirm.canceled += instance.OnConfirm;
                     @Cancel.started += instance.OnCancel;
                     @Cancel.performed += instance.OnCancel;
                     @Cancel.canceled += instance.OnCancel;
-                    @Unpause.started += instance.OnUnpause;
-                    @Unpause.performed += instance.OnUnpause;
-                    @Unpause.canceled += instance.OnUnpause;
-                    @Click.started += instance.OnClick;
-                    @Click.performed += instance.OnClick;
-                    @Click.canceled += instance.OnClick;
                     @Point.started += instance.OnPoint;
                     @Point.performed += instance.OnPoint;
                     @Point.canceled += instance.OnPoint;
+                    @Click.started += instance.OnClick;
+                    @Click.performed += instance.OnClick;
+                    @Click.canceled += instance.OnClick;
+                    @ScrollWheel.started += instance.OnScrollWheel;
+                    @ScrollWheel.performed += instance.OnScrollWheel;
+                    @ScrollWheel.canceled += instance.OnScrollWheel;
+                    @MiddleClick.started += instance.OnMiddleClick;
+                    @MiddleClick.performed += instance.OnMiddleClick;
+                    @MiddleClick.canceled += instance.OnMiddleClick;
                     @RightClick.started += instance.OnRightClick;
                     @RightClick.performed += instance.OnRightClick;
                     @RightClick.canceled += instance.OnRightClick;
+                    @TrackedDevicePosition.started += instance.OnTrackedDevicePosition;
+                    @TrackedDevicePosition.performed += instance.OnTrackedDevicePosition;
+                    @TrackedDevicePosition.canceled += instance.OnTrackedDevicePosition;
+                    @TrackedDeviceOrientation.started += instance.OnTrackedDeviceOrientation;
+                    @TrackedDeviceOrientation.performed += instance.OnTrackedDeviceOrientation;
+                    @TrackedDeviceOrientation.canceled += instance.OnTrackedDeviceOrientation;
                 }
             }
         }
         public MenusActions @Menus => new MenusActions(this);
+        private int m_KeyboardSchemeIndex = -1;
+        public InputControlScheme KeyboardScheme
+        {
+            get
+            {
+                if (m_KeyboardSchemeIndex == -1) m_KeyboardSchemeIndex = asset.FindControlSchemeIndex("Keyboard");
+                return asset.controlSchemes[m_KeyboardSchemeIndex];
+            }
+        }
+        private int m_GamepadSchemeIndex = -1;
+        public InputControlScheme GamepadScheme
+        {
+            get
+            {
+                if (m_GamepadSchemeIndex == -1) m_GamepadSchemeIndex = asset.FindControlSchemeIndex("Gamepad");
+                return asset.controlSchemes[m_GamepadSchemeIndex];
+            }
+        }
+        private int m_TouchSchemeIndex = -1;
+        public InputControlScheme TouchScheme
+        {
+            get
+            {
+                if (m_TouchSchemeIndex == -1) m_TouchSchemeIndex = asset.FindControlSchemeIndex("Touch");
+                return asset.controlSchemes[m_TouchSchemeIndex];
+            }
+        }
         public interface IGameplayActions
         {
             void OnMove(InputAction.CallbackContext context);
@@ -775,15 +986,16 @@ namespace Metroidvania.InputSystem
         }
         public interface IMenusActions
         {
-            void OnMoveSelection(InputAction.CallbackContext context);
             void OnNavigate(InputAction.CallbackContext context);
             void OnSubmit(InputAction.CallbackContext context);
-            void OnConfirm(InputAction.CallbackContext context);
             void OnCancel(InputAction.CallbackContext context);
-            void OnUnpause(InputAction.CallbackContext context);
-            void OnClick(InputAction.CallbackContext context);
             void OnPoint(InputAction.CallbackContext context);
+            void OnClick(InputAction.CallbackContext context);
+            void OnScrollWheel(InputAction.CallbackContext context);
+            void OnMiddleClick(InputAction.CallbackContext context);
             void OnRightClick(InputAction.CallbackContext context);
+            void OnTrackedDevicePosition(InputAction.CallbackContext context);
+            void OnTrackedDeviceOrientation(InputAction.CallbackContext context);
         }
     }
 }
