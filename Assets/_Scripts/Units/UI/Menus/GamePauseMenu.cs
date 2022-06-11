@@ -3,7 +3,6 @@ using DG.Tweening;
 using Metroidvania.InputSystem;
 using Metroidvania.SceneManagement;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 namespace Metroidvania.UI.Menus
 {
@@ -28,7 +27,7 @@ namespace Metroidvania.UI.Menus
         public void ActiveMenu()
         {
             menuEnabled = true;
-            m_titleGroup.DOFade(true, UIUtility.TransitionTime);
+            m_titleGroup.DOFade(true, UIUtility.TransitionTime, SetFirstSelected);
         }
 
         public void Resume()

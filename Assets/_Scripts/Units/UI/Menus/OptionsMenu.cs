@@ -4,12 +4,41 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using Metroidvania.Events;
+using DG.Tweening;
+using UnityEngine.EventSystems;
 
 namespace Metroidvania.UI.Menus
 {
     public class OptionsMenu : CanvasMenuBase, IMenuScreen
     {
+        [System.Serializable]
+        public class Panel
+        {
+            public CanvasGroup group;
+            public GameObject firstSelected;
+            public VerticalSelectionGroup selectionGroup;
+
+            public Tween FadeGroup(bool enabled)
+            {
+                return group.DOFade(enabled, UIUtility.TransitionTime, () =>
+                {
+                    if (enabled)
+                    {
+                        selectionGroup.UpdateNavigation();
+                        EventSystem.current.SetSelectedGameObject(firstSelected);
+                    }
+                });
+            }
+        }
+
         [SerializeField] private CanvasGroup m_canvasGroup;
+
+        [Header("Options")]
+        [SerializeField] private Panel m_buttonsGroup;
+        [SerializeField] private Panel m_settingsPanel;
+        [SerializeField] private Panel m_audioPanel;
+        [SerializeField] private Panel m_graphicsPanel;
+        [SerializeField] private Button m_returnButton;
 
         [Header("Audio Settings")]
         [SerializeField] private Slider m_masterVolumeSlider;
@@ -19,7 +48,7 @@ namespace Metroidvania.UI.Menus
         [Header("Quality Settings")]
         [SerializeField] private TextMeshProUGUI m_resolutionText;
         [SerializeField] private LocalizeStringEvent m_qualityEvent;
-        [SerializeField] private ToggleGraphic m_fullScreenToggle;
+        [SerializeField] private Toggle m_fullScreenToggle;
 
         [Header("Events")]
         [SerializeField] private IntEventChannel m_resolutionChangedChannel;
@@ -27,6 +56,8 @@ namespace Metroidvania.UI.Menus
         [SerializeField] private BoolEventChannel m_fullScreenChangedChannel;
 
         public event System.Action OnMenuDisable;
+
+        private CanvasGroup _activeGroup;
 
         private void Awake()
         {
@@ -38,7 +69,7 @@ namespace Metroidvania.UI.Menus
             m_musicsVolumeSlider.onValueChanged.AddListener(GameAudioSettings.instance.SetMusicsField);
             m_sfxVolumeSlider.onValueChanged.AddListener(GameAudioSettings.instance.SetSfxField);
 
-            m_fullScreenToggle.toggle.SetIsOnWithoutNotify(PlayerPrefs.GetInt(GameGraphicsSettings.instance.fullScreenPrefsKey, GameGraphicsSettings.instance.defaultFullScreenValue ? 1 : 0) == 1);
+            m_fullScreenToggle.SetIsOnWithoutNotify(PlayerPrefs.GetInt(GameGraphicsSettings.instance.fullScreenPrefsKey, GameGraphicsSettings.instance.defaultFullScreenValue ? 1 : 0) == 1);
 
             ResolutionChangedHandler(PlayerPrefs.GetInt(GameGraphicsSettings.instance.resolutionPrefsKey, GameGraphicsSettings.instance.defaultResolutionIndex));
             QualityChangedHandler(PlayerPrefs.GetInt(GameGraphicsSettings.instance.qualityPrefsKey, GameGraphicsSettings.instance.defaultQualityIndex));
@@ -55,6 +86,23 @@ namespace Metroidvania.UI.Menus
 
             m_resolutionChangedChannel.OnEventRaise -= ResolutionChangedHandler;
             m_qualityChangedChannel.OnEventRaise -= QualityChangedHandler;
+        }
+
+        public void OpenSettingsScreen() => OpenScreen(m_settingsPanel);
+        public void OpenAudioScreen() => OpenScreen(m_audioPanel);
+        public void OpenGraphicsScreen() => OpenScreen(m_graphicsPanel);
+
+        public void OpenScreen(Panel panel)
+        {
+            m_returnButton.interactable = false;
+            m_buttonsGroup.FadeGroup(false).onComplete += () =>
+            {
+                panel.FadeGroup(true).onComplete += () =>
+                {
+                    _activeGroup = panel.group;
+                    m_returnButton.interactable = true;
+                };
+            };
         }
 
         private void ResolutionChangedHandler(int idx)
@@ -76,8 +124,28 @@ namespace Metroidvania.UI.Menus
 
         public void DesactiveMenu()
         {
-            menuEnabled = false;
-            m_canvasGroup.DOFade(false, UIUtility.TransitionTime, () => OnMenuDisable?.Invoke());
+            if (_activeGroup)
+            {
+                _activeGroup.DOFade(false, UIUtility.TransitionTime, () =>
+                {
+                    m_returnButton.interactable = false;
+                    m_buttonsGroup.FadeGroup(true).onComplete += () =>
+                    {
+                        _activeGroup = null;
+                        m_returnButton.interactable = true;
+                    };
+                });
+            }
+            else
+            {
+                menuEnabled = false;
+                m_canvasGroup.DOFade(false, UIUtility.TransitionTime, () => OnMenuDisable?.Invoke());
+            }
+        }
+
+        public Tweener FadeMenu(bool enabled)
+        {
+            return m_canvasGroup.DOFade(enabled, UIUtility.TransitionTime, SetFirstSelected);
         }
     }
 }

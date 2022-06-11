@@ -76,7 +76,7 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4294967295
+    rgba: 4283678438
   m_fontColor: {r: 1, g: 1, b: 1, a: 1}
   m_enableVertexGradient: 1
   m_colorMode: 3
@@ -462,7 +462,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 322, y: 32}
+  m_SizeDelta: {x: 322, y: 64}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &8065851827864200651
 MonoBehaviour:
@@ -487,6 +487,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 7222571057166241776}
     m_Modifications:
+    - target: {fileID: 307319324389020536, guid: 23f50b1b81db8ae4c90f817f22b3ca03, type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: 66b950715a5c1a348ab13af619431219, type: 2}
     - target: {fileID: 3134147948908068892, guid: 23f50b1b81db8ae4c90f817f22b3ca03, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5

@@ -161,3 +161,12 @@
 - Add player particles
 - Update wall detection
 - Add fall distance detection
+
+> 1.4.2.1
+
+- Improve input
+- Add gamepad support
+- Update options screen
+- Add animations in UI behaviours
+- Update toggle field checkmark display
+- Improve keyboard/gamepad UI navigation

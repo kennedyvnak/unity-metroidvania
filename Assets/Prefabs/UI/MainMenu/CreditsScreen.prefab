@@ -303,13 +303,13 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4755517987745163904}
+  - component: {fileID: 4755517987745163934}
   - component: {fileID: 4755517987745163933}
   - component: {fileID: 4755517987745163932}
   - component: {fileID: 4755517987745163935}
-  - component: {fileID: 4755517987745163934}
   - component: {fileID: 4755517987745163905}
   m_Layer: 5
-  m_Name: Credits
+  m_Name: CreditsScreen
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -337,6 +337,22 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 1024, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &4755517987745163934
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4755517987745163907}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 61678fc4014e30442912c7bd75e2011b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  firstSelected: {fileID: 7833723006917569507}
+  m_canvasGroup: {fileID: 4755517987745163905}
+  m_asset: {fileID: 11400000, guid: c2a716383b3bd4a4495727041d42dcc2, type: 2}
+  m_creditsText: {fileID: 4755517987115589522}
 --- !u!222 &4755517987745163933
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -405,22 +421,6 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
---- !u!114 &4755517987745163934
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4755517987745163907}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 61678fc4014e30442912c7bd75e2011b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  firstSelected: {fileID: 0}
-  m_canvasGroup: {fileID: 4755517987745163905}
-  m_asset: {fileID: 11400000, guid: c2a716383b3bd4a4495727041d42dcc2, type: 2}
-  m_creditsText: {fileID: 4755517987115589522}
 --- !u!225 &4755517987745163905
 CanvasGroup:
   m_ObjectHideFlags: 0
@@ -601,5 +601,10 @@ PrefabInstance:
 --- !u!224 &7674209209908854450 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 3134147948908068892, guid: 23f50b1b81db8ae4c90f817f22b3ca03, type: 3}
+  m_PrefabInstance: {fileID: 4755517986168290990}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &7833723006917569507 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3262866692982363469, guid: 23f50b1b81db8ae4c90f817f22b3ca03, type: 3}
   m_PrefabInstance: {fileID: 4755517986168290990}
   m_PrefabAsset: {fileID: 0}

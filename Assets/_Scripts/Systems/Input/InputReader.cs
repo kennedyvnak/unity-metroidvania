@@ -4,7 +4,6 @@ using UnityEngine.InputSystem;
 namespace Metroidvania.InputSystem
 {
     /// <summary>This class handle the unity input actions events</summary>
-    /// <see cref="PlayerInput"/>
     public class InputReader : ScriptableSingleton<InputReader>, InputActions.IGameplayActions, InputActions.IMenusActions
     {
         public InputActions inputActions { get; private set; }
@@ -14,21 +13,10 @@ namespace Metroidvania.InputSystem
 
         // This actions is: [...]Event: when the input button down; [...]CanceledEvent: when the input button up;
 
-        public event Action AttackEvent;
-        public event Action AttackCanceledEvent;
-
-        public event Action CrouchEvent;
-        public event Action CrouchCanceledEvent;
-
-        public event Action DashEvent;
-        public event Action DashCanceledEvent;
-
         public event Action JumpEvent;
-        public event Action JumpCanceledEvent;
 
         public event Action PauseEvent;
 
-        public event Action MenuUnpauseEvent;
         public event Action MenuCloseEvent;
 
         private void OnEnable()
@@ -76,7 +64,9 @@ namespace Metroidvania.InputSystem
             switch (context.phase)
             {
                 case InputActionPhase.Performed:
-                    MoveEvent?.Invoke(context.ReadValue<float>());
+                    var value = context.ReadValue<float>();
+                    var valueNormalized = value == 0 ? 0 : MathF.Sign(value);
+                    MoveEvent?.Invoke(valueNormalized);
                     break;
                 case InputActionPhase.Canceled:
                     MoveEvent?.Invoke(0);
@@ -86,54 +76,20 @@ namespace Metroidvania.InputSystem
 
         void InputActions.IGameplayActions.OnAttack(InputAction.CallbackContext context)
         {
-            switch (context.phase)
-            {
-                case InputActionPhase.Performed:
-                    AttackEvent?.Invoke();
-                    break;
-                case InputActionPhase.Canceled:
-                    AttackCanceledEvent?.Invoke();
-                    break;
-            }
         }
 
         void InputActions.IGameplayActions.OnCrouch(InputAction.CallbackContext context)
         {
-            switch (context.phase)
-            {
-                case InputActionPhase.Performed:
-                    CrouchEvent?.Invoke();
-                    break;
-                case InputActionPhase.Canceled:
-                    CrouchCanceledEvent?.Invoke();
-                    break;
-            }
         }
 
         void InputActions.IGameplayActions.OnDash(InputAction.CallbackContext context)
         {
-            switch (context.phase)
-            {
-                case InputActionPhase.Performed:
-                    DashEvent?.Invoke();
-                    break;
-                case InputActionPhase.Canceled:
-                    DashCanceledEvent?.Invoke();
-                    break;
-            }
         }
 
         void InputActions.IGameplayActions.OnJump(InputAction.CallbackContext context)
         {
-            switch (context.phase)
-            {
-                case InputActionPhase.Performed:
-                    JumpEvent?.Invoke();
-                    break;
-                case InputActionPhase.Canceled:
-                    JumpCanceledEvent?.Invoke();
-                    break;
-            }
+            if (context.phase == InputActionPhase.Performed)
+                JumpEvent?.Invoke();
         }
 
         void InputActions.IGameplayActions.OnPause(InputAction.CallbackContext context)
@@ -143,10 +99,6 @@ namespace Metroidvania.InputSystem
         }
 
 
-        void InputActions.IMenusActions.OnMoveSelection(InputAction.CallbackContext context)
-        {
-        }
-
         void InputActions.IMenusActions.OnNavigate(InputAction.CallbackContext context)
         {
         }
@@ -155,20 +107,10 @@ namespace Metroidvania.InputSystem
         {
         }
 
-        void InputActions.IMenusActions.OnConfirm(InputAction.CallbackContext context)
-        {
-        }
-
         void InputActions.IMenusActions.OnCancel(InputAction.CallbackContext context)
         {
             if (context.phase == InputActionPhase.Performed)
                 MenuCloseEvent.Invoke();
-        }
-
-        void InputActions.IMenusActions.OnUnpause(InputAction.CallbackContext context)
-        {
-            if (context.phase == InputActionPhase.Performed)
-                MenuUnpauseEvent?.Invoke();
         }
 
         void InputActions.IMenusActions.OnClick(InputAction.CallbackContext context)
@@ -180,6 +122,14 @@ namespace Metroidvania.InputSystem
         }
 
         void InputActions.IMenusActions.OnRightClick(InputAction.CallbackContext context)
+        {
+        }
+
+        void InputActions.IMenusActions.OnScrollWheel(InputAction.CallbackContext context)
+        {
+        }
+
+        void InputActions.IMenusActions.OnMiddleClick(InputAction.CallbackContext context)
         {
         }
     }

@@ -49,6 +49,10 @@ MonoBehaviour:
     m_Address: Assets/Graphics/Textures/Units/Entities
     m_ReadOnly: 0
     m_SerializedLabels: []
+  - m_GUID: 4e6e1b5150e6c454593abacaa5bd49d5
+    m_Address: Assets/Graphics/Animations/UI
+    m_ReadOnly: 0
+    m_SerializedLabels: []
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 8259dc4f4d8e49b4dad3c97268d6350a, type: 2}
   m_SchemaSet:
