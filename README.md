@@ -10,6 +10,17 @@ My goal here is make references for 2D game developers who are starting to devel
 - [GUI Elements](https://mounirtohami.itch.io/pixel-art-gui-elements)
 - [Sounds](https://jdwasabi.itch.io/8-bit-16-bit-sound-effects-pack)
 
+## Packages
+
+- New Input System
+- Unity Addressables
+- Unity Localization
+- Unity URP
+
+> Packages that I consider using in the future in the project
+
+- Unity DOTS
+
 ## Features
 
 - Assets folder structure
