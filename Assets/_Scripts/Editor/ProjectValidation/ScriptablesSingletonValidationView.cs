@@ -161,7 +161,8 @@ namespace MetroidvaniaEditor.Validation.Views
         [UnityEditor.Callbacks.DidReloadScripts]
         private static void Initialize()
         {
-            scriptableSingletons = TypeCache.GetTypesDerivedFrom(typeof(Metroidvania.ScriptableSingleton<>)).ToList();
+            scriptableSingletons = TypeCache.GetTypesDerivedFrom(typeof(Metroidvania.ScriptableSingleton<>))
+                .Where(x => !x.IsAbstract).ToList();
         }
 
         public ScriptablesSingletonValidationView(ProjectValidatorWindow root) : base(root)
