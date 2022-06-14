@@ -307,8 +307,8 @@ namespace MetroidvaniaEditor.Validation.Views
         // FIXME: If any item found in the search is selected in the ListView the search box will be deselected (ListView.ClearSelection() doesn't works)   
         public override void OnSearchChange(string search)
         {
-            search = search.ToLower();
-            _objectsListView.itemsSource = _singletonTypes = scriptableSingletons.Where(t => t.Name.ToLower().Contains(search)).ToList();
+            _objectsListView.itemsSource = _singletonTypes = scriptableSingletons
+                .Where(t => t.Name.Contains(search, StringComparison.OrdinalIgnoreCase)).ToList();
             _objectsListView.RefreshItems();
         }
 
