@@ -1,7 +1,10 @@
-# What is Metroidvania
+# Metroidvania
 
-Metroidvania is a project that contains some metroidvania games features using the Unity Engine.
-My goal here is make references for 2D game developers who are starting to develop in unity.
+## Introduction
+
+Metroidvania is a metroidvania (lol) game engine written in C# for Unity.
+
+It is a 100% free and open source project with the goal of demonstrating how a complete game structures asset folders, connects systems, handles editor tools and much more.
 
 ## Credits to the artists
 
@@ -10,25 +13,17 @@ My goal here is make references for 2D game developers who are starting to devel
 - [GUI Elements](https://mounirtohami.itch.io/pixel-art-gui-elements)
 - [Sounds](https://jdwasabi.itch.io/8-bit-16-bit-sound-effects-pack)
 
-## Packages
+## Packages used in project
 
 - New Input System
 - Unity Addressables
 - Unity Localization
 - Unity URP
 
-> Packages that I consider using in the future in the project
+## Setup
 
-- Unity DOTS
+### Github Installation
 
-## Features
-
-- Assets folder structure
-- Player controller using State Machine and Component pattern
-- IAs using State Machines
-- Using scriptable objects to store data
-- Serialization System
-- Main menu and scene transition
-- Editor Scripts (GUI, Project Validator, ScriptedImporters...)
-- Audio System
-- Input Management
+1. Install the unity version 2021.3.3f1
+2. Clone this repository into a directory in your computer
+3. Open project in Unity Hub
