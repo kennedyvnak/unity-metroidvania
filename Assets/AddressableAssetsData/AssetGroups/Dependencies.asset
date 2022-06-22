@@ -17,22 +17,6 @@ MonoBehaviour:
     m_SerializedData: []
   m_GUID: 401b900fbcaa1624ca824fe3c0e7c4fb
   m_SerializeEntries:
-  - m_GUID: 58a452129fcb0504b82d59e37310b216
-    m_Address: Textures/Units/UI/Field_Button.png
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-  - m_GUID: 104d7f1aae1198c458a5e784899734f7
-    m_Address: Textures/Units/UI/Field_Slider.png
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-  - m_GUID: 260cfb0b8ff83654396b54f1fe3cec43
-    m_Address: Textures/Units/UI/Field_Toggles.png
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-  - m_GUID: fa23021fc519a2842adabea998161f8a
-    m_Address: Textures/Units/UI/Background_Buttons.png
-    m_ReadOnly: 0
-    m_SerializedLabels: []
   - m_GUID: cfe9bb1de149d29428c62684590cebe8
     m_Address: Assets/Graphics/Animations/Units/Player
     m_ReadOnly: 0
@@ -51,6 +35,10 @@ MonoBehaviour:
     m_SerializedLabels: []
   - m_GUID: 4e6e1b5150e6c454593abacaa5bd49d5
     m_Address: Assets/Graphics/Animations/UI
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 24af44b397b29104a8e168adc085d6eb
+    m_Address: Assets/Graphics/Textures/Units/UI
     m_ReadOnly: 0
     m_SerializedLabels: []
   m_ReadOnly: 0

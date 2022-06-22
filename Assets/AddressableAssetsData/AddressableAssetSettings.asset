@@ -44,6 +44,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: e346aa44d13ac694bae893e9bb9a9ad2, type: 2}
   - {fileID: 11400000, guid: c8c0f53969d04774780693f03054e1b4, type: 2}
   - {fileID: 11400000, guid: 9d46a594e211c50439e7b9c65861b67a, type: 2}
+  - {fileID: 11400000, guid: 85b5cc9b96558774aaf1c14f7f3d9aad, type: 2}
   - {fileID: 11400000, guid: 81c27a13d36240547883026b4f2db7b3, type: 2}
   - {fileID: 11400000, guid: 29ca393a52fb1d04aa25a19359505746, type: 2}
   - {fileID: 11400000, guid: 4f62197db1f86a14aa127abb026150b1, type: 2}
@@ -109,6 +110,7 @@ MonoBehaviour:
     - Level Scene
     - Settings
     - Scriptable Singleton
+    - Persistent Singleton
   m_SchemaTemplates: []
   m_GroupTemplateObjects:
   - {fileID: 11400000, guid: 1a17078deefac2441a712ed5ce26e36a, type: 2}

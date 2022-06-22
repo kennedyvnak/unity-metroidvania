@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eb9aae4d4dd5edd48b36c8a94c6add75, type: 3}
+  m_Name: DataManager
+  m_EditorClassIdentifier: 
+  defaultGameDataAsset: {fileID: 5022602860645237092, guid: 7fec2072e70c40e40b55352da575f070, type: 3}
+  sceneUnloadedChannel: {fileID: 11400000, guid: 8f7e870ce08647a46b99478a468a68e8, type: 2}
+  onDeserializeChannel: {fileID: 11400000, guid: 1dc89ed4497f0934b81598735fd058f9, type: 2}
+  onSerializeChannel: {fileID: 11400000, guid: 8c857f2cba43b4f41832914a9c737706, type: 2}

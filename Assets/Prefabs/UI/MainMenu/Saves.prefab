@@ -68,9 +68,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   firstSelected: {fileID: 7367617495612574656}
   m_canvasGroup: {fileID: 414534823551887554}
-  m_dataManager: {fileID: 11400000, guid: 55859518e73bd2e4bb22d60c54915616, type: 2}
-  m_level0Ref:
-    m_AssetGUID: 8c9cfa26abfee488c85f1582747f6a02
+  m_sceneLevel0:
+    m_AssetGUID: 1fcc3198b941a374fa99fe90a86646ce
     m_SubObjectName: 
     m_SubObjectType: 
     m_EditorAssetChanged: 0

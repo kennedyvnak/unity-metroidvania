@@ -120,7 +120,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2ee689bb3143d7941b11f270fd8be859, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_touchDamage: 0
+  m_touchDamage: 12.5
   m_knockbackForce: {x: -10, y: 3.5}
 --- !u!61 &2903826723121747923
 BoxCollider2D:

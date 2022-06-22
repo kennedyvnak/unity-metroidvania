@@ -123,6 +123,22 @@ MonoBehaviour:
     m_Key: resume
     m_Metadata:
       m_Items: []
+  - m_Id: 10146029195223040
+    m_Key: want-to-continue
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10146562308038656
+    m_Key: yes
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10146604649537536
+    m_Key: no
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10146760346296320
+    m_Key: you-died
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

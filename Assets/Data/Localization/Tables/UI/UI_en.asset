@@ -126,6 +126,22 @@ MonoBehaviour:
     m_Localized: Resume
     m_Metadata:
       m_Items: []
+  - m_Id: 10146029195223040
+    m_Localized: Want To Continue?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10146562308038656
+    m_Localized: Yes
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10146604649537536
+    m_Localized: No
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10146760346296320
+    m_Localized: You Died
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

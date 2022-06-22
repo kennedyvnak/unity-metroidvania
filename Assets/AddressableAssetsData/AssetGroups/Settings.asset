@@ -20,11 +20,13 @@ MonoBehaviour:
   - m_GUID: e2ffc4a98311f994e994c3e8117a8b72
     m_Address: Assets/Data/Settings
     m_ReadOnly: 0
-    m_SerializedLabels: []
+    m_SerializedLabels:
+    - Settings
   - m_GUID: 591c4e893aca78d4783bdbdd477e416c
     m_Address: Assets/Prefabs/Singletons
     m_ReadOnly: 0
-    m_SerializedLabels: []
+    m_SerializedLabels:
+    - Persistent Singleton
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 8259dc4f4d8e49b4dad3c97268d6350a, type: 2}
   m_SchemaSet:

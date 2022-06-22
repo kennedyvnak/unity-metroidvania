@@ -12,7 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3307548d550f31348920b0ae3b3889f7, type: 3}
   m_Name: PlayerDataChannel
   m_EditorClassIdentifier: 
-  maxLife: 50
+  lifeField: {fileID: 11400000, guid: daf7ae76c73b20545b8cf11df526d48a, type: 2}
+  onDieChannel: {fileID: 11400000, guid: 5959ba2312347864e967625e5df255a8, type: 2}
+  onHurtChannel: {fileID: 11400000, guid: c826486e48eeb4446a81b8567216d8cb, type: 2}
   groundLayer:
     serializedVersion: 2
     m_Bits: 64

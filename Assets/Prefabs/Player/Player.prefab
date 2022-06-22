@@ -14588,6 +14588,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1896854366}
+  - component: {fileID: 5334700290164295895}
   m_Layer: 8
   m_Name: Particles
   m_TagString: Untagged
@@ -14615,6 +14616,17 @@ Transform:
   m_Father: {fileID: 7109756645513897340}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!210 &5334700290164295895
+SortingGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1896854365}
+  m_Enabled: 1
+  m_SortingLayerID: 299073141
+  m_SortingLayer: -4
+  m_SortingOrder: 20
 --- !u!1 &1899510137
 GameObject:
   m_ObjectHideFlags: 0

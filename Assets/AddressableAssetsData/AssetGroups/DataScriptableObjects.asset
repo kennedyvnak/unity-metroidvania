@@ -17,10 +17,6 @@ MonoBehaviour:
     m_SerializedData: []
   m_GUID: 784b17e0c45fcf4409ee511aa3b55171
   m_SerializeEntries:
-  - m_GUID: e1feb0f94abc04d4c80a36ba926eb5bb
-    m_Address: Assets/Data/Menus
-    m_ReadOnly: 0
-    m_SerializedLabels: []
   - m_GUID: d4d4118d84be4b28866e3d4b39ca58ec
     m_Address: Assets/Data/Player
     m_ReadOnly: 0
@@ -31,6 +27,18 @@ MonoBehaviour:
     m_SerializedLabels: []
   - m_GUID: 0c320199b495a3546b98382ec723564d
     m_Address: Assets/Data/Audio
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: a4a5a5b8221c27347819b83e12b0b5f5
+    m_Address: Assets/Data/Scenes
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: e1feb0f94abc04d4c80a36ba926eb5bb
+    m_Address: Assets/Data/Menus
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 110c533a9255aaa408ba581c5716317f
+    m_Address: Assets/Data/Serialization
     m_ReadOnly: 0
     m_SerializedLabels: []
   m_ReadOnly: 0

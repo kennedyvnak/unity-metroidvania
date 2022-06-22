@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
+  m_Name: GameOver
+  m_EditorClassIdentifier: 
+  m_GroupName: GameOver
+  m_Data:
+    m_SerializedData: []
+  m_GUID: d3c8536b20a821b40a4d2c2a0398f206
+  m_SerializeEntries:
+  - m_GUID: 968f9dcaded0a974e8ab659a19bceb87
+    m_Address: Assets/Scenes/GameOver.unity
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  m_ReadOnly: 0
+  m_Settings: {fileID: 11400000, guid: 8259dc4f4d8e49b4dad3c97268d6350a, type: 2}
+  m_SchemaSet:
+    m_Schemas:
+    - {fileID: 11400000, guid: 482363b6384ffab4bae1b74cc308f016, type: 2}
+    - {fileID: 11400000, guid: eb1899c38bdacd24aae635cb578aa35c, type: 2}

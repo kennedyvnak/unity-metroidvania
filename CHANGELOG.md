@@ -170,3 +170,35 @@
 - Add animations in UI behaviours
 - Update toggle field checkmark display
 - Improve keyboard/gamepad UI navigation
+
+## 1.4.3
+
+>- Features
+
+- Add player health bar
+- Add Fade Screen
+- Add game over
+- Add delete save button in save menu
+- Add runtime fields (scriptable object that contains a variable)
+- Add scene templates
+- Add player safe points (with custom editor)
+- Add Serializable GUID struct
+- Add Singleton Pattern
+
+>- Fixes
+
+- Fix void event channels tracking
+- Fix player particles sorting layer
+- Fix UI is not disabled when fading a group
+
+>- Changes
+
+- Rename scripts folder (_Scripts to Scripts)
+- Change data save mode
+- Change damage type from int to float
+- Change game assets initialization to a generic method
+- Change vertical selection group (now it just override the up/down selections)
+- Improve camera follow
+- Improve scene management
+- DataManager now is a singleton
+- Run code cleanup
