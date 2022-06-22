@@ -38,7 +38,6 @@ namespace Metroidvania.Player.SafePoints
             GenerateGUID();
         }
 
-        [ContextMenu("Generate GUID")]
         private void GenerateGUID()
         {
             m_guid = System.Guid.NewGuid();
