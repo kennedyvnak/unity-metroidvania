@@ -12,7 +12,7 @@ namespace Metroidvania.UI
         {
             get
             {
-                if (s_MainCanvas == null) s_MainCanvas = GameObject.FindGameObjectWithTag("MainCanvas").GetComponent<Canvas>();
+                if (!s_MainCanvas) s_MainCanvas = GameObject.FindGameObjectWithTag("MainCanvas").GetComponent<Canvas>();
                 return s_MainCanvas;
             }
         }

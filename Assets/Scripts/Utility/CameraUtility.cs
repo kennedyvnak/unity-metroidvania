@@ -10,7 +10,7 @@ namespace Metroidvania
         {
             get
             {
-                if (s_mainCamera == null) s_mainCamera = Camera.main;
+                if (!s_mainCamera) s_mainCamera = Camera.main;
                 return s_mainCamera;
             }
         }

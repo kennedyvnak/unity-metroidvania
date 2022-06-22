@@ -53,7 +53,7 @@ namespace MetroidvaniaEditor.Serialization
             GUI.EndScrollView();
         }
 
-        public override bool HasPreviewGUI() => GetGameDataAsset() != null;
+        public override bool HasPreviewGUI() => GetGameDataAsset();
 
         private GameDataAsset GetGameDataAsset() => assetTarget as GameDataAsset;
     }

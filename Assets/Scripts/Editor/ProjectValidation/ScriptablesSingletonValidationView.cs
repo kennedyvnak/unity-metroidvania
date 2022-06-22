@@ -315,7 +315,7 @@ namespace MetroidvaniaEditor.Validation.Views
                 return;
 
             UnityEngine.Object obj = LoadSingleInstanceType(type);
-            if (obj != null)
+            if (obj)
                 EditorGUIUtility.PingObject(obj);
         }
 
@@ -334,7 +334,7 @@ namespace MetroidvaniaEditor.Validation.Views
             {
                 AddressableAssetSettings settings = AddressableAssetSettingsDefaultObject.Settings;
                 AddressableAssetGroup group = settings.FindGroup(k_SingletonsGroupName);
-                if (group == null)
+                if (!group)
                     group = settings.CreateGroup(k_SingletonsGroupName, false, false, false, settings.DefaultGroup.Schemas);
 
                 string instancePath = GetInstancePath(type);

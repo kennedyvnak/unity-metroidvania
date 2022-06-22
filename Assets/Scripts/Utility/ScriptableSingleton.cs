@@ -17,7 +17,7 @@ namespace Metroidvania
         {
             get
             {
-                if (s_instance != null) return s_instance;
+                if (s_instance) return s_instance;
 
                 AsyncOperationHandle<T> handle = Addressables.LoadAssetAsync<T>(typeof(T).FullName);
                 if (handle.Status == AsyncOperationStatus.Failed)

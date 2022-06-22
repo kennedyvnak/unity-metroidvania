@@ -19,7 +19,7 @@ namespace Metroidvania.UI.Menus
 
         public IEnumerator LoadMenu(System.Action<GameplayMenuInstance> onCompleteOperation = null)
         {
-            if (runningInstance != null) yield break;
+            if (runningInstance) yield break;
 
             currentOperation = prefabReference.InstantiateAsync(UIUtility.mainCanvas.transform, false);
             currentOperation.Completed += (op) => runningInstance = op.Result;
@@ -27,15 +27,15 @@ namespace Metroidvania.UI.Menus
 
             GameplayMenuInstance menuInstance = currentOperation.Result.GetComponent<GameplayMenuInstance>();
 
-            yield return menuInstance == null
+            yield return !menuInstance
                 ? throw new System.Exception("The variable 'Prefab Reference' don't is a GameplayMenu.")
-                : (object)menuInstance.InitOperation(this);
+                : menuInstance.InitOperation(this);
             onCompleteOperation?.Invoke(menuInstance);
         }
 
         public IEnumerator UnloadMenuInstance()
         {
-            if (runningInstance == null) yield break;
+            if (!runningInstance) yield break;
 
             yield return runningInstance.GetComponent<GameplayMenuInstance>()?.ReleaseOperation();
 
