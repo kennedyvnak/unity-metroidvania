@@ -716,4 +716,37 @@ namespace Metroidvania.Player.States
             player.data.onDieChannel?.Raise(player);
         }
     }
+
+    public class PlayerFakeWalkState : PlayerStateBase
+    {
+        public float currentWalkDuration { get; set; }
+
+        private PlayerDurationModule _durationModule;
+
+        public PlayerFakeWalkState(PlayerStateMachine machine) : base(machine)
+        {
+            _durationModule = new PlayerDurationModule(this);
+        }
+
+        public override void Enter(PlayerStateBase previousState)
+        {
+            _durationModule.Enter();
+            player.collisions.SetCollisionsData(player.data.standColliderData);
+            player.animator.SwitchAnimation(PlayerAnimator.RunAnimKey);
+        }
+
+        public override void LogicUpdate()
+        {
+            if (machine.EnterFallState() != null)
+                return;
+
+            if (_durationModule.HasElapsed(currentWalkDuration))
+            {
+                machine.EnterIdleState();
+                return;
+            }
+
+            player.SetHorizontalVelocity(player.facingDirection * player.data.moveSpeed);
+        }
+    }
 }

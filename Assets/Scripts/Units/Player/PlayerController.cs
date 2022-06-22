@@ -219,6 +219,7 @@ namespace Metroidvania.Player
 
         public void OnSceneTransition(SceneLoader.SceneTransitionData transitionData)
         {
+            bool doFakeWalk = false;
             SceneSpawnPoints spawnPoints = transitionData.currentScene.spawnPoints;
             SceneSpawnPoints.SceneSpawnPoint spawnPoint = spawnPoints.defaultSpawnPoint;
 
@@ -230,15 +231,18 @@ namespace Metroidvania.Player
                     PlayerSafePoint safePoint = safePoints.GetSafePoint(transitionData.gameData.lastPlayerSafePoint.pointGuid);
                     spawnPoint.facingRight = safePoint.facingRight;
                     spawnPoint.position = safePoint.relativePoint;
+                    doFakeWalk = false;
                     break;
 #if UNITY_EDITOR
                 case SceneLoader.SceneTransitionData.EditorInitializationKey:
                     spawnPoint.position = transform.position;
                     spawnPoint.facingRight = facingDirection == 1;
+                    doFakeWalk = false;
                     break;
 #endif
                 default:
                     spawnPoints.TryGetSpawnPoint(transitionData.spawnPoint, ref spawnPoint);
+                    doFakeWalk = true;
                     break;
             }
 
@@ -250,6 +254,9 @@ namespace Metroidvania.Player
             CameraUtility.vCam.PreviousStateIsValid = false;
 
             data.lifeField.SetValue(transitionData.gameData.playerLife, RuntimeFields.RuntimeFieldSetMode.Setup);
+
+            if (doFakeWalk)
+                stateMachine.EnterFakeWalk(data.fakeWalkOnSceneTransitionTime);
         }
 
         public void BeforeUnload(SceneLoader.SceneUnloadData unloadData)

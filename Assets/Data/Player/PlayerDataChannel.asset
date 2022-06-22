@@ -171,6 +171,7 @@ MonoBehaviour:
   wallJumpForce: {x: 5, y: 8}
   wallJumpDuration: 0.2
   hurtTime: 0.3
+  fakeWalkOnSceneTransitionTime: 0.3
   invincibilityAlphaChange: 0.45
   invincibilityFadeSpeed: 3
   defaultInvincibilityTime: 1.75

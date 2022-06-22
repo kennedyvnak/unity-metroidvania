@@ -263,6 +263,7 @@
 - Added player safe points (with custom editor)
 - Added Serializable GUID struct
 - Added Singleton Pattern
+- Added player fake walk state
 
 ### Fixed
 

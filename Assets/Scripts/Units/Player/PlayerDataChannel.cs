@@ -134,6 +134,9 @@ namespace Metroidvania.Player
         [Tooltip("Time which the player stay on hurt state")]
         public float hurtTime;
 
+        [Header("Fake Walk")]
+        public float fakeWalkOnSceneTransitionTime;
+
         [Header("Invincibility")]
         [Tooltip("The alpha used in the invincibility animation to set the limits")]
         public float invincibilityAlphaChange;

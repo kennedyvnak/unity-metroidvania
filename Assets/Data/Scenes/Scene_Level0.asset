@@ -25,11 +25,11 @@ MonoBehaviour:
       position: {x: 14, y: 1.75}
       facingRight: 1
     spawnPoints:
-    - key: down-right
-      position: {x: 14, y: 2.25}
-      facingRight: 0
     - key: up-right
-      position: {x: 14, y: 19.25}
+      position: {x: 15.5, y: 19.25}
+      facingRight: 0
+    - key: down-right
+      position: {x: 15.5, y: 2.25}
       facingRight: 0
   channelReference:
     m_AssetGUID: 1fcc3198b941a374fa99fe90a86646ce
