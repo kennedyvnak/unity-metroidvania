@@ -14,6 +14,10 @@ namespace Metroidvania
 
         [Header("Safe Player Points Area")]
         public Color safePointArea = Color.green;
+
+        [Header("Entities")]
+        public Color entityTargetFinderFindRange = Color.yellow;
+        public Color entityTargetFinderMaxRange = Color.red;
     }
 }
 #endif

@@ -87,6 +87,13 @@ namespace Metroidvania
             Gizmos.DrawRay(from, direction);
             return this;
         }
+
+        /// <summary>Draws a line starting at from towards to</summary>
+        public GizmosDrawer DrawLine(Vector3 from, Vector3 to)
+        {
+            Gizmos.DrawLine(from, to);
+            return this;
+        }
     }
 }
 #endif
