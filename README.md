@@ -19,6 +19,18 @@ It is a 100% free and open source project with the goal of demonstrating how a c
 - Unity Addressables
 - Unity Localization
 - Unity URP
+- Unity DOTS
+
+## Features
+
+- Platform player controller built with component system and state machine
+- Settings management (audio, screen, game settings...)
+- Events using Scriptable Objects with tracker
+- Input system for keyboard and gamepad
+- Serialization System with data editor
+- Scene Management
+- Game Over
+- UI transitions and animations
 
 ## Setup
 
