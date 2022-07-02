@@ -36,6 +36,6 @@ It is a 100% free and open source project with the goal of demonstrating how a c
 
 ### Github Installation
 
-1. Install the unity version 2021.3.3f1
+1. Install the unity version 2021.3.5f1
 2. Clone this repository into a directory in your computer
 3. Open project in Unity Hub
