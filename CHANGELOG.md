@@ -1,6 +1,19 @@
 ﻿# Metroidvania versions changes
 
-## 1.4.3 ([4d9dc60](https://github.com/kennedyvnak/Metroidvania/commit/4d9dc6036db22e18ac916eff7a2bc071cc7b3242))
+## 1.4.4
+
+### Added
+
+- Added post processing
+- Added skeleton animations
+
+### Changed
+
+- Updated 'Dependencies' Addressable group
+
+----
+
+## 1.4.3 ([4d9dc60](https://github.com/kennedyvnak/Metroidvania/commit/4d9dc6036db22e18ac916eff7a2bc071cc7b3242) to [475870d](https://github.com/kennedyvnak/Metroidvania/commit/475870da3667f15e3bea7f9c71e2385b0c061c30))
 
 ### Added
 
