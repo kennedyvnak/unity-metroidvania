@@ -26,9 +26,6 @@ namespace Metroidvania.Pathfinding
             }
         }
 
-        public PathNode cameFromNode;
-
-
         public PathNode(GridGraph graph, CellPosition cell)
         {
             this.graph = graph;
