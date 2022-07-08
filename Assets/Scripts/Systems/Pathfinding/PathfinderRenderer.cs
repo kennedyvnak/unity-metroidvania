@@ -1,3 +1,4 @@
+#if UNITY_EDITOR
 using UnityEngine;
 
 namespace Metroidvania.Pathfinding
@@ -41,13 +42,11 @@ namespace Metroidvania.Pathfinding
         private int[] _tris;
         private Color[] _colors;
 
-#if UNITY_EDITOR
         public bool DrawGizmos
         {
             get => UnityEditor.EditorPrefs.GetInt(k_DrawGizmosPrefsKey, 1) == 1;
             set => UnityEditor.EditorPrefs.SetInt(k_DrawGizmosPrefsKey, value ? 1 : 0);
         }
-#endif
 
         private void Start()
         {
@@ -177,7 +176,6 @@ namespace Metroidvania.Pathfinding
             }
         }
 
-#if UNITY_EDITOR
         private void OnValidate()
         {
             if (DrawGizmos && _colors != null)
@@ -218,6 +216,6 @@ namespace Metroidvania.Pathfinding
             gizmo.DrawLine(new Vector3(start.x, end.y), new Vector3(end.x, end.y));
             gizmo.DrawLine(new Vector3(end.x, start.y), new Vector3(end.x, end.y));
         }
-#endif
     }
 }
+#endif
