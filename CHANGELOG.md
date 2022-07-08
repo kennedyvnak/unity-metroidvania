@@ -4,14 +4,21 @@
 
 ### Added
 
+- Added first IA (Skeleton)
+- Added Entity Target Finder component
 - Added post processing
-- Added skeleton animations
+- Added skeleton animations and materials
+- Added glow shader
 
 ### Changed
 
 - Updated 'Dependencies' Addressable group
 - Updated Player attack combo mode
 - Increased player speed and first player attack force
+- Changed gizmosColor singleton structure
+- Changed PathfinderRenderer.DrawGizmos storage mode
+- Changed Pathfinder behaviour to singleton
+- Updated Path start and end points
 
 ----
 

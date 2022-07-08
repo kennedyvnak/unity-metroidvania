@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace Metroidvania.Pathfinding
 {
-    public sealed class Pathfinder : MonoBehaviour
+    public sealed class Pathfinder : Singleton<Pathfinder>
     {
         private NativeArray<CellPosition> _neighborsOffset;
 
@@ -25,8 +25,9 @@ namespace Metroidvania.Pathfinding
         public float GraphCellSize => generatedGraph ? graph.cellSize : m_GraphCellSize;
         public Vector2 GraphOffset => generatedGraph ? graph.offset : m_GraphOffset;
 
-        private void Awake()
+        protected sealed override void Awake()
         {
+            base.Awake();
             _neighborsOffset = new NativeArray<CellPosition>(8, Allocator.Persistent);
             _neighborsOffset[0] = new CellPosition(-1, +0); // left 
             _neighborsOffset[1] = new CellPosition(+1, +0); // right 
@@ -42,29 +43,27 @@ namespace Metroidvania.Pathfinding
             _pool = new PathPool();
         }
 
-        private void OnDestroy()
+        protected sealed override void OnDestroy()
         {
             _neighborsOffset.Dispose();
             graph.nativeNodes.Dispose();
+            base.OnDestroy();
         }
 
         public Path FindPath(Vector2 start, Vector2 end)
         {
-            return FindPath(graph.GetLocalPosition(start), graph.GetLocalPosition(end));
-        }
-
-        public Path FindPath(CellPosition start, CellPosition end)
-        {
+            CellPosition startCell = graph.GetLocalPosition(start);
+            CellPosition endCell = graph.GetLocalPosition(end);
             // checks if start equals end, if true returns a path with a single point
-            if (start.Equals(end))
+            if (startCell.Equals(endCell))
             {
                 Path singlePointPath = _pool.Get();
-                singlePointPath.Setup(graph, start);
+                singlePointPath.SetupSinglePoint(graph, start);
                 return singlePointPath;
             }
 
-            if (!graph.Contains(start) || !graph.Contains(end) // at least one of the positions is outside graph bounds
-                || !graph.GetNode(end).walkable) // the end node isn't walkable 
+            if (!graph.Contains(startCell) || !graph.Contains(endCell) // at least one of the positions is outside graph bounds
+                || !graph.GetNode(endCell).walkable) // the end node isn't walkable 
                 return null;
 
             NativeList<int> generatedPath = new NativeList<int>(Allocator.TempJob);
@@ -72,8 +71,8 @@ namespace Metroidvania.Pathfinding
             // create, schedule and complete the pathfinding job
             new PathFindJob()
             {
-                start = start,
-                end = end,
+                start = startCell,
+                end = endCell,
                 gridSize = new CellPosition(graph.width, graph.height),
                 pathNodes = graph.nativeNodes,
                 neighborOffsets = _neighborsOffset,
@@ -86,7 +85,7 @@ namespace Metroidvania.Pathfinding
             {
                 // get a path in the pool and setup it
                 path = _pool.Get();
-                path.Setup(graph, generatedPath);
+                path.Setup(graph, generatedPath, start, end);
             }
 
             generatedPath.Dispose();

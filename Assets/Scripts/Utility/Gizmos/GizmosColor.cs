@@ -6,18 +6,42 @@ namespace Metroidvania
     /// <summary>Object for handle all gizmos color used in game</summary>
     public class GizmosColor : ScriptableSingleton<GizmosColor>
     {
-        [Header("Player")]
-        public Color playerFeet = Color.green;
-        public Color playerHand = Color.yellow;
-        public Color playerAttack = Color.cyan;
-        public Color playerColliderData = Color.green;
+        [System.Serializable]
+        public class Player
+        {
+            public Color feet = Color.green;
+            public Color hand = Color.yellow;
+            public Color attack = Color.cyan;
+            public Color colliderData = Color.green;
+        }
 
-        [Header("Safe Player Points Area")]
-        public Color safePointArea = Color.green;
+        [System.Serializable]
+        public class Pathfinding
+        {
+            public Color pathColor = Color.green;
+        }
 
-        [Header("Entities")]
-        public Color entityTargetFinderFindRange = Color.yellow;
-        public Color entityTargetFinderMaxRange = Color.red;
+        [System.Serializable]
+        public class Entities
+        {
+            public Color targetFinderFindRange = Color.yellow;
+            public Color targetPosition = Color.cyan;
+            public Color targetFinderVisibleTargetsLine = Color.red;
+        }
+
+        [System.Serializable]
+        public class SafePoints
+        {
+            public Color area = Color.green;
+        }
+
+        public Player player;
+
+        public SafePoints safePoints;
+
+        public Entities entities;
+
+        public Pathfinding pathfinding;
     }
 }
 #endif

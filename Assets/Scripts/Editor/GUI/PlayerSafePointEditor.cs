@@ -26,7 +26,7 @@ namespace MetroidvaniaEditor.SafePlayerPoints
             {
                 axes = PrimitiveBoundsHandle.Axes.X | PrimitiveBoundsHandle.Axes.Y
             };
-            _boundsHandle.SetColor(GizmosColor.instance.safePointArea);
+            _boundsHandle.SetColor(GizmosColor.instance.safePoints.area);
         }
 
         private void OnSceneGUI()
@@ -37,7 +37,7 @@ namespace MetroidvaniaEditor.SafePlayerPoints
             _triggerOffset.vector2Value = _boundsHandle.center - _code.transform.position;
             _triggerSize.vector2Value = _boundsHandle.size;
 
-            Handles.color = GizmosColor.instance.safePointArea;
+            Handles.color = GizmosColor.instance.safePoints.area;
             _relativePoint.vector2Value = Handles.FreeMoveHandle(_relativePoint.vector2Value, _code.transform.rotation, .25f, Vector3.one, Handles.DotHandleCap);
 
             if (serializedObject.hasModifiedProperties)

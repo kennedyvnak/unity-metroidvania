@@ -89,9 +89,17 @@ namespace Metroidvania
         }
 
         /// <summary>Draws a line starting at from towards to</summary>
-        public GizmosDrawer DrawLine(Vector3 from, Vector3 to)
+        public GizmosDrawer DrawLine(Vector2 from, Vector2 to)
         {
             Gizmos.DrawLine(from, to);
+            return this;
+        }
+
+        public GizmosDrawer DrawPath(Pathfinding.Path path)
+        {
+            SetColor(GizmosColor.instance.pathfinding.pathColor);
+            for (int i = 0; i < path.vectorPath.Count - 1; i++)
+                DrawLine(path.vectorPath[i], path.vectorPath[i + 1]);
             return this;
         }
     }

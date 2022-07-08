@@ -1,3 +1,4 @@
+using Metroidvania.Entities;
 using Metroidvania.Player.SafePoints;
 using Metroidvania.Player.States;
 using Metroidvania.SceneManagement;
@@ -9,7 +10,7 @@ using UnityEngine.Events;
 namespace Metroidvania.Player
 {
     /// <summary>The main player class which controls all components and actions</summary>
-    public class PlayerController : MonoBehaviour, ISceneTransistor
+    public class PlayerController : MonoBehaviour, ISceneTransistor, IEntityHittable
     {
         [Serializable]
         public class Particles
@@ -148,6 +149,13 @@ namespace Metroidvania.Player
             CollisionEntered?.Invoke(other);
         }
 
+        public void OnTakeHit(EntityHitData hitData)
+        {
+            if (isDied || invincibility.isInvincible)
+                return;
+            combat.TakeHit(hitData);
+        }
+
 #if UNITY_EDITOR
         private void OnDrawGizmos()
         {
@@ -160,7 +168,7 @@ namespace Metroidvania.Player
 
             GizmosDrawer drawer = new GizmosDrawer();
 
-            drawer.SetColor(GizmosColor.instance.playerAttack);
+            drawer.SetColor(GizmosColor.instance.player.attack);
             DrawAttack(data.attackOne);
             DrawAttack(data.attackTwo);
             DrawAttack(data.crouchAttack);
@@ -169,7 +177,7 @@ namespace Metroidvania.Player
             DrawColliderData(data.crouchColliderData);
 
             if (data.crouchColliderData.drawGizmos)
-                drawer.SetColor(GizmosColor.instance.playerFeet)
+                drawer.SetColor(GizmosColor.instance.player.feet)
                     .DrawWireSquare(position + (data.crouchHeadRect.min * scale), data.crouchHeadRect.size);
 
             void DrawAttack(PlayerDataChannel.Attack attack)
@@ -185,11 +193,11 @@ namespace Metroidvania.Player
                 if (!colliderData.drawGizmos)
                     return;
 
-                drawer.SetColor(GizmosColor.instance.playerColliderData)
+                drawer.SetColor(GizmosColor.instance.player.colliderData)
                     .DrawWireSquare(position + (colliderData.bounds.min * scale), colliderData.bounds.size)
-                    .SetColor(GizmosColor.instance.playerFeet)
+                    .SetColor(GizmosColor.instance.player.feet)
                     .DrawWireSquare(position + (colliderData.feetRect.min * scale), colliderData.feetRect.size)
-                    .SetColor(GizmosColor.instance.playerHand)
+                    .SetColor(GizmosColor.instance.player.hand)
                     .DrawWireSquare(position + (colliderData.handRect.min * scale), colliderData.handRect.size);
             }
         }

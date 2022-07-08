@@ -13,6 +13,11 @@ namespace Metroidvania.Entities
             currentState?.LogicUpdate();
         }
 
+        protected virtual void FixedUpdate()
+        {
+            currentState?.PhysicsUpdate();
+        }
+
         /// <summary>Switches the current state of this machine</summary>
         protected virtual void SwitchState(EntityBehaviourState<TEntity> state)
         {

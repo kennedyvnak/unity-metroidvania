@@ -13,7 +13,7 @@ namespace Metroidvania.Pathfinding
             vectorPath = new List<Vector2>();
         }
 
-        public void Setup(GridGraph graph, NativeArray<int> nodesIndex)
+        public void Setup(GridGraph graph, NativeArray<int> nodesIndex, Vector2 start, Vector2 end)
         {
             vectorPath.Clear();
             foreach (int nodeIndex in nodesIndex)
@@ -22,12 +22,14 @@ namespace Metroidvania.Pathfinding
                 vectorPath.Add(node.worldPosition);
             }
             vectorPath.Reverse();
+            vectorPath[0] = start;
+            vectorPath[vectorPath.Count - 1] = end;
         }
 
-        public void Setup(GridGraph graph, CellPosition cell)
+        public void SetupSinglePoint(GridGraph graph, Vector2 position)
         {
             vectorPath.Clear();
-            vectorPath.Add(graph.GetWorldPosition(cell));
+            vectorPath.Add(position);
         }
     }
 }

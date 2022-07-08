@@ -54,7 +54,7 @@ namespace Metroidvania.Player.SafePoints
                 Vector2 safePointPosition = (Vector2)safePoint.transform.position + safePoint.triggerOffset;
                 safePointTriggerBounds.size = safePoint.triggerSize;
                 safePointTriggerBounds.position = safePointPosition - (safePoint.triggerSize * .5f);
-                UnityEditor.Handles.DrawSolidRectangleWithOutline(safePointTriggerBounds, GizmosColor.instance.safePointArea, Color.white);
+                UnityEditor.Handles.DrawSolidRectangleWithOutline(safePointTriggerBounds, GizmosColor.instance.safePoints.area, Color.white);
                 UnityEditor.Handles.Label(safePointPosition, safePoint.name);
             }
         }

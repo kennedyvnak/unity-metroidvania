@@ -2,8 +2,7 @@ namespace Metroidvania.Entities
 {
     /// <summary>The state of all entity state machines</summary>
     /// <typeparam name="TEntity">The entity behaviour type</typeparam>
-    public abstract class EntityBehaviourState<TEntity>
-        where TEntity : EntityStateMachine<TEntity>
+    public abstract class EntityBehaviourState<TEntity> where TEntity : EntityStateMachine<TEntity>
     {
         /// <summary>The entity behaviour using this state</summary>
         public readonly TEntity entity;
@@ -15,6 +14,11 @@ namespace Metroidvania.Entities
 
         /// <summary>This method should be called in entity.Update()</summary> 
         public virtual void LogicUpdate()
+        {
+        }
+
+        /// <summary>This method should be called in entity.FixedUpdate()</summary> 
+        public virtual void PhysicsUpdate()
         {
         }
 

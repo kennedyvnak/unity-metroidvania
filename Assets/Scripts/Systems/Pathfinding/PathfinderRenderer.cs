@@ -4,15 +4,13 @@ namespace Metroidvania.Pathfinding
 {
     // TODO: Add lines in mesh
     [RequireComponent(typeof(Pathfinder))]
-    [ExecuteInEditMode]
     public class PathfinderRenderer : MonoBehaviour
     {
+        private const string k_DrawGizmosPrefsKey = "Pathfinder_DrawGizmos";
         private static readonly Quaternion k_vr0 = Quaternion.Euler(0, 0, -270);
         private static readonly Quaternion k_vr1 = Quaternion.Euler(0, 0, -180);
         private static readonly Quaternion k_vr2 = Quaternion.Euler(0, 0, -90);
         private static readonly Quaternion k_vr3 = Quaternion.Euler(0, 0, 0);
-
-        [SerializeField] private bool m_DrawGizmos;
 
         [Header("Nodes")]
         [SerializeField, Range(0, 1)] private float m_NodeTransparency = .5f;
@@ -24,31 +22,6 @@ namespace Metroidvania.Pathfinding
         [SerializeField, ColorUsage(false, false)] private Color m_LineColor = new Color(.7f, .6f, .2f);
 
         private Pathfinder _pathfinder;
-
-        private Mesh _mesh;
-        private Material _mat;
-
-        private Vector3[] _vertices;
-        private Vector2[] _uv;
-        private Vector3[] _normals;
-        private int[] _tris;
-        private Color[] _colors;
-
-        private void SetupProperties()
-        {
-            _mat = new Material(Shader.Find("Sprites/Default"));
-            _mesh = new Mesh();
-            _mesh.name = "Pathfinder-graph";
-
-            _mat.hideFlags = _mesh.hideFlags = HideFlags.HideAndDontSave;
-        }
-
-        private void OnDestroy()
-        {
-            DestroyImmediate(_mat);
-            DestroyImmediate(_mesh);
-        }
-
         public Pathfinder pathfinder
         {
             get
@@ -59,11 +32,43 @@ namespace Metroidvania.Pathfinding
             }
         }
 
+        private Mesh _mesh;
+        private Material _mat;
+
+        private Vector3[] _vertices;
+        private Vector2[] _uv;
+        private Vector3[] _normals;
+        private int[] _tris;
+        private Color[] _colors;
+
+#if UNITY_EDITOR
+        public bool DrawGizmos
+        {
+            get => UnityEditor.EditorPrefs.GetInt(k_DrawGizmosPrefsKey, 1) == 1;
+            set => UnityEditor.EditorPrefs.SetInt(k_DrawGizmosPrefsKey, value ? 1 : 0);
+        }
+#endif
+
         private void Start()
         {
             GenerateMesh();
             if (pathfinder.graph != null)
                 pathfinder.graph.NodeChanged += UpdateNode;
+        }
+
+        private void OnDestroy()
+        {
+            DestroyImmediate(_mat);
+            DestroyImmediate(_mesh);
+        }
+
+        private void SetupProperties()
+        {
+            _mat = new Material(Shader.Find("Sprites/Default"));
+            _mesh = new Mesh();
+            _mesh.name = "Pathfinder-graph";
+
+            _mat.hideFlags = _mesh.hideFlags = HideFlags.HideAndDontSave;
         }
 
         public void GenerateMesh()
@@ -172,9 +177,16 @@ namespace Metroidvania.Pathfinding
             }
         }
 
+#if UNITY_EDITOR
+        private void OnValidate()
+        {
+            if (DrawGizmos && _colors != null)
+                UpdateColors();
+        }
+
         private void OnDrawGizmos()
         {
-            if (!m_DrawGizmos)
+            if (!DrawGizmos || !enabled)
                 return;
 
             _mat.SetPass(0);
@@ -206,5 +218,6 @@ namespace Metroidvania.Pathfinding
             gizmo.DrawLine(new Vector3(start.x, end.y), new Vector3(end.x, end.y));
             gizmo.DrawLine(new Vector3(end.x, start.y), new Vector3(end.x, end.y));
         }
+#endif
     }
 }

@@ -9,7 +9,6 @@ namespace MetroidvaniaEditor.Pathfinding
     {
         private PathfinderRenderer code;
 
-        private SerializedProperty m_DrawGizmos;
         private SerializedProperty m_NodeTransparency;
         private SerializedProperty m_WalkableColor;
         private SerializedProperty m_UnWalkableColor;
@@ -21,7 +20,6 @@ namespace MetroidvaniaEditor.Pathfinding
         {
             code = target as PathfinderRenderer;
 
-            m_DrawGizmos = serializedObject.FindProperty(nameof(m_DrawGizmos));
             m_NodeTransparency = serializedObject.FindProperty(nameof(m_NodeTransparency));
             m_WalkableColor = serializedObject.FindProperty(nameof(m_WalkableColor));
             m_UnWalkableColor = serializedObject.FindProperty(nameof(m_UnWalkableColor));
@@ -33,20 +31,14 @@ namespace MetroidvaniaEditor.Pathfinding
         {
             serializedObject.Update();
 
-            EditorGUILayout.PropertyField(m_DrawGizmos);
+            code.DrawGizmos = EditorGUILayout.Toggle("Draw Gizmos", code.DrawGizmos);
 
-            using (var scope = new EditorGUI.ChangeCheckScope())
-            {
-                EditorGUILayout.PropertyField(m_NodeTransparency);
-                EditorGUILayout.PropertyField(m_WalkableColor);
-                EditorGUILayout.PropertyField(m_UnWalkableColor);
+            EditorGUILayout.PropertyField(m_NodeTransparency);
+            EditorGUILayout.PropertyField(m_WalkableColor);
+            EditorGUILayout.PropertyField(m_UnWalkableColor);
 
-                if (scope.changed)
-                    code.UpdateColors();
-
-                EditorGUILayout.PropertyField(m_LineTransparency);
-                EditorGUILayout.PropertyField(m_LineColor);
-            }
+            EditorGUILayout.PropertyField(m_LineTransparency);
+            EditorGUILayout.PropertyField(m_LineColor);
 
             serializedObject.ApplyModifiedProperties();
         }
