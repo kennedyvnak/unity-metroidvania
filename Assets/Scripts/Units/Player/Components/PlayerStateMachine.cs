@@ -165,7 +165,14 @@ namespace Metroidvania.Player
             if (isCrouching)
                 return crouchAttackState.SetActive();
 
-            return attackOneState.SetActive();
+            PlayerAttackState.lastStandAttack++;
+            if (PlayerAttackState.lastStandAttack > 2 || Time.time - PlayerAttackState.lastAttackTime >= player.data.attackComboMaxDelay)
+                PlayerAttackState.lastStandAttack = 1;
+            PlayerAttackState.lastAttackTime = Time.time;
+
+            if (PlayerAttackState.lastStandAttack == 1)
+                return attackOneState.SetActive();
+            else return attackTwoState.SetActive();
         }
 
         public PlayerStateBase EnterHurt(Vector2 entityHitDirection)

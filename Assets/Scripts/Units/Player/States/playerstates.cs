@@ -568,6 +568,9 @@ namespace Metroidvania.Player.States
     {
         protected enum ExitAttackCommand { None, Roll, Slide }
 
+        public static int lastStandAttack = 0;
+        public static float lastAttackTime = 0;
+
         protected PlayerDurationModule durationModule;
 
         /// <summary>The attack data that stores the collision rect, move offset, damage...</summary>
@@ -640,16 +643,6 @@ namespace Metroidvania.Player.States
 
             switch (currentExitCommand)
             {
-                case ExitAttackCommand.None:
-                    if (!player.input.attackAction.IsPressed() || nextAttackState == null) break;
-
-                    if (PlayerStatesUtility.IsCrouchState(this) && !player.input.crouchAction.IsPressed() && player.collisions.canStand)
-                        machine.attackOneState.SetActive();
-                    else if (player.input.crouchAction.IsPressed())
-                        machine.crouchAttackState.SetActive();
-                    else nextAttackState.SetActive();
-                    return;
-
                 case ExitAttackCommand.Roll:
                     if (machine.rollState.isInCooldown) break;
                     machine.rollState.SetActive();

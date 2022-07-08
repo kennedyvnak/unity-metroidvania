@@ -10,6 +10,8 @@
 ### Changed
 
 - Updated 'Dependencies' Addressable group
+- Updated Player attack combo mode
+- Increased player speed and first player attack force
 
 ----
 

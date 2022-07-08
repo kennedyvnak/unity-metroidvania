@@ -84,7 +84,6 @@ namespace Metroidvania.Player
         [Header("Fall")]
         public float fallParticlesDistance;
 
-
         [Header("Crouch")]
         [Tooltip("Default crouch speed")]
         public float crouchSpeed;
@@ -116,7 +115,7 @@ namespace Metroidvania.Player
         [Header("Attacks")]
         [Tooltip("Layer for collisions check of hits")]
         public LayerMask hittableLayer;
-
+        public float attackComboMaxDelay;
         [Tooltip("First attack data")]
         public Attack attackOne;
         [Tooltip("Second attack data")]
