@@ -1,7 +1,4 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.IO;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Controls;
@@ -22,7 +19,7 @@ namespace Metroidvania
 
         private void Update()
         {
-            if (_keyControl.wasPressedThisFrame)
+            if (_keyControl?.wasPressedThisFrame == true)
                 TakeScreenshot();
         }
 
