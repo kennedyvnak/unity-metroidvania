@@ -9,6 +9,7 @@
 - Added post processing
 - Added skeleton animations and materials
 - Added glow shader
+- Added screenshot capturer
 
 ### Changed
 
