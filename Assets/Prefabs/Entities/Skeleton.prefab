@@ -104,8 +104,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3790940784113598678}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 10.39, y: 18.73, z: 0}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1.15, y: 1.15, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -130,6 +130,7 @@ MonoBehaviour:
   m_RngStrength:
     min: 0.6
     max: 1
+  m_Collider: {fileID: 3790940784113598702}
   m_LeftLedge:
     serializedVersion: 2
     x: -0.45
@@ -142,25 +143,36 @@ MonoBehaviour:
     y: -0.75
     width: 0.2
     height: 0.3
+  m_LeftHand:
+    serializedVersion: 2
+    x: -0.3
+    y: -0.4
+    width: 0.1
+    height: 0.75
+  m_RightHand:
+    serializedVersion: 2
+    x: 0.2
+    y: -0.4
+    width: 0.1
+    height: 0.75
   m_GroundLayer:
     serializedVersion: 2
     m_Bits: 64
-  m_FollowTargetSpeed: 3.5
-  m_FollowTargetUpdateRate: 0.25
-  m_FollowTargetYOffset:
+  m_FollowTargetSpeed: 4.5
+  m_FollowTargetVerticalView:
     min: -1.5
-    max: 1.35
+    max: 2.5
   m_PatrolChance: 6
   m_PatrolTime:
     min: 5
     max: 9
-  m_PatrolMoveSpeed: 2
+  m_PatrolMoveSpeed: 3
   m_TouchHitBehaviour: {fileID: 3790940784036121465}
   m_PlayerLayer:
     serializedVersion: 2
     m_Bits: 256
-  m_DistanceToAttack: 1.25
-  m_AttackDuration: 1.625
+  m_DistanceToAttack: 1.35
+  m_AttackDuration: 1.3
   m_FirstAttackTime: 0.4
   m_FirstAttack:
     drawGizmos: 0
@@ -173,7 +185,7 @@ MonoBehaviour:
       height: 0.875
     damage: 10
     knockbackForce: {x: 6, y: 1.5}
-  m_SecondAttackTime: 1
+  m_SecondAttackTime: 0.8
   m_SecondAttack:
     drawGizmos: 0
     moveOffset: 0.35
@@ -201,7 +213,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42d39c67fecceec419b0802b71823f0b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_updateRate: 2
+  m_updateRate: 0.5
   m_offset: {x: 0, y: 0}
   m_viewRadius: 8
   m_viewAngle: 360

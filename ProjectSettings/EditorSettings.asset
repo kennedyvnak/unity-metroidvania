@@ -26,7 +26,7 @@ EditorSettings:
   m_EnterPlayModeOptionsEnabled: 1
   m_EnterPlayModeOptions: 2
   m_GameObjectNamingDigits: 1
-  m_GameObjectNamingScheme: 0
+  m_GameObjectNamingScheme: 2
   m_AssetNamingUsesSpace: 1
   m_UseLegacyProbeSampleCount: 0
   m_SerializeInlineMappingsOnOneLine: 1
@@ -40,3 +40,4 @@ EditorSettings:
   m_CacheServerEnableUpload: 1
   m_CacheServerEnableAuth: 0
   m_CacheServerEnableTls: 0
+  m_CacheServerValidationMode: 2

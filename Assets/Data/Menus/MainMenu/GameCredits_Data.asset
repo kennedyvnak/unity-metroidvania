@@ -1,0 +1,37 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5ef7771b0b3b9e64d8f12cbd8520bc09, type: 3}
+  m_Name: GameCredits_Data
+  m_EditorClassIdentifier: 
+  header: '<size=64>Metroidvania</size>
+
+
+    A big thank you to the assets authors:
+
+'
+  externalAssets:
+  - author: aamatniekss
+    productLabel: Player Textures
+    url: https://aamatniekss.itch.io/fantasy-knight-free-pixelart-animated-character
+  - author: astrobob
+    productLabel: Skeleton textures
+    url: https://astrobob.itch.io/animated-pixel-art-skeleton
+  - author: Kronovi-
+    productLabel: Undead Executioner Textures
+    url: https://darkpixel-kronovi.itch.io/undead-executioner
+  - author: Mounir Tohami
+    productLabel: GUI Elements Textures
+    url: https://mounirtohami.itch.io/pixel-art-gui-elements
+  - author: Corwin ZW
+    productLabel: The Pale Moonlight
+    url: https://corwin-zx.itch.io/the-pale-moonlight
+  end: Thanks for donwload the metroidvania project :)

@@ -1,0 +1,32 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ec7d8eb0419e6694b91cdec283032166, type: 3}
+  m_Name: MainMenu_Scene
+  m_EditorClassIdentifier: 
+  description: Main menu scene.
+  sceneType: 1
+  sceneReference:
+    m_AssetGUID: 102d193b44dd9e94c9378d37cf7f0d6e
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  spawnPoints:
+    defaultSpawnPoint:
+      key: default
+      position: {x: 0, y: 0}
+      facingRight: 0
+    spawnPoints: []
+  channelReference:
+    m_AssetGUID: 3b8925c4c5e273e4796542fc46d2613e
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0

@@ -1,0 +1,32 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ec7d8eb0419e6694b91cdec283032166, type: 3}
+  m_Name: GameOver_Scene
+  m_EditorClassIdentifier: 
+  description: Game ove scene for handle continue/exit to menu options.
+  sceneType: 2
+  sceneReference:
+    m_AssetGUID: 968f9dcaded0a974e8ab659a19bceb87
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
+  spawnPoints:
+    defaultSpawnPoint:
+      key: default
+      position: {x: 0, y: 0}
+      facingRight: 0
+    spawnPoints: []
+  channelReference:
+    m_AssetGUID: 649d304c40b0d304d9644bfc4d680401
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0

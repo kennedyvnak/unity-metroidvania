@@ -236,10 +236,18 @@ namespace Metroidvania.Player
                 case SceneLoader.SceneTransitionData.UseGameDataKey:
                 case SceneLoader.SceneTransitionData.GameOverKey:
                     PlayerSafePointsArea safePoints = PlayerSafePointsArea.instance;
-                    PlayerSafePoint safePoint = safePoints.GetSafePoint(transitionData.gameData.lastPlayerSafePoint.pointGuid);
-                    spawnPoint.facingRight = safePoint.facingRight;
-                    spawnPoint.position = safePoint.relativePoint;
-                    doFakeWalk = false;
+                    if (safePoints)
+                    {
+                        PlayerSafePoint safePoint = safePoints.GetSafePoint(transitionData.gameData.lastPlayerSafePoint.pointGuid);
+                        spawnPoint.facingRight = safePoint.facingRight;
+                        spawnPoint.position = safePoint.position;
+                        doFakeWalk = false;
+                    }
+                    else
+                    {
+                        spawnPoint = spawnPoints.defaultSpawnPoint;
+                        doFakeWalk = spawnPoint.doFadeWalk;
+                    }
                     break;
 #if UNITY_EDITOR
                 case SceneLoader.SceneTransitionData.EditorInitializationKey:
@@ -250,7 +258,7 @@ namespace Metroidvania.Player
 #endif
                 default:
                     spawnPoints.TryGetSpawnPoint(transitionData.spawnPoint, ref spawnPoint);
-                    doFakeWalk = true;
+                    doFakeWalk = spawnPoint.doFadeWalk;
                     break;
             }
 

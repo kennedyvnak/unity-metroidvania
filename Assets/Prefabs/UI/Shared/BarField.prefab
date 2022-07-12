@@ -74,9 +74,9 @@ RectTransform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 8, y: -8}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 206.5787, y: 43.75}
   m_Pivot: {x: 0, y: 1}
 --- !u!222 &4860807524939643865
@@ -194,27 +194,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_field: {fileID: 0}
+  m_updateOnEnable: 1
   m_valueChanged:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 4016952998105502202}
         m_TargetAssemblyTypeName: Metroidvania.UI.SliderValueAnimator, Assembly-CSharp
         m_MethodName: SetValue
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-  m_awakened:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1532727794010410}
-        m_TargetAssemblyTypeName: UnityEngine.UI.Slider, UnityEngine.UI
-        m_MethodName: set_value
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

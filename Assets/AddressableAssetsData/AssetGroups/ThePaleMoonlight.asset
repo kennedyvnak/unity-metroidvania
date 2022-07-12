@@ -1,0 +1,37 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
+  m_Name: ThePaleMoonlight
+  m_EditorClassIdentifier: 
+  m_GroupName: ThePaleMoonlight
+  m_Data:
+    m_SerializedData: []
+  m_GUID: 61c3700ed340b7c4289db1d1bf51f0cc
+  m_SerializeEntries:
+  - m_GUID: 3e3411d03469e72458af4e09fc25db43
+    m_Address: Assets/Graphics/Volumes/Enviroment/ThePaleMoonlight_Volume.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: ba78701304b31b34eb4bc8825b498ffb
+    m_Address: Assets/Graphics/Textures/Enviroment/Bundles/ThePaleMoonlight
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: e6e10220232e463418cc04cd030b8914
+    m_Address: Assets/Graphics/Materials/Enviroment/ThePaleMoonlight
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  m_ReadOnly: 0
+  m_Settings: {fileID: 11400000, guid: 8259dc4f4d8e49b4dad3c97268d6350a, type: 2}
+  m_SchemaSet:
+    m_Schemas:
+    - {fileID: 11400000, guid: 1dd9ad83a0e2eb24b9fcb3d53f290092, type: 2}
+    - {fileID: 11400000, guid: b7f72050e6ef6bd4ea5b3d43d3e662f4, type: 2}

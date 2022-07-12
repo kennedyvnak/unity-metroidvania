@@ -12,6 +12,7 @@ namespace Metroidvania.SceneManagement
             public string key;
             public Vector2 position;
             public bool facingRight;
+            public bool doFadeWalk;
         }
 
         public SceneSpawnPoint defaultSpawnPoint = new SceneSpawnPoint() { key = "default" };

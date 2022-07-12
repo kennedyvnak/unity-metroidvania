@@ -25,10 +25,6 @@ MonoBehaviour:
     m_Address: Assets/Data/Entities
     m_ReadOnly: 0
     m_SerializedLabels: []
-  - m_GUID: 0c320199b495a3546b98382ec723564d
-    m_Address: Assets/Data/Audio
-    m_ReadOnly: 0
-    m_SerializedLabels: []
   - m_GUID: a4a5a5b8221c27347819b83e12b0b5f5
     m_Address: Assets/Data/Scenes
     m_ReadOnly: 0

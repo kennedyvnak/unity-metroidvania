@@ -1,6 +1,35 @@
 ﻿# Metroidvania versions changes
 
-## 1.4.4
+## 1.4.4.1 ([90def17](https://github.com/kennedyvnak/metroidvania/commit/90def1762509b34c5276ab30b35dc0a21f1c76f6))
+
+### Added
+
+- Added 'The Pale Moonlight' environment
+  - Graves, Statues, Tombs, Trees and Bushes
+  - Ground tileset (with rule tile and normal maps)
+- Added parallax effect
+- Added player normal map and emission light
+- Added stars particles
+- Added window foliage shader and glow sprite shader
+- Added VFX package
+- Added ground and dense Fog effect
+
+### Changed
+
+- Renamed all assets to add their type suffix _[Data, Scene, Event...]
+- Removed audio assets
+- Reseted prefabs assets positions
+- Improve camera settings
+- Improve skeleton behaviour code readability
+- Integrated pathfinder renderer directly in component
+
+### Fixed
+
+- Fixed player jump cancel / removed jump ground delay
+- Fixed most of skeleton bugs
+- Fixed safe areas gizmos color
+
+## 1.4.4 ([4c5225b](https://github.com/kennedyvnak/metroidvania/commit/4c5225b437e595478705e02d1ef3ae2394a9cb16) to [61ca197](https://github.com/kennedyvnak/metroidvania/commit/61ca1974384f25df401d82b289c475f286a149e2))
 
 ### Added
 

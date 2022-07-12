@@ -44,5 +44,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4185340ce864199409b2743b7bc38201, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_SaveFolder: Screenshots/screenshot-{time}.png
+  m_SaveFolder: Screenshots/screenshot-{ticks}.png
   m_TakeScreenshotKey: l

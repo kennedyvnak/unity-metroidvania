@@ -88,9 +88,7 @@ namespace Metroidvania.Player
         // Shortcut methods for states, return null if cannot enter on state else return the entered state
         public PlayerStateBase EnterJumpState()
         {
-            bool jumpPressed = Time.time - player.input.lastJumpInputTime < player.data.jumpInputDelay;
-
-            if (!jumpPressed || !player.collisions.canStand || !player.collisions.isGrounded)
+            if (!player.input.jumpAction.IsPressed() || !player.collisions.canStand || !player.collisions.isGrounded)
                 return null;
 
             return jumpState.SetActive();

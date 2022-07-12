@@ -6,12 +6,23 @@ Metroidvania is a metroidvania (lol) game engine written in C# for Unity.
 
 It is a 100% free and open source project with the goal of demonstrating how a complete game structures asset folders, connects systems, handles editor tools and much more.
 
+![ThePaleMoonlightSample](/Docs/ReadmeImages/ThePaleMoonlightSample.png)
+
 ## Credits to the artists
 
+### Main
+
 - [Player](https://aamatniekss.itch.io/fantasy-knight-free-pixelart-animated-character)
-- [Undead Executioner](https://darkpixel-kronovi.itch.io/undead-executioner)
 - [GUI Elements](https://mounirtohami.itch.io/pixel-art-gui-elements)
-- [Sounds](https://jdwasabi.itch.io/8-bit-16-bit-sound-effects-pack)
+
+### Entities
+
+- [Undead Executioner](https://darkpixel-kronovi.itch.io/undead-executioner)
+- [Skeleton](https://astrobob.itch.io/animated-pixel-art-skeleton)
+
+### Environments
+
+- [The Pale Moonlight](https://corwin-zx.itch.io/the-pale-moonlight)
 
 ## Packages used in project
 

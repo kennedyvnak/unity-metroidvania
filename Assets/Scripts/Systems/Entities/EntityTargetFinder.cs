@@ -87,22 +87,12 @@ namespace Metroidvania.Entities
             foreach (EntityTarget target in EntitiesManager.instance.targets)
             {
                 float targetDistance = Vector2.Distance(position, target.position);
-                if (targetDistance < viewRadius)
+                if (targetDistance < viewRadius && IsInsideAngleView(target.position) && !IsObstructed(target.position))
                 {
-                    float rotZ = rotation.z * 2f;
-                    Vector2 transformUp = new Vector2(rotation.w * -rotZ, 1f - rotation.z * rotZ);
-
-                    Vector2 targetDir = (target.position - position).normalized;
-                    if (Vector2.Angle(transformUp, targetDir) < viewAngle * .5f)
-                    {
-                        if (!Physics2D.Raycast(position, targetDir, targetDistance, obstaclesLayer))
-                        {
-                            visibleTargets[i] = target;
-                            if (target == focusedTarget)
-                                lostFocusedTarget = false;
-                            i++;
-                        }
-                    }
+                    visibleTargets[i] = target;
+                    if (target == focusedTarget)
+                        lostFocusedTarget = false;
+                    i++;
                 }
             }
 
@@ -178,6 +168,23 @@ namespace Metroidvania.Entities
             EntityTarget nearest = GetNearestVisibleTarget();
             if (nearest)
                 FocusTarget(nearest, force);
+        }
+
+        public bool IsInsideAngleView(Vector2 targetPosition)
+        {
+            float rotZ = rotation.z * 2f;
+            Vector2 transformUp = new Vector2(rotation.w * -rotZ, 1f - rotation.z * rotZ);
+            Vector2 targetDir = (targetPosition - position).normalized;
+
+            return Vector2.Angle(transformUp, targetDir) < viewAngle * .5f;
+        }
+
+        public bool IsObstructed(Vector2 targetPosition)
+        {
+            Vector2 targetDir = (targetPosition - position).normalized;
+            float targetDistance = Vector2.Distance(position, targetPosition);
+
+            return Physics2D.Raycast(position, targetDir, targetDistance, obstaclesLayer);
         }
 
         private void OnTargetRemoved(UnityEngine.Object obj)

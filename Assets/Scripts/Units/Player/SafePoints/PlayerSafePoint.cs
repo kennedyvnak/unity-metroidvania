@@ -13,8 +13,9 @@ namespace Metroidvania.Player.SafePoints
         [SerializeField] private Vector2 m_triggerOffset;
         public Vector2 triggerOffset => m_triggerOffset;
 
-        [SerializeField] private Vector2 m_relativePoint;
-        public Vector2 relativePoint => m_relativePoint;
+        [UnityEngine.Serialization.FormerlySerializedAs("m_relativePoint")]
+        [SerializeField] private Vector2 m_position;
+        public Vector2 position => m_position;
 
         [SerializeField] private bool m_facingRight;
         public bool facingRight => m_facingRight;

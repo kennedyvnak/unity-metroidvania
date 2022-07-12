@@ -32,7 +32,15 @@ namespace Metroidvania
         [System.Serializable]
         public class SafePoints
         {
-            public Color area = Color.green;
+            public Color area = new Color(0, 1, 0, 0.3f);
+            public Color handles = Color.green;
+        }
+
+        [System.Serializable]
+        public class Fog
+        {
+            public Color main = Color.cyan;
+            public Color secondary = Color.red;
         }
 
         public Player player;
@@ -42,6 +50,8 @@ namespace Metroidvania
         public Entities entities;
 
         public Pathfinding pathfinding;
+
+        public Fog fog;
     }
 }
 #endif

@@ -3,7 +3,6 @@
 namespace Metroidvania.Player.States
 {
     // TODO: Add sounds
-    // TODO: Implement death state
     /// <summary>Base classes for all player states</summary>
     public abstract class PlayerStateBase
     {
@@ -155,7 +154,7 @@ namespace Metroidvania.Player.States
             }
 
             // Exits the state if the jump was canceled
-            if (player.input.jumpAction.WasReleasedThisFrame())
+            if (!player.input.jumpAction.IsPressed())
             {
                 // Set player velocity.y to 0.15 to make a smooth jump stop
                 player.rb.velocity = new Vector2(player.rb.velocity.x, .15f);

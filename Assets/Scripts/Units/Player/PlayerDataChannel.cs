@@ -76,8 +76,6 @@ namespace Metroidvania.Player
         public float jumpSpeed;
         [Tooltip("Jump duration")]
         public float jumpDuration;
-        [Tooltip("Time considering that the jump input is pressed")]
-        public float jumpInputDelay;
         [Tooltip("A curve for smooth jump velocity")]
         public AnimationCurve jumpCurve;
 

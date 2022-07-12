@@ -17,11 +17,6 @@ namespace Metroidvania.Entities
         {
         }
 
-        /// <summary>This method should be called in entity.FixedUpdate()</summary> 
-        public virtual void PhysicsUpdate()
-        {
-        }
-
         /// <summary>This method should be called when the entity switch to this state</summary> 
         public virtual void Enter()
         {

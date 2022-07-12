@@ -172,33 +172,3 @@ MonoBehaviour:
     m_SubObjectName: 
     m_SubObjectType: 
     m_EditorAssetChanged: 0
-  m_audioSettings:
-    m_AssetGUID: 4acd2cf305ff6804c95e712c1a6b2389
-    m_SubObjectName: 
-    m_SubObjectType: 
-    m_EditorAssetChanged: 0
-  m_localizationSettings:
-    m_AssetGUID: 8e27a49112e84e249bbcc461bc2073f1
-    m_SubObjectName: 
-    m_SubObjectType: 
-    m_EditorAssetChanged: 0
-  m_gameManager:
-    m_AssetGUID: b96af30ed53bac94ba79afc1fcd0badd
-    m_SubObjectName: 
-    m_SubObjectType: 
-    m_EditorAssetChanged: 0
-  m_sceneLoader:
-    m_AssetGUID: 76d1811b73741ff4385f10a371ae5094
-    m_SubObjectName: 
-    m_SubObjectType: 
-    m_EditorAssetChanged: 0
-  m_transitionScreen:
-    m_AssetGUID: 114a74e5c8416864596ea1f0e160c49f
-    m_SubObjectName: 
-    m_SubObjectType: 
-    m_EditorAssetChanged: 0
-  m_gameOverManager:
-    m_AssetGUID: 2ab0e97d172159b449c3b1018be55791
-    m_SubObjectName: 
-    m_SubObjectType: 
-    m_EditorAssetChanged: 0
