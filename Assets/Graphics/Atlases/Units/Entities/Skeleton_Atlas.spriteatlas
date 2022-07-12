@@ -1,0 +1,150 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!687078895 &4343727234628468602
+SpriteAtlas:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Skeleton_Atlas
+  m_EditorData:
+    serializedVersion: 2
+    textureSettings:
+      serializedVersion: 2
+      anisoLevel: 1
+      compressionQuality: 50
+      maxTextureSize: 2048
+      textureCompression: 0
+      filterMode: 0
+      generateMipMaps: 0
+      readable: 0
+      crunchedCompression: 0
+      sRGB: 1
+    platformSettings:
+    - serializedVersion: 3
+      m_BuildTarget: DefaultTexturePlatform
+      m_MaxTextureSize: 2048
+      m_ResizeAlgorithm: 0
+      m_TextureFormat: 4
+      m_TextureCompression: 1
+      m_CompressionQuality: 50
+      m_CrunchedCompression: 0
+      m_AllowsAlphaSplitting: 0
+      m_Overridden: 0
+      m_AndroidETC2FallbackOverride: 0
+      m_ForceMaximumCompressionQuality_BC6H_BC7: 0
+    packingSettings:
+      serializedVersion: 2
+      padding: 4
+      blockOffset: 1
+      allowAlphaSplitting: 0
+      enableRotation: 1
+      enableTightPacking: 1
+      enableAlphaDilation: 0
+    secondaryTextureSettings: {}
+    variantMultiplier: 1
+    packables:
+    - {fileID: 2800000, guid: 66d3de2acf04a8d49b8f40572537fa69, type: 3}
+    - {fileID: 2800000, guid: 8fe2b73379f78e34a8e85201af23ee1b, type: 3}
+    - {fileID: 2800000, guid: d3fe78cb1b594ad42a3659c0684ebf15, type: 3}
+    - {fileID: 2800000, guid: ffa82fc0e5550a745bd33a82d023a2c9, type: 3}
+    - {fileID: 2800000, guid: 0494a97cecb4e6141a48339b6e575cf3, type: 3}
+    bindAsDefault: 1
+    isAtlasV2: 0
+    cachedData: {fileID: 0}
+  m_MasterAtlas: {fileID: 0}
+  m_PackedSprites:
+  - {fileID: 530277657, guid: 66d3de2acf04a8d49b8f40572537fa69, type: 3}
+  - {fileID: -875610626, guid: 66d3de2acf04a8d49b8f40572537fa69, type: 3}
+  - {fileID: 576754148, guid: 66d3de2acf04a8d49b8f40572537fa69, type: 3}
+  - {fileID: -1691772043, guid: 66d3de2acf04a8d49b8f40572537fa69, type: 3}
+  - {fileID: 433918037, guid: 66d3de2acf04a8d49b8f40572537fa69, type: 3}
+  - {fileID: 1724503785, guid: 66d3de2acf04a8d49b8f40572537fa69, type: 3}
+  - {fileID: 197979829, guid: 66d3de2acf04a8d49b8f40572537fa69, type: 3}
+  - {fileID: -1727536181, guid: 66d3de2acf04a8d49b8f40572537fa69, type: 3}
+  - {fileID: 843222216, guid: 66d3de2acf04a8d49b8f40572537fa69, type: 3}
+  - {fileID: 1639841694, guid: 66d3de2acf04a8d49b8f40572537fa69, type: 3}
+  - {fileID: 165813568, guid: 66d3de2acf04a8d49b8f40572537fa69, type: 3}
+  - {fileID: -1378038158, guid: 66d3de2acf04a8d49b8f40572537fa69, type: 3}
+  - {fileID: -730831579, guid: 66d3de2acf04a8d49b8f40572537fa69, type: 3}
+  - {fileID: -1465066206, guid: d3fe78cb1b594ad42a3659c0684ebf15, type: 3}
+  - {fileID: 176235976, guid: d3fe78cb1b594ad42a3659c0684ebf15, type: 3}
+  - {fileID: -1146395235, guid: d3fe78cb1b594ad42a3659c0684ebf15, type: 3}
+  - {fileID: -859471657, guid: 8fe2b73379f78e34a8e85201af23ee1b, type: 3}
+  - {fileID: 1443494371, guid: 8fe2b73379f78e34a8e85201af23ee1b, type: 3}
+  - {fileID: -1270239947, guid: 8fe2b73379f78e34a8e85201af23ee1b, type: 3}
+  - {fileID: -420288044, guid: 8fe2b73379f78e34a8e85201af23ee1b, type: 3}
+  - {fileID: 1311381590, guid: 8fe2b73379f78e34a8e85201af23ee1b, type: 3}
+  - {fileID: 1546263543, guid: 8fe2b73379f78e34a8e85201af23ee1b, type: 3}
+  - {fileID: -745958666, guid: 8fe2b73379f78e34a8e85201af23ee1b, type: 3}
+  - {fileID: 1281163203, guid: 8fe2b73379f78e34a8e85201af23ee1b, type: 3}
+  - {fileID: 1803676342, guid: 8fe2b73379f78e34a8e85201af23ee1b, type: 3}
+  - {fileID: -1751131920, guid: 8fe2b73379f78e34a8e85201af23ee1b, type: 3}
+  - {fileID: 2050321640, guid: 8fe2b73379f78e34a8e85201af23ee1b, type: 3}
+  - {fileID: -1654931104, guid: 8fe2b73379f78e34a8e85201af23ee1b, type: 3}
+  - {fileID: 1325698157, guid: 8fe2b73379f78e34a8e85201af23ee1b, type: 3}
+  - {fileID: -609653809, guid: ffa82fc0e5550a745bd33a82d023a2c9, type: 3}
+  - {fileID: 154269034, guid: ffa82fc0e5550a745bd33a82d023a2c9, type: 3}
+  - {fileID: -1056125767, guid: ffa82fc0e5550a745bd33a82d023a2c9, type: 3}
+  - {fileID: 1540099044, guid: ffa82fc0e5550a745bd33a82d023a2c9, type: 3}
+  - {fileID: -1241714972, guid: 0494a97cecb4e6141a48339b6e575cf3, type: 3}
+  - {fileID: -232281685, guid: 0494a97cecb4e6141a48339b6e575cf3, type: 3}
+  - {fileID: 1442783316, guid: 0494a97cecb4e6141a48339b6e575cf3, type: 3}
+  - {fileID: -2078991128, guid: 0494a97cecb4e6141a48339b6e575cf3, type: 3}
+  - {fileID: -573076621, guid: 0494a97cecb4e6141a48339b6e575cf3, type: 3}
+  - {fileID: 493082291, guid: 0494a97cecb4e6141a48339b6e575cf3, type: 3}
+  - {fileID: -779177283, guid: 0494a97cecb4e6141a48339b6e575cf3, type: 3}
+  - {fileID: -1761446981, guid: 0494a97cecb4e6141a48339b6e575cf3, type: 3}
+  - {fileID: -108404162, guid: 0494a97cecb4e6141a48339b6e575cf3, type: 3}
+  - {fileID: 1342491146, guid: 0494a97cecb4e6141a48339b6e575cf3, type: 3}
+  - {fileID: -257521671, guid: 0494a97cecb4e6141a48339b6e575cf3, type: 3}
+  - {fileID: 738831601, guid: 0494a97cecb4e6141a48339b6e575cf3, type: 3}
+  m_PackedSpriteNamesToIndex:
+  - Skeleton_Attack_8
+  - Skeleton_Attack_9
+  - Skeleton_Attack_4
+  - Skeleton_Attack_5
+  - Skeleton_Attack_6
+  - Skeleton_Attack_7
+  - Skeleton_Attack_0
+  - Skeleton_Attack_1
+  - Skeleton_Attack_2
+  - Skeleton_Attack_3
+  - Skeleton_Attack_12
+  - Skeleton_Attack_11
+  - Skeleton_Attack_10
+  - Skeleton_Hurt_2
+  - Skeleton_Hurt_1
+  - Skeleton_Hurt_0
+  - Skeleton_Death_12
+  - Skeleton_Death_11
+  - Skeleton_Death_10
+  - Skeleton_Death_8
+  - Skeleton_Death_9
+  - Skeleton_Death_0
+  - Skeleton_Death_1
+  - Skeleton_Death_2
+  - Skeleton_Death_3
+  - Skeleton_Death_4
+  - Skeleton_Death_5
+  - Skeleton_Death_6
+  - Skeleton_Death_7
+  - Skeleton_Idle_2
+  - Skeleton_Idle_3
+  - Skeleton_Idle_0
+  - Skeleton_Idle_1
+  - Skeleton_Walk_3
+  - Skeleton_Walk_2
+  - Skeleton_Walk_1
+  - Skeleton_Walk_0
+  - Skeleton_Walk_7
+  - Skeleton_Walk_6
+  - Skeleton_Walk_5
+  - Skeleton_Walk_4
+  - Skeleton_Walk_9
+  - Skeleton_Walk_8
+  - Skeleton_Walk_10
+  - Skeleton_Walk_11
+  m_RenderDataMap: {}
+  m_Tag: Skeleton_Atlas
+  m_IsVariant: 0
