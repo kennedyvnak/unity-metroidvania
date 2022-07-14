@@ -7,7 +7,7 @@ using UnityEngine.ResourceManagement.AsyncOperations;
 
 namespace Metroidvania.Entities
 {
-    // Why don't I make the player the only target? To not create dependencies and allow the creation of 
+    // Why don't I make the main character the only target? To not create dependencies and allow the creation of 
     // a multiplayer system or others systems that include multiples targets in the future
     /// <summary>Class for make entity management. see also <see cref="Addressables"/></summary>
     public class EntitiesManager : ScriptableSingleton<EntitiesManager>

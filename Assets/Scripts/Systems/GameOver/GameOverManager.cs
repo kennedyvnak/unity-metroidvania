@@ -19,12 +19,13 @@ namespace Metroidvania.GameOver
 
         [Header("Events")]
         [SerializeField] private VoidEventChannel m_onGameOverChannel;
-        [SerializeField] private ObjectEventChannel m_onPlayerDieChannel;
+        [UnityEngine.Serialization.FormerlySerializedAs("m_onPlayerDieChannel")]
+        [SerializeField] private ObjectEventChannel m_onMainCharDieChannel;
 
         [Header("Properties")]
-        [SerializeField] private RuntimeFloatField m_playerHP;
         [SerializeField] private float m_gameOverScreenTime = 5f;
-        [SerializeField] private float m_timeAfterPlayerDie = 2f;
+        [UnityEngine.Serialization.FormerlySerializedAs("m_timeAfterPlayerDie")]
+        [SerializeField] private float m_timeAfterCharacterDie = 2f;
         [SerializeField] private float m_fadeTime = 1f;
 
         private GameObject _gameOverScreen;
@@ -33,17 +34,17 @@ namespace Metroidvania.GameOver
         {
             _gameOverScreen = Instantiate(m_gameOverScreenPrefab, FadeScreen.instance.canvas.transform);
             _gameOverScreen.SetActive(false);
-            m_onPlayerDieChannel.OnEventRaise += OnPlayerDie;
+            m_onMainCharDieChannel.OnEventRaise += OnMainCharacterDie;
         }
 
-        private void OnPlayerDie(UnityEngine.Object player)
+        private void OnMainCharacterDie(UnityEngine.Object character)
         {
-            StartCoroutine(DOPlayerDie());
+            StartCoroutine(DoCharacterDie());
         }
 
-        private IEnumerator DOPlayerDie()
+        private IEnumerator DoCharacterDie()
         {
-            yield return CoroutinesUtility.GetYieldSeconds(m_timeAfterPlayerDie);
+            yield return CoroutinesUtility.GetYieldSeconds(m_timeAfterCharacterDie);
             yield return DOGameOver();
         }
 
@@ -57,7 +58,6 @@ namespace Metroidvania.GameOver
             yield return CoroutinesUtility.GetYieldSeconds(m_gameOverScreenTime);
             m_onGameOverChannel?.Raise();
             GameData gameData = DataManager.instance.gameData;
-            gameData.playerLife = m_playerHP.defaultValue;
             yield return SceneLoader.instance.LoadSceneWithoutTransition(m_gameOverScene, SceneLoader.SceneTransitionData.GameOver);
             yield return FadeScreen.instance.DOFadeOut(m_fadeTime).WaitForCompletion();
             _gameOverScreen.SetActive(false);

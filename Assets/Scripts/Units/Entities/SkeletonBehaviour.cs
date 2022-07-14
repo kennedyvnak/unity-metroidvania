@@ -45,7 +45,8 @@ namespace Metroidvania.Entities.Units
 
         [Header("Attack")]
         [SerializeField] private TouchHitBehaviour m_TouchHitBehaviour;
-        [SerializeField] private LayerMask m_PlayerLayer;
+        [UnityEngine.Serialization.FormerlySerializedAs("m_PlayerLayer")]
+        [SerializeField] private LayerMask m_CharactersLayer;
         [SerializeField] private float m_DistanceToAttack;
         [SerializeField] private float m_AttackDuration;
         [SerializeField] private float m_FirstAttackTime;
@@ -118,7 +119,7 @@ namespace Metroidvania.Entities.Units
             targetObstructed = targetFinder.hasFocusedTarget && targetFinder.IsObstructed(targetFinder.focusedTarget.position);
         }
 
-        public void OnTakeHit(PlayerHitData hitData)
+        public void OnTakeHit(CharacterHitData hitData)
         {
             life -= hitData.damage;
             if (life > 0)
@@ -394,7 +395,7 @@ namespace Metroidvania.Entities.Units
                     entity.rb.MovePosition(new Vector2(entity.rb.position.x + hitDistance * entity.facingDirection, entity.rb.position.y));
 
                 CombatUtility.CastEntityBoxHit(entity.rb.position + attackData.attackCollision.center * entity.transform.localScale,
-                    attackData.attackCollision.size, _hits, entity.m_PlayerLayer, attackData.damage,
+                    attackData.attackCollision.size, _hits, entity.m_CharactersLayer, attackData.damage,
                     CombatUtility.FromFacingDirection(attackData.knockbackForce, entity.facingDirection));
             }
         }
@@ -403,7 +404,7 @@ namespace Metroidvania.Entities.Units
         {
             private float elapsedTime { get; set; }
 
-            public PlayerHitData lastHitData;
+            public CharacterHitData lastHitData;
 
             public HurtState(SkeletonBehaviour entity) : base(entity)
             {
@@ -426,7 +427,7 @@ namespace Metroidvania.Entities.Units
 
             private Vector2 GetAttackForce()
             {
-                return new Vector2(entity.m_HurtOffset.x * lastHitData.player.facingDirection, entity.m_HurtOffset.y) * lastHitData.force * entity.m_RngStrength.RandomRange();
+                return new Vector2(entity.m_HurtOffset.x * lastHitData.character.facingDirection, entity.m_HurtOffset.y) * lastHitData.force * entity.m_RngStrength.RandomRange();
             }
         }
 

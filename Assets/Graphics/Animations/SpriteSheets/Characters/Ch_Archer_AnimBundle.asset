@@ -1,0 +1,106 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 41f46f301c6d21248be77c9169cd207a, type: 3}
+  m_Name: Ch_Archer_AnimBundle
+  m_EditorClassIdentifier: 
+  animations:
+  - name: Idle
+    hash: 2081823275
+    frameRate: 12
+    loop: 1
+    sheet:
+    - {fileID: 1645897968, guid: ce73992d733308242965686b67299c2e, type: 3}
+    - {fileID: 1527675146, guid: ce73992d733308242965686b67299c2e, type: 3}
+    - {fileID: 1169267342, guid: ce73992d733308242965686b67299c2e, type: 3}
+    - {fileID: -349066517, guid: ce73992d733308242965686b67299c2e, type: 3}
+  - name: Run
+    hash: 1748754976
+    frameRate: 12
+    loop: 1
+    sheet:
+    - {fileID: 925735754, guid: ec564c28aa9d4d54f9dfb555e317f4f5, type: 3}
+    - {fileID: 593107976, guid: ec564c28aa9d4d54f9dfb555e317f4f5, type: 3}
+    - {fileID: -2058462670, guid: ec564c28aa9d4d54f9dfb555e317f4f5, type: 3}
+    - {fileID: 336084606, guid: ec564c28aa9d4d54f9dfb555e317f4f5, type: 3}
+    - {fileID: 119177957, guid: ec564c28aa9d4d54f9dfb555e317f4f5, type: 3}
+    - {fileID: 1162552446, guid: ec564c28aa9d4d54f9dfb555e317f4f5, type: 3}
+    - {fileID: 127950067, guid: ec564c28aa9d4d54f9dfb555e317f4f5, type: 3}
+    - {fileID: -201328089, guid: ec564c28aa9d4d54f9dfb555e317f4f5, type: 3}
+  - name: Jump
+    hash: 125937960
+    frameRate: 12
+    loop: 1
+    sheet:
+    - {fileID: 21300000, guid: 6c4a67c92b4e6f64a8afbe93f5eef0d6, type: 3}
+  - name: Fall
+    hash: 1533177906
+    frameRate: 12
+    loop: 1
+    sheet:
+    - {fileID: 21300000, guid: 41d3bc8a93f736949ad5751c29acbb5a, type: 3}
+  - name: DoubleJump
+    hash: 129565385
+    frameRate: 12
+    loop: 0
+    sheet:
+    - {fileID: 1461263982, guid: 7f176006591f8004593828951c82c08f, type: 3}
+    - {fileID: 1413441228, guid: 7f176006591f8004593828951c82c08f, type: 3}
+    - {fileID: -1930306688, guid: 7f176006591f8004593828951c82c08f, type: 3}
+    - {fileID: -2077765529, guid: 7f176006591f8004593828951c82c08f, type: 3}
+  - name: Shoot
+    hash: -1316629574
+    frameRate: 12
+    loop: 0
+    sheet:
+    - {fileID: -820582843, guid: 377452b8747039747bb79a82705c821d, type: 3}
+    - {fileID: -229056948, guid: 377452b8747039747bb79a82705c821d, type: 3}
+    - {fileID: 1424873025, guid: 377452b8747039747bb79a82705c821d, type: 3}
+    - {fileID: 949529927, guid: 377452b8747039747bb79a82705c821d, type: 3}
+    - {fileID: -1972137880, guid: 377452b8747039747bb79a82705c821d, type: 3}
+    - {fileID: -885084136, guid: 377452b8747039747bb79a82705c821d, type: 3}
+    - {fileID: 719971722, guid: 377452b8747039747bb79a82705c821d, type: 3}
+  - name: Roll
+    hash: -1903714832
+    frameRate: 12
+    loop: 0
+    sheet:
+    - {fileID: -733687100, guid: 1ce198e2718f7384788997f9e84841cc, type: 3}
+    - {fileID: -459906826, guid: 1ce198e2718f7384788997f9e84841cc, type: 3}
+    - {fileID: 8607320, guid: 1ce198e2718f7384788997f9e84841cc, type: 3}
+    - {fileID: 1785462896, guid: 1ce198e2718f7384788997f9e84841cc, type: 3}
+    - {fileID: 1630074923, guid: 1ce198e2718f7384788997f9e84841cc, type: 3}
+    - {fileID: 1100643456, guid: 1ce198e2718f7384788997f9e84841cc, type: 3}
+    - {fileID: 1433267028, guid: 1ce198e2718f7384788997f9e84841cc, type: 3}
+  - name: Wallslide
+    hash: 1805019387
+    frameRate: 12
+    loop: 1
+    sheet:
+    - {fileID: 745331087, guid: 7e55a704eb96f1e4a825cb4932744593, type: 3}
+    - {fileID: 1688544853, guid: 7e55a704eb96f1e4a825cb4932744593, type: 3}
+    - {fileID: -47016052, guid: 7e55a704eb96f1e4a825cb4932744593, type: 3}
+    - {fileID: 2100596623, guid: 7e55a704eb96f1e4a825cb4932744593, type: 3}
+    - {fileID: 280201815, guid: 7e55a704eb96f1e4a825cb4932744593, type: 3}
+    - {fileID: -367475757, guid: 7e55a704eb96f1e4a825cb4932744593, type: 3}
+  - name: Die
+    hash: 20298039
+    frameRate: 12
+    loop: 0
+    sheet:
+    - {fileID: -1444807224, guid: 63eb017c9cf3571489cf4d9867b7f0e9, type: 3}
+    - {fileID: 1943099999, guid: 63eb017c9cf3571489cf4d9867b7f0e9, type: 3}
+    - {fileID: -437107961, guid: 63eb017c9cf3571489cf4d9867b7f0e9, type: 3}
+    - {fileID: 1478320883, guid: 63eb017c9cf3571489cf4d9867b7f0e9, type: 3}
+    - {fileID: 922164233, guid: 63eb017c9cf3571489cf4d9867b7f0e9, type: 3}
+    - {fileID: -1114650394, guid: 63eb017c9cf3571489cf4d9867b7f0e9, type: 3}
+    - {fileID: -916741201, guid: 63eb017c9cf3571489cf4d9867b7f0e9, type: 3}
+    - {fileID: 82478352, guid: 63eb017c9cf3571489cf4d9867b7f0e9, type: 3}

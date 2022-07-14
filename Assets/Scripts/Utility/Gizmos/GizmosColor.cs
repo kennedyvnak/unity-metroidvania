@@ -7,7 +7,7 @@ namespace Metroidvania
     public class GizmosColor : ScriptableSingleton<GizmosColor>
     {
         [System.Serializable]
-        public class Player
+        public class Ch_Knight
         {
             public Color feet = Color.green;
             public Color hand = Color.yellow;
@@ -43,7 +43,7 @@ namespace Metroidvania
             public Color secondary = Color.red;
         }
 
-        public Player player;
+        public Ch_Knight knight;
 
         public SafePoints safePoints;
 

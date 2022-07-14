@@ -1,5 +1,11 @@
 ﻿# Metroidvania versions changes
 
+## 1.4.5
+
+> Last version
+
+----
+
 ## 1.4.4.1 ([90def17](https://github.com/kennedyvnak/metroidvania/commit/90def1762509b34c5276ab30b35dc0a21f1c76f6))
 
 ### Added

@@ -17,10 +17,6 @@ MonoBehaviour:
     m_SerializedData: []
   m_GUID: 784b17e0c45fcf4409ee511aa3b55171
   m_SerializeEntries:
-  - m_GUID: d4d4118d84be4b28866e3d4b39ca58ec
-    m_Address: Assets/Data/Player
-    m_ReadOnly: 0
-    m_SerializedLabels: []
   - m_GUID: 3a23cd6c5138a364d9f8dd550bead783
     m_Address: Assets/Data/Entities
     m_ReadOnly: 0

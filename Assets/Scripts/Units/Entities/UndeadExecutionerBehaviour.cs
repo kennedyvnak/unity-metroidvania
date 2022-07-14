@@ -1,12 +1,12 @@
 using Metroidvania.Combat;
 using Metroidvania.Pathfinding;
-using Metroidvania.Player;
+using Metroidvania.Characters;
 using UnityEngine;
 
 namespace Metroidvania.Entities.Units
 {
     [RequireComponent(typeof(EntityTargetFinder), typeof(Rigidbody2D), typeof(Animator))]
-    public class UndeadExecutionerBehaviour : EntityStateMachine<UndeadExecutionerBehaviour>, IHittableTarget, ITouchHit
+    public class UndeadExecutionerBehaviour : EntityStateMachine<UndeadExecutionerBehaviour>, IHittableTarget
     {
         public Rigidbody2D rb { get; private set; }
         public EntityTargetFinder targetFinder { get; private set; }
@@ -36,20 +36,14 @@ namespace Metroidvania.Entities.Units
             SwitchState(_idleState);
         }
 
-        public void OnTakeHit(PlayerHitData hitData)
+        public void OnTakeHit(CharacterHitData hitData)
         {
             // TODO: Implement this method
             if (GameDebugger.instance.enableEntitiesLogs)
                 GameDebugger.Log((hitData.damage, hitData.force), gameObject);
         }
 
-        public EntityHitData OnHitPlayer(PlayerController playerController)
-        {
-            return new EntityHitData(m_touchDamage,
-                new Vector2(m_knockbackForce.x * playerController.facingDirection, m_knockbackForce.y));
-        }
-
-        private void EnterHurt(PlayerHitData hitData)
+        private void EnterHurt(CharacterHitData hitData)
         {
             _hurtState.hitData = hitData;
             SwitchState(_hurtState);
@@ -69,7 +63,7 @@ namespace Metroidvania.Entities.Units
             {
             }
 
-            public virtual void OnTakeKit(PlayerHitData hitData)
+            public virtual void OnTakeKit(CharacterHitData hitData)
             {
                 entity.EnterHurt(hitData);
             }
@@ -106,7 +100,7 @@ namespace Metroidvania.Entities.Units
 
         public class HurtState : BaseState
         {
-            public PlayerHitData hitData { get; set; }
+            public CharacterHitData hitData { get; set; }
 
             public HurtState(UndeadExecutionerBehaviour target) : base(target)
             {

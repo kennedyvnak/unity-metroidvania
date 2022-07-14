@@ -1,0 +1,165 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!687078895 &4343727234628468602
+SpriteAtlas:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Ch_Archer_Atlas
+  m_EditorData:
+    serializedVersion: 2
+    textureSettings:
+      serializedVersion: 2
+      anisoLevel: 1
+      compressionQuality: 50
+      maxTextureSize: 2048
+      textureCompression: 0
+      filterMode: 0
+      generateMipMaps: 0
+      readable: 0
+      crunchedCompression: 0
+      sRGB: 1
+    platformSettings:
+    - serializedVersion: 3
+      m_BuildTarget: DefaultTexturePlatform
+      m_MaxTextureSize: 2048
+      m_ResizeAlgorithm: 0
+      m_TextureFormat: 4
+      m_TextureCompression: 1
+      m_CompressionQuality: 50
+      m_CrunchedCompression: 0
+      m_AllowsAlphaSplitting: 0
+      m_Overridden: 0
+      m_AndroidETC2FallbackOverride: 0
+      m_ForceMaximumCompressionQuality_BC6H_BC7: 0
+    packingSettings:
+      serializedVersion: 2
+      padding: 4
+      blockOffset: 1
+      allowAlphaSplitting: 0
+      enableRotation: 1
+      enableTightPacking: 1
+      enableAlphaDilation: 0
+    secondaryTextureSettings: {}
+    variantMultiplier: 1
+    packables:
+    - {fileID: 2800000, guid: 63eb017c9cf3571489cf4d9867b7f0e9, type: 3}
+    - {fileID: 2800000, guid: 7f176006591f8004593828951c82c08f, type: 3}
+    - {fileID: 2800000, guid: 0208f4492ca561a4e8e2fb51f0f96a0f, type: 3}
+    - {fileID: 2800000, guid: 41d3bc8a93f736949ad5751c29acbb5a, type: 3}
+    - {fileID: 2800000, guid: ce73992d733308242965686b67299c2e, type: 3}
+    - {fileID: 2800000, guid: 6c4a67c92b4e6f64a8afbe93f5eef0d6, type: 3}
+    - {fileID: 2800000, guid: 1ce198e2718f7384788997f9e84841cc, type: 3}
+    - {fileID: 2800000, guid: ec564c28aa9d4d54f9dfb555e317f4f5, type: 3}
+    - {fileID: 2800000, guid: 377452b8747039747bb79a82705c821d, type: 3}
+    - {fileID: 2800000, guid: 7e55a704eb96f1e4a825cb4932744593, type: 3}
+    bindAsDefault: 1
+    isAtlasV2: 0
+    cachedData: {fileID: 0}
+  m_MasterAtlas: {fileID: 0}
+  m_PackedSprites:
+  - {fileID: 248526522, guid: 0208f4492ca561a4e8e2fb51f0f96a0f, type: 3}
+  - {fileID: -781730621, guid: 0208f4492ca561a4e8e2fb51f0f96a0f, type: 3}
+  - {fileID: 371059672, guid: 0208f4492ca561a4e8e2fb51f0f96a0f, type: 3}
+  - {fileID: 821643735, guid: 0208f4492ca561a4e8e2fb51f0f96a0f, type: 3}
+  - {fileID: -916741201, guid: 63eb017c9cf3571489cf4d9867b7f0e9, type: 3}
+  - {fileID: 82478352, guid: 63eb017c9cf3571489cf4d9867b7f0e9, type: 3}
+  - {fileID: 922164233, guid: 63eb017c9cf3571489cf4d9867b7f0e9, type: 3}
+  - {fileID: -1114650394, guid: 63eb017c9cf3571489cf4d9867b7f0e9, type: 3}
+  - {fileID: -437107961, guid: 63eb017c9cf3571489cf4d9867b7f0e9, type: 3}
+  - {fileID: 1478320883, guid: 63eb017c9cf3571489cf4d9867b7f0e9, type: 3}
+  - {fileID: -1444807224, guid: 63eb017c9cf3571489cf4d9867b7f0e9, type: 3}
+  - {fileID: 1943099999, guid: 63eb017c9cf3571489cf4d9867b7f0e9, type: 3}
+  - {fileID: 336084606, guid: ec564c28aa9d4d54f9dfb555e317f4f5, type: 3}
+  - {fileID: -2058462670, guid: ec564c28aa9d4d54f9dfb555e317f4f5, type: 3}
+  - {fileID: 593107976, guid: ec564c28aa9d4d54f9dfb555e317f4f5, type: 3}
+  - {fileID: 925735754, guid: ec564c28aa9d4d54f9dfb555e317f4f5, type: 3}
+  - {fileID: -201328089, guid: ec564c28aa9d4d54f9dfb555e317f4f5, type: 3}
+  - {fileID: 127950067, guid: ec564c28aa9d4d54f9dfb555e317f4f5, type: 3}
+  - {fileID: 1162552446, guid: ec564c28aa9d4d54f9dfb555e317f4f5, type: 3}
+  - {fileID: 119177957, guid: ec564c28aa9d4d54f9dfb555e317f4f5, type: 3}
+  - {fileID: 1433267028, guid: 1ce198e2718f7384788997f9e84841cc, type: 3}
+  - {fileID: 1100643456, guid: 1ce198e2718f7384788997f9e84841cc, type: 3}
+  - {fileID: 1630074923, guid: 1ce198e2718f7384788997f9e84841cc, type: 3}
+  - {fileID: 1785462896, guid: 1ce198e2718f7384788997f9e84841cc, type: 3}
+  - {fileID: 8607320, guid: 1ce198e2718f7384788997f9e84841cc, type: 3}
+  - {fileID: -459906826, guid: 1ce198e2718f7384788997f9e84841cc, type: 3}
+  - {fileID: -733687100, guid: 1ce198e2718f7384788997f9e84841cc, type: 3}
+  - {fileID: 21300000, guid: 41d3bc8a93f736949ad5751c29acbb5a, type: 3}
+  - {fileID: 1413441228, guid: 7f176006591f8004593828951c82c08f, type: 3}
+  - {fileID: 1461263982, guid: 7f176006591f8004593828951c82c08f, type: 3}
+  - {fileID: -2077765529, guid: 7f176006591f8004593828951c82c08f, type: 3}
+  - {fileID: -1930306688, guid: 7f176006591f8004593828951c82c08f, type: 3}
+  - {fileID: -229056948, guid: 377452b8747039747bb79a82705c821d, type: 3}
+  - {fileID: -820582843, guid: 377452b8747039747bb79a82705c821d, type: 3}
+  - {fileID: 949529927, guid: 377452b8747039747bb79a82705c821d, type: 3}
+  - {fileID: 1424873025, guid: 377452b8747039747bb79a82705c821d, type: 3}
+  - {fileID: -885084136, guid: 377452b8747039747bb79a82705c821d, type: 3}
+  - {fileID: -1972137880, guid: 377452b8747039747bb79a82705c821d, type: 3}
+  - {fileID: 719971722, guid: 377452b8747039747bb79a82705c821d, type: 3}
+  - {fileID: -367475757, guid: 7e55a704eb96f1e4a825cb4932744593, type: 3}
+  - {fileID: 280201815, guid: 7e55a704eb96f1e4a825cb4932744593, type: 3}
+  - {fileID: 2100596623, guid: 7e55a704eb96f1e4a825cb4932744593, type: 3}
+  - {fileID: -47016052, guid: 7e55a704eb96f1e4a825cb4932744593, type: 3}
+  - {fileID: 1688544853, guid: 7e55a704eb96f1e4a825cb4932744593, type: 3}
+  - {fileID: 745331087, guid: 7e55a704eb96f1e4a825cb4932744593, type: 3}
+  - {fileID: 21300000, guid: 6c4a67c92b4e6f64a8afbe93f5eef0d6, type: 3}
+  - {fileID: 1645897968, guid: ce73992d733308242965686b67299c2e, type: 3}
+  - {fileID: 1527675146, guid: ce73992d733308242965686b67299c2e, type: 3}
+  - {fileID: 1169267342, guid: ce73992d733308242965686b67299c2e, type: 3}
+  - {fileID: -349066517, guid: ce73992d733308242965686b67299c2e, type: 3}
+  m_PackedSpriteNamesToIndex:
+  - Ch_Archer_DoubleJump_GFX_1
+  - Ch_Archer_DoubleJump_GFX_0
+  - Ch_Archer_DoubleJump_GFX_3
+  - Ch_Archer_DoubleJump_GFX_2
+  - Ch_Archer_Die_6
+  - Ch_Archer_Die_7
+  - Ch_Archer_Die_4
+  - Ch_Archer_Die_5
+  - Ch_Archer_Die_2
+  - Ch_Archer_Die_3
+  - Ch_Archer_Die_0
+  - Ch_Archer_Die_1
+  - Ch_Archer_Run_3
+  - Ch_Archer_Run_2
+  - Ch_Archer_Run_1
+  - Ch_Archer_Run_0
+  - Ch_Archer_Run_7
+  - Ch_Archer_Run_6
+  - Ch_Archer_Run_5
+  - Ch_Archer_Run_4
+  - Ch_Archer_Roll_6
+  - Ch_Archer_Roll_5
+  - Ch_Archer_Roll_4
+  - Ch_Archer_Roll_3
+  - Ch_Archer_Roll_2
+  - Ch_Archer_Roll_1
+  - Ch_Archer_Roll_0
+  - Ch_Archer_Fall
+  - Ch_Archer_DoubleJump_1
+  - Ch_Archer_DoubleJump_0
+  - Ch_Archer_DoubleJump_3
+  - Ch_Archer_DoubleJump_2
+  - Ch_Archer_Shoot_1
+  - Ch_Archer_Shoot_0
+  - Ch_Archer_Shoot_3
+  - Ch_Archer_Shoot_2
+  - Ch_Archer_Shoot_5
+  - Ch_Archer_Shoot_4
+  - Ch_Archer_Shoot_6
+  - Ch_Archer_Wallslide_5
+  - Ch_Archer_Wallslide_4
+  - Ch_Archer_Wallslide_3
+  - Ch_Archer_Wallslide_2
+  - Ch_Archer_Wallslide_1
+  - Ch_Archer_Wallslide_0
+  - Ch_Archer_Jump
+  - Ch_Archer_Idle_0
+  - Ch_Archer_Idle_1
+  - Ch_Archer_Idle_2
+  - Ch_Archer_Idle_3
+  m_RenderDataMap: {}
+  m_Tag: Ch_Archer_Atlas
+  m_IsVariant: 0

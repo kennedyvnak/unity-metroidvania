@@ -8,7 +8,7 @@ namespace Metroidvania.Serialization
         public void LoadCurrentScene()
         {
             InputReader.instance.EnableGameplayInput();
-            SceneLoader.instance.LoadScene(new AssetReferenceSceneChannel(lastPlayerSafePoint.sceneGUID), SceneLoader.SceneTransitionData.GameOver);
+            SceneLoader.instance.LoadScene(new AssetReferenceSceneChannel(lastCharacterSafePoint.sceneGUID), SceneLoader.SceneTransitionData.GameOver);
         }
     }
 }
