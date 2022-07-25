@@ -1,10 +1,10 @@
 # Metroidvania
 
-***THIS PROJECT IS CLOSED AND WILL NOT RECEIVE FURTHER UPDATE BECAUSE UNITY DIGGED YOUR OWN GRAVE.***
+***THIS PROJECT IS CLOSED AND WILL NOT RECEIVE FURTHER UPDATE***
 
 ## Introduction
 
-Metroidvania is a metroidvania (lol) game engine written in C# for *Unity* **(Don't use Unity anymore)**.
+Metroidvania is a metroidvania (lol) game engine written in C# for Unity.
 
 It is a 100% free and open source project with the goal of demonstrating how a complete game structures asset folders, connects systems, handles editor tools and much more.
 
