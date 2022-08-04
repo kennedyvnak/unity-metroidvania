@@ -1,6 +1,6 @@
 # Metroidvania
 
-***THIS PROJECT IS CLOSED AND WILL NOT RECEIVE FURTHER UPDATE***
+*The project's GameEngine was switched to [Godot](https://github.com/kennedyvnak/origins)*
 
 ## Introduction
 
