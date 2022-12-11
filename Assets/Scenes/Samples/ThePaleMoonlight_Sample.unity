@@ -10897,10 +10897,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 2671389265051619625, guid: 11cd0fc535a25e447a5d9f0c58261dbb, type: 3}
-      propertyPath: m_Follow
-      value: 
-      objectReference: {fileID: 0}
     - target: {fileID: 6090313630849706063, guid: 11cd0fc535a25e447a5d9f0c58261dbb, type: 3}
       propertyPath: m_RootOrder
       value: 0
@@ -10945,14 +10941,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 6941007289448289128, guid: 11cd0fc535a25e447a5d9f0c58261dbb, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6941007289448289128, guid: 11cd0fc535a25e447a5d9f0c58261dbb, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 7980389921542987491, guid: 11cd0fc535a25e447a5d9f0c58261dbb, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0
@@ -10964,14 +10952,6 @@ PrefabInstance:
     - target: {fileID: 8153216896755857823, guid: 11cd0fc535a25e447a5d9f0c58261dbb, type: 3}
       propertyPath: m_Name
       value: GameplayController
-      objectReference: {fileID: 0}
-    - target: {fileID: 9122814252141381631, guid: 11cd0fc535a25e447a5d9f0c58261dbb, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 6
-      objectReference: {fileID: 0}
-    - target: {fileID: 9122814252141381631, guid: 11cd0fc535a25e447a5d9f0c58261dbb, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 5.5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 11cd0fc535a25e447a5d9f0c58261dbb, type: 3}
