@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "com.aarthificial.pixelgraphics": "https://github.com/aarthificial/pixelgraphics.git",
     "com.unity.addressables": "1.19.19",
     "com.unity.cinemachine": "2.8.9",
     "com.unity.collections": "1.3.1",

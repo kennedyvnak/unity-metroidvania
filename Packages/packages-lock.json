@@ -1,5 +1,14 @@
 {
   "dependencies": {
+    "com.aarthificial.pixelgraphics": {
+      "version": "https://github.com/aarthificial/pixelgraphics.git",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {
+        "com.unity.render-pipelines.universal": "10.4.0"
+      },
+      "hash": "5d5d2dab89b2455f0ae33b7e15b8628d1f583551"
+    },
     "com.unity.2d.animation": {
       "version": "7.0.9",
       "depth": 1,

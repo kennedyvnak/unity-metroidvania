@@ -261,6 +261,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1178453677971365346, guid: e2d6c7f524a6cc94ea1b085a66a50022, type: 3}
+      propertyPath: m_CullingMask.m_Bits
+      value: 1015
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e2d6c7f524a6cc94ea1b085a66a50022, type: 3}
 --- !u!4 &9122814251397947186 stripped
@@ -268,3 +272,35 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 1178453676684756243, guid: e2d6c7f524a6cc94ea1b085a66a50022, type: 3}
   m_PrefabInstance: {fileID: 7980389921791564321}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &9122814252141381630 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1178453677971365343, guid: e2d6c7f524a6cc94ea1b085a66a50022, type: 3}
+  m_PrefabInstance: {fileID: 7980389921791564321}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &574173861
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9122814252141381630}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3d7460f1d3ac25243b1b9fecf3405b59, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  settings:
+    pixelsPerUnit: 24
+    renderingLayerMask:
+      mask: 0
+    layerMask:
+      serializedVersion: 2
+      m_Bits: 1024
+    textureScale: 0.5
+    preview: 0
+  simulation:
+    stiffness: 70
+    damping: 3
+    blurStrength: 0.5
+    maxDeltaTime: 0.034
+  blitShader: {fileID: 4800000, guid: f34315e2ae49499e9bad3c7cee74f676, type: 3}
