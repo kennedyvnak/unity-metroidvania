@@ -1,8 +1,18 @@
 ﻿# Metroidvania versions changes
 
-## 1.4.5
+## 1.5
 
-> Last version
+### Added
+
+- Added "Characters" addressable group
+- Added "Archer" character raw assets
+
+### Changed 
+
+- Abstract characters behaviour
+- Renamed Player assets to Character/Knight assets
+- Improved Knight collision properties
+
 
 ----
 
