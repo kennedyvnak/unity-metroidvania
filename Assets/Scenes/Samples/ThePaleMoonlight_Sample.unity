@@ -8946,38 +8946,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 5917454055906694704, guid: 56fbb1e0d9189e74e86697117765dd0f, type: 3}
   m_PrefabInstance: {fileID: 5917454056394670210}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &574173855 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 9122814252141381630, guid: 11cd0fc535a25e447a5d9f0c58261dbb, type: 3}
-  m_PrefabInstance: {fileID: 1886220491}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &574173861
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 574173855}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3d7460f1d3ac25243b1b9fecf3405b59, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  settings:
-    pixelsPerUnit: 24
-    renderingLayerMask:
-      mask: 0
-    layerMask:
-      serializedVersion: 2
-      m_Bits: 1024
-    textureScale: 0.5
-    preview: 0
-  simulation:
-    stiffness: 70
-    damping: 3
-    blurStrength: 0.5
-    maxDeltaTime: 0.034
-  blitShader: {fileID: 4800000, guid: f34315e2ae49499e9bad3c7cee74f676, type: 3}
 --- !u!4 &643097756 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4951214551527963335, guid: 86c52bdc53d925b479790f3848f576d1, type: 3}
@@ -9711,11 +9679,6 @@ PrefabInstance:
 --- !u!4 &1072794212 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7109756644734056001, guid: 94033009f6ff7b74b971c53132d11f84, type: 3}
-  m_PrefabInstance: {fileID: 1072794211}
-  m_PrefabAsset: {fileID: 0}
---- !u!50 &1072794215 stripped
-Rigidbody2D:
-  m_CorrespondingSourceObject: {fileID: 7109756644734056124, guid: 94033009f6ff7b74b971c53132d11f84, type: 3}
   m_PrefabInstance: {fileID: 1072794211}
   m_PrefabAsset: {fileID: 0}
 --- !u!4 &1156464066 stripped
@@ -10990,10 +10953,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: GameplayController
       objectReference: {fileID: 0}
-    - target: {fileID: 9122814252141381571, guid: 11cd0fc535a25e447a5d9f0c58261dbb, type: 3}
-      propertyPath: m_CullingMask.m_Bits
-      value: 1015
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 11cd0fc535a25e447a5d9f0c58261dbb, type: 3}
 --- !u!4 &1914825063 stripped
@@ -11601,73 +11560,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 462a6b926c58c864b8558e15f5b74fad, type: 3}
---- !u!212 &2635562552423152846
-SpriteRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5092955249798165165}
-  m_Enabled: 1
-  m_CastShadows: 0
-  m_ReceiveShadows: 0
-  m_DynamicOccludee: 1
-  m_StaticShadowCaster: 0
-  m_MotionVectors: 1
-  m_LightProbeUsage: 1
-  m_ReflectionProbeUsage: 1
-  m_RayTracingMode: 0
-  m_RayTraceProcedural: 0
-  m_RenderingLayerMask: 1
-  m_RendererPriority: 0
-  m_Materials:
-  - {fileID: 2100000, guid: c9d2daac27f045058b7a2dbcaceedb12, type: 2}
-  m_StaticBatchInfo:
-    firstSubMesh: 0
-    subMeshCount: 0
-  m_StaticBatchRoot: {fileID: 0}
-  m_ProbeAnchor: {fileID: 0}
-  m_LightProbeVolumeOverride: {fileID: 0}
-  m_ScaleInLightmap: 1
-  m_ReceiveGI: 1
-  m_PreserveUVs: 0
-  m_IgnoreNormalsForChartDetection: 0
-  m_ImportantGI: 0
-  m_StitchLightmapSeams: 1
-  m_SelectedEditorRenderState: 0
-  m_MinimumChartSize: 4
-  m_AutoUVMaxDistance: 0.5
-  m_AutoUVMaxAngle: 89
-  m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
-  m_Sprite: {fileID: -2413806693520163455, guid: 4adeaf2d2b1c7417e89f026626d8264f, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_FlipX: 0
-  m_FlipY: 0
-  m_DrawMode: 0
-  m_Size: {x: 1, y: 1}
-  m_AdaptiveModeThreshold: 0.5
-  m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
-  m_MaskInteraction: 0
-  m_SpriteSortPoint: 0
---- !u!4 &3851927206166813831
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5092955249798165165}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.05, y: -0.175, z: 0}
-  m_LocalScale: {x: 0.7, y: 1.15, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1072794212}
-  m_RootOrder: 2
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &4951214550893813339
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -11725,24 +11617,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 86c52bdc53d925b479790f3848f576d1, type: 3}
---- !u!1 &5092955249798165165
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 3851927206166813831}
-  - component: {fileID: 2635562552423152846}
-  - component: {fileID: 6910974105484947149}
-  m_Layer: 10
-  m_Name: VelocityEmitter
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
 --- !u!1001 &5503868142194394436
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -11914,44 +11788,3 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 53aa87aec94cd6449bfb8b772ecaffe5, type: 3}
---- !u!114 &6910974105484947149
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5092955249798165165}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 585273055eeba9149adb806882edfccc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  customVelocity: {x: 0, y: 0, z: 0}
-  mode: 2
-  rb: {fileID: 0}
-  rb2D: {fileID: 1072794215}
-  maxSpeed: 12
-  remapping:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 0
-      outSlope: 1
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    - serializedVersion: 3
-      time: 1
-      value: 1
-      inSlope: 1
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
