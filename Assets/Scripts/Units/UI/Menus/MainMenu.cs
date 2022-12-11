@@ -4,10 +4,8 @@ using Metroidvania.Serialization.Menus;
 using TMPro;
 using UnityEngine;
 
-namespace Metroidvania.UI.Menus
-{
-    public class MainMenu : CanvasMenuBase
-    {
+namespace Metroidvania.UI.Menus {
+    public class MainMenu : CanvasMenuBase {
         [Header("Menu Transition")]
         [SerializeField] private CanvasGroup m_mainTitleGroup;
         [SerializeField] private OptionsMenu m_optionsMenu;
@@ -18,8 +16,7 @@ namespace Metroidvania.UI.Menus
 
         public IMenuScreen activeScreen;
 
-        private void Awake()
-        {
+        private void Awake() {
             m_versionText.text = Application.version;
             m_optionsMenu.OnMenuDisable += ActiveMenu;
             m_saveSlotsMenu.OnMenuDisable += ActiveMenu;
@@ -28,13 +25,11 @@ namespace Metroidvania.UI.Menus
             InputReader.instance.EnableMenuInput();
         }
 
-        private void Start()
-        {
+        private void Start() {
             SetFirstSelected();
         }
 
-        private void OnDestroy()
-        {
+        private void OnDestroy() {
             InputReader.instance.MenuCloseEvent -= PerformMenuClose;
         }
 
@@ -44,27 +39,23 @@ namespace Metroidvania.UI.Menus
 
         public void ShowCredits() => SwitchToScreen(m_creditsMenu);
 
-        public void SwitchToScreen(IMenuScreen screen)
-        {
+        public void SwitchToScreen(IMenuScreen screen) {
             m_mainTitleGroup.FadeGroup(false, UIUtility.TransitionTime, screen.ActiveMenu);
             menuEnabled = false;
             activeScreen = screen;
         }
 
-        public void ActiveMenu()
-        {
+        public void ActiveMenu() {
             activeScreen = null;
             menuEnabled = true;
             m_mainTitleGroup.FadeGroup(true, UIUtility.TransitionTime, SetFirstSelected);
         }
 
-        private void PerformMenuClose()
-        {
+        private void PerformMenuClose() {
             activeScreen?.DesactiveMenu();
         }
 
-        public void ExitGame()
-        {
+        public void ExitGame() {
 #if UNITY_EDITOR
             UnityEditor.EditorApplication.isPlaying = false;
 #else

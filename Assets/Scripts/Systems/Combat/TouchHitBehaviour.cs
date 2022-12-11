@@ -1,12 +1,9 @@
 using Metroidvania.Entities;
-using Metroidvania.Characters;
 using UnityEngine;
 
-namespace Metroidvania.Combat
-{
+namespace Metroidvania.Combat {
     [RequireComponent(typeof(Collider2D))]
-    public class TouchHitBehaviour : MonoBehaviour, ITouchHit
-    {
+    public class TouchHitBehaviour : MonoBehaviour, ITouchHit {
         [SerializeField] private bool m_IgnoreInvincibility = false;
         [SerializeField] private float m_Damage = 10;
         [SerializeField] private Vector2 m_KnockbackForce = new Vector2(9.0f, -3.5f);
@@ -19,26 +16,22 @@ namespace Metroidvania.Combat
         public Vector2 knockbackForce { get => m_KnockbackForce; set => m_KnockbackForce = value; }
         public bool useFacingDirection { get => m_UseFacingDirection; set => m_UseFacingDirection = value; }
 
-        private void Awake()
-        {
+        private void Awake() {
             colliderTrigger = GetComponent<Collider2D>();
         }
 
-        private void OnEnable()
-        {
+        private void OnEnable() {
             colliderTrigger.enabled = true;
         }
 
-        private void OnDisable()
-        {
+        private void OnDisable() {
             colliderTrigger.enabled = false;
         }
 
-        public EntityHitData OnHitCharacter(Characters.CharacterBase character)
-        {
-            if (m_UseFacingDirection)
-                return new EntityHitData(m_Damage, new Vector2(m_KnockbackForce.x * -character.facingDirection, m_KnockbackForce.y));
-            return new EntityHitData(m_Damage, m_KnockbackForce);
+        public EntityHitData OnHitCharacter(Characters.CharacterBase character) {
+            return m_UseFacingDirection
+                ? new EntityHitData(m_Damage, new Vector2(m_KnockbackForce.x * -character.facingDirection, m_KnockbackForce.y))
+                : new EntityHitData(m_Damage, m_KnockbackForce);
         }
     }
 }

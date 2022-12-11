@@ -1,16 +1,13 @@
 using DG.Tweening;
 using Metroidvania.Events;
 using Metroidvania.InputSystem;
-using Metroidvania.RuntimeFields;
 using Metroidvania.SceneManagement;
 using Metroidvania.Serialization;
 using System.Collections;
 using UnityEngine;
 
-namespace Metroidvania.GameOver
-{
-    public class GameOverManager : SingletonPersistent<GameOverManager>
-    {
+namespace Metroidvania.GameOver {
+    public class GameOverManager : SingletonPersistent<GameOverManager> {
         [Header("Prefabs")]
         [SerializeField] private GameObject m_gameOverScreenPrefab;
 
@@ -30,28 +27,24 @@ namespace Metroidvania.GameOver
 
         private GameObject _gameOverScreen;
 
-        private void Start()
-        {
+        private void Start() {
             _gameOverScreen = Instantiate(m_gameOverScreenPrefab, FadeScreen.instance.canvas.transform);
             _gameOverScreen.SetActive(false);
             m_onMainCharDieChannel.OnEventRaise += OnMainCharacterDie;
         }
 
-        private void OnMainCharacterDie(UnityEngine.Object character)
-        {
+        private void OnMainCharacterDie(UnityEngine.Object character) {
             StartCoroutine(DoCharacterDie());
         }
 
-        private IEnumerator DoCharacterDie()
-        {
+        private IEnumerator DoCharacterDie() {
             yield return CoroutinesUtility.GetYieldSeconds(m_timeAfterCharacterDie);
             yield return DOGameOver();
         }
 
         public void StartGameOver() => StartCoroutine(DOGameOver());
 
-        private IEnumerator DOGameOver()
-        {
+        private IEnumerator DOGameOver() {
             InputReader.instance.DisableAllInput();
             _gameOverScreen.SetActive(true);
             yield return FadeScreen.instance.DOFadeIn(m_fadeTime).WaitForCompletion();

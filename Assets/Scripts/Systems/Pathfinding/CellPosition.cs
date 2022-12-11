@@ -1,16 +1,13 @@
 using System;
 
-namespace Metroidvania.Pathfinding
-{
+namespace Metroidvania.Pathfinding {
     /// <summary>
     /// </summary>
     [Serializable]
-    public struct CellPosition : IEquatable<CellPosition>, IFormattable
-    {
+    public struct CellPosition : IEquatable<CellPosition>, IFormattable {
         public int x, y;
 
-        public CellPosition(int x, int y)
-        {
+        public CellPosition(int x, int y) {
             this.x = x;
             this.y = y;
         }

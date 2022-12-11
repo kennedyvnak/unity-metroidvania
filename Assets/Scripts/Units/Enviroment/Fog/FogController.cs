@@ -1,12 +1,9 @@
 using UnityEngine;
 
-namespace Metroidvania.Environment.Fog
-{
-    public class FogController : MonoBehaviour
-    {
+namespace Metroidvania.Environment.Fog {
+    public class FogController : MonoBehaviour {
         [System.Serializable]
-        public struct FogPlatform
-        {
+        public struct FogPlatform {
             public float a;
             public float b;
 
@@ -27,18 +24,15 @@ namespace Metroidvania.Environment.Fog
         public float endOffset => m_EndOffset;
         public float yOffset => m_YOffset;
 
-        private void Awake()
-        {
+        private void Awake() {
             particles = GetComponentInChildren<ParticleSystem>();
         }
 
-        private void OnEnable()
-        {
+        private void OnEnable() {
             CreateParticles();
         }
 
-        public void EmitFogParticle(Vector2 position)
-        {
+        public void EmitFogParticle(Vector2 position) {
             emitParams.position = position;
             particles.Emit(emitParams, 1);
         }
@@ -46,8 +40,7 @@ namespace Metroidvania.Environment.Fog
         public FogPlatform[] GetPlatforms() => m_FogPlatforms;
         public FogPlatform[] SetPlatforms(FogPlatform[] value) => m_FogPlatforms = value;
 
-        public void CreateParticles()
-        {
+        public void CreateParticles() {
             if (!particles)
                 return;
 
@@ -55,16 +48,14 @@ namespace Metroidvania.Environment.Fog
                 ForEachPlatformPoint(m_FogPlatforms[i], EmitFogParticle);
         }
 
-        public void ForEachPlatformPoint(FogPlatform platform, System.Action<Vector2> action)
-        {
+        public void ForEachPlatformPoint(FogPlatform platform, System.Action<Vector2> action) {
             GetPlatformStartEnd(platform, out float start, out float end, out float y);
 
             for (float x = start; x <= end; x += m_ParticlesDistance)
                 action(new Vector2(x, y));
         }
 
-        public void GetPlatformStartEnd(FogPlatform platform, out float startX, out float endX, out float y)
-        {
+        public void GetPlatformStartEnd(FogPlatform platform, out float startX, out float endX, out float y) {
             startX = Mathf.Min(platform.a, platform.b);
             endX = Mathf.Max(platform.a, platform.b);
 
@@ -75,11 +66,9 @@ namespace Metroidvania.Environment.Fog
 
 #if UNITY_EDITOR
         [ContextMenu("Round All Points")]
-        public void RoundAllPoints()
-        {
+        public void RoundAllPoints() {
             UnityEditor.Undo.RecordObject(this, "Round Platforms Points");
-            for (int i = 0; i < m_FogPlatforms.Length; i++)
-            {
+            for (int i = 0; i < m_FogPlatforms.Length; i++) {
                 FogPlatform platform = m_FogPlatforms[i];
                 platform.a = Mathf.Round(platform.a);
                 platform.b = Mathf.Round(platform.b);

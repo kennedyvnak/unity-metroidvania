@@ -4,14 +4,12 @@ using Metroidvania.Settings;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-namespace Metroidvania.Serialization
-{
+namespace Metroidvania.Serialization {
     /// <summary>
     /// Singleton that handle all data in game
     /// </summary>
     [CreateAssetMenu(fileName = "new Data Manager", menuName = "Scriptables/Serialization/Data Manager")]
-    public class DataManager : ScriptableSingleton<DataManager>, IInitializableSingleton
-    {
+    public class DataManager : ScriptableSingleton<DataManager>, IInitializableSingleton {
 #if UNITY_EDITOR
         // Game data used in games that was initialized without a save load
         private GameData _editorPlaceholderData;
@@ -28,11 +26,10 @@ namespace Metroidvania.Serialization
 
         private GameData _gameData;
 
-        public GameData gameData
-        {
-            get
-            {
-                if (_gameData != null) return _gameData;
+        public GameData gameData {
+            get {
+                if (_gameData != null)
+                    return _gameData;
 #if UNITY_EDITOR
                 return _editorPlaceholderData;
 #else
@@ -41,15 +38,13 @@ namespace Metroidvania.Serialization
             }
         }
 
-        public void DeleteUser(int userId)
-        {
+        public void DeleteUser(int userId) {
             s_dataHandler.DeleteUser(userId);
         }
 
         public int selectedUserId { get; private set; }
 
-        public void Initialize()
-        {
+        public void Initialize() {
             DisposeDataInstance();
             SceneManager.sceneLoaded += OnSceneLoad;
             sceneUnloadedChannel.OnEventRaise += BeforeSceneUnload;
@@ -58,30 +53,25 @@ namespace Metroidvania.Serialization
 #endif
         }
 
-        private void OnSceneLoad(Scene scene, LoadSceneMode mode)
-        {
+        private void OnSceneLoad(Scene scene, LoadSceneMode mode) {
             onDeserializeChannel?.Raise(gameData);
         }
 
-        private void BeforeSceneUnload(SceneChannel scene)
-        {
+        private void BeforeSceneUnload(SceneChannel scene) {
             onSerializeChannel?.Raise(gameData);
             SerializeData();
         }
 
-        public void SerializeData()
-        {
+        public void SerializeData() {
             _gameData.lastSerialization = System.DateTime.Now.ToBinary();
             s_dataHandler.Serialize(_gameData);
         }
 
-        public void DisposeDataInstance()
-        {
+        public void DisposeDataInstance() {
             ChangeSelectedUser(-1);
         }
 
-        public GameData ChangeSelectedUser(int newUserId)
-        {
+        public GameData ChangeSelectedUser(int newUserId) {
             selectedUserId = newUserId;
             _gameData = selectedUserId != -1 ? s_dataHandler.Deserialize(newUserId) ?? defaultGameDataAsset.GenerateNew(newUserId) : null;
             return _gameData;

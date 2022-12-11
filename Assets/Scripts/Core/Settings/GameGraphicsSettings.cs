@@ -2,10 +2,8 @@
 using UnityEngine;
 using UnityEngine.Localization;
 
-namespace Metroidvania.Audio
-{
-    public class GameGraphicsSettings : ScriptableSingleton<GameGraphicsSettings>
-    {
+namespace Metroidvania.Audio {
+    public class GameGraphicsSettings : ScriptableSingleton<GameGraphicsSettings> {
         [Header("Resolution")] public string resolutionPrefsKey = "Selected-Resolution";
         public int defaultResolutionIndex;
         public Vector2Int[] screenResolutions;
@@ -22,8 +20,7 @@ namespace Metroidvania.Audio
         public IntEventChannel changeQualityChannel;
         public BoolEventChannel changeFullScreenChannel;
 
-        public void SetResolution(int idx, bool setPrefs)
-        {
+        public void SetResolution(int idx, bool setPrefs) {
             idx = Mathf.Clamp(idx, 0, screenResolutions.Length);
             Vector2Int resolution = screenResolutions[idx];
             Screen.SetResolution(resolution.x, resolution.y, Screen.fullScreen);
@@ -32,8 +29,7 @@ namespace Metroidvania.Audio
             changeResolutionChannel?.Raise(idx);
         }
 
-        public void SetQuality(int idx, bool setPrefs)
-        {
+        public void SetQuality(int idx, bool setPrefs) {
             idx = Mathf.Clamp(idx, 0, qualitiesNames.Length);
             QualitySettings.SetQualityLevel(idx);
             if (setPrefs)
@@ -41,8 +37,7 @@ namespace Metroidvania.Audio
             changeQualityChannel?.Raise(idx);
         }
 
-        public void SetFullScreen(bool isFullScreen, bool setPrefs)
-        {
+        public void SetFullScreen(bool isFullScreen, bool setPrefs) {
             Screen.fullScreen = isFullScreen;
             if (setPrefs)
                 PlayerPrefs.SetInt(fullScreenPrefsKey, isFullScreen ? 1 : 0);
@@ -56,8 +51,7 @@ namespace Metroidvania.Audio
         public void StepQuality() => SetQuality((PlayerPrefs.GetInt(qualityPrefsKey, defaultQualityIndex) + 1) % qualitiesNames.Length, true);
 
 #if UNITY_EDITOR
-        private void OnValidate()
-        {
+        private void OnValidate() {
             if (qualitiesNames.Length != QualitySettings.names.Length)
                 GameDebugger.LogError($"{nameof(qualitiesNames)} length isn't equal the built-in quality names length.");
         }

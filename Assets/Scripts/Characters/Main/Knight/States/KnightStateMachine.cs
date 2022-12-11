@@ -1,9 +1,5 @@
-using UnityEngine;
-
-namespace Metroidvania.Characters.Knight
-{
-    public class KnightStateMachine : CharacterStateMachine<KnightCharacterController>
-    {
+namespace Metroidvania.Characters.Knight {
+    public class KnightStateMachine : CharacterStateMachine<KnightCharacterController> {
         public KnightIdleState idleState;
         public KnightRunState runState;
         public KnightJumpState jumpState;
@@ -22,8 +18,7 @@ namespace Metroidvania.Characters.Knight
         public bool inCrouchState { get; private set; }
         public bool inInvincibleState { get; private set; }
 
-        public KnightStateMachine(KnightCharacterController character) : base(character)
-        {
+        public KnightStateMachine(KnightCharacterController character) : base(character) {
             idleState = new KnightIdleState(this);
             runState = new KnightRunState(this);
             jumpState = new KnightJumpState(this);
@@ -50,24 +45,21 @@ namespace Metroidvania.Characters.Knight
         }
 
 
-        public override void EnterState(CharacterStateBase<KnightCharacterController> state)
-        {
+        public override void EnterState(CharacterStateBase<KnightCharacterController> state) {
             base.EnterState(state);
 
             inCrouchState = state is ICrouchState;
             inInvincibleState = state is IInvincibleState;
         }
 
-        public void EnterDefaultState()
-        {
+        public void EnterDefaultState() {
             if (EnterFallState() || EnterCrouchState() || EnterWallState())
                 return;
 
             EnterState(character.horizontalMove == 0 ? idleState : runState);
         }
 
-        public bool EnterJumpState()
-        {
+        public bool EnterJumpState() {
             if (!character.jumpAction.IsPressed() || !character.canStand || !character.isGrounded)
                 return false;
 
@@ -75,8 +67,7 @@ namespace Metroidvania.Characters.Knight
             return true;
         }
 
-        public bool EnterCrouchState()
-        {
+        public bool EnterCrouchState() {
             if ((!character.crouchAction.IsPressed() && character.canStand) || !character.isGrounded)
                 return false;
 
@@ -84,8 +75,7 @@ namespace Metroidvania.Characters.Knight
             return true;
         }
 
-        public bool EnterFallState()
-        {
+        public bool EnterFallState() {
             if (character.isGrounded)
                 return false;
 
@@ -93,8 +83,7 @@ namespace Metroidvania.Characters.Knight
             return true;
         }
 
-        public bool EnterSlideState()
-        {
+        public bool EnterSlideState() {
             if (!character.isGrounded || !inCrouchState || !character.dashAction.WasPerformedThisFrame() || slideState.isInCooldown)
                 return false;
 
@@ -102,8 +91,7 @@ namespace Metroidvania.Characters.Knight
             return true;
         }
 
-        public bool EnterRollState()
-        {
+        public bool EnterRollState() {
             if (!character.isGrounded || inCrouchState || !character.dashAction.WasPerformedThisFrame() || rollState.isInCooldown)
                 return false;
 
@@ -111,18 +99,15 @@ namespace Metroidvania.Characters.Knight
             return true;
         }
 
-        public bool EnterWallState()
-        {
-            if (!character.isGrounded && character.isTouchingWall && character.horizontalMove == character.facingDirection)
-            {
+        public bool EnterWallState() {
+            if (!character.isGrounded && character.isTouchingWall && character.horizontalMove == character.facingDirection) {
                 EnterState(wallslideState);
                 return true;
             }
             return false;
         }
 
-        public bool EnterAttackState()
-        {
+        public bool EnterAttackState() {
             if (!character.attackAction.WasPerformedThisFrame() || !character.isGrounded)
                 return false;
 
@@ -134,14 +119,12 @@ namespace Metroidvania.Characters.Knight
             return true;
         }
 
-        public void EnterHurt(Entities.EntityHitData hitData)
-        {
+        public void EnterHurt(Entities.EntityHitData hitData) {
             hurtState.hitData = hitData;
             EnterState(hurtState);
         }
 
-        public void EnterFakeWalk(float duration)
-        {
+        public void EnterFakeWalk(float duration) {
             fakeWalkState.currentWalkDuration = duration;
             EnterState(fakeWalkState);
         }

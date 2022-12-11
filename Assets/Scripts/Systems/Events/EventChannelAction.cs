@@ -1,5 +1,4 @@
-namespace Metroidvania.Events
-{
+namespace Metroidvania.Events {
     public delegate void EventChannelAction();
     public delegate void EventChannelAction<T0>(T0 value0);
     public delegate void EventChannelAction<T0, T1>(T0 value0, T1 value1);

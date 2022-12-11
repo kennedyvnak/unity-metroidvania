@@ -1,14 +1,11 @@
-namespace Metroidvania
-{
+namespace Metroidvania {
     [System.Serializable]
-    public struct RangedFloat
-    {
+    public struct RangedFloat {
         public float min, max;
 
         public float RandomRange() => UnityEngine.Random.Range(min, max);
 
-        public RangedFloat(float min, float max)
-        {
+        public RangedFloat(float min, float max) {
             this.min = min;
             this.max = max;
         }

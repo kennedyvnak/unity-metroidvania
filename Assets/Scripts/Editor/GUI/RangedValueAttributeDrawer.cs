@@ -2,23 +2,20 @@ using Metroidvania;
 using UnityEditor;
 using UnityEngine;
 
-namespace MetroidvaniaEditor
-{
+namespace MetroidvaniaEditor {
     [CustomPropertyDrawer(typeof(RangedValueAttribute))]
-    public class RangedValueAttributeDrawer : PropertyDrawer
-    {
+    public class RangedValueAttributeDrawer : PropertyDrawer {
         // Right/left number fields width
         private const float k_FieldWidth = 40;
 
         // Space between the right/left fields and the slider
         private const float k_FieldSpace = 5;
 
-        public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
-        {
+        public override void OnGUI(Rect position, SerializedProperty property, GUIContent label) {
             RangedValueAttribute minMaxAttribute = (RangedValueAttribute)attribute;
             string propertyType = property.type;
 
-            label.tooltip = $"{minMaxAttribute.min.ToString("F2")} to {minMaxAttribute.max.ToString("F2")}";
+            label.tooltip = $"{minMaxAttribute.min:F2} to {minMaxAttribute.max:F2}";
 
             Rect controlRect = EditorGUI.PrefixLabel(position, label);
 
@@ -27,8 +24,7 @@ namespace MetroidvaniaEditor
             SerializedProperty min = property.FindPropertyRelative("min"), max = property.FindPropertyRelative("max");
 
             label = EditorGUI.BeginProperty(position, label, property);
-            if (propertyType == nameof(RangedFloat))
-            {
+            if (propertyType == nameof(RangedFloat)) {
                 EditorGUI.BeginChangeCheck();
                 float minVal = min.floatValue;
                 float maxVal = max.floatValue;
@@ -44,15 +40,12 @@ namespace MetroidvaniaEditor
                 if (maxVal > minMaxAttribute.max)
                     maxVal = minMaxAttribute.max;
 
-                if (EditorGUI.EndChangeCheck())
-                {
+                if (EditorGUI.EndChangeCheck()) {
                     min.floatValue = minVal;
                     max.floatValue = maxVal;
                 }
 
-            }
-            else if (propertyType == nameof(RangedInt))
-            {
+            } else if (propertyType == nameof(RangedInt)) {
 
                 EditorGUI.BeginChangeCheck();
 
@@ -70,8 +63,7 @@ namespace MetroidvaniaEditor
                 if (minVal > minMaxAttribute.max)
                     maxVal = minMaxAttribute.max;
 
-                if (EditorGUI.EndChangeCheck())
-                {
+                if (EditorGUI.EndChangeCheck()) {
                     min.intValue = Mathf.FloorToInt(minVal > maxVal ? maxVal : minVal);
                     max.intValue = Mathf.FloorToInt(maxVal);
                 }
@@ -79,11 +71,10 @@ namespace MetroidvaniaEditor
             EditorGUI.EndProperty();
         }
 
-        private static void SplitRect(Rect rectToSplit, out Rect left, out Rect slider, out Rect right)
-        {
+        private static void SplitRect(Rect rectToSplit, out Rect left, out Rect slider, out Rect right) {
             left = new Rect(rectToSplit.x, rectToSplit.y, k_FieldWidth, rectToSplit.height);
             right = new Rect(rectToSplit.x + rectToSplit.width - k_FieldWidth, rectToSplit.y, k_FieldWidth, rectToSplit.height);
-            slider = new Rect(rectToSplit.x + k_FieldSpace + k_FieldWidth, rectToSplit.y, rectToSplit.width - (k_FieldWidth + k_FieldSpace) * 2, rectToSplit.height);
+            slider = new Rect(rectToSplit.x + k_FieldSpace + k_FieldWidth, rectToSplit.y, rectToSplit.width - ((k_FieldWidth + k_FieldSpace) * 2), rectToSplit.height);
         }
     }
 }

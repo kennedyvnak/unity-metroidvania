@@ -8,12 +8,9 @@ using UnityEngine.ResourceManagement.AsyncOperations;
 using UnityEngine.ResourceManagement.ResourceProviders;
 using UnityEngine.UI;
 
-namespace Metroidvania.SceneManagement
-{
-    public class SceneLoader : SingletonPersistent<SceneLoader>
-    {
-        public struct SceneTransitionData
-        {
+namespace Metroidvania.SceneManagement {
+    public class SceneLoader : SingletonPersistent<SceneLoader> {
+        public struct SceneTransitionData {
             public const string UseGameDataKey = "k_UseGameData";
             public static readonly SceneTransitionData UseGameData = FromSpawnPoint(UseGameDataKey);
 
@@ -32,14 +29,12 @@ namespace Metroidvania.SceneManagement
             public GameData gameData;
             public SceneChannel currentScene;
 
-            public static SceneTransitionData FromSpawnPoint(string spawnPoint)
-            {
+            public static SceneTransitionData FromSpawnPoint(string spawnPoint) {
                 return new SceneTransitionData() { spawnPoint = spawnPoint };
             }
         }
 
-        public struct SceneUnloadData
-        {
+        public struct SceneUnloadData {
             public GameData gameData;
             public SceneChannel currentScene;
             public SceneChannel nextScene;
@@ -62,35 +57,29 @@ namespace Metroidvania.SceneManagement
 
         private List<ISceneTransistor> _sceneTransistors = new List<ISceneTransistor>();
 
-        private void Start()
-        {
+        private void Start() {
             _loadScreenObj = Instantiate(m_loadScreenPrefab, FadeScreen.instance.canvas.transform);
             _progressSlider = _loadScreenObj.GetComponentInChildren<Slider>();
             _loadScreenObj.SetActive(false);
         }
 
-        private void OnApplicationQuit()
-        {
+        private void OnApplicationQuit() {
             OnUnloadScene(null);
         }
 
-        public void LoadMainMenu()
-        {
+        public void LoadMainMenu() {
             LoadScene(m_mainMenuRef, SceneTransitionData.MainMenu);
         }
 
-        public Coroutine LoadScene(AssetReferenceSceneChannel channelRef, SceneTransitionData transitionData)
-        {
+        public Coroutine LoadScene(AssetReferenceSceneChannel channelRef, SceneTransitionData transitionData) {
             return StartCoroutine(DOSceneLoadWithTransition(channelRef, transitionData));
         }
 
-        public Coroutine LoadSceneWithoutTransition(AssetReferenceSceneChannel channelRef, SceneTransitionData transitionData)
-        {
+        public Coroutine LoadSceneWithoutTransition(AssetReferenceSceneChannel channelRef, SceneTransitionData transitionData) {
             return StartCoroutine(DoSceneLoad(LoadChannel(channelRef), transitionData));
         }
 
-        private IEnumerator DOSceneLoadWithTransition(AssetReferenceSceneChannel channelRef, SceneTransitionData transitionData)
-        {
+        private IEnumerator DOSceneLoadWithTransition(AssetReferenceSceneChannel channelRef, SceneTransitionData transitionData) {
             _progressSlider.value = 0;
             _loadScreenObj.SetActive(true);
             yield return FadeScreen.instance.DOFadeIn().WaitForCompletion();
@@ -99,8 +88,7 @@ namespace Metroidvania.SceneManagement
             _loadScreenObj.SetActive(false);
         }
 
-        private IEnumerator DoSceneLoad(SceneChannel scene, SceneTransitionData transitionData)
-        {
+        private IEnumerator DoSceneLoad(SceneChannel scene, SceneTransitionData transitionData) {
             if (activeScene?.operation.IsValid() == true)
                 OnUnloadScene(scene);
 
@@ -114,8 +102,7 @@ namespace Metroidvania.SceneManagement
             AsyncOperationHandle<SceneInstance> handle = scene.sceneReference.LoadSceneAsync();
             scene.operation = handle;
 
-            handle.Completed += (op) =>
-            {
+            handle.Completed += (op) => {
                 foreach (GameObject root in op.Result.Scene.GetRootGameObjects())
                     _sceneTransistors.AddRange(root.GetComponentsInChildren<ISceneTransistor>(true));
 
@@ -124,23 +111,19 @@ namespace Metroidvania.SceneManagement
                 m_sceneLoaded?.Raise(scene);
             };
 
-            while (!handle.IsDone)
-            {
+            while (!handle.IsDone) {
                 _progressSlider.normalizedValue = handle.PercentComplete;
                 yield return null;
             }
         }
 
-        private SceneChannel LoadChannel(AssetReferenceSceneChannel reference)
-        {
+        private SceneChannel LoadChannel(AssetReferenceSceneChannel reference) {
             _sceneChannelAssetHandle = reference.LoadAssetAsync();
             return _sceneChannelAssetHandle.WaitForCompletion();
         }
 
-        private void OnUnloadScene(SceneChannel nextScene)
-        {
-            SceneUnloadData unloadData = new SceneUnloadData()
-            {
+        private void OnUnloadScene(SceneChannel nextScene) {
+            SceneUnloadData unloadData = new SceneUnloadData() {
                 gameData = DataManager.instance.gameData,
                 currentScene = activeScene,
                 nextScene = nextScene,

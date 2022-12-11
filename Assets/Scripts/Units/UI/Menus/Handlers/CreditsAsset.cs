@@ -1,15 +1,12 @@
 using System.Text;
 using UnityEngine;
 
-namespace Metroidvania.Credits
-{
+namespace Metroidvania.Credits {
     // TODO: Localize credits
     [CreateAssetMenu(fileName = "new Credits", menuName = "Scriptables/Credits")]
-    public class CreditsAsset : ScriptableObject
-    {
+    public class CreditsAsset : ScriptableObject {
         [System.Serializable]
-        public struct ExternalAssetInfo
-        {
+        public struct ExternalAssetInfo {
             public string author;
 
             [UnityEngine.Serialization.FormerlySerializedAs("produtLabel")]
@@ -25,8 +22,7 @@ namespace Metroidvania.Credits
 
         [TextArea] public string end;
 
-        public string GenerateText()
-        {
+        public string GenerateText() {
             StringBuilder sb = new StringBuilder();
             sb.AppendLine(header);
             foreach (ExternalAssetInfo externalAsset in externalAssets)

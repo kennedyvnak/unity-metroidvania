@@ -1,9 +1,7 @@
 using UnityEngine;
 
-namespace Metroidvania.Pathfinding
-{
-    public class PathNode
-    {
+namespace Metroidvania.Pathfinding {
+    public class PathNode {
         public readonly GridGraph graph;
 
         public readonly CellPosition position;
@@ -13,11 +11,9 @@ namespace Metroidvania.Pathfinding
         public readonly int index;
 
         private bool _walkable;
-        public bool walkable
-        {
+        public bool walkable {
             get => _walkable;
-            set
-            {
+            set {
                 PathNodeReference nativeNode = graph.nativeNodes[index];
                 nativeNode.walkable = value;
                 graph.nativeNodes[index] = nativeNode;
@@ -26,13 +22,12 @@ namespace Metroidvania.Pathfinding
             }
         }
 
-        public PathNode(GridGraph graph, CellPosition cell)
-        {
+        public PathNode(GridGraph graph, CellPosition cell) {
             this.graph = graph;
             position = cell;
-            index = cell.x + cell.y * graph.width;
+            index = cell.x + (cell.y * graph.width);
             _walkable = true;
-            worldPosition = graph.GetWorldPosition(cell) + new Vector2(.5f, .5f) * graph.cellSize;
+            worldPosition = graph.GetWorldPosition(cell) + (new Vector2(.5f, .5f) * graph.cellSize);
         }
 
         public PathNodeReference GetReference() => new PathNodeReference(position, walkable, index);

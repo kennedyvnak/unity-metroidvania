@@ -1,10 +1,8 @@
 using Unity.Collections;
 
-namespace Metroidvania.Pathfinding
-{
+namespace Metroidvania.Pathfinding {
     [Unity.Burst.BurstCompile]
-    public struct PathFindJob : Unity.Jobs.IJob
-    {
+    public struct PathFindJob : Unity.Jobs.IJob {
         private const int k_MoveStraightCost = 10; // sqrt(1) * 10 
         private const int k_MoveDiagonalCost = 14; // sqrt(2) * 10
 
@@ -20,11 +18,9 @@ namespace Metroidvania.Pathfinding
         [WriteOnly]
         public NativeList<int> generatedPath;
 
-        public void Execute()
-        {
+        public void Execute() {
             // Reset nodes properties
-            for (int i = 0; i < pathNodes.Length; i++)
-            {
+            for (int i = 0; i < pathNodes.Length; i++) {
                 PathNodeReference node = pathNodes[i];
                 node.g = int.MaxValue;
                 node.cameFromNodeIndex = -1;
@@ -48,8 +44,7 @@ namespace Metroidvania.Pathfinding
             openList.Add(startNode.index);
 
             // loop for each open node
-            while (openList.Length > 0)
-            {
+            while (openList.Length > 0) {
                 // get the node with the lowest f score in the list of open nodes
                 PathNodeReference currentNode = GetLowestFNode(openList, pathNodes);
 
@@ -58,10 +53,8 @@ namespace Metroidvania.Pathfinding
                     break;
 
                 // remove the index of the current node in the open list
-                for (int i = 0; i < openList.Length; i++)
-                {
-                    if (openList[i] == currentNode.index)
-                    {
+                for (int i = 0; i < openList.Length; i++) {
+                    if (openList[i] == currentNode.index) {
                         openList.RemoveAtSwapBack(i);
                         break;
                     }
@@ -70,8 +63,7 @@ namespace Metroidvania.Pathfinding
                 closedList.Add(currentNode.index);
 
                 // loops between all current node neighbors
-                for (int i = 0; i < neighborOffsets.Length; i++)
-                {
+                for (int i = 0; i < neighborOffsets.Length; i++) {
                     // get the offset and apply it to the current node position
                     CellPosition neighborOffset = neighborOffsets[i];
                     CellPosition neighborPosition = currentNode.position + neighborOffset;
@@ -93,8 +85,7 @@ namespace Metroidvania.Pathfinding
 
                     // tentative.gCost is the distance from start to the neighbor through current
                     int tentativeGCost = currentNode.g + CalculateDistanceCost(currentNode.position, neighborPosition);
-                    if (tentativeGCost < neighborNode.g)
-                    {
+                    if (tentativeGCost < neighborNode.g) {
                         // recording this path because is better than any previous one.
                         neighborNode.g = tentativeGCost;
                         neighborNode.h = CalculateDistanceCost(neighborPosition, end);
@@ -115,16 +106,13 @@ namespace Metroidvania.Pathfinding
             closedList.Dispose();
         }
 
-        private void CalculatePath(NativeArray<PathNodeReference> pathNodes, PathNodeReference endNode, NativeList<int> path)
-        {
+        private void CalculatePath(NativeArray<PathNodeReference> pathNodes, PathNodeReference endNode, NativeList<int> path) {
             // if endNode.cameFromNodeIndex is equals to -1, it means that no path was found
-            if (endNode.cameFromNodeIndex != -1)
-            {
+            if (endNode.cameFromNodeIndex != -1) {
                 path.Add(endNode.index);
 
                 PathNodeReference currentNode = endNode;
-                while (currentNode.cameFromNodeIndex != -1)
-                {
+                while (currentNode.cameFromNodeIndex != -1) {
                     PathNodeReference cameFromNode = pathNodes[currentNode.cameFromNodeIndex];
                     path.Add(cameFromNode.index);
                     currentNode = cameFromNode;
@@ -132,19 +120,16 @@ namespace Metroidvania.Pathfinding
             }
         }
 
-        private int CalculateDistanceCost(CellPosition a, CellPosition b)
-        {
+        private int CalculateDistanceCost(CellPosition a, CellPosition b) {
             int xDistance = System.Math.Abs(a.x - b.x);
             int yDistance = System.Math.Abs(a.y - b.y);
             int remaining = System.Math.Abs(xDistance - yDistance);
-            return k_MoveDiagonalCost * System.Math.Min(xDistance, yDistance) + k_MoveStraightCost * remaining;
+            return (k_MoveDiagonalCost * System.Math.Min(xDistance, yDistance)) + (k_MoveStraightCost * remaining);
         }
 
-        private PathNodeReference GetLowestFNode(NativeList<int> openList, NativeArray<PathNodeReference> pathNodes)
-        {
+        private PathNodeReference GetLowestFNode(NativeList<int> openList, NativeArray<PathNodeReference> pathNodes) {
             PathNodeReference lowest = pathNodes[openList[0]];
-            for (int i = 1; i < openList.Length; i++)
-            {
+            for (int i = 1; i < openList.Length; i++) {
                 PathNodeReference testPathNode = pathNodes[openList[i]];
                 if (testPathNode.f < lowest.f)
                     lowest = testPathNode;
@@ -152,14 +137,12 @@ namespace Metroidvania.Pathfinding
             return lowest;
         }
 
-        private bool ContainsPosition(CellPosition gridPosition, CellPosition gridSize)
-        {
+        private bool ContainsPosition(CellPosition gridPosition, CellPosition gridSize) {
             return gridPosition.x >= 0 && gridPosition.x < gridSize.x && gridPosition.y >= 0 && gridPosition.y < gridSize.y;
         }
 
-        private int CalculateIndex(CellPosition position)
-        {
-            return position.x + position.y * gridSize.x;
+        private int CalculateIndex(CellPosition position) {
+            return position.x + (position.y * gridSize.x);
         }
     }
 }

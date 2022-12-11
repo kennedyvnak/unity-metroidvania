@@ -2,30 +2,24 @@ using Metroidvania.Audio;
 using UnityEditor;
 using UnityEngine;
 
-namespace MetroidvaniaEditor
-{
+namespace MetroidvaniaEditor {
     [CustomEditor(typeof(AudioObject))]
-    public class AudioObjectEditor : Editor
-    {
+    public class AudioObjectEditor : Editor {
         [SerializeField] private AudioSource _previewer;
 
-        public void OnEnable()
-        {
+        public void OnEnable() {
             _previewer = EditorUtility.CreateGameObjectWithHideFlags("Audio preview", HideFlags.HideAndDontSave, typeof(AudioSource)).GetComponent<AudioSource>();
         }
 
-        public void OnDisable()
-        {
+        public void OnDisable() {
             DestroyImmediate(_previewer.gameObject);
         }
 
-        public override void OnInspectorGUI()
-        {
+        public override void OnInspectorGUI() {
             base.OnInspectorGUI();
 
             EditorGUI.BeginDisabledGroup(serializedObject.isEditingMultipleObjects);
-            if (GUILayout.Button("Preview"))
-            {
+            if (GUILayout.Button("Preview")) {
                 AudioObject audio = (AudioObject)target;
                 _previewer.clip = audio.clip;
 

@@ -3,11 +3,9 @@ using Metroidvania.Environment.Fog;
 using UnityEditor;
 using UnityEngine;
 
-namespace MetroidvaniaEditor
-{
+namespace MetroidvaniaEditor {
     [CustomEditor(typeof(FogController))]
-    public class FogControllerEditor : Editor
-    {
+    public class FogControllerEditor : Editor {
         private const float k_DotSize = 0.25F;
 
         private FogController fog { get; set; }
@@ -18,27 +16,23 @@ namespace MetroidvaniaEditor
         private Vector2 dragStart { get; set; }
         private bool isDragging { get; set; }
 
-        private void OnEnable()
-        {
+        private void OnEnable() {
             fog = (FogController)target;
         }
 
-        public override void OnInspectorGUI()
-        {
+        public override void OnInspectorGUI() {
             editPath = EditorGUILayout.Toggle("Edit Path", editPath);
             showPoints = EditorGUILayout.Toggle("Show Points", showPoints);
             base.OnInspectorGUI();
         }
 
-        private void OnSceneGUI()
-        {
+        private void OnSceneGUI() {
             FogController.FogPlatform[] platforms = fog.GetPlatforms();
 
             if (platforms == null)
                 fog.SetPlatforms(platforms = new FogController.FogPlatform[0]);
 
-            for (int i = 0; i < platforms.Length; i++)
-            {
+            for (int i = 0; i < platforms.Length; i++) {
                 FogController.FogPlatform platform = platforms[i];
                 fog.GetPlatformStartEnd(platform, out float startX, out float endX, out float y);
 
@@ -55,8 +49,7 @@ namespace MetroidvaniaEditor
             if (!editPath)
                 return;
 
-            for (int i = 0; i < platforms.Length; i++)
-            {
+            for (int i = 0; i < platforms.Length; i++) {
                 FogController.FogPlatform platform = platforms[i];
                 fog.GetPlatformStartEnd(platform, out float startX, out float endX, out float y);
                 float centerX = (platform.a + platform.b) * 0.5f;
@@ -79,24 +72,21 @@ namespace MetroidvaniaEditor
 
             Handles.color = GizmosColor.instance.fog.main;
             Event evt = Event.current;
-            if (evt.shift && evt.type == EventType.MouseDown && evt.button == 0)
-            {
+            if (evt.shift && evt.type == EventType.MouseDown && evt.button == 0) {
                 dragStart = HandleUtility.GUIPointToWorldRay(evt.mousePosition).origin;
                 isDragging = true;
             }
 
-            if (isDragging)
-            {
+            if (isDragging) {
                 Handles.DrawDottedLine(dragStart, new Vector3(HandleUtility.GUIPointToWorldRay(evt.mousePosition).origin.x, dragStart.y), 4f);
 
-                if (!evt.shift || evt.type == EventType.MouseUp)
-                {
+                if (!evt.shift || evt.type == EventType.MouseUp) {
                     float dragEndX = HandleUtility.GUIPointToWorldRay(evt.mousePosition).origin.x;
-                    FogController.FogPlatform newPlatform = new FogController.FogPlatform();
-
-                    newPlatform.a = dragStart.x;
-                    newPlatform.b = dragEndX;
-                    newPlatform.y = dragStart.y - fog.yOffset;
+                    FogController.FogPlatform newPlatform = new FogController.FogPlatform {
+                        a = dragStart.x,
+                        b = dragEndX,
+                        y = dragStart.y - fog.yOffset
+                    };
 
                     Undo.RecordObject(fog, "Create Platform");
                     ArrayUtility.Add(ref platforms, newPlatform);

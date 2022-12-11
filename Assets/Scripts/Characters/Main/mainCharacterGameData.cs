@@ -1,14 +1,11 @@
-namespace Metroidvania.Serialization
-{
+namespace Metroidvania.Serialization {
     [System.Serializable]
-    public struct CharacterSafePointData
-    {
+    public struct CharacterSafePointData {
         public string sceneGUID;
         public SerializableGuid pointGUID;
     }
 
-    public partial class GameData
-    {
+    public partial class GameData {
         public CharacterSafePointData lastCharacterSafePoint;
     }
 }

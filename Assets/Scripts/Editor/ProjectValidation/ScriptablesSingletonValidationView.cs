@@ -7,12 +7,9 @@ using UnityEditor.AddressableAssets.Settings;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-namespace MetroidvaniaEditor.Validation.Views
-{
-    public class ScriptablesSingletonValidationView : ProjectValidatorWindow.ProjectValidatorView
-    {
-        private class AssetHandler : AssetPostprocessor
-        {
+namespace MetroidvaniaEditor.Validation.Views {
+    public class ScriptablesSingletonValidationView : ProjectValidatorWindow.ProjectValidatorView {
+        private class AssetHandler : AssetPostprocessor {
             private static event System.Action<string> e_AssetImported;
             private static event System.Action<string> e_AssetDeleted;
             private static event System.Action<string, string> e_AssetMoved;
@@ -24,11 +21,9 @@ namespace MetroidvaniaEditor.Validation.Views
             public event System.Action<System.Type, string, string> SingletonMoved;
             public event System.Action AddressablesChanged;
 
-            public AssetHandler()
-            {
+            public AssetHandler() {
                 string[] guids = AssetDatabase.FindAssets($"t:{typeof(ScriptableSingleton<>).Name}");
-                foreach (string guid in guids)
-                {
+                foreach (string guid in guids) {
                     string path = AssetDatabase.GUIDToAssetPath(guid);
                     singletonsPath.Add(path, AssetDatabase.LoadAssetAtPath(path, typeof(ScriptableObject)).GetType());
                 }
@@ -39,16 +34,14 @@ namespace MetroidvaniaEditor.Validation.Views
                 AddressableAssetSettingsDefaultObject.Settings.OnModification += AddressablesModificationHandle;
             }
 
-            ~AssetHandler()
-            {
+            ~AssetHandler() {
                 e_AssetImported -= AssetImported;
                 e_AssetDeleted -= AssetDeleted;
                 e_AssetMoved -= AssetMoved;
                 AddressableAssetSettingsDefaultObject.Settings.OnModification -= AddressablesModificationHandle;
             }
 
-            private void AddressablesModificationHandle(AddressableAssetSettings settings, AddressableAssetSettings.ModificationEvent modificationEvent, object evtArgs)
-            {
+            private void AddressablesModificationHandle(AddressableAssetSettings settings, AddressableAssetSettings.ModificationEvent modificationEvent, object evtArgs) {
                 if (modificationEvent == AddressableAssetSettings.ModificationEvent.EntryRemoved
                    || modificationEvent == AddressableAssetSettings.ModificationEvent.EntryAdded
                    || modificationEvent == AddressableAssetSettings.ModificationEvent.EntryCreated
@@ -56,74 +49,59 @@ namespace MetroidvaniaEditor.Validation.Views
                    || modificationEvent == AddressableAssetSettings.ModificationEvent.EntryMoved
                    || modificationEvent == AddressableAssetSettings.ModificationEvent.GroupAdded
                    || modificationEvent == AddressableAssetSettings.ModificationEvent.GroupRemoved
-                   || modificationEvent == AddressableAssetSettings.ModificationEvent.GroupRenamed)
-                {
+                   || modificationEvent == AddressableAssetSettings.ModificationEvent.GroupRenamed) {
                     AddressablesChanged?.Invoke();
                 }
             }
 
-            private void AssetImported(string path)
-            {
-                if (!singletonsPath.ContainsKey(path))
-                {
+            private void AssetImported(string path) {
+                if (!singletonsPath.ContainsKey(path)) {
                     UnityEngine.Object asset = AssetDatabase.LoadAssetAtPath(path, typeof(ScriptableObject));
                     if (!asset)
                         return;
                     Type assetType = asset.GetType();
-                    if (IsSubclassOfRawGeneric(assetType, typeof(Metroidvania.ScriptableSingleton<>)))
-                    {
+                    if (IsSubclassOfRawGeneric(assetType, typeof(Metroidvania.ScriptableSingleton<>))) {
                         singletonsPath.Add(path, assetType);
                         SingletonImported?.Invoke(assetType);
                     }
                 }
             }
 
-            private void AssetDeleted(string path)
-            {
-                if (singletonsPath.TryGetValue(path, out Type deletedType))
-                {
+            private void AssetDeleted(string path) {
+                if (singletonsPath.TryGetValue(path, out Type deletedType)) {
                     singletonsPath.Remove(path);
                     SingletonDeleted?.Invoke(deletedType);
                 }
             }
 
-            private void AssetMoved(string oldPath, string newPath)
-            {
-                if (singletonsPath.TryGetValue(oldPath, out Type movedType))
-                {
+            private void AssetMoved(string oldPath, string newPath) {
+                if (singletonsPath.TryGetValue(oldPath, out Type movedType)) {
                     singletonsPath.Remove(oldPath);
                     singletonsPath.Add(newPath, movedType);
                     SingletonMoved?.Invoke(movedType, oldPath, newPath);
                 }
             }
 
-            private static void OnPostprocessAllAssets(string[] importedAssets, string[] deletedAssets, string[] movedAssets, string[] movedFromAssetPaths, bool didDomainReload)
-            {
-                for (int i = 0; i < importedAssets.Length; i++)
-                {
+            private static void OnPostprocessAllAssets(string[] importedAssets, string[] deletedAssets, string[] movedAssets, string[] movedFromAssetPaths, bool didDomainReload) {
+                for (int i = 0; i < importedAssets.Length; i++) {
                     string importedAsset = importedAssets[i];
                     e_AssetImported?.Invoke(importedAsset);
                 }
 
-                for (int i = 0; i < deletedAssets.Length; i++)
-                {
+                for (int i = 0; i < deletedAssets.Length; i++) {
                     string deletedAsset = deletedAssets[i];
                     e_AssetDeleted?.Invoke(deletedAsset);
                 }
 
-                for (int i = 0; i < movedAssets.Length; i++)
-                {
+                for (int i = 0; i < movedAssets.Length; i++) {
                     e_AssetMoved?.Invoke(movedFromAssetPaths[i], movedAssets[i]);
                 }
             }
 
-            private static bool IsSubclassOfRawGeneric(Type toCheck, Type baseType)
-            {
-                while (toCheck != typeof(object))
-                {
+            private static bool IsSubclassOfRawGeneric(Type toCheck, Type baseType) {
+                while (toCheck != typeof(object)) {
                     Type cur = toCheck.IsGenericType ? toCheck.GetGenericTypeDefinition() : toCheck;
-                    if (baseType == cur)
-                    {
+                    if (baseType == cur) {
                         return true;
                     }
 
@@ -159,14 +137,12 @@ namespace MetroidvaniaEditor.Validation.Views
         private AssetHandler _assetHandler = new AssetHandler();
 
         [UnityEditor.Callbacks.DidReloadScripts]
-        private static void Initialize()
-        {
+        private static void Initialize() {
             scriptableSingletons = TypeCache.GetTypesDerivedFrom(typeof(Metroidvania.ScriptableSingleton<>))
                 .Where(x => !x.IsAbstract).ToList();
         }
 
-        public ScriptablesSingletonValidationView(ProjectValidatorWindow root) : base(root)
-        {
+        public ScriptablesSingletonValidationView(ProjectValidatorWindow root) : base(root) {
             name = "Scriptable Singletons";
 
             _content = AssetDatabase.LoadAssetAtPath<VisualTreeAsset>(k_TemplatePath).Instantiate();
@@ -187,22 +163,19 @@ namespace MetroidvaniaEditor.Validation.Views
             _assetHandler.SingletonMoved += SingletonMoved;
             _assetHandler.AddressablesChanged += AddressablesChanged;
 
-            _objectsListView.makeItem = () =>
-            {
+            _objectsListView.makeItem = () => {
                 TemplateContainer element = _itemObjectTemplate.Instantiate();
                 element.AddManipulator(new ContextualMenuManipulator(null));
                 return element;
             };
 
-            _objectsListView.onItemsChosen += (items) =>
-            {
+            _objectsListView.onItemsChosen += (items) => {
                 foreach (object item in items)
                     if (item is Type itemType)
                         ShowTypeSelection(itemType);
             };
 
-            _objectsListView.bindItem = (e, i) =>
-            {
+            _objectsListView.bindItem = (e, i) => {
                 Type type = _singletonTypes[i];
                 InstanceStatus status = GetInstanceStatus(type);
 
@@ -215,8 +188,7 @@ namespace MetroidvaniaEditor.Validation.Views
                 if (_elementsEvents.TryGetValue(e, out EventCallback<ContextualMenuPopulateEvent> oldEvt))
                     e.UnregisterCallback<ContextualMenuPopulateEvent>(oldEvt);
 
-                EventCallback<ContextualMenuPopulateEvent> newEvt = (evt) =>
-                {
+                EventCallback<ContextualMenuPopulateEvent> newEvt = (evt) => {
                     evt.menu.AppendAction("Create Instance",
                         (a) => CreateInstance(type),
                         (a) => status == InstanceStatus.None ? DropdownMenuAction.Status.Normal : DropdownMenuAction.Status.Disabled);
@@ -237,23 +209,20 @@ namespace MetroidvaniaEditor.Validation.Views
             root.rootVisualElement.Add(_content);
         }
 
-        private void CreateInstance(Type type)
-        {
+        private void CreateInstance(Type type) {
             string path = EditorUtility.SaveFilePanel($"Select {type.Name} singleton path", "Assets/Data/Settings", type.Name, "asset");
             path = UnityEditor.FileUtil.GetProjectRelativePath(path);
             ScriptableObject instance = ScriptableObject.CreateInstance(type);
             AssetDatabase.CreateAsset(instance, path);
         }
 
-        private void SelectAllInstancesOfType(Type type)
-        {
+        private void SelectAllInstancesOfType(Type type) {
             ScriptableObject[] instances = _assetHandler.singletonsPath.Where(pair => pair.Value == type)
                 .Select(p => AssetDatabase.LoadAssetAtPath<ScriptableObject>(p.Key)).ToArray();
             Selection.objects = instances;
         }
 
-        private string GetInstancePathDisplay(Type type) => GetInstanceStatus(type) switch
-        {
+        private string GetInstancePathDisplay(Type type) => GetInstanceStatus(type) switch {
             InstanceStatus.None => "Don't exist an instance in project.",
             InstanceStatus.Multiple => "More than one instances in project;",
             InstanceStatus.Single => GetInstancePath(type),
@@ -268,33 +237,28 @@ namespace MetroidvaniaEditor.Validation.Views
 
         private void AddressablesChanged() => _objectsListView.RefreshItems();
 
-        private void RefreshTypeElement(Type type)
-        {
+        private void RefreshTypeElement(Type type) {
             _objectsListView.RefreshItem(_singletonTypes.IndexOf(type));
         }
 
-        private InstanceStatus GetInstanceStatus(System.Type type)
-        {
+        private InstanceStatus GetInstanceStatus(System.Type type) {
             int instancesCount = _assetHandler.singletonsPath.Values.Count(t => t == type);
 
             return instancesCount > 1 ? InstanceStatus.Multiple : instancesCount == 1 ? InstanceStatus.Single : InstanceStatus.None;
         }
 
-        private Texture2D GetStatusTexture(InstanceStatus status) => status switch
-        {
+        private Texture2D GetStatusTexture(InstanceStatus status) => status switch {
             InstanceStatus.Single => _okTexture,
             InstanceStatus.None => _warningTexture,
             InstanceStatus.Multiple => _errorTexture,
             _ => throw new System.IndexOutOfRangeException(),
         };
 
-        public override void OnViewExit()
-        {
+        public override void OnViewExit() {
             _content.style.display = DisplayStyle.None;
         }
 
-        public override void OnViewEnter()
-        {
+        public override void OnViewEnter() {
             _singletonTypes = scriptableSingletons;
             _objectsListView.itemsSource = _singletonTypes;
             _objectsListView.Rebuild();
@@ -302,15 +266,13 @@ namespace MetroidvaniaEditor.Validation.Views
         }
 
         // FIXME: If any item found in the search is selected in the ListView the search box will be deselected (ListView.ClearSelection() doesn't works)   
-        public override void OnSearchChange(string search)
-        {
+        public override void OnSearchChange(string search) {
             _objectsListView.itemsSource = _singletonTypes = scriptableSingletons
                 .Where(t => t.Name.Contains(search, StringComparison.OrdinalIgnoreCase)).ToList();
             _objectsListView.RefreshItems();
         }
 
-        private void ShowTypeSelection(Type type)
-        {
+        private void ShowTypeSelection(Type type) {
             if (GetInstanceStatus(type) == InstanceStatus.None)
                 return;
 
@@ -319,19 +281,16 @@ namespace MetroidvaniaEditor.Validation.Views
                 EditorGUIUtility.PingObject(obj);
         }
 
-        private UnityEngine.Object LoadSingleInstanceType(Type type)
-        {
+        private UnityEngine.Object LoadSingleInstanceType(Type type) {
             return AssetDatabase.LoadAssetAtPath(GetInstancePath(type), typeof(UnityEngine.Object));
         }
 
         private string GetInstancePath(Type type) => _assetHandler.singletonsPath.First(t => t.Value == type).Key;
 
-        private void SetInstanceAddress(Type type)
-        {
+        private void SetInstanceAddress(Type type) {
             InstanceStatus instanceStatus = GetInstanceStatus(type);
 
-            if (instanceStatus == InstanceStatus.Single)
-            {
+            if (instanceStatus == InstanceStatus.Single) {
                 AddressableAssetSettings settings = AddressableAssetSettingsDefaultObject.Settings;
                 AddressableAssetGroup group = settings.FindGroup(k_SingletonsGroupName);
                 if (!group)
@@ -350,12 +309,10 @@ namespace MetroidvaniaEditor.Validation.Views
             }
         }
 
-        private bool InstanceAddressIsCorrect(Type type)
-        {
+        private bool InstanceAddressIsCorrect(Type type) {
             InstanceStatus instanceStatus = GetInstanceStatus(type);
 
-            if (instanceStatus == InstanceStatus.Single)
-            {
+            if (instanceStatus == InstanceStatus.Single) {
                 AddressableAssetSettings settings = AddressableAssetSettingsDefaultObject.Settings;
 
                 string instancePath = GetInstancePath(type);

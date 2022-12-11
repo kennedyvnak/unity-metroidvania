@@ -1,26 +1,21 @@
-using System;
 using System.Collections;
 using System.IO;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Controls;
 
-namespace Metroidvania
-{
-    public class ScreenshotManager : SingletonPersistent<ScreenshotManager>
-    {
+namespace Metroidvania {
+    public class ScreenshotManager : SingletonPersistent<ScreenshotManager> {
         private const string k_SaveFolder = "{dir}/Screenshots/screenshot-{time}.png";
         [SerializeField] private string m_TakeScreenshotKey = "l";
 
         private KeyControl _keyControl;
 
-        private void Start()
-        {
+        private void Start() {
             _keyControl = Keyboard.current.FindKeyOnCurrentKeyboardLayout(m_TakeScreenshotKey);
         }
 
-        private IEnumerator TakeScreenshot()
-        {
+        private IEnumerator TakeScreenshot() {
             yield return CoroutinesUtility.GetWaitForEndOfFrame();
             int width = Screen.width;
             int height = Screen.height;
@@ -32,7 +27,7 @@ namespace Metroidvania
 
             byte[] textureBytes = screenshotTex.EncodeToPNG();
 
-            var filePath = k_SaveFolder.Replace("{time}", System.DateTime.Now.ToString("dd-MM-yyyy-HH-mm-ss")).Replace("{dir}", Application.persistentDataPath);
+            string filePath = k_SaveFolder.Replace("{time}", System.DateTime.Now.ToString("dd-MM-yyyy-HH-mm-ss")).Replace("{dir}", Application.persistentDataPath);
             if (!Directory.Exists(Path.GetDirectoryName(filePath)))
                 Directory.CreateDirectory(Path.GetDirectoryName(filePath));
 
@@ -41,8 +36,7 @@ namespace Metroidvania
             Debug.Log($"Captured a screenshot at '{filePath}'");
         }
 
-        private void Update()
-        {
+        private void Update() {
             if (_keyControl?.wasPressedThisFrame == true)
                 StartCoroutine(TakeScreenshot());
         }

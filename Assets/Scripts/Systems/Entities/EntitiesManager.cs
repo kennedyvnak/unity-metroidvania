@@ -5,13 +5,11 @@ using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
 
-namespace Metroidvania.Entities
-{
+namespace Metroidvania.Entities {
     // Why don't I make the main character the only target? To not create dependencies and allow the creation of 
     // a multiplayer system or others systems that include multiples targets in the future
     /// <summary>Class for make entity management. see also <see cref="Addressables"/></summary>
-    public class EntitiesManager : ScriptableSingleton<EntitiesManager>
-    {
+    public class EntitiesManager : ScriptableSingleton<EntitiesManager> {
         public delegate void OnEntityDelegate(EntityBehaviour entity);
 
         /// <summary>All available targets in scene</summary>
@@ -37,11 +35,9 @@ namespace Metroidvania.Entities
         /// <param name="position">Position where the entity will be instantiated in world position units</param>
         /// <param name="entityInstantiated">Event called when the entity is instantiated</param>
         /// <returns>The instantiation operation</returns>
-        public AsyncOperationHandle<GameObject> InstantiateEntity(EntityObject entityObject, Vector2 position)
-        {
+        public AsyncOperationHandle<GameObject> InstantiateEntity(EntityObject entityObject, Vector2 position) {
             AsyncOperationHandle<GameObject> op = entityObject.prefab.InstantiateAsync(position, quaternion.identity);
-            op.Completed += opHandle =>
-            {
+            op.Completed += opHandle => {
                 EntityBehaviour instantiatedEntity = opHandle.Result.GetComponent<EntityBehaviour>();
                 entities.Add(instantiatedEntity);
                 entityInstantiated?.Raise(instantiatedEntity);
@@ -51,9 +47,9 @@ namespace Metroidvania.Entities
 
         /// <summary>Destroy the given entity</summary>
         /// <param name="entity">The entity that will be destroyed</param>
-        public void DestroyEntity(EntityBehaviour entity)
-        {
-            if (!entities.Contains(entity)) return;
+        public void DestroyEntity(EntityBehaviour entity) {
+            if (!entities.Contains(entity))
+                return;
 
             entities.Remove(entity);
             entityDestroyed?.Raise(entity);
@@ -62,8 +58,7 @@ namespace Metroidvania.Entities
 
         /// <summary>Add a target to the manager</summary>
         /// <param name="target">The target to be added</param>
-        public void AddTarget(EntityTarget target)
-        {
+        public void AddTarget(EntityTarget target) {
             if (targets.Contains(target))
                 return;
             targets.Add(target);
@@ -72,8 +67,7 @@ namespace Metroidvania.Entities
 
         /// <summary>Remove a target from the manager</summary>
         /// <param name="target">The target to be removed</param>
-        public void RemoveTarget(EntityTarget target)
-        {
+        public void RemoveTarget(EntityTarget target) {
             if (!targets.Contains(target))
                 return;
             targets.Remove(target);
@@ -83,10 +77,8 @@ namespace Metroidvania.Entities
         /// <summary>Get the closest available target in the scene</summary>
         /// <param name="position">The position to compare distances</param>
         /// <returns>The closest target in scene</returns>
-        public EntityTarget GetClosestTarget(Vector2 position)
-        {
-            return targets.Count switch
-            {
+        public EntityTarget GetClosestTarget(Vector2 position) {
+            return targets.Count switch {
                 // If has only one target, return it
                 1 => targets[0],
                 // If there are no targets, returns null
@@ -95,15 +87,14 @@ namespace Metroidvania.Entities
                 > 1 => GetClosest()
             };
 
-            EntityTarget GetClosest()
-            {
+            EntityTarget GetClosest() {
                 EntityTarget closest = null;
                 float curDistance = Mathf.Infinity;
 
-                foreach (EntityTarget target in targets)
-                {
+                foreach (EntityTarget target in targets) {
                     float distance = (position - (Vector2)target.t.position).sqrMagnitude;
-                    if (distance >= curDistance) continue;
+                    if (distance >= curDistance)
+                        continue;
                     curDistance = distance;
                     closest = target;
                 }

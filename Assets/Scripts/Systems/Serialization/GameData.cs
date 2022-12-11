@@ -1,8 +1,6 @@
-namespace Metroidvania.Serialization
-{
+namespace Metroidvania.Serialization {
     [System.Serializable]
-    public partial class GameData : System.ICloneable
-    {
+    public partial class GameData : System.ICloneable {
         public int userId;
         public long lastSerialization;
 

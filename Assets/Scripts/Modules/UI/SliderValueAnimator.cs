@@ -3,31 +3,26 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Metroidvania.UI
-{
+namespace Metroidvania.UI {
     [RequireComponent(typeof(Slider))]
-    public class SliderValueAnimator : MonoBehaviour
-    {
+    public class SliderValueAnimator : MonoBehaviour {
         [SerializeField] private float m_animationScale = 1;
 
         private Coroutine _animationCoroutine;
         private Slider _slider;
 
-        public Slider slider
-        {
-            get
-            {
-                if (!_slider) _slider = GetComponent<Slider>();
+        public Slider slider {
+            get {
+                if (!_slider)
+                    _slider = GetComponent<Slider>();
                 return _slider;
             }
         }
 
-        public void SetValue(float value, RuntimeFieldSetMode setMode)
-        {
+        public void SetValue(float value, RuntimeFieldSetMode setMode) {
             this.EnsureStopCoroutine(ref _animationCoroutine);
 
-            switch (setMode)
-            {
+            switch (setMode) {
                 case RuntimeFieldSetMode.Update:
                     _animationCoroutine = StartCoroutine(DOAnimation(value));
                     break;
@@ -37,12 +32,10 @@ namespace Metroidvania.UI
             }
         }
 
-        private IEnumerator DOAnimation(float targetValue)
-        {
+        private IEnumerator DOAnimation(float targetValue) {
             float startValue = slider.value;
             float time = 0f;
-            while (slider.value != targetValue)
-            {
+            while (slider.value != targetValue) {
                 time += Time.deltaTime * m_animationScale;
                 float normalizedProgress = Mathf.Clamp01(time);
                 slider.value = Mathf.Lerp(startValue, targetValue, normalizedProgress);

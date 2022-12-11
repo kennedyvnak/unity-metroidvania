@@ -1,16 +1,12 @@
-using System;
 using Metroidvania.Events;
-using Metroidvania.Characters;
+using System;
 using UnityEngine;
 
-namespace Metroidvania.Characters.Knight
-{
+namespace Metroidvania.Characters.Knight {
     [CreateAssetMenu(fileName = "KnightData", menuName = "Scriptables/Characters/Knight Data")]
-    public class KnightData : ScriptableObject
-    {
+    public class KnightData : ScriptableObject {
         [Serializable]
-        public class Attack
-        {
+        public class Attack {
 #if UNITY_EDITOR
             public bool drawGizmos;
 #endif
@@ -33,8 +29,7 @@ namespace Metroidvania.Characters.Knight
         }
 
         [Serializable]
-        public class ColliderBounds
-        {
+        public class ColliderBounds {
 #if UNITY_EDITOR
             public bool drawGizmos;
 #endif
