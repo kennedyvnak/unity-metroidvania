@@ -125,6 +125,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 809daad32f337e74a93b337b884c56b5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_EntityObject: {fileID: 11400000, guid: 063b7b630f9f5e74786a36dc8f361b24, type: 2}
   m_StartLife: 25
   m_StartFacingRight: 1
   m_RngStrength:
@@ -168,7 +169,7 @@ MonoBehaviour:
     max: 9
   m_PatrolMoveSpeed: 3
   m_TouchHitBehaviour: {fileID: 3790940784036121465}
-  m_PlayerLayer:
+  m_CharactersLayer:
     serializedVersion: 2
     m_Bits: 256
   m_DistanceToAttack: 1.35
