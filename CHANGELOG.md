@@ -7,12 +7,11 @@
 - Added "Characters" addressable group
 - Added "Archer" character raw assets
 
-### Changed 
+### Changed
 
 - Abstract characters behaviour
 - Renamed Player assets to Character/Knight assets
 - Improved Knight collision properties
-
 
 ----
 
