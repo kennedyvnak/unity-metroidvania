@@ -1,12 +1,10 @@
 # Metroidvania
 
-***THIS PROJECT IS CLOSED AND WILL NOT RECEIVE FURTHER UPDATE BECAUSE UNITY DIGGED YOUR OWN GRAVE.***
-
 ## Introduction
 
-Metroidvania is a metroidvania (lol) game engine written in C# for *Unity* **(Don't use Unity anymore)**.
+Metroidvania is a metroidvania (lol) game engine written in C# for Unity.
 
-It is a 100% free and open source project with the goal of demonstrating how a complete game structures asset folders, connects systems, handles editor tools and much more.
+It is a 100% free and open source unity project with the goal of demonstrating how a complete game structures asset folders, connects systems, handles editor tools and much more.
 
 ![ThePaleMoonlightSample](/Docs/ReadmeImages/ThePaleMoonlightSample.png)
 
@@ -49,6 +47,6 @@ It is a 100% free and open source project with the goal of demonstrating how a c
 
 ### Github Installation
 
-1. Install the unity version 2021.3.5f1
+1. Install the unity version 2021.3.15f1
 2. Clone this repository into a directory in your computer
 3. Open project in Unity Hub
