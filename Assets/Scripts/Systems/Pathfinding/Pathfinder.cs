@@ -2,11 +2,15 @@ using Unity.Collections;
 using Unity.Jobs;
 using UnityEngine;
 
-namespace Metroidvania.Pathfinding {
-    public sealed class Pathfinder : Singleton<Pathfinder> {
+namespace Metroidvania.Pathfinding
+{
+    public sealed class Pathfinder : Singleton<Pathfinder>
+    {
         [SerializeField] private GraphRenderer m_GraphRenderer;
-        public GraphRenderer graphRenderer {
-            get {
+        public GraphRenderer graphRenderer
+        {
+            get
+            {
                 m_GraphRenderer.pathfinder = this;
                 return m_GraphRenderer;
             }
@@ -31,7 +35,8 @@ namespace Metroidvania.Pathfinding {
         public float GraphCellSize => generatedGraph ? graph.cellSize : m_GraphCellSize;
         public Vector2 GraphOffset => generatedGraph ? graph.offset : m_GraphOffset;
 
-        protected sealed override void Awake() {
+        protected sealed override void Awake()
+        {
             base.Awake();
             _neighborsOffset = new NativeArray<CellPosition>(8, Allocator.Persistent);
             _neighborsOffset[0] = new CellPosition(-1, +0); // left 
@@ -49,18 +54,21 @@ namespace Metroidvania.Pathfinding {
             graphRenderer.Start();
         }
 
-        protected sealed override void OnDestroy() {
+        protected sealed override void OnDestroy()
+        {
             _neighborsOffset.Dispose();
             graph.nativeNodes.Dispose();
             graphRenderer.Dispose();
             base.OnDestroy();
         }
 
-        public Path FindPath(Vector2 start, Vector2 end) {
+        public Path FindPath(Vector2 start, Vector2 end)
+        {
             CellPosition startCell = graph.GetLocalPosition(start);
             CellPosition endCell = graph.GetLocalPosition(end);
             // checks if start equals end, if true returns a path with a single point
-            if (startCell.Equals(endCell)) {
+            if (startCell.Equals(endCell))
+            {
                 Path singlePointPath = _pool.Get();
                 singlePointPath.SetupSinglePoint(graph, start);
                 return singlePointPath;
@@ -73,7 +81,8 @@ namespace Metroidvania.Pathfinding {
             NativeList<int> generatedPath = new NativeList<int>(Allocator.TempJob);
 
             // create, schedule and complete the pathfinding job
-            new PathFindJob() {
+            new PathFindJob()
+            {
                 start = startCell,
                 end = endCell,
                 gridSize = new CellPosition(graph.width, graph.height),
@@ -84,10 +93,11 @@ namespace Metroidvania.Pathfinding {
 
             Path path = null;
             // A check if the pathfinding found a path, if not return null
-            if (generatedPath.Length > 0) {
+            if (generatedPath.Length > 0)
+            {
                 // get a path in the pool and setup it
                 path = _pool.Get();
-                path.Setup(graph, generatedPath, start, end);
+                path.Setup(graph, generatedPath.AsArray(), start, end);
             }
 
             generatedPath.Dispose();
@@ -97,22 +107,26 @@ namespace Metroidvania.Pathfinding {
 
         public void ReleasePath(ref Path p) => _pool.Release(ref p);
 
-        public Vector2 GetCellWorldPosition(CellPosition cell) {
+        public Vector2 GetCellWorldPosition(CellPosition cell)
+        {
             return GridGraph.GetWorldPosition(cell, GraphCellSize, GraphOffset);
         }
 
 #if UNITY_EDITOR
-        private void OnValidate() {
+        private void OnValidate()
+        {
             graphRenderer.Validate();
         }
 
-        private void OnDrawGizmos() {
+        private void OnDrawGizmos()
+        {
             graphRenderer.DrawGizmos();
         }
 #endif
 
         [System.Serializable]
-        public class GraphRenderer {
+        public class GraphRenderer
+        {
             private static readonly Quaternion k_vr0 = Quaternion.Euler(0, 0, -270);
             private static readonly Quaternion k_vr1 = Quaternion.Euler(0, 0, -180);
             private static readonly Quaternion k_vr2 = Quaternion.Euler(0, 0, -90);
@@ -143,22 +157,28 @@ namespace Metroidvania.Pathfinding {
             private int[] _tris;
             private Color[] _colors;
 
-            public void Start() {
+            public void Start()
+            {
                 if (pathfinder.graph != null)
                     pathfinder.graph.NodeChanged += UpdateNode;
             }
 
-            public void Dispose() {
-                if (initedData) {
+            public void Dispose()
+            {
+                if (initedData)
+                {
                     DestroyImmediate(_mat);
                     DestroyImmediate(_mesh);
                 }
             }
 
-            private void InitMeshData() {
-                if (!_mesh) {
+            private void InitMeshData()
+            {
+                if (!_mesh)
+                {
                     _mat = new Material(Shader.Find("Sprites/Default"));
-                    _mesh = new Mesh {
+                    _mesh = new Mesh
+                    {
                         name = "Pathfinder-graph"
                     };
 
@@ -187,7 +207,8 @@ namespace Metroidvania.Pathfinding {
                 RebuildMesh();
             }
 
-            private void RebuildMesh() {
+            private void RebuildMesh()
+            {
                 _mesh.Clear(false);
                 _mesh.vertices = _vertices;
                 _mesh.uv = _uv;
@@ -196,7 +217,8 @@ namespace Metroidvania.Pathfinding {
                 _mesh.normals = _normals;
             }
 
-            private void UpdateNode(int x, int y, bool updateColor = true, bool updateUV = true, bool updateVertices = true, bool updateTris = true) {
+            private void UpdateNode(int x, int y, bool updateColor = true, bool updateUV = true, bool updateVertices = true, bool updateTris = true)
+            {
                 if (!initedData)
                     InitMeshData();
 
@@ -209,7 +231,8 @@ namespace Metroidvania.Pathfinding {
                 int vIndex2 = vIndex + 2;
                 int vIndex3 = vIndex + 3;
 
-                if (updateVertices) {
+                if (updateVertices)
+                {
                     Vector3 position = pathfinder.GetCellWorldPosition(cell);
                     position += new Vector3(.5f, .5f) * pathfinder.GraphCellSize;
                     Vector2 baseSize = new Vector2(pathfinder.GraphCellSize, pathfinder.GraphCellSize) * 0.5f;
@@ -220,7 +243,8 @@ namespace Metroidvania.Pathfinding {
                     _vertices[vIndex3] = position + (k_vr3 * baseSize);
                 }
 
-                if (updateColor) {
+                if (updateColor)
+                {
                     bool walkable = pathfinder.graph == null || pathfinder.graph.GetNode(cell).walkable;
                     Color color = walkable ? m_WalkableColor : m_UnWalkableColor;
                     color.a = m_NodeTransparency;
@@ -230,14 +254,16 @@ namespace Metroidvania.Pathfinding {
                     _colors[vIndex3] = color;
                 }
 
-                if (updateUV) {
+                if (updateUV)
+                {
                     _uv[vIndex0] = new Vector2(0, 0);
                     _uv[vIndex1] = new Vector2(0, 1);
                     _uv[vIndex2] = new Vector2(1, 0);
                     _uv[vIndex3] = new Vector2(1, 1);
                 }
 
-                if (updateTris) {
+                if (updateTris)
+                {
                     int tIndex = index * 6;
 
                     _tris[tIndex + 0] = vIndex0;
@@ -250,12 +276,14 @@ namespace Metroidvania.Pathfinding {
                 }
             }
 
-            public void UpdateNode(PathNode node) {
+            public void UpdateNode(PathNode node)
+            {
                 UpdateNode(node.position.x, node.position.y);
                 RebuildMesh();
             }
 
-            private void UpdateColors() {
+            private void UpdateColors()
+            {
                 for (int x = 0; x < pathfinder.GraphWidth; x++)
                     for (int y = 0; y < pathfinder.GraphHeight; y++)
                         UpdateNode(x, y, updateColor: true, updateTris: false, updateUV: false, updateVertices: false);
@@ -264,12 +292,14 @@ namespace Metroidvania.Pathfinding {
             }
 
 #if UNITY_EDITOR
-            public void Validate() {
+            public void Validate()
+            {
                 if (m_DrawGizmos && initedData)
                     UpdateColors();
             }
 
-            public void DrawGizmos() {
+            public void DrawGizmos()
+            {
                 if (!m_DrawGizmos || !pathfinder.enabled)
                     return;
 
@@ -289,11 +319,13 @@ namespace Metroidvania.Pathfinding {
                 Vector3 start = pathfinder.GetCellWorldPosition(new CellPosition(0, 0));
                 Vector3 end = pathfinder.GetCellWorldPosition(new CellPosition(width, height));
 
-                for (int x = 0; x < width; x++) {
+                for (int x = 0; x < width; x++)
+                {
                     float xPos = (x * cellSize) + offset.x;
                     gizmos.DrawLine(new Vector3(xPos, start.y), new Vector3(xPos, end.y));
                 }
-                for (int y = 0; y < height; y++) {
+                for (int y = 0; y < height; y++)
+                {
                     float yPos = (y * cellSize) + offset.y;
                     gizmos.DrawLine(new Vector3(start.x, yPos), new Vector3(end.x, yPos));
                 }

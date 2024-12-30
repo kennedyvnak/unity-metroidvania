@@ -11,7 +11,7 @@ namespace Metroidvania.Characters.Knight {
             : base(machine) { }
 
         public override void Enter(KnightStateBase previousState) {
-            character.rb.velocity = new Vector2(0, character.rb.velocity.y);
+            character.rb.linearVelocity = new Vector2(0, character.rb.linearVelocity.y);
             character.SetColliderBounds(character.data.standColliderBounds);
             character.SwitchAnimation(KnightCharacterController.IdleAnimHash);
         }
@@ -75,7 +75,7 @@ namespace Metroidvania.Characters.Knight {
             if (_elapsedTime > character.data.jumpDuration || _collidedTop) {
                 character.stateMachine.EnterDefaultState();
             } else if (!character.jumpAction.IsPressed()) {
-                character.rb.velocity = new Vector2(character.rb.velocity.x, 0.15f);
+                character.rb.linearVelocity = new Vector2(character.rb.linearVelocity.x, 0.15f);
                 character.stateMachine.EnterDefaultState();
             } else {
                 float horizontalSpeed = character.horizontalMove * character.data.moveSpeed;
@@ -84,7 +84,7 @@ namespace Metroidvania.Characters.Knight {
                 float jumpCurveMultiplier = character.data.jumpCurve.Evaluate(jumpProgress);
                 float verticalSpeed = character.data.jumpSpeed * jumpCurveMultiplier;
 
-                character.rb.velocity = new Vector2(horizontalSpeed, verticalSpeed);
+                character.rb.linearVelocity = new Vector2(horizontalSpeed, verticalSpeed);
 
                 character.FlipByVelocity();
             }
@@ -141,7 +141,7 @@ namespace Metroidvania.Characters.Knight {
                 character.stateMachine.EnterDefaultState();
             } else {
                 float curveMultiplier = character.data.rollHorizontalMoveCurve.Evaluate(_elapsedTime / character.data.rollDuration);
-                character.rb.velocity = new Vector2(character.data.rollSpeed * curveMultiplier * character.facingDirection, character.rb.velocity.y);
+                character.rb.linearVelocity = new Vector2(character.data.rollSpeed * curveMultiplier * character.facingDirection, character.rb.linearVelocity.y);
             }
         }
     }
@@ -162,7 +162,7 @@ namespace Metroidvania.Characters.Knight {
             _quittingAnimElapsedTime = 0;
             _inQuittingAnim = false;
 
-            character.rb.velocity = new Vector2(0, character.rb.velocity.y);
+            character.rb.linearVelocity = new Vector2(0, character.rb.linearVelocity.y);
             character.SetColliderBounds(character.data.crouchColliderBounds);
 
             _hasSwappedAnim = !shouldMakeTransition;
@@ -236,7 +236,7 @@ namespace Metroidvania.Characters.Knight {
             _elapsedTime += Time.deltaTime;
 
             if (_inQuittingAnim)
-                character.rb.velocity = new Vector2(character.data.crouchWalkSpeed, character.rb.velocity.y);
+                character.rb.linearVelocity = new Vector2(character.data.crouchWalkSpeed, character.rb.linearVelocity.y);
             else if (!_hasSwappedAnim && _elapsedTime > character.data.crouchTransitionTime) {
                 _hasSwappedAnim = true;
                 character.SwitchAnimation(KnightCharacterController.CrouchWalkAnimHash);
@@ -290,7 +290,7 @@ namespace Metroidvania.Characters.Knight {
             else if (!character.stateMachine.EnterFallState()) {
                 float slideProgress = _elapsedTime / character.data.slideDuration;
                 float curveMultiplier = character.data.slideMoveCurve.Evaluate(slideProgress);
-                character.rb.velocity = new Vector2(character.data.slideSpeed * curveMultiplier * character.facingDirection, character.rb.velocity.y);
+                character.rb.linearVelocity = new Vector2(character.data.slideSpeed * curveMultiplier * character.facingDirection, character.rb.linearVelocity.y);
             }
         }
 
@@ -316,7 +316,7 @@ namespace Metroidvania.Characters.Knight {
             else if (character.isGrounded || !character.isTouchingWall || character.horizontalMove != character.facingDirection)
                 character.stateMachine.EnterDefaultState();
             else
-                character.rb.velocity = new Vector2(0, -character.data.wallSlideSpeed);
+                character.rb.linearVelocity = new Vector2(0, -character.data.wallSlideSpeed);
         }
 
         public override void Exit() {
@@ -345,7 +345,7 @@ namespace Metroidvania.Characters.Knight {
                 character.particles.walljump.Play();
             }
 
-            character.rb.velocity = new Vector2(character.data.wallJumpForce.x * character.facingDirection, character.data.wallJumpForce.y);
+            character.rb.linearVelocity = new Vector2(character.data.wallJumpForce.x * character.facingDirection, character.data.wallJumpForce.y);
         }
 
         public override void Update() {
@@ -389,7 +389,7 @@ namespace Metroidvania.Characters.Knight {
 
             character.SetColliderBounds(colliderBounds);
             character.SwitchAnimation(animHash, true);
-            character.rb.velocity = new Vector2(0, character.rb.velocity.y);
+            character.rb.linearVelocity = new Vector2(0, character.rb.linearVelocity.y);
         }
 
         public override void Update() {
@@ -469,7 +469,7 @@ namespace Metroidvania.Characters.Knight {
             character.SetColliderBounds(character.data.standColliderBounds);
             character.SwitchAnimation(KnightCharacterController.HurtAnimHash);
 
-            character.rb.velocity = Vector2.zero;
+            character.rb.linearVelocity = Vector2.zero;
             character.rb.AddForce(hitData.knockbackForce, ForceMode2D.Impulse);
         }
 
@@ -488,7 +488,7 @@ namespace Metroidvania.Characters.Knight {
         public override void Enter(KnightStateBase previousState) {
             character.SwitchAnimation(KnightCharacterController.DieAnimHash, true);
             character.SetColliderBounds(character.data.crouchColliderBounds);
-            character.rb.velocity = Vector2.zero;
+            character.rb.linearVelocity = Vector2.zero;
             character.data.onDieChannel.Raise(character);
         }
     }
@@ -514,7 +514,7 @@ namespace Metroidvania.Characters.Knight {
             if (_elapsedTime > currentWalkDuration)
                 character.stateMachine.EnterDefaultState();
             else
-                character.rb.velocity = new Vector2(character.facingDirection * character.data.moveSpeed, character.rb.velocity.y);
+                character.rb.linearVelocity = new Vector2(character.facingDirection * character.data.moveSpeed, character.rb.linearVelocity.y);
         }
     }
 }

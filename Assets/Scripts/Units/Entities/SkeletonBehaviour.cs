@@ -215,7 +215,7 @@ namespace Metroidvania.Entities.Units {
             }
 
             public override void Enter() {
-                entity.rb.velocity = Vector2.zero;
+                entity.rb.linearVelocity = Vector2.zero;
                 currentTick = 0;
                 entity.PlayAnimation("Idle");
             }
@@ -264,7 +264,7 @@ namespace Metroidvania.Entities.Units {
                 if (!entity.CanWalkToDirection(entity.facingDirection))
                     entity.Flip(entity.facingDirection * -1);
 
-                entity.rb.velocity = new Vector2(entity.facingDirection * entity.m_PatrolMoveSpeed * entity.normalizedSpeedFactor, entity.rb.velocity.y);
+                entity.rb.linearVelocity = new Vector2(entity.facingDirection * entity.m_PatrolMoveSpeed * entity.normalizedSpeedFactor, entity.rb.linearVelocity.y);
             }
         }
 
@@ -293,7 +293,7 @@ namespace Metroidvania.Entities.Units {
                 if (entity.TryEnterAttackState())
                     return;
 
-                entity.rb.velocity = new Vector2(entity.m_FollowTargetSpeed * direction * entity.normalizedSpeedFactor, entity.rb.velocity.y);
+                entity.rb.linearVelocity = new Vector2(entity.m_FollowTargetSpeed * direction * entity.normalizedSpeedFactor, entity.rb.linearVelocity.y);
             }
 
             public override void Exit() {
@@ -312,7 +312,7 @@ namespace Metroidvania.Entities.Units {
             }
 
             public override void Enter() {
-                entity.rb.velocity = Vector2.zero;
+                entity.rb.linearVelocity = Vector2.zero;
                 _performedFirstAttack = false;
                 _performedSecondAttack = false;
                 _elapsedTime = 0;
@@ -363,7 +363,7 @@ namespace Metroidvania.Entities.Units {
 
             public override void Enter() {
                 elapsedTime = 0;
-                entity.rb.velocity = Vector2.zero;
+                entity.rb.linearVelocity = Vector2.zero;
                 entity.rb.AddForce(GetAttackForce(), ForceMode2D.Impulse);
                 entity.PlayAnimation("Hurt");
             }
@@ -387,7 +387,7 @@ namespace Metroidvania.Entities.Units {
 
             public override void Enter() {
                 elapsedTime = 0;
-                entity.rb.velocity = Vector2.zero;
+                entity.rb.linearVelocity = Vector2.zero;
                 entity.m_TouchHitBehaviour.enabled = false;
                 entity.PlayAnimation("Die");
             }

@@ -101,7 +101,7 @@ namespace MetroidvaniaEditor {
 
         private void DrawDot(Vector2 position) => Handles.DrawWireDisc(position, Vector3.forward, 0.1f);
 
-        private Vector2 DoMoveHandle(float x, float y) => Handles.FreeMoveHandle(new Vector3(x, y), Quaternion.identity, GetHandleSize(x, y), Vector3.zero, Handles.SphereHandleCap);
+        private Vector2 DoMoveHandle(float x, float y) => Handles.FreeMoveHandle(new Vector3(x, y)/*APIUpdater: , Quaternion.identity*/, GetHandleSize(x, y), Vector3.zero, Handles.SphereHandleCap);
         private float GetHandleSize(float x, float y) => HandleUtility.GetHandleSize(new Vector3(x, y)) * k_DotSize;
     }
 }

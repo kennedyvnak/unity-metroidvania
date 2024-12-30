@@ -33,7 +33,7 @@ namespace MetroidvaniaEditor.CharacterSafePoints {
             _triggerSize.vector2Value = _boundsHandle.size;
 
             Handles.color = GizmosColor.instance.safePoints.handles;
-            _position.vector2Value = Handles.FreeMoveHandle(_position.vector2Value, Quaternion.identity, 0.25f, Vector3.zero, Handles.DotHandleCap);
+            var fmh_36_85_638711729215322570 = Quaternion.identity; _position.vector2Value = Handles.FreeMoveHandle(_position.vector2Value, 0.25f, Vector3.zero, Handles.DotHandleCap);
 
             if (serializedObject.hasModifiedProperties)
                 serializedObject.ApplyModifiedProperties();
