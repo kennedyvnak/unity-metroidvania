@@ -3,9 +3,11 @@ using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
 
-namespace Metroidvania.UI.Menus {
+namespace Metroidvania.UI.Menus
+{
     [CreateAssetMenu(fileName = "New Gameplay Menu", menuName = "Scriptables/Menus/Menu Channel")]
-    public class GameplayMenuChannel : ScriptableObject {
+    public class GameplayMenuChannel : ScriptableObject
+    {
         [SerializeField] protected AssetReferenceGameObject prefabReference;
 
         protected AsyncOperationHandle<GameObject> currentOperation { get; set; }
@@ -15,7 +17,8 @@ namespace Metroidvania.UI.Menus {
 
         public System.Action MenuReleased;
 
-        public IEnumerator LoadMenu(System.Action<GameplayMenuInstance> onCompleteOperation = null) {
+        public IEnumerator LoadMenu(System.Action<GameplayMenuInstance> onCompleteOperation = null)
+        {
             if (runningInstance)
                 yield break;
 
@@ -31,7 +34,8 @@ namespace Metroidvania.UI.Menus {
             onCompleteOperation?.Invoke(menuInstance);
         }
 
-        public IEnumerator UnloadMenuInstance() {
+        public IEnumerator UnloadMenuInstance()
+        {
             if (!runningInstance)
                 yield break;
 

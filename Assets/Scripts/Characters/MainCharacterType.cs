@@ -1,5 +1,7 @@
-namespace Metroidvania.Characters {
-    public enum MainCharacterType {
+namespace Metroidvania.Characters
+{
+    public enum MainCharacterType
+    {
         Knight, Archer
     }
 }

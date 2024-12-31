@@ -3,9 +3,11 @@ using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
 using UnityEngine.ResourceManagement.ResourceProviders;
 
-namespace Metroidvania.SceneManagement {
+namespace Metroidvania.SceneManagement
+{
     [CreateAssetMenu(menuName = "Scriptables/Scene Management/Scene Channel")]
-    public class SceneChannel : ScriptableObject {
+    public class SceneChannel : ScriptableObject
+    {
         public enum SceneType { Gameplay, MainMenu, GameOver }
 
         [TextArea()] public string description;
@@ -19,7 +21,8 @@ namespace Metroidvania.SceneManagement {
         [HideInInspector] public AssetReferenceSceneChannel channelReference;
 
 #if UNITY_EDITOR
-        private void OnValidate() {
+        private void OnValidate()
+        {
             channelReference = new AssetReferenceSceneChannel(UnityEditor.AssetDatabase.AssetPathToGUID(UnityEditor.AssetDatabase.GetAssetPath(this)));
         }
 #endif

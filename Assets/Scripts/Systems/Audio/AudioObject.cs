@@ -1,8 +1,10 @@
 ﻿using UnityEngine;
 
-namespace Metroidvania.Audio {
+namespace Metroidvania.Audio
+{
     [CreateAssetMenu(fileName = "New Audio Object", menuName = "Scriptables/Audio/Audio Object")]
-    public class AudioObject : ScriptableObject {
+    public class AudioObject : ScriptableObject
+    {
         public AudioClip clip;
         public GameAudioSettings.Group group = GameAudioSettings.Group.Sfx;
 
@@ -17,7 +19,8 @@ namespace Metroidvania.Audio {
         [Space] public float minDistance = 1;
         public float maxDistance = 500;
 
-        public void CloneToSource(AudioSource source) {
+        public void CloneToSource(AudioSource source)
+        {
             if (!source)
                 throw new System.ArgumentNullException(nameof(source));
             source.clip = clip;
@@ -32,7 +35,8 @@ namespace Metroidvania.Audio {
         }
 
 #if UNITY_EDITOR
-        private void OnValidate() {
+        private void OnValidate()
+        {
             maxDistance = Mathf.Clamp(maxDistance, 0, float.MaxValue);
             minDistance = Mathf.Clamp(minDistance, 0, maxDistance);
 

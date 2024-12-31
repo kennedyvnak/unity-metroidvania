@@ -4,9 +4,12 @@ using System;
 using UnityEngine;
 using UnityEngine.Audio;
 
-namespace Metroidvania.Audio {
-    public class GameAudioSettings : ScriptableSingleton<GameAudioSettings>, IInitializableSingleton {
-        public enum Group {
+namespace Metroidvania.Audio
+{
+    public class GameAudioSettings : ScriptableSingleton<GameAudioSettings>, IInitializableSingleton
+    {
+        public enum Group
+        {
             Master,
             Musics,
             Sfx,
@@ -34,20 +37,23 @@ namespace Metroidvania.Audio {
         public FloatEventChannel musicsVolumeChangedChannel;
         public FloatEventChannel sfxVolumeChangedChannel;
 
-        public void Initialize() {
+        public void Initialize()
+        {
             SetAudioField(masterFieldName, PlayerPrefs.GetFloat(masterFieldName, 1), masterVolumeChangedChannel, false);
             SetAudioField(musicsFieldName, PlayerPrefs.GetFloat(musicsFieldName, 1), musicsVolumeChangedChannel, false);
             SetAudioField(sfxFieldName, PlayerPrefs.GetFloat(sfxFieldName, 1), sfxVolumeChangedChannel, false);
         }
 
-        public void SetAudioField(string fieldName, float source, FloatEventChannel eventChannel, bool setPrefs) {
+        public void SetAudioField(string fieldName, float source, FloatEventChannel eventChannel, bool setPrefs)
+        {
             audioMixer.SetFloat(fieldName, CalculateAudio(source));
             if (setPrefs)
                 PlayerPrefs.SetFloat(fieldName, source);
             eventChannel?.Raise(source);
         }
 
-        public AudioMixerGroup GetGroup(Group group) => group switch {
+        public AudioMixerGroup GetGroup(Group group) => group switch
+        {
             Group.Master => masterGroup,
             Group.Musics => musicsGroup,
             Group.Sfx => sfxGroup,

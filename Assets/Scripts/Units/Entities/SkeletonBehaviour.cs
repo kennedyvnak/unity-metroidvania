@@ -2,12 +2,15 @@ using Metroidvania.Combat;
 using System;
 using UnityEngine;
 
-namespace Metroidvania.Entities.Units {
+namespace Metroidvania.Entities.Units
+{
     [RequireComponent(typeof(SpriteRenderer))]
     [RequireComponent(typeof(EntityTargetFinder), typeof(Rigidbody2D), typeof(Animator))]
-    public class SkeletonBehaviour : EntityStateMachine<SkeletonBehaviour>, IHittableTarget {
+    public class SkeletonBehaviour : EntityStateMachine<SkeletonBehaviour>, IHittableTarget
+    {
         [System.Serializable]
-        private struct AttackData {
+        private struct AttackData
+        {
 #if UNITY_EDITOR
             public bool drawGizmos;
 #endif
@@ -85,7 +88,8 @@ namespace Metroidvania.Entities.Units {
         private HurtState _hurtState;
         private DieState _dieState;
 
-        private void Awake() {
+        private void Awake()
+        {
             rb = GetComponent<Rigidbody2D>();
             targetFinder = GetComponent<EntityTargetFinder>();
             anim = GetComponent<Animator>();
@@ -105,7 +109,8 @@ namespace Metroidvania.Entities.Units {
             SwitchState(_idleState);
         }
 
-        private void FixedUpdate() {
+        private void FixedUpdate()
+        {
             onLeftLedge = Physics2D.OverlapBox(rb.position + m_LeftLedge.center, m_LeftLedge.size, 0, m_GroundLayer);
             onRightLedge = Physics2D.OverlapBox(rb.position + m_RightLedge.center, m_RightLedge.size, 0, m_GroundLayer);
             onLeftWall = Physics2D.OverlapBox(rb.position + m_LeftHand.center, m_LeftHand.size, 0, m_GroundLayer);
@@ -114,25 +119,33 @@ namespace Metroidvania.Entities.Units {
             targetObstructed = targetFinder.hasFocusedTarget && targetFinder.IsObstructed(targetFinder.focusedTarget.position);
         }
 
-        public void OnTakeHit(CharacterHitData hitData) {
+        public void OnTakeHit(CharacterHitData hitData)
+        {
             life -= hitData.damage;
-            if (life > 0) {
+            if (life > 0)
+            {
                 _hurtState.lastHitData = hitData;
                 SwitchState(_hurtState);
-            } else {
+            }
+            else
+            {
                 SwitchState(_dieState);
             }
         }
 
-        private void PlayAnimation(string key) {
+        private void PlayAnimation(string key)
+        {
             anim.Play(key);
         }
 
-        private bool TryEnterAttackState() {
-            if (targetFinder.hasFocusedTarget) {
+        private bool TryEnterAttackState()
+        {
+            if (targetFinder.hasFocusedTarget)
+            {
                 Vector2 pos = rb.position;
                 Vector2 targetPos = targetFinder.focusedTarget.position;
-                if ((pos - targetPos).sqrMagnitude < m_DistanceToAttack * m_DistanceToAttack) {
+                if ((pos - targetPos).sqrMagnitude < m_DistanceToAttack * m_DistanceToAttack)
+                {
                     SwitchState(_attackState);
                     return true;
                 }
@@ -140,13 +153,15 @@ namespace Metroidvania.Entities.Units {
             return false;
         }
 
-        private void FlipIfShould(float lookingAt) {
+        private void FlipIfShould(float lookingAt)
+        {
             float posX = rb.position.x;
             if ((posX < lookingAt && facingDirection == -1) || (posX > lookingAt && facingDirection == 1))
                 Flip(facingDirection * -1);
         }
 
-        private void Flip(int direction) {
+        private void Flip(int direction)
+        {
             facingDirection = direction;
             Vector3 scale = transform.localScale;
             if ((scale.x < 0 && facingDirection == 1) || (scale.x > 0 && facingDirection == -1))
@@ -154,7 +169,8 @@ namespace Metroidvania.Entities.Units {
             transform.localScale = scale;
         }
 
-        private void LookAtFocusedTarget() {
+        private void LookAtFocusedTarget()
+        {
             if (targetFinder.hasFocusedTarget)
                 FlipIfShould(targetFinder.focusedTarget.position.x);
         }
@@ -163,7 +179,8 @@ namespace Metroidvania.Entities.Units {
 
         private bool CanWalkToPosition(Vector2 targetPosition) => CanWalkToDirection(targetPosition.x - rb.position.x) && IsInsideVerticalView(targetPosition.y);
 
-        private bool CanWalkToDirection(float direction) {
+        private bool CanWalkToDirection(float direction)
+        {
             bool leftObsolete = direction < 0 && leftObstructed;
             bool rightObsolete = direction > 0 && rightObstructed;
             return !leftObsolete && !rightObsolete;
@@ -172,11 +189,13 @@ namespace Metroidvania.Entities.Units {
         private bool IsInsideVerticalView(float position) => m_FollowTargetVerticalView.Contains(position - rb.position.y);
 
 #if UNITY_EDITOR
-        private void OnValidate() {
+        private void OnValidate()
+        {
             Flip(m_StartFacingRight ? 1 : -1);
         }
 
-        private void OnDrawGizmosSelected() {
+        private void OnDrawGizmosSelected()
+        {
             GizmosDrawer gizmos = new GizmosDrawer();
 
             gizmos.SetColor(Color.yellow);
@@ -196,38 +215,47 @@ namespace Metroidvania.Entities.Units {
                 .DrawWireSquare(m_LeftHand.center + (Vector2)transform.position, m_LeftHand.size)
                 .DrawWireSquare(m_RightHand.center + (Vector2)transform.position, m_RightHand.size);
 
-            void DrawAttack(AttackData attack) {
+            void DrawAttack(AttackData attack)
+            {
                 if (attack.drawGizmos)
                     gizmos.DrawWireSquare((Vector2)transform.position + (attack.attackCollision.center * transform.localScale), attack.attackCollision.size);
             }
         }
 #endif
 
-        public abstract class StateBase : EntityBehaviourState<SkeletonBehaviour> {
-            protected StateBase(SkeletonBehaviour entity) : base(entity) {
+        public abstract class StateBase : EntityBehaviourState<SkeletonBehaviour>
+        {
+            protected StateBase(SkeletonBehaviour entity) : base(entity)
+            {
             }
         }
 
-        public class IdleState : StateBase {
+        public class IdleState : StateBase
+        {
             private float currentTick { get; set; }
 
-            public IdleState(SkeletonBehaviour entity) : base(entity) {
+            public IdleState(SkeletonBehaviour entity) : base(entity)
+            {
             }
 
-            public override void Enter() {
+            public override void Enter()
+            {
                 entity.rb.linearVelocity = Vector2.zero;
                 currentTick = 0;
                 entity.PlayAnimation("Idle");
             }
 
-            public override void LogicUpdate() {
-                if (entity.ShouldFollowFocusedTarget()) {
+            public override void LogicUpdate()
+            {
+                if (entity.ShouldFollowFocusedTarget())
+                {
                     entity.SwitchState(entity._followTargetState);
                     return;
                 }
 
                 currentTick += Time.deltaTime;
-                if (currentTick >= 1) {
+                if (currentTick >= 1)
+                {
                     if (UnityEngine.Random.Range(0.0f, 100.0f) <= entity.m_PatrolChance)
                         entity.SwitchState(entity._patrolState);
                     currentTick -= 1;
@@ -235,28 +263,34 @@ namespace Metroidvania.Entities.Units {
             }
         }
 
-        public class PatrolState : StateBase {
+        public class PatrolState : StateBase
+        {
             private float elapsedTime { get; set; }
             private float walkTime { get; set; }
 
-            public PatrolState(SkeletonBehaviour entity) : base(entity) {
+            public PatrolState(SkeletonBehaviour entity) : base(entity)
+            {
             }
 
-            public override void Enter() {
+            public override void Enter()
+            {
                 walkTime = entity.m_PatrolTime.RandomRange();
                 elapsedTime = 0;
                 entity.PlayAnimation("Walk");
             }
 
-            public override void LogicUpdate() {
+            public override void LogicUpdate()
+            {
                 elapsedTime += Time.deltaTime;
 
-                if (elapsedTime >= walkTime) {
+                if (elapsedTime >= walkTime)
+                {
                     entity.SwitchState(entity._idleState);
                     return;
                 }
 
-                if (entity.ShouldFollowFocusedTarget()) {
+                if (entity.ShouldFollowFocusedTarget())
+                {
                     entity.SwitchState(entity._followTargetState);
                     return;
                 }
@@ -268,16 +302,20 @@ namespace Metroidvania.Entities.Units {
             }
         }
 
-        public class FollowTargetState : StateBase {
-            public FollowTargetState(SkeletonBehaviour entity) : base(entity) {
+        public class FollowTargetState : StateBase
+        {
+            public FollowTargetState(SkeletonBehaviour entity) : base(entity)
+            {
             }
 
-            public override void Enter() {
+            public override void Enter()
+            {
                 entity.targetFinder.LockFocusedTarget();
                 entity.PlayAnimation("Walk");
             }
 
-            public override void LogicUpdate() {
+            public override void LogicUpdate()
+            {
                 Vector2 entityPosition = entity.rb.position;
                 Vector2 focusedTargetPosition = entity.targetFinder.focusedTarget.position;
 
@@ -285,7 +323,8 @@ namespace Metroidvania.Entities.Units {
 
                 float direction = Mathf.Sign(focusedTargetPosition.x - entityPosition.x);
 
-                if (!entity.ShouldFollowFocusedTarget()) {
+                if (!entity.ShouldFollowFocusedTarget())
+                {
                     entity.SwitchState(entity._idleState);
                     return;
                 }
@@ -296,22 +335,26 @@ namespace Metroidvania.Entities.Units {
                 entity.rb.linearVelocity = new Vector2(entity.m_FollowTargetSpeed * direction * entity.normalizedSpeedFactor, entity.rb.linearVelocity.y);
             }
 
-            public override void Exit() {
+            public override void Exit()
+            {
                 entity.targetFinder.UnlockFocusedTarget();
                 entity.targetFinder.UpdateVisibleTargets();
             }
         }
 
-        public class AttackState : StateBase {
+        public class AttackState : StateBase
+        {
             private Collider2D[] _hits = new Collider2D[8];
             private float _elapsedTime;
             private bool _performedFirstAttack;
             private bool _performedSecondAttack;
 
-            public AttackState(SkeletonBehaviour entity) : base(entity) {
+            public AttackState(SkeletonBehaviour entity) : base(entity)
+            {
             }
 
-            public override void Enter() {
+            public override void Enter()
+            {
                 entity.rb.linearVelocity = Vector2.zero;
                 _performedFirstAttack = false;
                 _performedSecondAttack = false;
@@ -320,15 +363,18 @@ namespace Metroidvania.Entities.Units {
                 entity.PlayAnimation("Attack");
             }
 
-            public override void LogicUpdate() {
+            public override void LogicUpdate()
+            {
                 _elapsedTime += Time.deltaTime;
 
-                if (!_performedFirstAttack && _elapsedTime >= entity.m_FirstAttackTime) {
+                if (!_performedFirstAttack && _elapsedTime >= entity.m_FirstAttackTime)
+                {
                     PerformAttack(entity.m_FirstAttack);
                     _performedFirstAttack = true;
                 }
 
-                if (!_performedSecondAttack && _elapsedTime >= entity.m_SecondAttackTime) {
+                if (!_performedSecondAttack && _elapsedTime >= entity.m_SecondAttackTime)
+                {
                     PerformAttack(entity.m_SecondAttack);
                     _performedSecondAttack = true;
                 }
@@ -337,7 +383,8 @@ namespace Metroidvania.Entities.Units {
                     entity.SwitchState(entity._idleState);
             }
 
-            private void PerformAttack(AttackData attackData) {
+            private void PerformAttack(AttackData attackData)
+            {
                 entity.LookAtFocusedTarget();
 
                 float hitDistance = attackData.moveOffset * entity.m_RngStrength.RandomRange();
@@ -353,49 +400,59 @@ namespace Metroidvania.Entities.Units {
             }
         }
 
-        public class HurtState : StateBase {
+        public class HurtState : StateBase
+        {
             private float elapsedTime { get; set; }
 
             public CharacterHitData lastHitData;
 
-            public HurtState(SkeletonBehaviour entity) : base(entity) {
+            public HurtState(SkeletonBehaviour entity) : base(entity)
+            {
             }
 
-            public override void Enter() {
+            public override void Enter()
+            {
                 elapsedTime = 0;
                 entity.rb.linearVelocity = Vector2.zero;
                 entity.rb.AddForce(GetAttackForce(), ForceMode2D.Impulse);
                 entity.PlayAnimation("Hurt");
             }
 
-            public override void LogicUpdate() {
+            public override void LogicUpdate()
+            {
                 elapsedTime += Time.deltaTime;
                 if (elapsedTime >= entity.m_HurtDuration)
                     entity.SwitchState(entity._idleState);
             }
 
-            private Vector2 GetAttackForce() {
+            private Vector2 GetAttackForce()
+            {
                 return new Vector2(entity.m_HurtOffset.x * lastHitData.character.facingDirection, entity.m_HurtOffset.y) * lastHitData.force * entity.m_RngStrength.RandomRange();
             }
         }
 
-        public class DieState : StateBase {
+        public class DieState : StateBase
+        {
             private float elapsedTime { get; set; }
 
-            public DieState(SkeletonBehaviour entity) : base(entity) {
+            public DieState(SkeletonBehaviour entity) : base(entity)
+            {
             }
 
-            public override void Enter() {
+            public override void Enter()
+            {
                 elapsedTime = 0;
                 entity.rb.linearVelocity = Vector2.zero;
                 entity.m_TouchHitBehaviour.enabled = false;
                 entity.PlayAnimation("Die");
             }
 
-            public override void LogicUpdate() {
+            public override void LogicUpdate()
+            {
                 elapsedTime += Time.deltaTime;
 
-                if (elapsedTime >= entity.m_DeathFadeDelay) {
+                if (elapsedTime >= entity.m_DeathFadeDelay)
+                {
                     float normalizedElapsedTime = (elapsedTime - entity.m_DeathFadeDelay) / (entity.m_DeathDuration - entity.m_DeathFadeDelay);
                     Color c = entity.spriteRenderer.color;
                     c.a = 1 - normalizedElapsedTime;

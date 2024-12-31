@@ -5,23 +5,28 @@ using Metroidvania.UI;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Metroidvania.GameOver {
-    public class GameOverScreen : MonoBehaviour {
+namespace Metroidvania.GameOver
+{
+    public class GameOverScreen : MonoBehaviour
+    {
         [SerializeField] private Button continueButton;
         [SerializeField] private Button leaveButton;
 
-        private void Start() {
+        private void Start()
+        {
             InputReader.instance.EnableMenuInput();
             continueButton.onClick.AddListener(Continue);
             leaveButton.onClick.AddListener(Leave);
             UIUtility.eventSystem.SetSelectedGameObject(continueButton.gameObject);
         }
 
-        private void Continue() {
+        private void Continue()
+        {
             DataManager.instance.gameData.LoadCurrentScene();
         }
 
-        private void Leave() {
+        private void Leave()
+        {
             SceneLoader.instance.LoadMainMenu();
         }
     }

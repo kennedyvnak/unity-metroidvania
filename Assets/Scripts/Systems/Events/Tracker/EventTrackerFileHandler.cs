@@ -3,8 +3,10 @@ using System.IO;
 using System.Text;
 using UnityEngine;
 
-namespace Metroidvania.Events.Tracker.Handles {
-    public class EventTrackerFileHandler : IEventTrackerHandler, IDisposable {
+namespace Metroidvania.Events.Tracker.Handles
+{
+    public class EventTrackerFileHandler : IEventTrackerHandler, IDisposable
+    {
         public const string LogFolder = "EventTracks";
         public const string FileName = "EventTrack";
         public const string Extension = "log";
@@ -16,7 +18,8 @@ namespace Metroidvania.Events.Tracker.Handles {
 
 
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
-        private static void InitializeHandler() {
+        private static void InitializeHandler()
+        {
             if (!EventsTracker.instance.trackingEnabled
                 || !EventsTracker.instance.enabledHandlers.HasFlag(EventsTracker.TracksHandler.File))
                 return;
@@ -24,7 +27,8 @@ namespace Metroidvania.Events.Tracker.Handles {
             EventsTracker.instance.AddHandler(new EventTrackerFileHandler());
         }
 
-        public EventTrackerFileHandler() {
+        public EventTrackerFileHandler()
+        {
             currentFilePath = GetUniquePath();
 
             string rootDirectory = Path.GetDirectoryName(currentFilePath);
@@ -38,22 +42,27 @@ namespace Metroidvania.Events.Tracker.Handles {
             Application.quitting += Dispose;
         }
 
-        public void Dispose() {
+        public void Dispose()
+        {
             WriteText($"\n[{System.DateTime.Now.TimeOfDay}] Disposing events tracking");
         }
 
-        public void BeginTrack(EventsTracker.EventTrack track) {
+        public void BeginTrack(EventsTracker.EventTrack track)
+        {
         }
 
-        public void EndTrack(EventsTracker.EventTrack track) {
+        public void EndTrack(EventsTracker.EventTrack track)
+        {
             LogTrackToFile(track);
         }
 
-        private void LogTrackToFile(EventsTracker.EventTrack track) {
+        private void LogTrackToFile(EventsTracker.EventTrack track)
+        {
             trackTextBuilder.Clear();
             trackArgsTextBuilder.Clear();
 
-            for (int i = 0; i < track.invokeParams.Length; i++) {
+            for (int i = 0; i < track.invokeParams.Length; i++)
+            {
                 object invokeParam = track.invokeParams[i];
                 trackArgsTextBuilder.AppendFormat("\n  Arg[{0}]: {1} ({2})", i, invokeParam, invokeParam.GetType());
             }
@@ -64,13 +73,15 @@ namespace Metroidvania.Events.Tracker.Handles {
             WriteText(trackTextBuilder.ToString());
         }
 
-        private void WriteText(string text) {
+        private void WriteText(string text)
+        {
             StreamWriter writer = File.AppendText(currentFilePath);
             writer.Write(text);
             writer.Close();
         }
 
-        private string GetUniquePath() {
+        private string GetUniquePath()
+        {
             int id = 0;
             string path = GetFilePathById(id);
 

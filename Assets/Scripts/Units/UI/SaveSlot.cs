@@ -2,8 +2,10 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Metroidvania.Serialization.Menus {
-    public class SaveSlot : MonoBehaviour {
+namespace Metroidvania.Serialization.Menus
+{
+    public class SaveSlot : MonoBehaviour
+    {
         [Header("User")]
         [SerializeField] private int m_userId;
 
@@ -16,12 +18,16 @@ namespace Metroidvania.Serialization.Menus {
 
         private GameData _data;
 
-        public void SetData(GameData data) {
+        public void SetData(GameData data)
+        {
             _data = data;
-            if (data == null) {
+            if (data == null)
+            {
                 m_hasDataContent.SetActive(false);
                 m_noDataContent.SetActive(true);
-            } else {
+            }
+            else
+            {
                 m_noDataContent.SetActive(false);
                 m_hasDataContent.SetActive(true);
             }
@@ -31,7 +37,8 @@ namespace Metroidvania.Serialization.Menus {
 
         public int GetUserId() => m_userId;
 
-        public void DeleteData() {
+        public void DeleteData()
+        {
             if (_data == null)
                 return;
 

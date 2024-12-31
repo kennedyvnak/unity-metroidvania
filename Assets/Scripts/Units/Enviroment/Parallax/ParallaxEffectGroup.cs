@@ -1,14 +1,17 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Metroidvania.Environment.Parallax {
-    public class ParallaxEffectGroup : MonoBehaviour {
+namespace Metroidvania.Environment.Parallax
+{
+    public class ParallaxEffectGroup : MonoBehaviour
+    {
         private Camera _cam;
         private Vector2 _lastCameraPosition;
 
         private Dictionary<Transform, Vector3> _startPositions;
 
-        private void Start() {
+        private void Start()
+        {
             _cam = Camera.main;
             _lastCameraPosition = _cam.transform.position;
 
@@ -17,7 +20,8 @@ namespace Metroidvania.Environment.Parallax {
                 _startPositions.Add(child, child.transform.position);
         }
 
-        private void LateUpdate() {
+        private void LateUpdate()
+        {
             Vector2 camPosition = _cam.transform.position;
 
             foreach (KeyValuePair<Transform, Vector3> keyValue in _startPositions)

@@ -4,8 +4,10 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Metroidvania.Credits {
-    public class CreditsMenu : CanvasMenuBase, IMenuScreen {
+namespace Metroidvania.Credits
+{
+    public class CreditsMenu : CanvasMenuBase, IMenuScreen
+    {
         [SerializeField] private CanvasGroup m_canvasGroup;
         [SerializeField] private CreditsAsset m_asset;
 
@@ -15,20 +17,24 @@ namespace Metroidvania.Credits {
 
         public event System.Action OnMenuDisable;
 
-        private void Awake() {
+        private void Awake()
+        {
             _scrollRect = GetComponent<ScrollRect>();
         }
 
-        private void Start() {
+        private void Start()
+        {
             m_creditsText.text = m_asset.GenerateText();
         }
 
-        public void ActiveMenu() {
+        public void ActiveMenu()
+        {
             menuEnabled = true;
             m_canvasGroup.FadeGroup(true, UIUtility.TransitionTime, SetFirstSelected);
         }
 
-        public void DesactiveMenu() {
+        public void DesactiveMenu()
+        {
             menuEnabled = false;
             m_canvasGroup.FadeGroup(false, UIUtility.TransitionTime, () => OnMenuDisable?.Invoke());
         }

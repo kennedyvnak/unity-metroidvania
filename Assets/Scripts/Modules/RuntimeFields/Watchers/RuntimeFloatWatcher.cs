@@ -1,8 +1,10 @@
 using UnityEngine;
 using UnityEngine.Events;
 
-namespace Metroidvania.RuntimeFields.Watchers {
-    public class RuntimeFloatWatcher : MonoBehaviour {
+namespace Metroidvania.RuntimeFields.Watchers
+{
+    public class RuntimeFloatWatcher : MonoBehaviour
+    {
         [SerializeField] private RuntimeFloatField m_field;
         [SerializeField] private bool m_updateOnEnable = true;
 
@@ -11,23 +13,28 @@ namespace Metroidvania.RuntimeFields.Watchers {
 
         public UnityEvent<float, RuntimeFieldSetMode> valueChanged => m_valueChanged;
 
-        private void Start() {
+        private void Start()
+        {
         }
 
-        private void OnEnable() {
-            if (m_field) {
+        private void OnEnable()
+        {
+            if (m_field)
+            {
                 m_field.ValueChanged += ValueChanged;
                 if (m_updateOnEnable)
                     m_valueChanged?.Invoke(m_field.value, RuntimeFieldSetMode.Setup);
             }
         }
 
-        private void OnDisable() {
+        private void OnDisable()
+        {
             if (m_field)
                 m_field.ValueChanged -= ValueChanged;
         }
 
-        private void ValueChanged(float newValue, RuntimeFieldSetMode setMode) {
+        private void ValueChanged(float newValue, RuntimeFieldSetMode setMode)
+        {
             m_valueChanged?.Invoke(newValue, setMode);
         }
     }

@@ -2,21 +2,25 @@ using Metroidvania.Entities;
 using UnityEngine;
 using KnightStateBase = Metroidvania.Characters.CharacterStateBase<Metroidvania.Characters.Knight.KnightCharacterController>;
 
-namespace Metroidvania.Characters.Knight {
+namespace Metroidvania.Characters.Knight
+{
     public interface ICrouchState { }
     public interface IInvincibleState { }
 
-    public class KnightIdleState : KnightStateBase {
+    public class KnightIdleState : KnightStateBase
+    {
         public KnightIdleState(KnightStateMachine machine)
             : base(machine) { }
 
-        public override void Enter(KnightStateBase previousState) {
+        public override void Enter(KnightStateBase previousState)
+        {
             character.rb.linearVelocity = new Vector2(0, character.rb.linearVelocity.y);
             character.SetColliderBounds(character.data.standColliderBounds);
             character.SwitchAnimation(KnightCharacterController.IdleAnimHash);
         }
 
-        public override void Update() {
+        public override void Update()
+        {
             if (character.stateMachine.EnterFallState() ||
                 character.stateMachine.EnterCrouchState() ||
                 character.stateMachine.EnterJumpState() ||
@@ -29,16 +33,19 @@ namespace Metroidvania.Characters.Knight {
         }
     }
 
-    public class KnightRunState : KnightStateBase {
+    public class KnightRunState : KnightStateBase
+    {
         public KnightRunState(KnightStateMachine machine)
             : base(machine) { }
 
-        public override void Enter(KnightStateBase previousState) {
+        public override void Enter(KnightStateBase previousState)
+        {
             character.SetColliderBounds(character.data.standColliderBounds);
             character.SwitchAnimation(KnightCharacterController.RunAnimHash);
         }
 
-        public override void Update() {
+        public override void Update()
+        {
             if (character.stateMachine.EnterFallState() ||
                 character.stateMachine.EnterCrouchState() ||
                 character.stateMachine.EnterJumpState() ||
@@ -53,14 +60,16 @@ namespace Metroidvania.Characters.Knight {
         }
     }
 
-    public class KnightJumpState : KnightStateBase {
+    public class KnightJumpState : KnightStateBase
+    {
         private float _elapsedTime;
         private bool _collidedTop;
 
         public KnightJumpState(KnightStateMachine machine)
             : base(machine) { }
 
-        public override void Enter(KnightStateBase previousState) {
+        public override void Enter(KnightStateBase previousState)
+        {
             _elapsedTime = 0;
             _collidedTop = false;
 
@@ -69,15 +78,21 @@ namespace Metroidvania.Characters.Knight {
             character.particles.jump.Play();
         }
 
-        public override void Update() {
+        public override void Update()
+        {
             _elapsedTime += Time.deltaTime;
 
-            if (_elapsedTime > character.data.jumpDuration || _collidedTop) {
+            if (_elapsedTime > character.data.jumpDuration || _collidedTop)
+            {
                 character.stateMachine.EnterDefaultState();
-            } else if (!character.jumpAction.IsPressed()) {
+            }
+            else if (!character.jumpAction.IsPressed())
+            {
                 character.rb.linearVelocity = new Vector2(character.rb.linearVelocity.x, 0.15f);
                 character.stateMachine.EnterDefaultState();
-            } else {
+            }
+            else
+            {
                 float horizontalSpeed = character.horizontalMove * character.data.moveSpeed;
 
                 float jumpProgress = _elapsedTime / character.data.jumpDuration;
@@ -90,35 +105,42 @@ namespace Metroidvania.Characters.Knight {
             }
         }
 
-        private void OnCollisionEnter(Collision2D collision) {
+        private void OnCollisionEnter(Collision2D collision)
+        {
             if (collision.GetContact(0).normal.y == -1)
                 _collidedTop = true;
         }
     }
 
-    public class KnightFallState : KnightStateBase {
+    public class KnightFallState : KnightStateBase
+    {
         private float _fallStartPositionY;
 
         public KnightFallState(KnightStateMachine machine)
             : base(machine) { }
 
-        public override void Enter(KnightStateBase previousState) {
+        public override void Enter(KnightStateBase previousState)
+        {
             character.SetColliderBounds(character.data.standColliderBounds);
             character.SwitchAnimation(KnightCharacterController.FallAnimHash);
             _fallStartPositionY = character.rb.position.y;
         }
 
-        public override void Update() {
-            if (character.isGrounded) {
+        public override void Update()
+        {
+            if (character.isGrounded)
+            {
                 if (_fallStartPositionY - character.rb.position.y > character.data.fallParticlesDistance)
                     character.particles.landing.Play();
                 character.stateMachine.EnterDefaultState();
-            } else if (!character.stateMachine.EnterWallState())
+            }
+            else if (!character.stateMachine.EnterWallState())
                 character.SetHorizontalVelocity(character.data.moveSpeed * character.horizontalMove);
         }
     }
 
-    public class KnightRollState : KnightStateBase, IInvincibleState {
+    public class KnightRollState : KnightStateBase, IInvincibleState
+    {
         private float _elapsedTime;
         private float _lastExitTime;
 
@@ -127,35 +149,43 @@ namespace Metroidvania.Characters.Knight {
         public KnightRollState(KnightStateMachine machine)
             : base(machine) { }
 
-        public override void Enter(KnightStateBase previousState) {
+        public override void Enter(KnightStateBase previousState)
+        {
             _elapsedTime = 0;
 
             character.SetColliderBounds(character.data.standColliderBounds);
             character.SwitchAnimation(KnightCharacterController.RollAnimHash, true);
         }
 
-        public override void Update() {
+        public override void Update()
+        {
             _elapsedTime += Time.deltaTime;
 
-            if (_elapsedTime > character.data.rollDuration) {
+            if (_elapsedTime > character.data.rollDuration)
+            {
                 character.stateMachine.EnterDefaultState();
-            } else {
+            }
+            else
+            {
                 float curveMultiplier = character.data.rollHorizontalMoveCurve.Evaluate(_elapsedTime / character.data.rollDuration);
                 character.rb.linearVelocity = new Vector2(character.data.rollSpeed * curveMultiplier * character.facingDirection, character.rb.linearVelocity.y);
             }
         }
     }
 
-    public class KnightCrouchIdleState : KnightStateBase, ICrouchState {
+    public class KnightCrouchIdleState : KnightStateBase, ICrouchState
+    {
         private float _elapsedTime;
         private bool _inQuittingAnim;
         private float _quittingAnimElapsedTime;
         private bool _hasSwappedAnim;
 
-        public KnightCrouchIdleState(KnightStateMachine machine) : base(machine) {
+        public KnightCrouchIdleState(KnightStateMachine machine) : base(machine)
+        {
         }
 
-        public override void Enter(KnightStateBase previousState) {
+        public override void Enter(KnightStateBase previousState)
+        {
             bool shouldMakeTransition = previousState is not ICrouchState;
 
             _elapsedTime = 0;
@@ -171,8 +201,10 @@ namespace Metroidvania.Characters.Knight {
                 : KnightCharacterController.CrouchIdleAnimHash);
         }
 
-        public override void Update() {
-            if (_inQuittingAnim) {
+        public override void Update()
+        {
+            if (_inQuittingAnim)
+            {
                 _quittingAnimElapsedTime += Time.deltaTime;
                 if (_quittingAnimElapsedTime >= character.data.crouchTransitionTime)
                     machine.EnterState(character.stateMachine.idleState);
@@ -181,7 +213,8 @@ namespace Metroidvania.Characters.Knight {
 
             _elapsedTime += Time.deltaTime;
 
-            if (!_hasSwappedAnim && _elapsedTime > character.data.crouchTransitionTime) {
+            if (!_hasSwappedAnim && _elapsedTime > character.data.crouchTransitionTime)
+            {
                 _hasSwappedAnim = true;
                 character.SwitchAnimation(KnightCharacterController.CrouchIdleAnimHash);
             }
@@ -199,7 +232,8 @@ namespace Metroidvania.Characters.Knight {
         }
     }
 
-    public class KnightCrouchWalkState : KnightStateBase, ICrouchState {
+    public class KnightCrouchWalkState : KnightStateBase, ICrouchState
+    {
         private float _elapsedTime;
         private bool _inQuittingAnim;
         private float _quittingAnimElapsedTime;
@@ -208,7 +242,8 @@ namespace Metroidvania.Characters.Knight {
         public KnightCrouchWalkState(KnightStateMachine machine)
             : base(machine) { }
 
-        public override void Enter(KnightStateBase previousState) {
+        public override void Enter(KnightStateBase previousState)
+        {
             bool shouldMakeTransition = previousState is not ICrouchState;
 
             _elapsedTime = 0;
@@ -223,8 +258,10 @@ namespace Metroidvania.Characters.Knight {
                 : KnightCharacterController.CrouchWalkAnimHash);
         }
 
-        public override void Update() {
-            if (_inQuittingAnim) {
+        public override void Update()
+        {
+            if (_inQuittingAnim)
+            {
                 _quittingAnimElapsedTime += Time.deltaTime;
                 if (_quittingAnimElapsedTime >= character.data.crouchTransitionTime)
                     machine.EnterState(character.stateMachine.idleState);
@@ -237,7 +274,8 @@ namespace Metroidvania.Characters.Knight {
 
             if (_inQuittingAnim)
                 character.rb.linearVelocity = new Vector2(character.data.crouchWalkSpeed, character.rb.linearVelocity.y);
-            else if (!_hasSwappedAnim && _elapsedTime > character.data.crouchTransitionTime) {
+            else if (!_hasSwappedAnim && _elapsedTime > character.data.crouchTransitionTime)
+            {
                 _hasSwappedAnim = true;
                 character.SwitchAnimation(KnightCharacterController.CrouchWalkAnimHash);
             }
@@ -257,7 +295,8 @@ namespace Metroidvania.Characters.Knight {
         }
     }
 
-    public class KnightSlideState : KnightStateBase, ICrouchState {
+    public class KnightSlideState : KnightStateBase, ICrouchState
+    {
         private float _elapsedTime;
         private float _lastExitTime = int.MinValue;
 
@@ -268,7 +307,8 @@ namespace Metroidvania.Characters.Knight {
         public KnightSlideState(KnightStateMachine machine)
             : base(machine) { }
 
-        public override void Enter(KnightStateBase previousState) {
+        public override void Enter(KnightStateBase previousState)
+        {
             _elapsedTime = 0;
             _inQuittingAnim = false;
 
@@ -277,40 +317,47 @@ namespace Metroidvania.Characters.Knight {
             character.particles.slide.Play();
         }
 
-        public override void Update() {
+        public override void Update()
+        {
             _elapsedTime += Time.deltaTime;
 
-            if (!_inQuittingAnim && _elapsedTime > character.data.slideDuration - character.data.slideTransitionTime) {
+            if (!_inQuittingAnim && _elapsedTime > character.data.slideDuration - character.data.slideTransitionTime)
+            {
                 character.SwitchAnimation(KnightCharacterController.SlideEndAnimHash);
                 _inQuittingAnim = true;
             }
 
             if (_elapsedTime > character.data.slideDuration)
                 machine.EnterState(character.stateMachine.crouchIdleState);
-            else if (!character.stateMachine.EnterFallState()) {
+            else if (!character.stateMachine.EnterFallState())
+            {
                 float slideProgress = _elapsedTime / character.data.slideDuration;
                 float curveMultiplier = character.data.slideMoveCurve.Evaluate(slideProgress);
                 character.rb.linearVelocity = new Vector2(character.data.slideSpeed * curveMultiplier * character.facingDirection, character.rb.linearVelocity.y);
             }
         }
 
-        public override void Exit() {
+        public override void Exit()
+        {
             _lastExitTime = Time.time;
             character.particles.slide.Stop(true, ParticleSystemStopBehavior.StopEmitting);
         }
     }
 
-    public class KnightWallslideState : KnightStateBase {
+    public class KnightWallslideState : KnightStateBase
+    {
         public KnightWallslideState(KnightStateMachine machine)
             : base(machine) { }
 
-        public override void Enter(KnightStateBase previousState) {
+        public override void Enter(KnightStateBase previousState)
+        {
             character.SetColliderBounds(character.data.standColliderBounds);
             character.SwitchAnimation(KnightCharacterController.WallslideAnimHash);
             character.particles.wallslide.Play();
         }
 
-        public override void Update() {
+        public override void Update()
+        {
             if (character.jumpAction.WasPerformedThisFrame())
                 machine.EnterState(character.stateMachine.walljumpState);
             else if (character.isGrounded || !character.isTouchingWall || character.horizontalMove != character.facingDirection)
@@ -319,12 +366,14 @@ namespace Metroidvania.Characters.Knight {
                 character.rb.linearVelocity = new Vector2(0, -character.data.wallSlideSpeed);
         }
 
-        public override void Exit() {
+        public override void Exit()
+        {
             character.particles.wallslide.Stop(true, ParticleSystemStopBehavior.StopEmitting);
         }
     }
 
-    public class KnightWalljumpState : KnightStateBase {
+    public class KnightWalljumpState : KnightStateBase
+    {
         private float _elapsedTime;
 
         private bool _collidedWithSomething;
@@ -332,7 +381,8 @@ namespace Metroidvania.Characters.Knight {
         public KnightWalljumpState(KnightStateMachine machine)
             : base(machine) { }
 
-        public override void Enter(KnightStateBase previousState) {
+        public override void Enter(KnightStateBase previousState)
+        {
             _elapsedTime = 0;
             _collidedWithSomething = false;
 
@@ -348,19 +398,22 @@ namespace Metroidvania.Characters.Knight {
             character.rb.linearVelocity = new Vector2(character.data.wallJumpForce.x * character.facingDirection, character.data.wallJumpForce.y);
         }
 
-        public override void Update() {
+        public override void Update()
+        {
             _elapsedTime += Time.deltaTime;
 
             if (_elapsedTime > character.data.wallJumpDuration || _collidedWithSomething)
                 character.stateMachine.EnterDefaultState();
         }
 
-        private void OnCollisionEnter(Collision2D collision) {
+        private void OnCollisionEnter(Collision2D collision)
+        {
             _collidedWithSomething = true;
         }
     }
 
-    public class KnightAttackState : KnightStateBase {
+    public class KnightAttackState : KnightStateBase
+    {
         protected enum ExitAttackCommand { None, Roll, Slide }
 
         public static int lastStandAttack = 0;
@@ -376,13 +429,15 @@ namespace Metroidvania.Characters.Knight {
 
         public KnightAttackState nextAttackState { get; set; }
 
-        public KnightAttackState(KnightStateMachine machine, KnightData.Attack attackData, int animHash, KnightData.ColliderBounds colliderBounds) : base(machine) {
+        public KnightAttackState(KnightStateMachine machine, KnightData.Attack attackData, int animHash, KnightData.ColliderBounds colliderBounds) : base(machine)
+        {
             this.attackData = attackData;
             this.animHash = animHash;
             this.colliderBounds = colliderBounds;
         }
 
-        public override void Enter(KnightStateBase previousState) {
+        public override void Enter(KnightStateBase previousState)
+        {
             _elapsedTime = 0;
             _triggered = false;
             _currentExitCommand = ExitAttackCommand.None;
@@ -392,17 +447,20 @@ namespace Metroidvania.Characters.Knight {
             character.rb.linearVelocity = new Vector2(0, character.rb.linearVelocity.y);
         }
 
-        public override void Update() {
+        public override void Update()
+        {
             _elapsedTime += Time.deltaTime;
 
             if (character.stateMachine.EnterFallState())
                 return;
 
-            if (character.dashAction.WasPerformedThisFrame()) {
+            if (character.dashAction.WasPerformedThisFrame())
+            {
                 _currentExitCommand = character.crouchAction.IsPressed() || !character.canStand ? ExitAttackCommand.Slide : ExitAttackCommand.Roll;
             }
 
-            if (!_triggered && _elapsedTime >= attackData.triggerTime) {
+            if (!_triggered && _elapsedTime >= attackData.triggerTime)
+            {
                 _triggered = true;
                 character.PerformAttack(attackData);
             }
@@ -410,7 +468,8 @@ namespace Metroidvania.Characters.Knight {
             if (_elapsedTime < attackData.duration - attackData.attackEndOffset)
                 return;
 
-            switch (_currentExitCommand) {
+            switch (_currentExitCommand)
+            {
                 case ExitAttackCommand.Roll:
                     if (character.stateMachine.rollState.isInCooldown)
                         break;
@@ -423,23 +482,27 @@ namespace Metroidvania.Characters.Knight {
                     return;
             }
 
-            if (character.attackAction.WasPerformedThisFrame()) {
+            if (character.attackAction.WasPerformedThisFrame())
+            {
                 if (nextAttackState is ICrouchState && !character.crouchAction.IsPressed() && character.canStand)
                     machine.EnterState(character.stateMachine.firstAttackState);
                 else if (nextAttackState is not ICrouchState && character.crouchAction.IsPressed())
                     machine.EnterState(character.stateMachine.crouchAttackState);
                 else
                     machine.EnterState(nextAttackState);
-            } else if (_elapsedTime > attackData.duration)
+            }
+            else if (_elapsedTime > attackData.duration)
                 character.stateMachine.EnterDefaultState();
         }
 
-        public override void Exit() {
+        public override void Exit()
+        {
             if (character.horizontalMove != 0)
                 character.FlipTo((int)Mathf.Sign(character.horizontalMove));
         }
 
-        public static int StepAttack(float attackComboMaxDelay) {
+        public static int StepAttack(float attackComboMaxDelay)
+        {
             KnightAttackState.lastStandAttack++;
             KnightAttackState.lastAttackTime = Time.time;
 
@@ -450,12 +513,14 @@ namespace Metroidvania.Characters.Knight {
         }
     }
 
-    public class KnightCrouchAttackState : KnightAttackState, ICrouchState {
+    public class KnightCrouchAttackState : KnightAttackState, ICrouchState
+    {
         public KnightCrouchAttackState(KnightStateMachine machine)
             : base(machine, machine.character.data.crouchAttack, KnightCharacterController.CrouchAttackAnimHash, machine.character.data.crouchColliderBounds) { }
     }
 
-    public class KnightHurtState : KnightStateBase {
+    public class KnightHurtState : KnightStateBase
+    {
         private float _elapsedTime;
 
         public EntityHitData hitData { get; set; }
@@ -463,7 +528,8 @@ namespace Metroidvania.Characters.Knight {
         public KnightHurtState(KnightStateMachine machine)
             : base(machine) { }
 
-        public override void Enter(KnightStateBase previousState) {
+        public override void Enter(KnightStateBase previousState)
+        {
             _elapsedTime = 0;
 
             character.SetColliderBounds(character.data.standColliderBounds);
@@ -473,7 +539,8 @@ namespace Metroidvania.Characters.Knight {
             character.rb.AddForce(hitData.knockbackForce, ForceMode2D.Impulse);
         }
 
-        public override void Update() {
+        public override void Update()
+        {
             _elapsedTime += Time.deltaTime;
 
             if (_elapsedTime > character.data.hurtTime)
@@ -481,11 +548,13 @@ namespace Metroidvania.Characters.Knight {
         }
     }
 
-    public class KnightDieState : KnightStateBase {
+    public class KnightDieState : KnightStateBase
+    {
         public KnightDieState(KnightStateMachine machine)
             : base(machine) { }
 
-        public override void Enter(KnightStateBase previousState) {
+        public override void Enter(KnightStateBase previousState)
+        {
             character.SwitchAnimation(KnightCharacterController.DieAnimHash, true);
             character.SetColliderBounds(character.data.crouchColliderBounds);
             character.rb.linearVelocity = Vector2.zero;
@@ -493,7 +562,8 @@ namespace Metroidvania.Characters.Knight {
         }
     }
 
-    public class KnightFakeWalkState : KnightStateBase {
+    public class KnightFakeWalkState : KnightStateBase
+    {
         private float _elapsedTime;
 
         public float currentWalkDuration { get; set; }
@@ -501,13 +571,15 @@ namespace Metroidvania.Characters.Knight {
         public KnightFakeWalkState(KnightStateMachine machine)
             : base(machine) { }
 
-        public override void Enter(KnightStateBase previousState) {
+        public override void Enter(KnightStateBase previousState)
+        {
             _elapsedTime = 0;
             character.SetColliderBounds(character.data.standColliderBounds);
             character.SwitchAnimation(KnightCharacterController.RunAnimHash);
         }
 
-        public override void Update() {
+        public override void Update()
+        {
             if (character.stateMachine.EnterFallState())
                 return;
 
