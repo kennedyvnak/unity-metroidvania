@@ -194,7 +194,7 @@ namespace MetroidvaniaEditor.Validation.Views
                 return element;
             };
 
-            _objectsListView.onItemsChosen += (items) =>
+            _objectsListView.itemsChosen += (items) =>
             {
                 foreach (object item in items)
                     if (item is Type itemType)
