@@ -132,10 +132,6 @@ PrefabInstance:
       value: EventSystem
       objectReference: {fileID: 0}
     - target: {fileID: 9116485250031512537, guid: 6dcbbcb011258ea43bd6f34165e22223, type: 3}
-      propertyPath: m_RootOrder
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 9116485250031512537, guid: 6dcbbcb011258ea43bd6f34165e22223, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}

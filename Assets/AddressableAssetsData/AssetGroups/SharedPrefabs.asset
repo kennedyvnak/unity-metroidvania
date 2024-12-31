@@ -13,22 +13,23 @@ MonoBehaviour:
   m_Name: SharedPrefabs
   m_EditorClassIdentifier: 
   m_GroupName: SharedPrefabs
-  m_Data:
-    m_SerializedData: []
   m_GUID: 719a8c10292488849ba81fb6d0e1d2b9
   m_SerializeEntries:
-  - m_GUID: 8e63e0c3369b17149ad4900626b9fd89
-    m_Address: Assets/Prefabs/UI
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-  - m_GUID: d937ae0e7f01f974d8fd5c3482d2a6d2
-    m_Address: Assets/Prefabs/Entities
-    m_ReadOnly: 0
-    m_SerializedLabels: []
   - m_GUID: 21864f37af1a77745a5f10091cc8b9a0
     m_Address: Assets/Prefabs/Player
     m_ReadOnly: 0
     m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 8e63e0c3369b17149ad4900626b9fd89
+    m_Address: Assets/Prefabs/UI
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: d937ae0e7f01f974d8fd5c3482d2a6d2
+    m_Address: Assets/Prefabs/Entities
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 8259dc4f4d8e49b4dad3c97268d6350a, type: 2}
   m_SchemaSet:
