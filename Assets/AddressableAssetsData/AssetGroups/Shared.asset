@@ -1,0 +1,110 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
+  m_Name: Shared
+  m_EditorClassIdentifier: 
+  m_GroupName: Shared
+  m_GUID: ef5779f4afa7513e2a20748aebd087e4
+  m_SerializeEntries:
+  - m_GUID: 110c533a9255aaa408ba581c5716317f
+    m_Address: Assets/Data/Serialization
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 2b66456002d5e024ba956c16146ab066
+    m_Address: Assets/Graphics/Fonts/Inter.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 3e15be757d695834889a3f527e763740
+    m_Address: Assets/Data/Events
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 4e6e1b5150e6c454593abacaa5bd49d5
+    m_Address: Assets/Graphics/Animations/UI
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 591c4e893aca78d4783bdbdd477e416c
+    m_Address: Assets/Prefabs/Singletons
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Persistent Singleton
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 63f5e1f9ad0efc0418978cf896f9718e
+    m_Address: Assets/Graphics/Textures/Units
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 8e63e0c3369b17149ad4900626b9fd89
+    m_Address: Assets/Prefabs/UI
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 957de8ced2dfb414fa7913698a1a8120
+    m_Address: Assets/Graphics/Shaders/Sprites/GlowEmission_Shader.shadergraph
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 968f9dcaded0a974e8ab659a19bceb87
+    m_Address: Assets/Scenes/GameOver.unity
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: a4a5a5b8221c27347819b83e12b0b5f5
+    m_Address: Assets/Data/Scenes
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: a97c105638bdf8b4a8650670310a4cd3
+    m_Address: Packages/com.unity.render-pipelines.universal/Runtime/Materials/Sprite-Lit-Default.mat
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: c99a35d6525979c4cbf773db4f16780d
+    m_Address: Assets/Graphics/Textures/Enviroment/Units
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: e1feb0f94abc04d4c80a36ba926eb5bb
+    m_Address: Assets/Data/Menus
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: e260cfa7296ee7642b167f1eb5be5023
+    m_Address: Packages/com.unity.render-pipelines.universal/Shaders/2D/Sprite-Lit-Default.shader
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: e2ffc4a98311f994e994c3e8117a8b72
+    m_Address: Assets/Data/Settings
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Settings
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: fe393ace9b354375a9cb14cdbbc28be4
+    m_Address: Assets/Addons/TextMesh Pro/Shaders/TMP_SDF-Mobile.shader
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: ff5d04ca8e42cdaf195cd4a4ecd478c8
+    m_Address: Assets/Graphics/Textures/v2
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  m_ReadOnly: 0
+  m_Settings: {fileID: 11400000, guid: 8259dc4f4d8e49b4dad3c97268d6350a, type: 2}
+  m_SchemaSet:
+    m_Schemas:
+    - {fileID: 11400000, guid: 47962c3ab0ad54e5dbd3a5c711d2736a, type: 2}
+    - {fileID: 11400000, guid: 01030d6dbeb831db5a4e23bdb801ed51, type: 2}

@@ -10,13 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
-  m_Name: DataScriptableObjects
+  m_Name: Entities
   m_EditorClassIdentifier: 
-  m_GroupName: DataScriptableObjects
-  m_GUID: 784b17e0c45fcf4409ee511aa3b55171
+  m_GroupName: Entities
+  m_GUID: 6c2317953c92af285b1a37d541d4f9a3
   m_SerializeEntries:
-  - m_GUID: 110c533a9255aaa408ba581c5716317f
-    m_Address: Assets/Data/Serialization
+  - m_GUID: 0feb833c798f01b42b889517d4618c30
+    m_Address: Assets/Graphics/Textures/Units/Entities
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
@@ -25,13 +25,18 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: a4a5a5b8221c27347819b83e12b0b5f5
-    m_Address: Assets/Data/Scenes
+  - m_GUID: 640710ba817e74e498b3122475fd0a73
+    m_Address: Assets/Graphics/Materials/Units
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: e1feb0f94abc04d4c80a36ba926eb5bb
-    m_Address: Assets/Data/Menus
+  - m_GUID: be8ffdd6975fe1c45a7a26194f4a99b1
+    m_Address: Assets/Graphics/Animations/Units/Entities
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: d937ae0e7f01f974d8fd5c3482d2a6d2
+    m_Address: Assets/Prefabs/Entities
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
@@ -39,5 +44,5 @@ MonoBehaviour:
   m_Settings: {fileID: 11400000, guid: 8259dc4f4d8e49b4dad3c97268d6350a, type: 2}
   m_SchemaSet:
     m_Schemas:
-    - {fileID: 11400000, guid: 2e6c934c3cbc908469ece2f5ea059d5c, type: 2}
-    - {fileID: 11400000, guid: 890642b5c339b0a47b15e0dbb9f86da2, type: 2}
+    - {fileID: 11400000, guid: 010af0a85b48f6f14843917a6ea26908, type: 2}
+    - {fileID: 11400000, guid: 41cda59f6418724418320ec4f5e35d33, type: 2}

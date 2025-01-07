@@ -13,14 +13,28 @@ MonoBehaviour:
   m_Name: Characters
   m_EditorClassIdentifier: 
   m_GroupName: Characters
-  m_Data:
-    m_SerializedData: []
   m_GUID: ab5c9976bda4d2447a789bc6470401b1
   m_SerializeEntries:
+  - m_GUID: 21864f37af1a77745a5f10091cc8b9a0
+    m_Address: Assets/Prefabs/Player
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 4686921e96072c341b4e8590725d068d
     m_Address: Assets/Graphics/Textures/Characters
     m_ReadOnly: 0
     m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 725dbd6f71194d9419598b759361ffd4
+    m_Address: Assets/Data/Characters
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: c2a8d145e8467fb45a280765752ec305
+    m_Address: Assets/Graphics/Animations/SpriteSheets/Characters
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 8259dc4f4d8e49b4dad3c97268d6350a, type: 2}
   m_SchemaSet:

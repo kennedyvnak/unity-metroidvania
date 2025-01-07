@@ -12,10 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 468a46d0ae32c3544b7d98094e6448a9, type: 3}
   m_Name: AddressableAssetSettings
   m_EditorClassIdentifier: 
-  m_DefaultGroup: 8bb54e7f539013844982cf77b9260d01
+  m_DefaultGroup: ef5779f4afa7513e2a20748aebd087e4
   m_currentHash:
     serializedVersion: 2
-    Hash: 4f185e9f11a809276158ea40eb83ae85
+    Hash: 1caf6fa7e69e4d20efd3816ac4fc22e9
   m_OptimizeCatalogSize: 0
   m_BuildRemoteCatalog: 0
   m_CatalogRequestsTimeout: 0
@@ -62,22 +62,14 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 9d46a594e211c50439e7b9c65861b67a, type: 2}
   - {fileID: 11400000, guid: 4b8b9351acc697e4780b7aded76dea85, type: 2}
   - {fileID: 11400000, guid: b7ee33767bfa17c49b48ccec5ba0d5ee, type: 2}
-  - {fileID: 11400000, guid: 92a178c5eabdede4b9ee0717950cb0ce, type: 2}
   - {fileID: 11400000, guid: 54a90d8638b86624b867d961fd182b4f, type: 2}
-  - {fileID: 11400000, guid: d1d8870304ac6c444a6b42c545440fb5, type: 2}
   - {fileID: 11400000, guid: e346aa44d13ac694bae893e9bb9a9ad2, type: 2}
-  - {fileID: 11400000, guid: 9f4763348c525eb42afe2fe4e47ce652, type: 2}
-  - {fileID: 11400000, guid: 29ca393a52fb1d04aa25a19359505746, type: 2}
+  - {fileID: 11400000, guid: ab03bb61e53dd86d7ac623513cf7c6ea, type: 2}
   - {fileID: 11400000, guid: 9fdb23eebe938bf4ea6f71edc96b3b3e, type: 2}
   - {fileID: 11400000, guid: b6ee21ff0887dce4183794bc1603a943, type: 2}
   - {fileID: 11400000, guid: 6d4ab1e2fcbc9244ab804e86e64b2cee, type: 2}
-  - {fileID: 11400000, guid: c8c0f53969d04774780693f03054e1b4, type: 2}
   - {fileID: 11400000, guid: 4e7120becaccb0a4cb5f2d35ffa4a19a, type: 2}
-  - {fileID: 11400000, guid: 81c27a13d36240547883026b4f2db7b3, type: 2}
-  - {fileID: 11400000, guid: f8cb2cd2d9f41d24db60a74f5ed4c622, type: 2}
-  - {fileID: 11400000, guid: 85b5cc9b96558774aaf1c14f7f3d9aad, type: 2}
-  - {fileID: 11400000, guid: 4f62197db1f86a14aa127abb026150b1, type: 2}
-  - {fileID: 11400000, guid: 412ea64e936ef224db416680f36db8dc, type: 2}
+  - {fileID: 11400000, guid: 8c6f603f2004c07fa9731b16dcde6e6a, type: 2}
   m_BuildSettings:
     m_LogResourceManagerExceptions: 1
     m_BundleBuildPath: Temp/com.unity.addressables/AssetBundles
