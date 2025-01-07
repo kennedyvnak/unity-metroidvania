@@ -5,6 +5,10 @@
 Unity Metroidvania is a metroidvania game written in C# using the Unity Engine.
 Straightforward.
 
+> [!NOTE]
+> You can check the older version (for Unity 2021) in the branch
+> [v1](https://github.com/kennedyvnak/unity-metroidvania/tree/v1)
+
 ![ThePaleMoonlightSample](/Docs/ReadmeImages/ThePaleMoonlightSample.png)
 
 ## Credits to the artists
