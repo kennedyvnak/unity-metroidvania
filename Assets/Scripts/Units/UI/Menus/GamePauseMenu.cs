@@ -1,14 +1,13 @@
-using DG.Tweening;
 using Metroidvania.InputSystem;
 using Metroidvania.SceneManagement;
-using System.Collections;
 using UnityEngine;
 
 namespace Metroidvania.UI.Menus
 {
-    public class GamePauseMenu : GameplayMenuInstance
+    public class GamePauseMenu : CanvasMenuBase
     {
         [SerializeField] private CanvasGroup m_titleGroup;
+        [SerializeField] private CanvasGroup m_mainGroup;
         [SerializeField] private OptionsMenu m_optionsMenu;
 
         public IMenuScreen activeScreen { get; private set; }
@@ -16,23 +15,36 @@ namespace Metroidvania.UI.Menus
         private void Awake()
         {
             m_optionsMenu.OnMenuDisable += ActiveMenu;
-            InputReader.instance.MenuCloseEvent += PerformMenuClose;
         }
 
-        private void OnDestroy()
+        private void OnEnable()
         {
+            InputReader.instance.MenuCloseEvent += PerformMenuClose;
+            InputReader.instance.PauseEvent += PauseGame;
+        }
+
+        private void OnDisable()
+        {
+            InputReader.instance.PauseEvent -= PauseGame;
             InputReader.instance.MenuCloseEvent -= PerformMenuClose;
+        }
+
+        public void PauseGame()
+        {
+            GameManager.instance.PauseGame();
+            menuEnabled = true;
+            m_titleGroup.FadeGroup(true, UIUtility.TransitionTime, SetFirstSelected);
+        }
+
+        public void ResumeGame()
+        {
+            m_titleGroup.FadeGroup(false, UIUtility.TransitionTime, GameManager.instance.ResumeGame);
         }
 
         public void ActiveMenu()
         {
             menuEnabled = true;
-            m_titleGroup.FadeGroup(true, UIUtility.TransitionTime, SetFirstSelected);
-        }
-
-        public void Resume()
-        {
-            StartCoroutine(channel.UnloadMenuInstance());
+            m_mainGroup.FadeGroup(true, UIUtility.TransitionTime, SetFirstSelected);
         }
 
         public void OpenOptions()
@@ -48,7 +60,7 @@ namespace Metroidvania.UI.Menus
 
         public void SwitchToScreen(IMenuScreen screen)
         {
-            m_titleGroup.FadeGroup(false, UIUtility.TransitionTime, screen.ActiveMenu);
+            m_mainGroup.FadeGroup(false, UIUtility.TransitionTime, screen.ActiveMenu);
             menuEnabled = false;
             activeScreen = screen;
         }
@@ -56,24 +68,13 @@ namespace Metroidvania.UI.Menus
         public void PerformMenuClose()
         {
             if (menuEnabled)
-                Resume();
+            {
+                ResumeGame();
+            }
             else if (activeScreen != null)
+            {
                 activeScreen.DesactiveMenu();
-        }
-
-        public override IEnumerator InitOperation(GameplayMenuChannel channel)
-        {
-            this.channel = channel;
-            menuEnabled = true;
-            Tweener t = m_titleGroup.FadeGroup(true, UIUtility.TransitionTime);
-            yield return t.WaitForCompletion();
-            SetFirstSelected();
-        }
-
-        public override IEnumerator ReleaseOperation()
-        {
-            Tweener t = m_titleGroup.FadeGroup(false, UIUtility.TransitionTime);
-            yield return t.WaitForCompletion();
+            }
         }
     }
 }

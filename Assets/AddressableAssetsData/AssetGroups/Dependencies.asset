@@ -13,30 +13,33 @@ MonoBehaviour:
   m_Name: Dependencies
   m_EditorClassIdentifier: 
   m_GroupName: Dependencies
-  m_Data:
-    m_SerializedData: []
   m_GUID: 401b900fbcaa1624ca824fe3c0e7c4fb
   m_SerializeEntries:
-  - m_GUID: 640710ba817e74e498b3122475fd0a73
-    m_Address: Assets/Graphics/Materials/Units
-    m_ReadOnly: 0
-    m_SerializedLabels: []
   - m_GUID: 4e6e1b5150e6c454593abacaa5bd49d5
     m_Address: Assets/Graphics/Animations/UI
     m_ReadOnly: 0
     m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 63f5e1f9ad0efc0418978cf896f9718e
     m_Address: Assets/Graphics/Textures/Units
     m_ReadOnly: 0
     m_SerializedLabels: []
-  - m_GUID: cea5d050e78d065438ac7897b83c5fc1
-    m_Address: Assets/Graphics/Animations/Units
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 640710ba817e74e498b3122475fd0a73
+    m_Address: Assets/Graphics/Materials/Units
     m_ReadOnly: 0
     m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: c99a35d6525979c4cbf773db4f16780d
     m_Address: Assets/Graphics/Textures/Enviroment/Units
     m_ReadOnly: 0
     m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: cea5d050e78d065438ac7897b83c5fc1
+    m_Address: Assets/Graphics/Animations/Units
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 8259dc4f4d8e49b4dad3c97268d6350a, type: 2}
   m_SchemaSet:

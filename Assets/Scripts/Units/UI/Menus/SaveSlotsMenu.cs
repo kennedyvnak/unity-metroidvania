@@ -17,7 +17,7 @@ namespace Metroidvania.Serialization.Menus
 
         private void Start()
         {
-            _saveSlots = GetComponentsInChildren<SaveSlot>();
+            _saveSlots = GetComponentsInChildren<SaveSlot>(true);
 
             foreach (SaveSlot saveSlot in _saveSlots)
             {
@@ -35,11 +35,11 @@ namespace Metroidvania.Serialization.Menus
                 ContinueGame(slotData);
             else
                 NewGame(saveSlot.GetUserId());
+            Debug.Log(saveSlot);
         }
 
         private void NewGame(int userId)
         {
-            // new game operations
             if (GameDebugger.instance.debugSerialization)
                 GameDebugger.Log($"Started a new game at user {userId}");
 
@@ -49,7 +49,6 @@ namespace Metroidvania.Serialization.Menus
 
         private void ContinueGame(GameData data)
         {
-            // load game operations
             if (GameDebugger.instance.debugSerialization)
                 GameDebugger.Log($"Continued a game {data.userId}");
 

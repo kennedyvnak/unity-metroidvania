@@ -1,5 +1,7 @@
 ﻿using Metroidvania.UI;
 using UnityEngine;
+using UnityEngine.Localization;
+using UnityEngine.Localization.Components;
 using UnityEngine.UI;
 
 namespace Metroidvania.Serialization.Menus
@@ -10,9 +12,10 @@ namespace Metroidvania.Serialization.Menus
         [SerializeField] private int m_userId;
 
         [Header("Content")]
-        [SerializeField] private GameObject m_noDataContent;
-        [SerializeField] private GameObject m_hasDataContent;
-        [SerializeField] private Button m_button;
+        [SerializeField] private LocalizedString m_noDataContent;
+        [SerializeField] private LocalizedString m_hasDataContent;
+        [SerializeField] private LocalizeStringEvent m_text;
+        [SerializeField] private Button m_button, m_deleteButton;
 
         public Button button => m_button;
 
@@ -23,13 +26,13 @@ namespace Metroidvania.Serialization.Menus
             _data = data;
             if (data == null)
             {
-                m_hasDataContent.SetActive(false);
-                m_noDataContent.SetActive(true);
+                m_text.StringReference = m_noDataContent;
+                m_deleteButton.gameObject.SetActive(false);
             }
             else
             {
-                m_noDataContent.SetActive(false);
-                m_hasDataContent.SetActive(true);
+                m_text.StringReference = m_hasDataContent;
+                m_deleteButton.gameObject.SetActive(true);
             }
         }
 

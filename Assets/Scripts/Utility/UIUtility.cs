@@ -39,16 +39,17 @@ namespace Metroidvania.UI
                 s_EventsBlocks.Add(group);
                 ToggleEvents(false);
             }
+            group.gameObject.SetActive(true);
             return DOVirtual.Float(group.alpha, active ? 1 : 0, duration, (a) => group.alpha = a).OnComplete(() =>
             {
                 group.blocksRaycasts = active;
-                group.interactable = active;
                 if (disableUIEvents)
                 {
                     s_EventsBlocks.Remove(group);
                     if (s_EventsBlocks.Count == 0)
                         ToggleEvents(true);
                 }
+                group.gameObject.SetActive(active);
                 onComplete?.Invoke();
             }).SetUpdate(true);
         }
