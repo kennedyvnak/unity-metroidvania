@@ -29,7 +29,7 @@ namespace Metroidvania.UI
             }
         }
 
-        public const float TransitionTime = .333F;
+        public const float TransitionTime = .2F;
 
         private static readonly List<CanvasGroup> s_EventsBlocks = new List<CanvasGroup>();
         public static Tweener FadeGroup(this CanvasGroup group, bool active, float duration, TweenCallback onComplete = null, bool disableUIEvents = true)
@@ -51,7 +51,7 @@ namespace Metroidvania.UI
                 }
                 group.gameObject.SetActive(active);
                 onComplete?.Invoke();
-            }).SetUpdate(true);
+            }).SetUpdate(true).SetEase(active ? Ease.OutSine : Ease.InSine);
         }
 
         public static void ToggleEvents(bool enabled)

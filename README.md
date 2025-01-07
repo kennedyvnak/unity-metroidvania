@@ -22,6 +22,10 @@ Straightforward.
 
 - [The Pale Moonlight](https://corwin-zx.itch.io/the-pale-moonlight)
 
+### UI
+
+- [Status Bar](https://sweenus.itch.io/sharp-hud)
+
 ## Packages used in project
 
 - New Input System

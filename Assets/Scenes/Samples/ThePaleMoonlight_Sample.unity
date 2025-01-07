@@ -11010,11 +11010,19 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 7980389921542987491, guid: 11cd0fc535a25e447a5d9f0c58261dbb, type: 3}
+    - target: {fileID: 6951014943071956465, guid: 11cd0fc535a25e447a5d9f0c58261dbb, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 7980389921542987491, guid: 11cd0fc535a25e447a5d9f0c58261dbb, type: 3}
+    - target: {fileID: 6951014943071956465, guid: 11cd0fc535a25e447a5d9f0c58261dbb, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7757075151652307024, guid: 11cd0fc535a25e447a5d9f0c58261dbb, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7757075151652307024, guid: 11cd0fc535a25e447a5d9f0c58261dbb, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
