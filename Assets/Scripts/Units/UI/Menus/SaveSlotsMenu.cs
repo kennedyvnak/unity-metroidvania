@@ -35,7 +35,6 @@ namespace Metroidvania.Serialization.Menus
                 ContinueGame(slotData);
             else
                 NewGame(saveSlot.GetUserId());
-            Debug.Log(saveSlot);
         }
 
         private void NewGame(int userId)
