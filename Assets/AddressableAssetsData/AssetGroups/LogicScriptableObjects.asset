@@ -13,18 +13,13 @@ MonoBehaviour:
   m_Name: LogicScriptableObjects
   m_EditorClassIdentifier: 
   m_GroupName: LogicScriptableObjects
-  m_Data:
-    m_SerializedData: []
   m_GUID: db6681ad18819d74083c487e2de109b7
   m_SerializeEntries:
   - m_GUID: 3e15be757d695834889a3f527e763740
     m_Address: Assets/Data/Events
     m_ReadOnly: 0
     m_SerializedLabels: []
-  - m_GUID: 1d5c6f699e4843c40ac5ddcea0737960
-    m_Address: Assets/Data/MenuChannels
-    m_ReadOnly: 0
-    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 8259dc4f4d8e49b4dad3c97268d6350a, type: 2}
   m_SchemaSet:

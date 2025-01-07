@@ -45,70 +45,21 @@ SpriteAtlas:
     secondaryTextureSettings: {}
     variantMultiplier: 1
     packables:
-    - {fileID: 2800000, guid: fa23021fc519a2842adabea998161f8a, type: 3}
-    - {fileID: 2800000, guid: 36a9fd8e994460943a793f2a32da3709, type: 3}
-    - {fileID: 2800000, guid: 0b577c7ea003eb3439db58d74ba5602b, type: 3}
-    - {fileID: 2800000, guid: 32b63588360fe1c41a9dffd6bea15adc, type: 3}
     - {fileID: 2800000, guid: 74d714ceae57b5848aac61ab6dcdf5b5, type: 3}
     - {fileID: 2800000, guid: d9c523b288ed3c541969150ce3cd362e, type: 3}
-    - {fileID: 2800000, guid: 58a452129fcb0504b82d59e37310b216, type: 3}
-    - {fileID: 2800000, guid: 104d7f1aae1198c458a5e784899734f7, type: 3}
-    - {fileID: 2800000, guid: a5cc2b47d16158c4d835528aec736cee, type: 3}
-    - {fileID: 2800000, guid: 260cfb0b8ff83654396b54f1fe3cec43, type: 3}
-    - {fileID: 2800000, guid: 8ec2123632e7291448f08d0894251028, type: 3}
-    - {fileID: 2800000, guid: cd9abcd9b3217724c956e229e8562897, type: 3}
     bindAsDefault: 1
     isAtlasV2: 0
     cachedData: {fileID: 0}
     packedSpriteRenderDataKeys:
-    - 58a452129fcb0504b82d59e37310b216: 21300000
     - d9c523b288ed3c541969150ce3cd362e: 21300000
-    - 8ec2123632e7291448f08d0894251028: 21300000
-    - a5cc2b47d16158c4d835528aec736cee: 21300000
-    - 32b63588360fe1c41a9dffd6bea15adc: 21300000
-    - cd9abcd9b3217724c956e229e8562897: 21300000
-    - 104d7f1aae1198c458a5e784899734f7: -1128227743
-    - 104d7f1aae1198c458a5e784899734f7: -794366931
-    - 260cfb0b8ff83654396b54f1fe3cec43: -2071306532
-    - 260cfb0b8ff83654396b54f1fe3cec43: -423129921
-    - 260cfb0b8ff83654396b54f1fe3cec43: 1009664855
-    - 0b577c7ea003eb3439db58d74ba5602b: 21300000
-    - 36a9fd8e994460943a793f2a32da3709: 21300000
     - 74d714ceae57b5848aac61ab6dcdf5b5: 21300000
-    - fa23021fc519a2842adabea998161f8a: 21300000
   m_MasterAtlas: {fileID: 0}
   m_PackedSprites:
-  - {fileID: 21300000, guid: 58a452129fcb0504b82d59e37310b216, type: 3}
   - {fileID: 21300000, guid: d9c523b288ed3c541969150ce3cd362e, type: 3}
-  - {fileID: 21300000, guid: 8ec2123632e7291448f08d0894251028, type: 3}
-  - {fileID: 21300000, guid: a5cc2b47d16158c4d835528aec736cee, type: 3}
-  - {fileID: 21300000, guid: 32b63588360fe1c41a9dffd6bea15adc, type: 3}
-  - {fileID: 21300000, guid: cd9abcd9b3217724c956e229e8562897, type: 3}
-  - {fileID: -1128227743, guid: 104d7f1aae1198c458a5e784899734f7, type: 3}
-  - {fileID: -794366931, guid: 104d7f1aae1198c458a5e784899734f7, type: 3}
-  - {fileID: -2071306532, guid: 260cfb0b8ff83654396b54f1fe3cec43, type: 3}
-  - {fileID: -423129921, guid: 260cfb0b8ff83654396b54f1fe3cec43, type: 3}
-  - {fileID: 1009664855, guid: 260cfb0b8ff83654396b54f1fe3cec43, type: 3}
-  - {fileID: 21300000, guid: 0b577c7ea003eb3439db58d74ba5602b, type: 3}
-  - {fileID: 21300000, guid: 36a9fd8e994460943a793f2a32da3709, type: 3}
   - {fileID: 21300000, guid: 74d714ceae57b5848aac61ab6dcdf5b5, type: 3}
-  - {fileID: 21300000, guid: fa23021fc519a2842adabea998161f8a, type: 3}
   m_PackedSpriteNamesToIndex:
-  - Field_Button
   - Field_Bar_Fill
-  - Field_Translucid-Box
-  - Field_Toggle-Checkmark
-  - Box_2
-  - Icon_Trash-Can
-  - Field_Slider_Background
-  - Field_Slider_Fill
-  - Field_Toggles_Disabled
-  - Field_Toggle_Off
-  - Field_Toggles_On
-  - Box_1
-  - Box_0
   - Field_Bar
-  - Background_Buttons
   m_RenderDataMap: {}
   m_Tag: UI_Atlas
   m_IsVariant: 0
