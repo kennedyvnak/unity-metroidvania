@@ -13,26 +13,28 @@ MonoBehaviour:
   m_Name: DataScriptableObjects
   m_EditorClassIdentifier: 
   m_GroupName: DataScriptableObjects
-  m_Data:
-    m_SerializedData: []
   m_GUID: 784b17e0c45fcf4409ee511aa3b55171
   m_SerializeEntries:
-  - m_GUID: 3a23cd6c5138a364d9f8dd550bead783
-    m_Address: Assets/Data/Entities
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-  - m_GUID: a4a5a5b8221c27347819b83e12b0b5f5
-    m_Address: Assets/Data/Scenes
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-  - m_GUID: e1feb0f94abc04d4c80a36ba926eb5bb
-    m_Address: Assets/Data/Menus
-    m_ReadOnly: 0
-    m_SerializedLabels: []
   - m_GUID: 110c533a9255aaa408ba581c5716317f
     m_Address: Assets/Data/Serialization
     m_ReadOnly: 0
     m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 3a23cd6c5138a364d9f8dd550bead783
+    m_Address: Assets/Data/Entities
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: a4a5a5b8221c27347819b83e12b0b5f5
+    m_Address: Assets/Data/Scenes
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: e1feb0f94abc04d4c80a36ba926eb5bb
+    m_Address: Assets/Data/Menus
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 8259dc4f4d8e49b4dad3c97268d6350a, type: 2}
   m_SchemaSet:

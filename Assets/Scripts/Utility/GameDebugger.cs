@@ -1,8 +1,10 @@
 using UnityEngine;
 
-namespace Metroidvania {
+namespace Metroidvania
+{
     // TODO: Add in-game debug screen
-    public class GameDebugger : ScriptableSingleton<GameDebugger> {
+    public class GameDebugger : ScriptableSingleton<GameDebugger>
+    {
         [SerializeField] private bool m_forceDebug = true;
 
         [Header("Instances")]
@@ -16,15 +18,18 @@ namespace Metroidvania {
 
         public static bool debugEnabled => Application.isEditor || instance.m_forceDebug;
 
-        public static void Log(object message, Object target = null) {
+        public static void Log(object message, Object target = null)
+        {
             Debug.Log(message, target);
         }
 
-        public static void LogWarning(object message, Object target = null) {
+        public static void LogWarning(object message, Object target = null)
+        {
             Debug.LogWarning(message, target);
         }
 
-        public static void LogError(object message, Object target = null) {
+        public static void LogError(object message, Object target = null)
+        {
             Debug.LogError(message, target);
         }
     }

@@ -7,8 +7,10 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-namespace Metroidvania.Characters.Knight {
-    public class KnightCharacterController : CharacterBase, ISceneTransistor, IEntityHittable {
+namespace Metroidvania.Characters.Knight
+{
+    public class KnightCharacterController : CharacterBase, ISceneTransistor, IEntityHittable
+    {
         public static readonly int IdleAnimHash = Animator.StringToHash("Idle");
         public static readonly int RunAnimHash = Animator.StringToHash("Run");
 
@@ -76,7 +78,8 @@ namespace Metroidvania.Characters.Knight {
         public InputAction attackAction => InputReader.instance.inputActions.Gameplay.Attack;
         public InputAction jumpAction => InputReader.instance.inputActions.Gameplay.Jump;
 
-        private void Awake() {
+        private void Awake()
+        {
             rb = GetComponent<Rigidbody2D>();
             _collider = GetComponent<BoxCollider2D>();
             _animator = m_gfxGameObject.GetComponent<SpriteSheetAnimator>();
@@ -88,30 +91,36 @@ namespace Metroidvania.Characters.Knight {
             stateMachine = new KnightStateMachine(this);
         }
 
-        private void Update() {
+        private void Update()
+        {
             stateMachine.currentState.Update();
         }
 
-        private void OnEnable() {
+        private void OnEnable()
+        {
             InputReader.instance.MoveEvent += ReadMoveInput;
 
         }
 
-        private void OnDisable() {
+        private void OnDisable()
+        {
             InputReader.instance.MoveEvent -= ReadMoveInput;
         }
 
-        private void FixedUpdate() {
+        private void FixedUpdate()
+        {
             CollisionsCheck();
         }
 
-        private void OnTriggerStay2D(Collider2D other) {
+        private void OnTriggerStay2D(Collider2D other)
+        {
             if (!other.TryGetComponent<ITouchHit>(out ITouchHit touchHit) || (!touchHit.ignoreInvincibility && isInvincible))
                 return;
             OnTakeHit(touchHit.OnHitCharacter(this));
         }
 
-        public override void OnTakeHit(EntityHitData hitData) {
+        public override void OnTakeHit(EntityHitData hitData)
+        {
             if (isInvincible || isDied)
                 return;
 
@@ -120,13 +129,15 @@ namespace Metroidvania.Characters.Knight {
 
             if (life.currentLife <= 0)
                 stateMachine.EnterState(stateMachine.dieState);
-            else {
+            else
+            {
                 AddInvincibility(data.defaultInvincibilityTime, true);
                 stateMachine.EnterHurt(hitData);
             }
         }
 
-        public void SwitchAnimation(int animationHash, bool force = false) {
+        public void SwitchAnimation(int animationHash, bool force = false)
+        {
             if (!force && currentAnimationHash == animationHash)
                 return;
 
@@ -134,53 +145,61 @@ namespace Metroidvania.Characters.Knight {
             currentAnimationHash = animationHash;
         }
 
-        public void SetHorizontalVelocity(float velocity, bool doFlipCheck = true) {
-            rb.velocity = new Vector2(velocity, rb.velocity.y);
+        public void SetHorizontalVelocity(float velocity, bool doFlipCheck = true)
+        {
+            rb.linearVelocity = new Vector2(velocity, rb.linearVelocity.y);
             if (doFlipCheck)
                 FlipByVelocity();
         }
 
-        public void FlipByVelocity() {
-            if ((rb.velocity.x < 0 && facingDirection == 1) || (rb.velocity.x > 0 && facingDirection == -1))
+        public void FlipByVelocity()
+        {
+            if ((rb.linearVelocity.x < 0 && facingDirection == 1) || (rb.linearVelocity.x > 0 && facingDirection == -1))
                 Flip();
         }
 
-        public void PerformAttack(KnightData.Attack attackData) {
+        public void PerformAttack(KnightData.Attack attackData)
+        {
             rb.MovePosition(rb.position + new Vector2(attackData.horizontalMoveOffset * facingDirection, 0));
 
-            int hitCount = Physics2D.OverlapBoxNonAlloc(
-                rb.position + (attackData.triggerCollider.center * transform.localScale),
-                attackData.triggerCollider.size, 0, attackHits, data.hittableLayer);
+            var contactFilter = new ContactFilter2D();
+            contactFilter.SetLayerMask(data.hittableLayer);
+            int hitCount = Physics2D.OverlapBox(rb.position + (attackData.triggerCollider.center * transform.localScale), attackData.triggerCollider.size, 0, contactFilter, attackHits);
 
             if (hitCount <= 0)
                 return;
 
             CharacterHitData hitData = new CharacterHitData(attackData.damage, attackData.force, this);
-            for (int i = 0; i < hitCount; i++) {
+            for (int i = 0; i < hitCount; i++)
+            {
                 Collider2D hit = attackHits[i];
                 if (hit.TryGetComponent<IHittableTarget>(out IHittableTarget hittableTarget))
                     hittableTarget.OnTakeHit(hitData);
             }
         }
 
-        public void SetColliderBounds(KnightData.ColliderBounds colliderBounds) {
+        public void SetColliderBounds(KnightData.ColliderBounds colliderBounds)
+        {
             colliderBoundsSource = colliderBounds;
             _collider.offset = colliderBounds.bounds.min;
             _collider.size = colliderBounds.bounds.size;
             CollisionsCheck();
         }
 
-        public Collider2D OverlapBoxOnGround(Rect bounds) {
+        public Collider2D OverlapBoxOnGround(Rect bounds)
+        {
             Vector2 charPosition = transform.position;
             Vector2 boundsPosition = bounds.position * transform.localScale;
             return Physics2D.OverlapBox(charPosition + boundsPosition, bounds.size, 0, data.groundLayer);
         }
 
-        public void AddInvincibility(float time, bool shouldAnim) {
+        public void AddInvincibility(float time, bool shouldAnim)
+        {
             StartCoroutine(StartInvincibility(time, shouldAnim));
         }
 
-        public override void OnSceneTransition(SceneLoader.SceneTransitionData transitionData) {
+        public override void OnSceneTransition(SceneLoader.SceneTransitionData transitionData)
+        {
             CharacterSpawnPoint spawnPoint = GetSceneSpawnPoint(transitionData);
 
             transform.position = spawnPoint.position;
@@ -189,28 +208,33 @@ namespace Metroidvania.Characters.Knight {
             FocusCameraOnThis();
 
             life.SetMaxLife(data.maxLife);
-            if (transitionData.gameData.ch_knight_died) {
+            if (transitionData.gameData.ch_knight_died)
+            {
                 life.SetLife(data.maxLife, RuntimeFields.RuntimeFieldSetMode.Setup);
                 transitionData.gameData.ch_knight_died = false;
-            } else
+            }
+            else
                 life.SetLife(transitionData.gameData.ch_knight_life, RuntimeFields.RuntimeFieldSetMode.Setup);
 
             if (spawnPoint.isHorizontalDoor)
                 stateMachine.EnterFakeWalk(data.fakeWalkOnSceneTransitionTime);
         }
 
-        public override void BeforeUnload(SceneLoader.SceneUnloadData unloadData) {
+        public override void BeforeUnload(SceneLoader.SceneUnloadData unloadData)
+        {
             unloadData.gameData.ch_knight_life = life.currentLife;
             unloadData.gameData.ch_knight_died = isDied;
         }
 
-        private void CollisionsCheck() {
+        private void CollisionsCheck()
+        {
             isGrounded = OverlapBoxOnGround(colliderBoundsSource.feetRect);
             isTouchingWall = OverlapBoxOnGround(colliderBoundsSource.handRect);
             canStand = !OverlapBoxOnGround(data.crouchHeadRect);
         }
 
-        private IEnumerator StartInvincibility(float time, bool shouldAnim) {
+        private IEnumerator StartInvincibility(float time, bool shouldAnim)
+        {
             if (shouldAnim)
                 _invincibilityAnimationsCount++;
             _invincibilityCount++;
@@ -225,9 +249,11 @@ namespace Metroidvania.Characters.Knight {
                 _invincibilityAnimationsCount--;
         }
 
-        private IEnumerator StartInvincibilityAnimation() {
+        private IEnumerator StartInvincibilityAnimation()
+        {
             float elapsedTime = 0;
-            while (_invincibilityAnimationsCount > 0) {
+            while (_invincibilityAnimationsCount > 0)
+            {
                 elapsedTime += Time.deltaTime * data.invincibilityFadeSpeed;
                 _renderer.SetAlpha(1 - Mathf.PingPong(elapsedTime, data.invincibilityAlphaChange));
                 yield return null;
@@ -240,7 +266,8 @@ namespace Metroidvania.Characters.Knight {
         private void ReadMoveInput(float move) => horizontalMove = move;
 
 #if UNITY_EDITOR
-        private void OnDrawGizmos() {
+        private void OnDrawGizmos()
+        {
             if (!m_DrawGizmos || !data)
                 return;
 
@@ -262,14 +289,16 @@ namespace Metroidvania.Characters.Knight {
                 drawer.SetColor(GizmosColor.instance.knight.feet)
                     .DrawWireSquare(position + (data.crouchHeadRect.min * scale), data.crouchHeadRect.size);
 
-            void DrawAttack(KnightData.Attack attack) {
+            void DrawAttack(KnightData.Attack attack)
+            {
                 if (!attack.drawGizmos)
                     return;
 
                 drawer.DrawWireSquare(position + (attack.triggerCollider.center * scale), attack.triggerCollider.size);
             }
 
-            void DrawColliderData(KnightData.ColliderBounds colliderBounds) {
+            void DrawColliderData(KnightData.ColliderBounds colliderBounds)
+            {
                 if (!colliderBounds.drawGizmos)
                     return;
 
@@ -284,7 +313,8 @@ namespace Metroidvania.Characters.Knight {
 #endif
 
         [System.Serializable]
-        public class Particles {
+        public class Particles
+        {
             public ParticleSystem jump;
             public ParticleSystem wallslide;
             public ParticleSystem walljump;

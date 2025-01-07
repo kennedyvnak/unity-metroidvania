@@ -1,7 +1,9 @@
 using UnityEngine;
 
-namespace Metroidvania.Animations {
-    public class Test : MonoBehaviour {
+namespace Metroidvania.Animations
+{
+    public class Test : MonoBehaviour
+    {
         public SpriteSheetAnimator animator;
 
         [ContextMenu("Set Idle")]
@@ -16,7 +18,8 @@ namespace Metroidvania.Animations {
         [ContextMenu("Set Die")]
         public void setDie() => setAnim("Die");
 
-        public void setAnim(string key) {
+        public void setAnim(string key)
+        {
             animator.SetSheet(animator.animationsBundle.GetAnimation(key));
         }
     }

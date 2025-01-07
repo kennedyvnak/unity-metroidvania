@@ -1,8 +1,10 @@
 using UnityEngine;
 
-namespace Metroidvania.Animations {
+namespace Metroidvania.Animations
+{
     [RequireComponent(typeof(SpriteRenderer))]
-    public class SpriteSheetAnimator : MonoBehaviour {
+    public class SpriteSheetAnimator : MonoBehaviour
+    {
         private SpriteRenderer _renderer;
 
         [SerializeField] private SpriteSheetAnimationsBundle m_AnimationsBundle;
@@ -12,11 +14,13 @@ namespace Metroidvania.Animations {
 
         private float elapsedTime { get; set; }
 
-        private void Awake() {
+        private void Awake()
+        {
             _renderer = GetComponent<SpriteRenderer>();
         }
 
-        private void Update() {
+        private void Update()
+        {
             if (currentSheet == null)
                 return;
 
@@ -29,7 +33,8 @@ namespace Metroidvania.Animations {
             _renderer.sprite = currentSheet.sheet[spriteIndex];
         }
 
-        public void SetSheet(SpriteSheetAnimation animation) {
+        public void SetSheet(SpriteSheetAnimation animation)
+        {
             currentSheet = animation;
             elapsedTime = 0;
         }

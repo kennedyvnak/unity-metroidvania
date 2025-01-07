@@ -1,29 +1,38 @@
 ﻿using Metroidvania.UI;
 using UnityEngine;
+using UnityEngine.Localization;
+using UnityEngine.Localization.Components;
 using UnityEngine.UI;
 
-namespace Metroidvania.Serialization.Menus {
-    public class SaveSlot : MonoBehaviour {
+namespace Metroidvania.Serialization.Menus
+{
+    public class SaveSlot : MonoBehaviour
+    {
         [Header("User")]
         [SerializeField] private int m_userId;
 
         [Header("Content")]
-        [SerializeField] private GameObject m_noDataContent;
-        [SerializeField] private GameObject m_hasDataContent;
-        [SerializeField] private Button m_button;
+        [SerializeField] private LocalizedString m_noDataContent;
+        [SerializeField] private LocalizedString m_hasDataContent;
+        [SerializeField] private LocalizeStringEvent m_text;
+        [SerializeField] private Button m_button, m_deleteButton;
 
         public Button button => m_button;
 
         private GameData _data;
 
-        public void SetData(GameData data) {
+        public void SetData(GameData data)
+        {
             _data = data;
-            if (data == null) {
-                m_hasDataContent.SetActive(false);
-                m_noDataContent.SetActive(true);
-            } else {
-                m_noDataContent.SetActive(false);
-                m_hasDataContent.SetActive(true);
+            if (data == null)
+            {
+                m_text.StringReference = m_noDataContent;
+                m_deleteButton.gameObject.SetActive(false);
+            }
+            else
+            {
+                m_text.StringReference = m_hasDataContent;
+                m_deleteButton.gameObject.SetActive(true);
             }
         }
 
@@ -31,7 +40,8 @@ namespace Metroidvania.Serialization.Menus {
 
         public int GetUserId() => m_userId;
 
-        public void DeleteData() {
+        public void DeleteData()
+        {
             if (_data == null)
                 return;
 

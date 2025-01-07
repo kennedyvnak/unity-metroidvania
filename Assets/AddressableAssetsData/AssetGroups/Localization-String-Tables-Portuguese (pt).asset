@@ -13,8 +13,6 @@ MonoBehaviour:
   m_Name: Localization-String-Tables-Portuguese (pt)
   m_EditorClassIdentifier: 
   m_GroupName: Localization-String-Tables-Portuguese (pt)
-  m_Data:
-    m_SerializedData: []
   m_GUID: 107b261cae826a0428b8306764f157d4
   m_SerializeEntries:
   - m_GUID: 10f83a8ea7c087f4d8d3d720f87b3f19
@@ -23,6 +21,7 @@ MonoBehaviour:
     m_SerializedLabels:
     - Locale-pt
     - Preload
+    FlaggedDuringContentUpdateRestriction: 0
   m_ReadOnly: 1
   m_Settings: {fileID: 11400000, guid: 8259dc4f4d8e49b4dad3c97268d6350a, type: 2}
   m_SchemaSet:

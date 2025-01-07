@@ -5,15 +5,18 @@ using UnityEditor;
 using UnityEditor.AssetImporters;
 using UnityEngine;
 
-namespace MetroidvaniaEditor.Serialization {
+namespace MetroidvaniaEditor.Serialization
+{
     [CustomEditor(typeof(GameDataImporter))]
-    public class GameDataEditor : ScriptedImporterEditor {
+    public class GameDataEditor : ScriptedImporterEditor
+    {
         private static GUIStyle s_LabelStyle => EditorStyles.whiteLabel;
 
         private GUIContent _gameDataJsonContent;
         private Vector2 _previewScrollPosition;
 
-        public override void OnEnable() {
+        public override void OnEnable()
+        {
             base.OnEnable();
             string assetPath = AssetDatabase.GetAssetPath(assetTarget);
             string assetFileJson = File.ReadAllText(assetPath);
@@ -22,14 +25,16 @@ namespace MetroidvaniaEditor.Serialization {
             _gameDataJsonContent = new GUIContent(formattedJson);
         }
 
-        public override void OnInspectorGUI() {
+        public override void OnInspectorGUI()
+        {
             GameDataAsset gameDataAsset = GetGameDataAsset();
             serializedObject.Update();
 
             if (gameDataAsset == null)
                 EditorGUILayout.HelpBox("The currently selected object is not an editable game data asset.", MessageType.Info);
 
-            using (new EditorGUI.DisabledScope(gameDataAsset == null)) {
+            using (new EditorGUI.DisabledScope(gameDataAsset == null))
+            {
                 if (GUILayout.Button("Edit asset"))
                     GameDataEditorWindow.OpenEditor(gameDataAsset);
             }
@@ -38,7 +43,8 @@ namespace MetroidvaniaEditor.Serialization {
             ApplyRevertGUI();
         }
 
-        public override void DrawPreview(Rect previewArea) {
+        public override void DrawPreview(Rect previewArea)
+        {
             Vector2 size = s_LabelStyle.CalcSize(_gameDataJsonContent);
             Rect viewRect = new Rect(0, 0, size.x, size.y);
 

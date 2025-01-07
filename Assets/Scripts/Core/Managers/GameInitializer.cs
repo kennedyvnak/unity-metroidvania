@@ -5,8 +5,10 @@ using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
 
-namespace Metroidvania.Settings {
-    public class GameInitializer : MonoBehaviour {
+namespace Metroidvania.Settings
+{
+    public class GameInitializer : MonoBehaviour
+    {
 #if UNITY_EDITOR
         public static event System.Action InitializationFinish;
 #endif
@@ -14,8 +16,10 @@ namespace Metroidvania.Settings {
         [Header("Scenes")]
         [SerializeField] private AssetReferenceSceneChannel m_mainMenuSceneRef;
 
-        private IEnumerator Start() {
-            if (!m_mainMenuSceneRef.RuntimeKeyIsValid()) {
+        private IEnumerator Start()
+        {
+            if (!m_mainMenuSceneRef.RuntimeKeyIsValid())
+            {
                 Debug.LogError("Error on game initialization. Exiting the application.");
 #if UNITY_EDITOR
                 Debug.Break();
@@ -25,7 +29,8 @@ namespace Metroidvania.Settings {
             }
 
             AsyncOperationHandle<IList<ScriptableObject>> scriptableSingletonsHandle =
-                Addressables.LoadAssetsAsync<ScriptableObject>("Scriptable Singleton", singleton => {
+                Addressables.LoadAssetsAsync<ScriptableObject>("Scriptable Singleton", singleton =>
+                {
                     if (singleton is IInitializableSingleton initializableSingleton)
                         initializableSingleton.Initialize();
                 });
@@ -38,7 +43,8 @@ namespace Metroidvania.Settings {
             yield return persistentSingletonsHandle;
 
 #if UNITY_EDITOR
-            if (InitializationFinish != null) {
+            if (InitializationFinish != null)
+            {
                 InitializationFinish.Invoke();
                 yield break;
             }
@@ -49,7 +55,8 @@ namespace Metroidvania.Settings {
         }
     }
 
-    public interface IInitializableSingleton {
+    public interface IInitializableSingleton
+    {
         void Initialize();
     }
 }

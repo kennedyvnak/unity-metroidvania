@@ -1,5 +1,7 @@
-namespace Metroidvania.Pathfinding {
-    public struct PathNodeReference {
+namespace Metroidvania.Pathfinding
+{
+    public struct PathNodeReference
+    {
         public CellPosition position;
         public int index;
 
@@ -10,7 +12,8 @@ namespace Metroidvania.Pathfinding {
 
         public bool walkable;
 
-        public PathNodeReference(CellPosition position, bool walkable, int index) {
+        public PathNodeReference(CellPosition position, bool walkable, int index)
+        {
             this.position = position;
             this.walkable = walkable;
             this.index = index;

@@ -6,8 +6,10 @@ using UnityEditor;
 using UnityEditor.Callbacks;
 using UnityEngine;
 
-namespace MetroidvaniaEditor.Serialization {
-    public class GameDataEditorWindow : EditorWindow {
+namespace MetroidvaniaEditor.Serialization
+{
+    public class GameDataEditorWindow : EditorWindow
+    {
         [SerializeField] private GameDataAsset m_asset;
         [SerializeField] private GameData m_editingData;
 
@@ -19,7 +21,8 @@ namespace MetroidvaniaEditor.Serialization {
         private const string k_FileExtension = "." + DataHandler.FileExtension;
 
         [OnOpenAsset]
-        private static bool OnOpenAsset(int instanceId, int line) {
+        private static bool OnOpenAsset(int instanceId, int line)
+        {
             string path = AssetDatabase.GetAssetPath(instanceId);
             if (!path.EndsWith(k_FileExtension, StringComparison.InvariantCultureIgnoreCase))
                 return false;
@@ -31,7 +34,8 @@ namespace MetroidvaniaEditor.Serialization {
             return true;
         }
 
-        public static void OpenEditor(GameDataAsset asset) {
+        public static void OpenEditor(GameDataAsset asset)
+        {
             GameDataEditorWindow window = GetWindow<GameDataEditorWindow>();
             window.titleContent = new GUIContent(asset.name + " (Game Data)");
             window.minSize = new Vector2(450, 600);
@@ -40,16 +44,19 @@ namespace MetroidvaniaEditor.Serialization {
             window.Show();
         }
 
-        private void OnEnable() {
+        private void OnEnable()
+        {
             so = new SerializedObject(this);
             editingDataProp = so.FindProperty(nameof(m_editingData));
         }
 
-        private void OnDisable() {
+        private void OnDisable()
+        {
             so.Dispose();
         }
 
-        private void OnGUI() {
+        private void OnGUI()
+        {
             so.Update();
             DrawToolbar();
 
@@ -63,16 +70,19 @@ namespace MetroidvaniaEditor.Serialization {
                 hasUnsavedChanges = true;
         }
 
-        private void DrawToolbar() {
+        private void DrawToolbar()
+        {
             GUILayout.BeginHorizontal("toolbar");
-            using (new EditorGUI.DisabledScope(!hasUnsavedChanges)) {
+            using (new EditorGUI.DisabledScope(!hasUnsavedChanges))
+            {
                 if (GUILayout.Button("Save", EditorStyles.toolbarButton))
                     SaveChanges();
             }
             GUILayout.EndHorizontal();
         }
 
-        public override void SaveChanges() {
+        public override void SaveChanges()
+        {
             base.SaveChanges();
             string path = AssetDatabase.GetAssetPath(m_asset);
             string json = JsonUtility.ToJson(m_editingData);
@@ -80,7 +90,8 @@ namespace MetroidvaniaEditor.Serialization {
             m_asset.LoadFromJson(json);
         }
 
-        public override void DiscardChanges() {
+        public override void DiscardChanges()
+        {
             base.DiscardChanges();
         }
     }

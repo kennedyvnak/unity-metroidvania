@@ -23,6 +23,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1178453676684756240}
+  serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
@@ -32,22 +33,18 @@ Transform:
   - {fileID: 6391222734705660954}
   - {fileID: 1178453677971365342}
   m_Father: {fileID: 0}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &2753507242954162115
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 1178453676684756243}
     m_Modifications:
     - target: {fileID: 9116485250031512484, guid: 6dcbbcb011258ea43bd6f34165e22223, type: 3}
       propertyPath: m_Name
       value: EventSystem
-      objectReference: {fileID: 0}
-    - target: {fileID: 9116485250031512537, guid: 6dcbbcb011258ea43bd6f34165e22223, type: 3}
-      propertyPath: m_RootOrder
-      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 9116485250031512537, guid: 6dcbbcb011258ea43bd6f34165e22223, type: 3}
       propertyPath: m_LocalPosition.x
@@ -90,6 +87,9 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6dcbbcb011258ea43bd6f34165e22223, type: 3}
 --- !u!4 &6391222734705660954 stripped
 Transform:
@@ -101,15 +101,12 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 1178453676684756243}
     m_Modifications:
     - target: {fileID: 5133558595573933221, guid: 59d3b7c4224ab3c45a80f59e4fd0e7a9, type: 3}
       propertyPath: m_Name
       value: GlobalLight
-      objectReference: {fileID: 0}
-    - target: {fileID: 5133558595573933223, guid: 59d3b7c4224ab3c45a80f59e4fd0e7a9, type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5133558595573933223, guid: 59d3b7c4224ab3c45a80f59e4fd0e7a9, type: 3}
       propertyPath: m_LocalPosition.x
@@ -152,6 +149,9 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 59d3b7c4224ab3c45a80f59e4fd0e7a9, type: 3}
 --- !u!4 &1178453676819821683 stripped
 Transform:
@@ -163,15 +163,12 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 1178453676684756243}
     m_Modifications:
     - target: {fileID: 8044431524884702680, guid: 125c2ebf2151b594db23b29faf1280be, type: 3}
       propertyPath: m_Name
       value: MainCamera
-      objectReference: {fileID: 0}
-    - target: {fileID: 8044431524884702681, guid: 125c2ebf2151b594db23b29faf1280be, type: 3}
-      propertyPath: m_RootOrder
-      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 8044431524884702681, guid: 125c2ebf2151b594db23b29faf1280be, type: 3}
       propertyPath: m_LocalPosition.x
@@ -213,10 +210,102 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8044431524884702693, guid: 125c2ebf2151b594db23b29faf1280be, type: 3}
+      propertyPath: m_CullingMask.m_Bits
+      value: 1015
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 3195868736279780774, guid: 125c2ebf2151b594db23b29faf1280be, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2658835271549252860}
+    - targetCorrespondingSourceObject: {fileID: 3195868736279780774, guid: 125c2ebf2151b594db23b29faf1280be, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 6879180360957681477}
   m_SourcePrefab: {fileID: 100100000, guid: 125c2ebf2151b594db23b29faf1280be, type: 3}
 --- !u!4 &1178453677971365342 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8044431524884702681, guid: 125c2ebf2151b594db23b29faf1280be, type: 3}
   m_PrefabInstance: {fileID: 9221466280929310727}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &6026725698363925921 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3195868736279780774, guid: 125c2ebf2151b594db23b29faf1280be, type: 3}
+  m_PrefabInstance: {fileID: 9221466280929310727}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &2658835271549252860
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6026725698363925921}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f9dfa5b682dcd46bda6128250e975f58, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Priority:
+    Enabled: 1
+    m_Value: 10
+  OutputChannel: 1
+  StandbyUpdate: 2
+  m_StreamingVersion: 20241001
+  m_LegacyPriority: 0
+  Target:
+    TrackingTarget: {fileID: 0}
+    LookAtTarget: {fileID: 0}
+    CustomLookAtTarget: 0
+  Lens:
+    FieldOfView: 40
+    OrthographicSize: 5
+    NearClipPlane: 0
+    FarClipPlane: 50
+    Dutch: 0
+    ModeOverride: 0
+    PhysicalProperties:
+      GateFit: 2
+      SensorSize: {x: 1.7786459, y: 1}
+      LensShift: {x: 0, y: 0}
+      FocusDistance: 10
+      Iso: 200
+      ShutterSpeed: 0.005
+      Aperture: 16
+      BladeCount: 5
+      Curvature: {x: 2, y: 11}
+      BarrelClipping: 0.25
+      Anamorphism: 0
+  BlendHint: 0
+--- !u!114 &6879180360957681477
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6026725698363925921}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 886251e9a18ece04ea8e61686c173e1b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CameraDistance: 10
+  DeadZoneDepth: 0
+  Composition:
+    ScreenPosition: {x: 0, y: 0.17500001}
+    DeadZone:
+      Enabled: 1
+      Size: {x: 0.1, y: 0.08}
+    HardLimits:
+      Enabled: 1
+      Size: {x: 0.38, y: 0.65}
+      Offset: {x: 0, y: -0.46}
+  CenterOnActivate: 1
+  TargetOffset: {x: 0, y: 0, z: 0}
+  Damping: {x: 1, y: 5, z: 1}
+  Lookahead:
+    Enabled: 1
+    Time: 0.3
+    Smoothing: 5
+    IgnoreY: 0

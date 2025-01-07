@@ -5,13 +5,17 @@ using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-namespace MetroidvaniaEditor.Validation {
-    public class ProjectValidatorWindow : EditorWindow {
-        public abstract class ProjectValidatorView {
+namespace MetroidvaniaEditor.Validation
+{
+    public class ProjectValidatorWindow : EditorWindow
+    {
+        public abstract class ProjectValidatorView
+        {
             protected ProjectValidatorWindow root;
             public string name { get; protected set; }
 
-            public ProjectValidatorView(ProjectValidatorWindow root) {
+            public ProjectValidatorView(ProjectValidatorWindow root)
+            {
                 this.root = root;
             }
 
@@ -33,14 +37,17 @@ namespace MetroidvaniaEditor.Validation {
         private ToolbarSearchField _toolbarSearchField;
 
         [UnityEditor.Callbacks.DidReloadScripts]
-        private static void Initialize() {
+        private static void Initialize()
+        {
             viewTypes = TypeCache.GetTypesDerivedFrom(typeof(ProjectValidatorWindow.ProjectValidatorView))
                 .Where(t => !t.IsAbstract).ToList();
         }
 
         [MenuItem("Window/General/Project Validator")]
-        public static void ShowWindow() {
-            if (viewTypes.Count == 0) {
+        public static void ShowWindow()
+        {
+            if (viewTypes.Count == 0)
+            {
                 Debug.Log("Could not find any classes derived from ProjectValidatorWindow.ProjectValidatorView in the project.");
                 return;
             }
@@ -49,12 +56,14 @@ namespace MetroidvaniaEditor.Validation {
             window.Show();
         }
 
-        private void OnEnable() {
+        private void OnEnable()
+        {
             minSize = new Vector2(600, 250);
             titleContent = new GUIContent(k_WindowTitle);
         }
 
-        public void CreateGUI() {
+        public void CreateGUI()
+        {
             VisualTreeAsset visualTree = AssetDatabase.LoadAssetAtPath<VisualTreeAsset>(k_VisualTreeAssetPath);
             visualTree.CloneTree(rootVisualElement);
 
@@ -64,7 +73,8 @@ namespace MetroidvaniaEditor.Validation {
             _toolbarSearchField.RegisterValueChangedCallback(cEvent => OnSearchChange(cEvent.newValue));
 
             object[] viewConstructorParams = new object[] { this };
-            for (int i = 0; i < viewTypes.Count; i++) {
+            for (int i = 0; i < viewTypes.Count; i++)
+            {
                 System.Type viewType = viewTypes[i];
                 ProjectValidatorView viewInstance = System.Activator.CreateInstance(viewType, viewConstructorParams) as ProjectValidatorView;
                 _views.Add(viewInstance);
@@ -76,7 +86,8 @@ namespace MetroidvaniaEditor.Validation {
             ToggleView(0);
         }
 
-        public void ToggleView(int viewIndex) {
+        public void ToggleView(int viewIndex)
+        {
             if (_selectedView != null && viewIndex == _selectedViewIndex)
                 return;
 
@@ -88,7 +99,8 @@ namespace MetroidvaniaEditor.Validation {
             _selectedView.OnViewEnter();
         }
 
-        private void OnSearchChange(string newSearch) {
+        private void OnSearchChange(string newSearch)
+        {
             _selectedView?.OnSearchChange(newSearch);
         }
     }

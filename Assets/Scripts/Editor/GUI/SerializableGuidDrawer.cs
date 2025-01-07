@@ -2,13 +2,16 @@ using Metroidvania;
 using UnityEditor;
 using UnityEngine;
 
-namespace MetroidvaniaEditor {
+namespace MetroidvaniaEditor
+{
 
     [CustomPropertyDrawer(typeof(SerializableGuid))]
-    public class SerializableGuidDrawer : PropertyDrawer {
+    public class SerializableGuidDrawer : PropertyDrawer
+    {
         private static readonly GUIContent k_NewGuidContent = new GUIContent("Generate New GUID");
 
-        public override void OnGUI(Rect position, SerializedProperty property, GUIContent label) {
+        public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
+        {
             Rect labelRect = new Rect(position) { width = EditorGUIUtility.labelWidth };
             Rect fieldRect = EditorGUI.PrefixLabel(position, label);
 
@@ -19,9 +22,11 @@ namespace MetroidvaniaEditor {
             bool isRightClick = evt.button == 1;
             bool isInsideField = labelRect.Contains(evt.mousePosition);
 
-            if (isMouseDown && isRightClick && isInsideField) {
+            if (isMouseDown && isRightClick && isInsideField)
+            {
                 GenericMenu menu = new GenericMenu();
-                menu.AddItem(k_NewGuidContent, false, () => {
+                menu.AddItem(k_NewGuidContent, false, () =>
+                {
                     guidStr.stringValue = System.Guid.NewGuid().ToString("N");
                     guidStr.serializedObject.ApplyModifiedProperties();
                 });
