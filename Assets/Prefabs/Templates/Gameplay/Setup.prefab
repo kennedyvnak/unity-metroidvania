@@ -171,14 +171,6 @@ PrefabInstance:
       value: MainCamera
       objectReference: {fileID: 0}
     - target: {fileID: 8044431524884702681, guid: 125c2ebf2151b594db23b29faf1280be, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 6
-      objectReference: {fileID: 0}
-    - target: {fileID: 8044431524884702681, guid: 125c2ebf2151b594db23b29faf1280be, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 6
-      objectReference: {fileID: 0}
-    - target: {fileID: 8044431524884702681, guid: 125c2ebf2151b594db23b29faf1280be, type: 3}
       propertyPath: m_LocalPosition.z
       value: -10
       objectReference: {fileID: 0}

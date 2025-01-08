@@ -43,7 +43,7 @@ namespace MetroidvaniaEditor.Validation
                 .Where(t => !t.IsAbstract).ToList();
         }
 
-        [MenuItem("Window/General/Project Validator")]
+        [MenuItem("Tools/Project Validator")]
         public static void ShowWindow()
         {
             if (viewTypes.Count == 0)

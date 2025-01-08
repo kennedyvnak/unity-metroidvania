@@ -22,7 +22,7 @@ namespace Metroidvania
             get
             {
                 if (!s_vCam)
-                    s_vCam = mainCamera.GetComponentInChildren<CinemachineCamera>(true);
+                    s_vCam = mainCamera.transform.parent.GetComponentInChildren<CinemachineCamera>(true);
                 return s_vCam;
             }
         }
