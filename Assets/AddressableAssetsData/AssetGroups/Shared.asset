@@ -15,8 +15,23 @@ MonoBehaviour:
   m_GroupName: Shared
   m_GUID: ef5779f4afa7513e2a20748aebd087e4
   m_SerializeEntries:
+  - m_GUID: 0feb833c798f01b42b889517d4618c30
+    m_Address: Assets/Graphics/Textures/Units/Entities
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 102d193b44dd9e94c9378d37cf7f0d6e
+    m_Address: Assets/Scenes/MainMenu.unity
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 110c533a9255aaa408ba581c5716317f
     m_Address: Assets/Data/Serialization
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 21864f37af1a77745a5f10091cc8b9a0
+    m_Address: Assets/Prefabs/Player
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
@@ -25,8 +40,23 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 32b73340bf201c84b997941fab9f22b8
+    m_Address: Assets/Scenes/Samples/ThePaleMoonlight_Sample.unity
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 3a23cd6c5138a364d9f8dd550bead783
+    m_Address: Assets/Data/Entities
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 3e15be757d695834889a3f527e763740
     m_Address: Assets/Data/Events
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 4686921e96072c341b4e8590725d068d
+    m_Address: Assets/Graphics/Textures/Characters
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
@@ -43,6 +73,16 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 63f5e1f9ad0efc0418978cf896f9718e
     m_Address: Assets/Graphics/Textures/Units
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 640710ba817e74e498b3122475fd0a73
+    m_Address: Assets/Graphics/Materials/Units
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 725dbd6f71194d9419598b759361ffd4
+    m_Address: Assets/Data/Characters
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
@@ -71,8 +111,23 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: be8ffdd6975fe1c45a7a26194f4a99b1
+    m_Address: Assets/Graphics/Animations/Units/Entities
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: c2a8d145e8467fb45a280765752ec305
+    m_Address: Assets/Graphics/Animations/SpriteSheets/Characters
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: c99a35d6525979c4cbf773db4f16780d
     m_Address: Assets/Graphics/Textures/Enviroment/Units
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: d937ae0e7f01f974d8fd5c3482d2a6d2
+    m_Address: Assets/Prefabs/Entities
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0

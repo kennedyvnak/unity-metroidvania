@@ -55,7 +55,6 @@ namespace Metroidvania.SceneManagement
         [SerializeField] private SceneEventChannel m_beforeSceneUnload;
 
         private GameObject _loadScreenObj;
-        private Slider _progressSlider;
 
         public SceneChannel activeScene { get; private set; }
         private AsyncOperationHandle<SceneChannel> _sceneChannelAssetHandle;
@@ -65,7 +64,6 @@ namespace Metroidvania.SceneManagement
         private void Start()
         {
             _loadScreenObj = Instantiate(m_loadScreenPrefab, FadeScreen.instance.canvas.transform);
-            _progressSlider = _loadScreenObj.GetComponentInChildren<Slider>();
             _loadScreenObj.SetActive(false);
         }
 
@@ -91,7 +89,6 @@ namespace Metroidvania.SceneManagement
 
         private IEnumerator DOSceneLoadWithTransition(AssetReferenceSceneChannel channelRef, SceneTransitionData transitionData)
         {
-            _progressSlider.value = 0;
             _loadScreenObj.SetActive(true);
             yield return FadeScreen.instance.DOFadeIn().WaitForCompletion();
             yield return DoSceneLoad(LoadChannel(channelRef), transitionData);
@@ -124,11 +121,7 @@ namespace Metroidvania.SceneManagement
                 m_sceneLoaded?.Raise(scene);
             };
 
-            while (!handle.IsDone)
-            {
-                _progressSlider.normalizedValue = handle.PercentComplete;
-                yield return null;
-            }
+            while (!handle.IsDone) yield return null;
         }
 
         private SceneChannel LoadChannel(AssetReferenceSceneChannel reference)
