@@ -65,7 +65,7 @@ namespace Metroidvania.Characters.Knight
         public override void PhysicsUpdate()
         {
             character.rb.Slide(new Vector2(character.data.moveSpeed * character.horizontalMove, 0.0f), Time.deltaTime, character.data.slideMovement);
-            character.FlipByVelocity(character.horizontalMove);
+            character.FlipFacingDirection(character.horizontalMove);
         }
     }
 
@@ -89,13 +89,20 @@ namespace Metroidvania.Characters.Knight
             {
                 character.stateMachine.EnterDefaultState();
             }
-
-            character.SetHorizontalVelocity(character.data.airMoveSpeed * character.horizontalMove);
-            character.FlipByVelocity();
-
-            if (character.rb.linearVelocityY > 0.0f && !character.jumpAction.IsPressed())
+            else if (!character.jumpAction.IsPressed())
             {
                 character.rb.linearVelocity += (character.data.jumpLowMultiplier - 1) * Physics2D.gravity.y * Time.deltaTime * Vector2.up;
+
+            }
+
+            if (character.collisionChecker.CollidingInWall(character.horizontalMove))
+            {
+                character.rb.linearVelocityX = 0.0f;
+            }
+            else
+            {
+                character.rb.linearVelocityX = character.data.airMoveSpeed * character.horizontalMove;
+                character.FlipFacingDirection(character.horizontalMove);
             }
         }
     }
@@ -124,9 +131,9 @@ namespace Metroidvania.Characters.Knight
             }
             else if (!character.stateMachine.EnterWallState())
             {
-                character.SetHorizontalVelocity(character.data.airMoveSpeed * character.horizontalMove);
-                character.FlipByVelocity();
-                character.rb.linearVelocity += (character.data.jumpFallMultiplier - 1) * Physics2D.gravity.y * Time.deltaTime * Vector2.up;
+                character.rb.linearVelocityX = character.data.airMoveSpeed * character.horizontalMove;
+                character.rb.linearVelocityY += (character.data.jumpFallMultiplier - 1) * Physics2D.gravity.y * Time.deltaTime;
+                character.FlipFacingDirection(character.horizontalMove);
             }
         }
     }
@@ -147,7 +154,7 @@ namespace Metroidvania.Characters.Knight
 
             character.SetColliderBounds(character.data.standColliderBounds);
             character.SwitchAnimation(KnightCharacterController.RollAnimHash, true);
-            character.FlipByVelocity(character.facingDirection);
+            character.FlipFacingDirection(character.facingDirection);
         }
 
         public override void Update()
@@ -271,9 +278,14 @@ namespace Metroidvania.Characters.Knight
             {
                 _quittingAnimElapsedTime += Time.deltaTime;
                 if (_quittingAnimElapsedTime >= character.data.crouchTransitionTime)
+                {
                     machine.EnterState(character.stateMachine.idleState);
+                }
                 else
-                    character.SetHorizontalVelocity(character.data.crouchWalkSpeed * character.horizontalMove);
+                {
+                    character.rb.linearVelocityX = character.data.crouchWalkSpeed * character.horizontalMove;
+                    character.FlipFacingDirection(character.horizontalMove);
+                }
                 return;
             }
 
@@ -304,7 +316,7 @@ namespace Metroidvania.Characters.Knight
         public override void PhysicsUpdate()
         {
             character.rb.Slide(new Vector2(character.data.crouchWalkSpeed * character.horizontalMove, 0.0f), Time.deltaTime, character.data.slideMovement);
-            character.FlipByVelocity(character.horizontalMove);
+            character.FlipFacingDirection(character.horizontalMove);
         }
     }
 
@@ -328,7 +340,7 @@ namespace Metroidvania.Characters.Knight
             character.SetColliderBounds(character.data.crouchColliderBounds);
             character.SwitchAnimation(KnightCharacterController.SlideAnimHash, true);
             character.particles.slide.Play();
-            character.FlipByVelocity(character.facingDirection);
+            character.FlipFacingDirection(character.facingDirection);
         }
 
         public override void Update()

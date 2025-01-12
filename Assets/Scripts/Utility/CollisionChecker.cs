@@ -56,12 +56,17 @@ namespace Metroidvania
         private void CheckCollision(Collision2D other)
         {
             const float k_Bounds = 0.55f;
-            var normal = other.contacts[0].normal;
-            bool ground = normal.y > k_Bounds;
-            bool leftWall = normal.x > k_Bounds;
-            bool rightWall = normal.x < -k_Bounds;
-            bool ceil = normal.y < -k_Bounds;
-            collisions[other.collider] = (byte)((ground ? 1 : 0) | (leftWall ? 2 : 0) | (rightWall ? 4 : 0) | (ceil ? 8 : 0));
+            byte collisionFlags = 0;
+            foreach (var contact in other.contacts)
+            {
+                var normal = contact.normal;
+                bool ground = normal.y > k_Bounds;
+                bool leftWall = normal.x > k_Bounds;
+                bool rightWall = normal.x < -k_Bounds;
+                bool ceil = normal.y < -k_Bounds;
+                collisionFlags |= (byte)((ground ? 1 : 0) | (leftWall ? 2 : 0) | (rightWall ? 4 : 0) | (ceil ? 8 : 0));
+            }
+            collisions[other.collider] = collisionFlags;
         }
     }
 }
