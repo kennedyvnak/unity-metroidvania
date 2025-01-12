@@ -307,7 +307,7 @@ namespace Metroidvania.Pathfinding
                     InitMeshData();
 
                 _mat.SetPass(0);
-                Graphics.DrawMeshNow(_mesh, Vector3.zero, Quaternion.identity);
+                UnityEngine.Graphics.DrawMeshNow(_mesh, Vector3.zero, Quaternion.identity);
 
                 GizmosDrawer gizmos = new GizmosDrawer().SetColor(m_LineColor);
 
