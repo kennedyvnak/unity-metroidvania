@@ -24529,7 +24529,7 @@ GameObject:
   - component: {fileID: 1281339797714696070}
   - component: {fileID: 7109756644734056124}
   - component: {fileID: 7109756644734056000}
-  - component: {fileID: 681447575628408153}
+  - component: {fileID: 5813007467354256037}
   m_Layer: 8
   m_Name: Ch_Knight
   m_TagString: Player
@@ -24591,7 +24591,7 @@ Rigidbody2D:
   m_Mass: 1
   m_LinearDamping: 0
   m_AngularDamping: 0.05
-  m_GravityScale: 2
+  m_GravityScale: 3
   m_Material: {fileID: 6200000, guid: afe88b883af55be4f92db93d69c392d0, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
@@ -24600,7 +24600,7 @@ Rigidbody2D:
     serializedVersion: 2
     m_Bits: 0
   m_Interpolate: 1
-  m_SleepingMode: 1
+  m_SleepingMode: 0
   m_CollisionDetection: 1
   m_Constraints: 4
 --- !u!114 &7109756644734056000
@@ -24616,8 +24616,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_offset: {x: 0, y: 0}
---- !u!61 &681447575628408153
-BoxCollider2D:
+--- !u!70 &5813007467354256037
+CapsuleCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -24626,7 +24626,7 @@ BoxCollider2D:
   m_Enabled: 1
   serializedVersion: 3
   m_Density: 1
-  m_Material: {fileID: 6200000, guid: 81b06fdfa29aa0c48a9237972d23b354, type: 2}
+  m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -24651,17 +24651,8 @@ BoxCollider2D:
   m_CompositeOperation: 0
   m_CompositeOrder: 0
   m_Offset: {x: 0, y: -0.2}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0, y: 0}
-    oldSize: {x: 0, y: 0}
-    newSize: {x: 0, y: 0}
-    adaptiveTilingThreshold: 0
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
   m_Size: {x: 0.4, y: 1.1}
-  m_EdgeRadius: 0
+  m_Direction: 0
 --- !u!1 &7109756645513897341
 GameObject:
   m_ObjectHideFlags: 0

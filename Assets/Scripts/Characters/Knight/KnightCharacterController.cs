@@ -50,16 +50,14 @@ namespace Metroidvania.Characters.Knight
         public Rigidbody2D rb { get; private set; }
 
         private SpriteSheetAnimator _animator;
-        private BoxCollider2D _collider;
+        private CapsuleCollider2D _collider;
         private SpriteRenderer _renderer;
 
         private int currentAnimationHash { get; set; }
 
         public float horizontalMove { get; private set; }
 
-        public bool isGrounded { get; private set; }
         public bool canStand { get; private set; }
-        public bool isTouchingWall { get; private set; }
 
         private KnightData.ColliderBounds colliderBoundsSource { get; set; }
         private Collider2D[] attackHits { get; set; }
@@ -71,6 +69,8 @@ namespace Metroidvania.Characters.Knight
         public bool isInvincible => _invincibilityCount > 0 || stateMachine.inInvincibleState;
         public bool isDied => stateMachine.currentState is KnightDieState;
 
+        public readonly CollisionChecker collisionChecker = new CollisionChecker();
+
         public KnightStateMachine stateMachine { get; private set; }
 
         public InputAction crouchAction => InputReader.instance.inputActions.Gameplay.Crouch;
@@ -81,7 +81,7 @@ namespace Metroidvania.Characters.Knight
         private void Awake()
         {
             rb = GetComponent<Rigidbody2D>();
-            _collider = GetComponent<BoxCollider2D>();
+            _collider = GetComponent<CapsuleCollider2D>();
             _animator = m_gfxGameObject.GetComponent<SpriteSheetAnimator>();
             _renderer = m_gfxGameObject.GetComponent<SpriteRenderer>();
 
@@ -109,7 +109,9 @@ namespace Metroidvania.Characters.Knight
 
         private void FixedUpdate()
         {
+            collisionChecker.EvaluateCollisions();
             CollisionsCheck();
+            stateMachine.currentState.PhysicsUpdate();
         }
 
         private void OnTriggerStay2D(Collider2D other)
@@ -117,6 +119,21 @@ namespace Metroidvania.Characters.Knight
             if (!other.TryGetComponent<ITouchHit>(out ITouchHit touchHit) || (!touchHit.ignoreInvincibility && isInvincible))
                 return;
             OnTakeHit(touchHit.OnHitCharacter(this));
+        }
+
+        private void OnCollisionEnter2D(Collision2D other)
+        {
+            collisionChecker.CollisionEnter(other);
+        }
+
+        private void OnCollisionStay2D(Collision2D other)
+        {
+            collisionChecker.CollisionStay(other);
+        }
+
+        private void OnCollisionExit2D(Collision2D other)
+        {
+            collisionChecker.CollisionExit(other);
         }
 
         public override void OnTakeHit(EntityHitData hitData)
@@ -154,7 +171,12 @@ namespace Metroidvania.Characters.Knight
 
         public void FlipByVelocity()
         {
-            if ((rb.linearVelocity.x < 0 && facingDirection == 1) || (rb.linearVelocity.x > 0 && facingDirection == -1))
+            FlipByVelocity(rb.linearVelocityX);
+        }
+
+        public void FlipByVelocity(float velocity)
+        {
+            if ((velocity < 0 && facingDirection == 1) || (velocity > 0 && facingDirection == -1))
                 Flip();
         }
 
@@ -228,8 +250,6 @@ namespace Metroidvania.Characters.Knight
 
         private void CollisionsCheck()
         {
-            isGrounded = OverlapBoxOnGround(colliderBoundsSource.feetRect);
-            isTouchingWall = OverlapBoxOnGround(colliderBoundsSource.handRect);
             canStand = !OverlapBoxOnGround(data.crouchHeadRect);
         }
 

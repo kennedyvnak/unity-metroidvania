@@ -61,7 +61,7 @@ MonoBehaviour:
     - {fileID: -1517854233, guid: 84e57fe4a9d15d6469cd69debd2fcd05, type: 3}
   - name: Roll
     hash: -1903714832
-    frameRate: 12
+    frameRate: 16
     loop: 0
     sheet:
     - {fileID: 692556929, guid: a6da9560d22e3c44a9d01ca20f23775c, type: 3}

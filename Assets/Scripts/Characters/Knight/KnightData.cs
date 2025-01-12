@@ -56,11 +56,14 @@ namespace Metroidvania.Characters.Knight
 
         [Header("Movement")]
         public float moveSpeed;
+        public Rigidbody2D.SlideMovement slideMovement;
+        public float airMoveSpeed;
 
         [Header("Jump")]
-        public float jumpSpeed;
-        public float jumpDuration;
-        public AnimationCurve jumpCurve;
+        public float jumpHeight;
+        public float jumpFallMultiplier;
+        public float jumpLowMultiplier;
+        public float jumpCoyoteTime;
 
         [Header("Fall")]
         public float fallParticlesDistance;

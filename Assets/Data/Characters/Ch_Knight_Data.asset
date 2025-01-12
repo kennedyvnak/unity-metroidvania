@@ -18,42 +18,29 @@ MonoBehaviour:
   groundLayer:
     serializedVersion: 2
     m_Bits: 64
-  moveSpeed: 6
-  jumpSpeed: 8.5
-  jumpDuration: 0.35
-  jumpCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0.6
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 136
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 0.5
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 136
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 1
-      value: 0.4
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 136
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
+  moveSpeed: 7
+  slideMovement:
+    <maxIterations>k__BackingField: 3
+    <surfaceSlideAngle>k__BackingField: 45
+    <gravitySlipAngle>k__BackingField: 45
+    <surfaceUp>k__BackingField: {x: 0, y: 1}
+    <surfaceAnchor>k__BackingField: {x: 0, y: -1}
+    <gravity>k__BackingField: {x: 0, y: -10}
+    <startPosition>k__BackingField: {x: 0, y: 0}
+    <selectedCollider>k__BackingField: {fileID: 0}
+    <layerMask>k__BackingField:
+      serializedVersion: 2
+      m_Bits: 64
+    <useLayerMask>k__BackingField: 1
+    <useStartPosition>k__BackingField: 0
+    <useNoMove>k__BackingField: 0
+    <useSimulationMove>k__BackingField: 1
+    <useAttachedTriggers>k__BackingField: 0
+  airMoveSpeed: 5
+  jumpHeight: 12
+  jumpFallMultiplier: 1
+  jumpLowMultiplier: 5
+  jumpCoyoteTime: 0.1
   fallParticlesDistance: 2
   crouchWalkSpeed: 3
   crouchTransitionTime: 0.1
@@ -86,7 +73,7 @@ MonoBehaviour:
     m_RotationOrder: 4
   slideTransitionTime: 0.1
   rollDuration: 0.75
-  rollSpeed: 6
+  rollSpeed: 8
   rollCooldown: 0.35
   rollHorizontalMoveCurve:
     serializedVersion: 2
@@ -111,7 +98,7 @@ MonoBehaviour:
       outWeight: 0.33333334
     - serializedVersion: 3
       time: 1
-      value: 0.5
+      value: 1
       inSlope: 0
       outSlope: 0
       tangentMode: 136

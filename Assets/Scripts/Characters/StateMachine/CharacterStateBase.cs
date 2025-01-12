@@ -11,16 +11,12 @@ namespace Metroidvania.Characters
             this.machine = machine;
         }
 
-        public virtual void Enter(CharacterStateBase<TCharacter> previousState)
-        {
-        }
+        public virtual void Enter(CharacterStateBase<TCharacter> previousState) { }
 
-        public virtual void Update()
-        {
-        }
+        public virtual void Update() { }
 
-        public virtual void Exit()
-        {
-        }
+        public virtual void PhysicsUpdate() { }
+
+        public virtual void Exit() { }
     }
 }

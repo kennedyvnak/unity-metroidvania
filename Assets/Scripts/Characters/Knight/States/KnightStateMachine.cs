@@ -1,3 +1,5 @@
+using UnityEngine;
+
 namespace Metroidvania.Characters.Knight
 {
     public class KnightStateMachine : CharacterStateMachine<KnightCharacterController>
@@ -61,12 +63,13 @@ namespace Metroidvania.Characters.Knight
             if (EnterFallState() || EnterCrouchState() || EnterWallState())
                 return;
 
-            EnterState(character.horizontalMove == 0 ? idleState : runState);
+            bool shouldRun = Mathf.Abs(character.horizontalMove) > 0.0f && character.collisionChecker.isGrounded && !character.collisionChecker.CollidingInWall(character.horizontalMove);
+            EnterState(shouldRun ? runState : idleState);
         }
 
         public bool EnterJumpState()
         {
-            if (!character.jumpAction.IsPressed() || !character.canStand || !character.isGrounded)
+            if (!character.jumpAction.IsPressed() || !character.canStand || (!character.collisionChecker.isGrounded))
                 return false;
 
             EnterState(jumpState);
@@ -75,7 +78,7 @@ namespace Metroidvania.Characters.Knight
 
         public bool EnterCrouchState()
         {
-            if ((!character.crouchAction.IsPressed() && character.canStand) || !character.isGrounded)
+            if ((!character.crouchAction.IsPressed() && character.canStand) || !character.collisionChecker.isGrounded)
                 return false;
 
             EnterState(character.horizontalMove != 0 ? crouchWalkState : crouchIdleState);
@@ -84,7 +87,7 @@ namespace Metroidvania.Characters.Knight
 
         public bool EnterFallState()
         {
-            if (character.isGrounded)
+            if (character.collisionChecker.isGrounded)
                 return false;
 
             EnterState(fallState);
@@ -93,7 +96,7 @@ namespace Metroidvania.Characters.Knight
 
         public bool EnterSlideState()
         {
-            if (!character.isGrounded || !inCrouchState || !character.dashAction.WasPerformedThisFrame() || slideState.isInCooldown)
+            if (!character.collisionChecker.isGrounded || !inCrouchState || !character.dashAction.WasPerformedThisFrame() || slideState.isInCooldown)
                 return false;
 
             EnterState(slideState);
@@ -102,7 +105,7 @@ namespace Metroidvania.Characters.Knight
 
         public bool EnterRollState()
         {
-            if (!character.isGrounded || inCrouchState || !character.dashAction.WasPerformedThisFrame() || rollState.isInCooldown)
+            if (!character.collisionChecker.isGrounded || inCrouchState || !character.dashAction.WasPerformedThisFrame() || rollState.isInCooldown)
                 return false;
 
             EnterState(rollState);
@@ -111,7 +114,7 @@ namespace Metroidvania.Characters.Knight
 
         public bool EnterWallState()
         {
-            if (!character.isGrounded && character.isTouchingWall && character.horizontalMove == character.facingDirection)
+            if (!character.collisionChecker.isGrounded && character.collisionChecker.CollidingInWall(character.horizontalMove) && character.horizontalMove == character.facingDirection)
             {
                 EnterState(wallslideState);
                 return true;
@@ -121,7 +124,7 @@ namespace Metroidvania.Characters.Knight
 
         public bool EnterAttackState()
         {
-            if (!character.attackAction.WasPerformedThisFrame() || !character.isGrounded)
+            if (!character.attackAction.WasPerformedThisFrame() || !character.collisionChecker.isGrounded)
                 return false;
 
             if (inCrouchState)
