@@ -218,7 +218,6 @@ namespace Metroidvania.Characters.Knight
             }
 
             if (character.stateMachine.EnterFallState() ||
-                character.stateMachine.EnterJumpState() ||
                 character.stateMachine.EnterSlideState() ||
                 character.stateMachine.EnterAttackState())
                 return;
@@ -227,6 +226,11 @@ namespace Metroidvania.Characters.Knight
                 machine.EnterState(character.stateMachine.crouchWalkState);
             else if (!character.crouchAction.IsPressed() && character.canStand)
                 _inQuittingAnim = true;
+
+            if (character.jumpAction.WasPerformedThisFrame())
+            {
+                character.TryDropPlatform();
+            }
         }
 
         public override void PhysicsUpdate()
@@ -281,8 +285,7 @@ namespace Metroidvania.Characters.Knight
                 character.SwitchAnimation(KnightCharacterController.CrouchWalkAnimHash);
             }
 
-            if (character.stateMachine.EnterJumpState() ||
-                character.stateMachine.EnterFallState() ||
+            if (character.stateMachine.EnterFallState() ||
                 character.stateMachine.EnterSlideState() ||
                 character.stateMachine.EnterAttackState())
                 return;
@@ -291,6 +294,11 @@ namespace Metroidvania.Characters.Knight
                 machine.EnterState(character.stateMachine.crouchIdleState);
             else if (!character.crouchAction.IsPressed() && character.canStand)
                 _inQuittingAnim = true;
+
+            if (character.jumpAction.WasPerformedThisFrame())
+            {
+                character.TryDropPlatform();
+            }
         }
 
         public override void PhysicsUpdate()

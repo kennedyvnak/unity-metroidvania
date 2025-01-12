@@ -1,3 +1,4 @@
+using DG.Tweening;
 using Metroidvania.Animations;
 using Metroidvania.Combat;
 using Metroidvania.Entities;
@@ -218,6 +219,19 @@ namespace Metroidvania.Characters.Knight
         public void AddInvincibility(float time, bool shouldAnim)
         {
             StartCoroutine(StartInvincibility(time, shouldAnim));
+        }
+
+        public void TryDropPlatform()
+        {
+            foreach (var collision in collisionChecker.collisions)
+                if (collision.Key.usedByEffector && collision.Key.TryGetComponent(out PlatformEffector2D _))
+                    DropPlatform(collision.Key);
+        }
+
+        public void DropPlatform(Collider2D platform)
+        {
+            Physics2D.IgnoreCollision(_collider, platform);
+            DOVirtual.DelayedCall(.25f, () => Physics2D.IgnoreCollision(_collider, platform, false));
         }
 
         public override void OnSceneTransition(SceneLoader.SceneTransitionData transitionData)
