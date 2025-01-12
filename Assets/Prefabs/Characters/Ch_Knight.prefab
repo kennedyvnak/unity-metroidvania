@@ -24529,7 +24529,7 @@ GameObject:
   - component: {fileID: 1281339797714696070}
   - component: {fileID: 7109756644734056124}
   - component: {fileID: 7109756644734056000}
-  - component: {fileID: 5813007467354256037}
+  - component: {fileID: 3447414734016309557}
   m_Layer: 8
   m_Name: Ch_Knight
   m_TagString: Player
@@ -24616,8 +24616,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_offset: {x: 0, y: 0}
---- !u!70 &5813007467354256037
-CapsuleCollider2D:
+--- !u!61 &3447414734016309557
+BoxCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -24651,8 +24651,17 @@ CapsuleCollider2D:
   m_CompositeOperation: 0
   m_CompositeOrder: 0
   m_Offset: {x: 0, y: -0.2}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
   m_Size: {x: 0.4, y: 1.1}
-  m_Direction: 0
+  m_EdgeRadius: 0
 --- !u!1 &7109756645513897341
 GameObject:
   m_ObjectHideFlags: 0

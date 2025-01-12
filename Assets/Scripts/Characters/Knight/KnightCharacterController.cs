@@ -51,7 +51,7 @@ namespace Metroidvania.Characters.Knight
         public Rigidbody2D rb { get; private set; }
 
         private SpriteSheetAnimator _animator;
-        private CapsuleCollider2D _collider;
+        private BoxCollider2D _collider;
         private SpriteRenderer _renderer;
 
         private int currentAnimationHash { get; set; }
@@ -67,7 +67,7 @@ namespace Metroidvania.Characters.Knight
         private int _invincibilityAnimationsCount;
         private Coroutine _invincibilityAnimationCoroutine;
 
-        public bool isInvincible => _invincibilityCount > 0 || stateMachine.inInvincibleState;
+        public bool isInvincible => _invincibilityCount > 0 || stateMachine.currentState.isInvincible;
         public bool isDied => stateMachine.currentState is KnightDieState;
 
         public readonly CollisionChecker collisionChecker = new CollisionChecker();
@@ -82,7 +82,7 @@ namespace Metroidvania.Characters.Knight
         private void Awake()
         {
             rb = GetComponent<Rigidbody2D>();
-            _collider = GetComponent<CapsuleCollider2D>();
+            _collider = GetComponent<BoxCollider2D>();
             _animator = m_gfxGameObject.GetComponent<SpriteSheetAnimator>();
             _renderer = m_gfxGameObject.GetComponent<SpriteRenderer>();
 
@@ -95,17 +95,22 @@ namespace Metroidvania.Characters.Knight
         private void OnEnable()
         {
             InputReader.instance.MoveEvent += ReadMoveInput;
-
+            InputReader.instance.JumpEvent += HandleJump;
+            InputReader.instance.DashEvent += HandleDash;
+            InputReader.instance.AttackEvent += HandleAttack;
         }
 
         private void OnDisable()
         {
             InputReader.instance.MoveEvent -= ReadMoveInput;
+            InputReader.instance.JumpEvent -= HandleJump;
+            InputReader.instance.DashEvent -= HandleDash;
+            InputReader.instance.AttackEvent -= HandleAttack;
         }
 
         private void Update()
         {
-            stateMachine.currentState.Update();
+            stateMachine.Update();
         }
 
         private void FixedUpdate()
@@ -114,7 +119,7 @@ namespace Metroidvania.Characters.Knight
             Vector2 charPosition = transform.position;
             Vector2 boundsPosition = data.crouchHeadRect.position * transform.localScale;
             canStand = !Physics2D.OverlapBox(charPosition + boundsPosition, data.crouchHeadRect.size, 0, data.groundLayer);
-            stateMachine.currentState.PhysicsUpdate();
+            stateMachine.PhysicsUpdate();
         }
 
         private void OnTriggerStay2D(Collider2D other)
@@ -198,7 +203,7 @@ namespace Metroidvania.Characters.Knight
 
         public void PerformAttack(KnightData.Attack attackData)
         {
-            rb.MovePosition(rb.position + new Vector2(attackData.horizontalMoveOffset * facingDirection, 0));
+            rb.Slide(new Vector2(attackData.horizontalMoveOffset * facingDirection, 0), 1, data.slideMovement);
 
             var contactFilter = new ContactFilter2D();
             contactFilter.SetLayerMask(data.hittableLayer);
@@ -231,6 +236,21 @@ namespace Metroidvania.Characters.Knight
 
         private void ReadMoveInput(float move) => horizontalMove = move;
 
+        private void HandleJump()
+        {
+            stateMachine.currentState.HandleJump();
+        }
+
+        private void HandleDash()
+        {
+            stateMachine.currentState.HandleDash();
+        }
+
+        private void HandleAttack()
+        {
+            stateMachine.currentState.HandleAttack();
+        }
+
         public override void OnTakeHit(EntityHitData hitData)
         {
             if (isInvincible || isDied)
@@ -244,7 +264,7 @@ namespace Metroidvania.Characters.Knight
             else
             {
                 AddInvincibility(data.defaultInvincibilityTime, true);
-                stateMachine.EnterHurt(hitData);
+                stateMachine.hurtState.EnterHurtState(hitData);
             }
         }
 
@@ -267,7 +287,7 @@ namespace Metroidvania.Characters.Knight
                 life.SetLife(transitionData.gameData.ch_knight_life, RuntimeFields.RuntimeFieldSetMode.Setup);
 
             if (spawnPoint.isHorizontalDoor)
-                stateMachine.EnterFakeWalk(data.fakeWalkOnSceneTransitionTime);
+                stateMachine.fakeWalkState.EnterFakeWalk(data.fakeWalkOnSceneTransitionTime);
         }
 
         public override void BeforeUnload(SceneLoader.SceneUnloadData unloadData)
@@ -293,9 +313,6 @@ namespace Metroidvania.Characters.Knight
             DrawAttack(data.secondAttack);
             DrawAttack(data.crouchAttack);
 
-            DrawColliderData(data.standColliderBounds);
-            DrawColliderData(data.crouchColliderBounds);
-
             if (data.crouchColliderBounds.drawGizmos)
                 drawer.SetColor(GizmosColor.instance.knight.feet)
                     .DrawWireSquare(position + (data.crouchHeadRect.min * scale), data.crouchHeadRect.size);
@@ -306,19 +323,6 @@ namespace Metroidvania.Characters.Knight
                     return;
 
                 drawer.DrawWireSquare(position + (attack.triggerCollider.center * scale), attack.triggerCollider.size);
-            }
-
-            void DrawColliderData(KnightData.ColliderBounds colliderBounds)
-            {
-                if (!colliderBounds.drawGizmos)
-                    return;
-
-                drawer.SetColor(GizmosColor.instance.knight.colliderData)
-                    .DrawWireSquare(position + (colliderBounds.bounds.min * scale), colliderBounds.bounds.size)
-                    .SetColor(GizmosColor.instance.knight.feet)
-                    .DrawWireSquare(position + (colliderBounds.feetRect.min * scale), colliderBounds.feetRect.size)
-                    .SetColor(GizmosColor.instance.knight.hand)
-                    .DrawWireSquare(position + (colliderBounds.handRect.min * scale), colliderBounds.handRect.size);
             }
         }
 #endif

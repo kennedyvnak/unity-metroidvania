@@ -38,10 +38,6 @@ namespace Metroidvania.Characters.Knight
             public bool drawGizmos;
 #endif
             public Rect bounds;
-
-            public Rect feetRect;
-
-            public Rect handRect;
         }
 
         [Header("Properties")]

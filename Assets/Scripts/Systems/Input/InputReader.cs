@@ -15,6 +15,10 @@ namespace Metroidvania.InputSystem
 
         public event Action JumpEvent;
 
+        public event Action AttackEvent;
+
+        public event Action DashEvent;
+
         public event Action PauseEvent;
 
         public event Action MenuCloseEvent;
@@ -76,6 +80,8 @@ namespace Metroidvania.InputSystem
 
         void InputActions.IGameplayActions.OnAttack(InputAction.CallbackContext context)
         {
+            if (context.phase == InputActionPhase.Performed)
+                AttackEvent?.Invoke();
         }
 
         void InputActions.IGameplayActions.OnCrouch(InputAction.CallbackContext context)
@@ -84,6 +90,8 @@ namespace Metroidvania.InputSystem
 
         void InputActions.IGameplayActions.OnDash(InputAction.CallbackContext context)
         {
+            if (context.phase == InputActionPhase.Performed)
+                DashEvent?.Invoke();
         }
 
         void InputActions.IGameplayActions.OnJump(InputAction.CallbackContext context)

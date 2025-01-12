@@ -1,9 +1,11 @@
-using UnityEngine;
-
 namespace Metroidvania.Characters.Knight
 {
-    public class KnightStateMachine : CharacterStateMachine<KnightCharacterController>
+    public class KnightStateMachine
     {
+        public readonly KnightCharacterController character;
+
+        public KnightStateBase currentState { get; private set; }
+
         public KnightIdleState idleState;
         public KnightRunState runState;
         public KnightJumpState jumpState;
@@ -19,11 +21,11 @@ namespace Metroidvania.Characters.Knight
         public KnightDieState dieState;
         public KnightFakeWalkState fakeWalkState;
 
-        public bool inCrouchState { get; private set; }
-        public bool inInvincibleState { get; private set; }
-
-        public KnightStateMachine(KnightCharacterController character) : base(character)
+        public KnightStateMachine(KnightCharacterController character)
         {
+            this.character = character;
+            EnterState(new KnightValidationState(this));
+
             idleState = new KnightIdleState(this);
             runState = new KnightRunState(this);
             jumpState = new KnightJumpState(this);
@@ -49,102 +51,49 @@ namespace Metroidvania.Characters.Knight
             EnterState(idleState);
         }
 
-
-        public override void EnterState(CharacterStateBase<KnightCharacterController> state)
+        public void Update()
         {
-            base.EnterState(state);
+            currentState.Update();
+            currentState.Transition();
+        }
 
-            inCrouchState = state is ICrouchState;
-            inInvincibleState = state is IInvincibleState;
+        public void PhysicsUpdate()
+        {
+            currentState.PhysicsUpdate();
+        }
+
+        public void EnterState(KnightStateBase state)
+        {
+            KnightStateBase previousState = currentState;
+            currentState = state;
+            previousState?.Exit();
+            state.Enter(previousState);
         }
 
         public void EnterDefaultState()
         {
-            if (EnterFallState() || EnterCrouchState() || EnterWallState())
-                return;
-
-            bool shouldRun = Mathf.Abs(character.horizontalMove) > 0.0f && character.collisionChecker.isGrounded && !character.collisionChecker.CollidingInWall(character.horizontalMove);
-            EnterState(shouldRun ? runState : idleState);
-        }
-
-        public bool EnterJumpState()
-        {
-            if (!character.jumpAction.IsPressed() || !character.canStand || (!character.collisionChecker.isGrounded))
-                return false;
-
-            EnterState(jumpState);
-            return true;
-        }
-
-        public bool EnterCrouchState()
-        {
-            if ((!character.crouchAction.IsPressed() && character.canStand) || !character.collisionChecker.isGrounded)
-                return false;
-
-            EnterState(character.horizontalMove != 0 ? crouchWalkState : crouchIdleState);
-            return true;
-        }
-
-        public bool EnterFallState()
-        {
-            if (character.collisionChecker.isGrounded)
-                return false;
-
-            EnterState(fallState);
-            return true;
-        }
-
-        public bool EnterSlideState()
-        {
-            if (!character.collisionChecker.isGrounded || !inCrouchState || !character.dashAction.WasPerformedThisFrame() || slideState.isInCooldown)
-                return false;
-
-            EnterState(slideState);
-            return true;
-        }
-
-        public bool EnterRollState()
-        {
-            if (!character.collisionChecker.isGrounded || inCrouchState || !character.dashAction.WasPerformedThisFrame() || rollState.isInCooldown)
-                return false;
-
-            EnterState(rollState);
-            return true;
-        }
-
-        public bool EnterWallState()
-        {
-            if (!character.collisionChecker.isGrounded && character.collisionChecker.CollidingInWall(character.horizontalMove) && character.horizontalMove == character.facingDirection)
+            if (!character.collisionChecker.isGrounded)
             {
-                EnterState(wallslideState);
+                EnterState(fallState);
+            }
+            else if (character.horizontalMove == 0)
+            {
+                EnterState(idleState);
+            }
+            else
+            {
+                EnterState(runState);
+            }
+        }
+
+        public bool TryEnterAttackState()
+        {
+            if (character.attackAction.WasPerformedThisFrame() && character.collisionChecker.isGrounded)
+            {
+                EnterState(KnightAttackState.StepAttack(character.data.attackComboMaxDelay) == 1 ? firstAttackState : secondAttackState);
                 return true;
             }
             return false;
-        }
-
-        public bool EnterAttackState()
-        {
-            if (!character.attackAction.WasPerformedThisFrame() || !character.collisionChecker.isGrounded)
-                return false;
-
-            if (inCrouchState)
-                EnterState(crouchAttackState);
-            else
-                EnterState(KnightAttackState.StepAttack(character.data.attackComboMaxDelay) == 1 ? firstAttackState : secondAttackState);
-
-            return true;
-        }
-
-        public void EnterHurt(Entities.EntityHitData hitData)
-        {
-            hurtState.hitData = hitData;
-            EnterState(hurtState);
-        }
-
-        public void EnterFakeWalk(float duration)
-        {
-            fakeWalkState.currentWalkDuration = duration;
-            EnterState(fakeWalkState);
         }
     }
 }

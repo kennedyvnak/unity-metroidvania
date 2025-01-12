@@ -21,11 +21,11 @@ MonoBehaviour:
   moveSpeed: 7
   slideMovement:
     <maxIterations>k__BackingField: 3
-    <surfaceSlideAngle>k__BackingField: 45
-    <gravitySlipAngle>k__BackingField: 45
+    <surfaceSlideAngle>k__BackingField: 90
+    <gravitySlipAngle>k__BackingField: 90
     <surfaceUp>k__BackingField: {x: 0, y: 1}
     <surfaceAnchor>k__BackingField: {x: 0, y: -1}
-    <gravity>k__BackingField: {x: 0, y: -10}
+    <gravity>k__BackingField: {x: 0, y: 0}
     <startPosition>k__BackingField: {x: 0, y: 0}
     <selectedCollider>k__BackingField: {fileID: 0}
     <layerMask>k__BackingField:
@@ -155,7 +155,7 @@ MonoBehaviour:
     damage: 5
     force: 0.4
   wallSlideSpeed: 1.5
-  wallJumpForce: {x: 5, y: 8}
+  wallJumpForce: {x: 6, y: 10}
   wallJumpDuration: 0.2
   hurtTime: 0.3
   fakeWalkOnSceneTransitionTime: 0.3
@@ -170,18 +170,6 @@ MonoBehaviour:
       y: -0.2
       width: 0.4
       height: 1.1
-    feetRect:
-      serializedVersion: 2
-      x: 0
-      y: -0.75
-      width: 0.35
-      height: 0.1
-    handRect:
-      serializedVersion: 2
-      x: 0.2
-      y: 0.2
-      width: 0.1
-      height: 0.15
   crouchColliderBounds:
     drawGizmos: 0
     bounds:
@@ -190,18 +178,6 @@ MonoBehaviour:
       y: -0.4
       width: 0.4
       height: 0.7
-    feetRect:
-      serializedVersion: 2
-      x: 0
-      y: -0.75
-      width: 0.35
-      height: 0.1
-    handRect:
-      serializedVersion: 2
-      x: 0.2
-      y: -0.4
-      width: 0.1
-      height: 0.45
   crouchHeadRect:
     serializedVersion: 2
     x: 0

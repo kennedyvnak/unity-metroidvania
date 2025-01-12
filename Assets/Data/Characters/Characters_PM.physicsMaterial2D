@@ -10,5 +10,5 @@ PhysicsMaterial2D:
   serializedVersion: 2
   friction: 1
   bounciness: 0
-  m_FrictionCombine: 4
+  m_FrictionCombine: 1
   m_BounceCombine: 4
