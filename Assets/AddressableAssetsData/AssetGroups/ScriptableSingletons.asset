@@ -13,55 +13,56 @@ MonoBehaviour:
   m_Name: ScriptableSingletons
   m_EditorClassIdentifier: 
   m_GroupName: ScriptableSingletons
-  m_Data:
-    m_SerializedData: []
   m_GUID: 89500ef65a6719d42bbe4c96a3cb6a71
   m_SerializeEntries:
-  - m_GUID: c86d03e787884bf43b86fa2cee1d06fd
-    m_Address: Metroidvania.GizmosColor
-    m_ReadOnly: 1
-    m_SerializedLabels:
-    - Scriptable Singleton
-  - m_GUID: cbc3d0ee97ddde34faedd192869d90ac
-    m_Address: Metroidvania.InputSystem.InputReader
-    m_ReadOnly: 0
-    m_SerializedLabels:
-    - Scriptable Singleton
-  - m_GUID: 57e0bb8ffb8f91d4d813ebf04ecf7b6c
-    m_Address: Metroidvania.Events.Tracker.EventsTracker
-    m_ReadOnly: 0
-    m_SerializedLabels:
-    - Scriptable Singleton
-  - m_GUID: 9f7e7a76d930751448524a78be74f153
-    m_Address: Metroidvania.Entities.EntitiesManager
-    m_ReadOnly: 0
-    m_SerializedLabels:
-    - Scriptable Singleton
-  - m_GUID: 8e27a49112e84e249bbcc461bc2073f1
-    m_Address: Metroidvania.Localization.GameLocalizationSettings
-    m_ReadOnly: 0
-    m_SerializedLabels:
-    - Scriptable Singleton
-  - m_GUID: 4acd2cf305ff6804c95e712c1a6b2389
-    m_Address: Metroidvania.Audio.GameAudioSettings
-    m_ReadOnly: 0
-    m_SerializedLabels:
-    - Scriptable Singleton
   - m_GUID: 2f8fe53a855b2fe4f99c05092964a4e6
     m_Address: Metroidvania.Audio.GameGraphicsSettings
     m_ReadOnly: 0
     m_SerializedLabels:
     - Scriptable Singleton
-  - m_GUID: f02369ae3b97b0240abe243d2513f644
-    m_Address: Metroidvania.GameDebugger
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 4acd2cf305ff6804c95e712c1a6b2389
+    m_Address: Metroidvania.Audio.GameAudioSettings
     m_ReadOnly: 0
     m_SerializedLabels:
     - Scriptable Singleton
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 55859518e73bd2e4bb22d60c54915616
     m_Address: Metroidvania.Serialization.DataManager
     m_ReadOnly: 0
     m_SerializedLabels:
     - Scriptable Singleton
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 8e27a49112e84e249bbcc461bc2073f1
+    m_Address: Metroidvania.Localization.GameLocalizationSettings
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Scriptable Singleton
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 9f7e7a76d930751448524a78be74f153
+    m_Address: Metroidvania.Entities.EntitiesManager
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Scriptable Singleton
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: c86d03e787884bf43b86fa2cee1d06fd
+    m_Address: Metroidvania.GizmosColor
+    m_ReadOnly: 1
+    m_SerializedLabels:
+    - Scriptable Singleton
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: cbc3d0ee97ddde34faedd192869d90ac
+    m_Address: Metroidvania.InputSystem.InputReader
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Scriptable Singleton
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: f02369ae3b97b0240abe243d2513f644
+    m_Address: Metroidvania.GameDebugger
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Scriptable Singleton
+    FlaggedDuringContentUpdateRestriction: 0
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 8259dc4f4d8e49b4dad3c97268d6350a, type: 2}
   m_SchemaSet:

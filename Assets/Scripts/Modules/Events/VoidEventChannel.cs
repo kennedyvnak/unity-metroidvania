@@ -9,8 +9,7 @@ namespace Metroidvania.Events
 
         public void Raise()
         {
-            using (BeginTrack())
-                OnEventRaise?.Invoke();
+            OnEventRaise?.Invoke();
         }
     }
 }
