@@ -18,13 +18,13 @@ MonoBehaviour:
   groundLayer:
     serializedVersion: 2
     m_Bits: 64
-  moveSpeed: 7
+  moveSpeed: 6
   slideMovement:
     <maxIterations>k__BackingField: 3
     <surfaceSlideAngle>k__BackingField: 90
     <gravitySlipAngle>k__BackingField: 90
     <surfaceUp>k__BackingField: {x: 0, y: 1}
-    <surfaceAnchor>k__BackingField: {x: 0, y: -1}
+    <surfaceAnchor>k__BackingField: {x: 0, y: -0.7}
     <gravity>k__BackingField: {x: 0, y: 0}
     <startPosition>k__BackingField: {x: 0, y: 0}
     <selectedCollider>k__BackingField: {fileID: 0}

@@ -135,7 +135,6 @@ namespace Metroidvania.Characters.Knight
         public override void Update()
         {
             _jumpPressed = character.jumpAction.IsPressed();
-            Debug.Log(_jumpPressed);
         }
 
         public override void PhysicsUpdate()
