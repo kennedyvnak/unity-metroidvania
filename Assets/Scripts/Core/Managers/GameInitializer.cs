@@ -25,6 +25,10 @@ namespace Metroidvania.Settings
                 {
                     if (singleton is IInitializableSingleton initializableSingleton)
                         initializableSingleton.Initialize();
+
+                    var type = singleton.GetType();
+                    var setInstanceMethod = type.BaseType.GetMethod("SetInstance", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Static);
+                    setInstanceMethod.Invoke(null, new object[] { singleton });
                 });
 
             AsyncOperationHandle<IList<GameObject>> persistentSingletonsHandle =

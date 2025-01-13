@@ -11,7 +11,9 @@ namespace Metroidvania.Serialization.Handlers
 
         public abstract GameData Deserialize(int userId);
 
-        public abstract void Serialize(GameData data);
+        public abstract void Serialize(GameData data, int slotId);
+
+        public abstract bool HaveUser(int userID);
 
         public abstract void DeleteUser(int userId);
 

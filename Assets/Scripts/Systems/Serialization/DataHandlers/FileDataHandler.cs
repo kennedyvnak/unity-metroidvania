@@ -6,6 +6,8 @@ namespace Metroidvania.Serialization.Handlers
 {
     public class FileDataHandler : DataHandler
     {
+        public virtual string dataPath => Application.persistentDataPath;
+
         public override GameData Deserialize(int userId)
         {
             GameData data = null;
@@ -18,40 +20,38 @@ namespace Metroidvania.Serialization.Handlers
                     using FileStream stream = new FileStream(path, FileMode.Open);
                     using StreamReader reader = new StreamReader(stream);
                     data = JsonUtility.FromJson<GameData>(EncryptDecrypt(reader.ReadToEnd()));
-                    if (GameDebugger.instance.debugSerialization)
-                        GameDebugger.Log($"Deserialized data({userId}) at path '{path}'");
                 }
                 catch (Exception e)
                 {
-                    GameDebugger.LogError($"Catch an error when try to deserialize a data file in {path}\n{e}");
+                    GameDebugger.LogError($"Caught an error trying to deserialize data file '{path}'.\n{e}");
                 }
+                data.userId = userId;
             }
             return data;
         }
 
-        public override void Serialize(GameData data)
+        public override void Serialize(GameData data, int slot)
         {
-            string path = GetFilePath(data.userId);
+            string path = GetFilePath(slot);
 
             try
             {
                 using FileStream stream = new FileStream(path, FileMode.Create);
                 using StreamWriter writer = new StreamWriter(stream);
                 writer.Write(EncryptDecrypt(JsonUtility.ToJson(data)));
-                if (GameDebugger.instance.debugSerialization)
-                    GameDebugger.Log($"Serialized data({data.userId}) at path '{path}'");
             }
             catch (Exception e)
             {
-                GameDebugger.LogError($"Catch an error when try to serialize a data to a file in {path}\n{e}");
+                GameDebugger.LogError($"An error was detected when trying to serialize data to a file in '{path}'.\n{e}");
             }
         }
 
-        public override void DeleteUser(int userId)
-        {
-            File.Delete(GetFilePath(userId));
-        }
+        public override void DeleteUser(int userId) => File.Delete(GetFilePath(userId));
 
-        public static string GetFilePath(int userId) => Path.Combine(Application.persistentDataPath, $"{string.Format(FileName, userId)}.{FileExtension}");
+        public virtual string GetGlobalDataPath() => Path.Combine(dataPath, "game.data");
+
+        public virtual string GetFilePath(int userId) => Path.Combine(dataPath, $"{string.Format(FileName, userId)}.{FileExtension}");
+
+        public override bool HaveUser(int userID) => File.Exists(GetFilePath(userID));
     }
 }

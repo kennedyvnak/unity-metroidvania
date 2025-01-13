@@ -22,8 +22,11 @@ namespace Metroidvania.Serialization
 
         public GameDataEventChannel onDeserializeChannel;
         public GameDataEventChannel onSerializeChannel;
-
+#if UNITY_WEBGL && !UNITY_EDITOR
+        private readonly DataHandler s_dataHandler = new WebDataHandler();
+#else
         private readonly DataHandler s_dataHandler = new FileDataHandler();
+#endif
         public DataHandler dataHandler => s_dataHandler;
 
         private GameData _gameData;
@@ -73,7 +76,7 @@ namespace Metroidvania.Serialization
         public void SerializeData()
         {
             _gameData.lastSerialization = System.DateTime.Now.ToBinary();
-            s_dataHandler.Serialize(_gameData);
+            s_dataHandler.Serialize(_gameData, _gameData.userId);
         }
 
         public void DisposeDataInstance()

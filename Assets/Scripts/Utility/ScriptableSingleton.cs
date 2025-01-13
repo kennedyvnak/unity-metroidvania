@@ -17,6 +17,7 @@ namespace Metroidvania
         {
             get
             {
+#if UNITY_EDITOR
                 if (s_instance)
                     return s_instance;
 
@@ -24,10 +25,17 @@ namespace Metroidvania
                 if (handle.Status == AsyncOperationStatus.Failed)
                 {
                     Debug.LogWarning("Singleton instance load failed. Creating a new default instance.");
-                    return s_instance = ScriptableObject.CreateInstance<T>();
+                    SetInstance(CreateInstance<T>());
+                    return s_instance;
                 }
-                return s_instance = handle.WaitForCompletion();
+                SetInstance(handle.WaitForCompletion());
+                return s_instance;
+#else
+                return s_instance;
+#endif
             }
         }
+
+        private static void SetInstance(T instance) => s_instance = instance;
     }
 }

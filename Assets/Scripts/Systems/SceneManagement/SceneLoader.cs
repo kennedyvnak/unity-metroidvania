@@ -84,20 +84,25 @@ namespace Metroidvania.SceneManagement
 
         public Coroutine LoadSceneWithoutTransition(AssetReferenceSceneChannel channelRef, SceneTransitionData transitionData)
         {
-            return StartCoroutine(DoSceneLoad(LoadChannel(channelRef), transitionData));
+            return StartCoroutine(DoSceneLoad(channelRef, transitionData));
         }
 
         private IEnumerator DOSceneLoadWithTransition(AssetReferenceSceneChannel channelRef, SceneTransitionData transitionData)
         {
             _loadScreenObj.SetActive(true);
             yield return FadeScreen.instance.DOFadeIn().WaitForCompletion();
-            yield return DoSceneLoad(LoadChannel(channelRef), transitionData);
+            yield return DoSceneLoad(channelRef, transitionData);
             yield return FadeScreen.instance.DOFadeOut().WaitForCompletion();
             _loadScreenObj.SetActive(false);
         }
 
-        private IEnumerator DoSceneLoad(SceneChannel scene, SceneTransitionData transitionData)
+        private IEnumerator DoSceneLoad(AssetReferenceSceneChannel sceneRef, SceneTransitionData transitionData)
         {
+            SceneChannel scene = null;
+            var op = sceneRef.LoadAssetAsync<SceneChannel>();
+            yield return op;
+            scene = op.Result;
+
             if (activeScene?.operation.IsValid() == true)
                 OnUnloadScene(scene);
 
@@ -122,12 +127,6 @@ namespace Metroidvania.SceneManagement
             };
 
             while (!handle.IsDone) yield return null;
-        }
-
-        private SceneChannel LoadChannel(AssetReferenceSceneChannel reference)
-        {
-            _sceneChannelAssetHandle = reference.LoadAssetAsync();
-            return _sceneChannelAssetHandle.WaitForCompletion();
         }
 
         private void OnUnloadScene(SceneChannel nextScene)
