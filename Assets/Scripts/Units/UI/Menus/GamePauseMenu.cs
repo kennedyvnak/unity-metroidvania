@@ -33,18 +33,18 @@ namespace Metroidvania.UI.Menus
         {
             GameManager.instance.PauseGame();
             menuEnabled = true;
-            m_titleGroup.FadeGroup(true, UIUtility.TransitionTime, SetFirstSelected);
+            m_titleGroup.FadeGroup(true, Helpers.TransitionTime, SetFirstSelected);
         }
 
         public void ResumeGame()
         {
-            m_titleGroup.FadeGroup(false, UIUtility.TransitionTime, GameManager.instance.ResumeGame);
+            m_titleGroup.FadeGroup(false, Helpers.TransitionTime, GameManager.instance.ResumeGame);
         }
 
         public void ActiveMenu()
         {
             menuEnabled = true;
-            m_mainGroup.FadeGroup(true, UIUtility.TransitionTime, SetFirstSelected);
+            m_mainGroup.FadeGroup(true, Helpers.TransitionTime, SetFirstSelected);
         }
 
         public void OpenOptions()
@@ -60,7 +60,7 @@ namespace Metroidvania.UI.Menus
 
         public void SwitchToScreen(IMenuScreen screen)
         {
-            m_mainGroup.FadeGroup(false, UIUtility.TransitionTime, screen.ActiveMenu);
+            m_mainGroup.FadeGroup(false, Helpers.TransitionTime, screen.ActiveMenu);
             menuEnabled = false;
             activeScreen = screen;
         }

@@ -8,9 +8,9 @@ namespace Metroidvania
     {
         private void Awake()
         {
-            if (CameraUtility.vCam)
+            if (Helpers.virtualCamera)
             {
-                CinemachineConfiner2D confiner2D = CameraUtility.vCam.gameObject.AddComponent<CinemachineConfiner2D>();
+                CinemachineConfiner2D confiner2D = Helpers.virtualCamera.gameObject.AddComponent<CinemachineConfiner2D>();
                 confiner2D.BoundingShape2D = GetComponent<Collider2D>();
             }
         }

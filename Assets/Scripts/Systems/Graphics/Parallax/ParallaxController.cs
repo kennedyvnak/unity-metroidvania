@@ -6,7 +6,7 @@ namespace Metroidvania.Graphics
     {
         private void LateUpdate()
         {
-            var mainCam = CameraUtility.mainCamera;
+            var mainCam = Helpers.mainCamera;
             var camPos = mainCam.transform.position;
             Parallax.FlushBuffer(mainCam.farClipPlane, mainCam.nearClipPlane, camPos);
         }

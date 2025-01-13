@@ -30,13 +30,13 @@ namespace Metroidvania.Credits
         public void ActiveMenu()
         {
             menuEnabled = true;
-            m_canvasGroup.FadeGroup(true, UIUtility.TransitionTime, SetFirstSelected);
+            m_canvasGroup.FadeGroup(true, Helpers.TransitionTime, SetFirstSelected);
         }
 
         public void DesactiveMenu()
         {
             menuEnabled = false;
-            m_canvasGroup.FadeGroup(false, UIUtility.TransitionTime, () => OnMenuDisable?.Invoke());
+            m_canvasGroup.FadeGroup(false, Helpers.TransitionTime, () => OnMenuDisable?.Invoke());
         }
     }
 }

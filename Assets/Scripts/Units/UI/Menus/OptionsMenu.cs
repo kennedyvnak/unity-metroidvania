@@ -118,13 +118,13 @@ namespace Metroidvania.UI.Menus
             _activeGroupIndex = 0;
             m_panels[_activeGroupIndex].group.SetActive(true);
             menuEnabled = true;
-            m_canvasGroup.FadeGroup(true, UIUtility.TransitionTime, SetFirstSelected);
+            m_canvasGroup.FadeGroup(true, Helpers.TransitionTime, SetFirstSelected);
         }
 
         public void DesactiveMenu()
         {
             menuEnabled = false;
-            m_canvasGroup.FadeGroup(false, UIUtility.TransitionTime, () =>
+            m_canvasGroup.FadeGroup(false, Helpers.TransitionTime, () =>
             {
                 m_panels[_activeGroupIndex].group.SetActive(false);
                 OnMenuDisable?.Invoke();
@@ -133,7 +133,7 @@ namespace Metroidvania.UI.Menus
 
         public Tweener FadeMenu(bool enabled)
         {
-            return m_canvasGroup.FadeGroup(enabled, UIUtility.TransitionTime, SetFirstSelected);
+            return m_canvasGroup.FadeGroup(enabled, Helpers.TransitionTime, SetFirstSelected);
         }
     }
 }

@@ -46,7 +46,7 @@ namespace Metroidvania.UI.Menus
 
         public void SwitchToScreen(IMenuScreen screen)
         {
-            m_mainTitleGroup.FadeGroup(false, UIUtility.TransitionTime, screen.ActiveMenu);
+            m_mainTitleGroup.FadeGroup(false, Helpers.TransitionTime, screen.ActiveMenu);
             menuEnabled = false;
             activeScreen = screen;
         }
@@ -55,7 +55,7 @@ namespace Metroidvania.UI.Menus
         {
             activeScreen = null;
             menuEnabled = true;
-            m_mainTitleGroup.FadeGroup(true, UIUtility.TransitionTime, SetFirstSelected);
+            m_mainTitleGroup.FadeGroup(true, Helpers.TransitionTime, SetFirstSelected);
         }
 
         private void PerformMenuClose()

@@ -20,7 +20,7 @@ namespace Metroidvania
 
         private IEnumerator TakeScreenshot()
         {
-            yield return CoroutinesUtility.GetWaitForEndOfFrame();
+            yield return Helpers.GetWaitForEndOfFrame();
             int width = Screen.width;
             int height = Screen.height;
 

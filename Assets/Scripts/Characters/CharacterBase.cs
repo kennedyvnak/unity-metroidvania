@@ -33,8 +33,8 @@ namespace Metroidvania.Characters
 
         protected void FocusCameraOnThis()
         {
-            CameraUtility.vCam.Follow = transform;
-            CameraUtility.vCam.PreviousStateIsValid = false;
+            Helpers.virtualCamera.Follow = transform;
+            Helpers.virtualCamera.PreviousStateIsValid = false;
         }
 
         protected CharacterSpawnPoint GetSceneSpawnPoint(SceneLoader.SceneTransitionData transitionData)

@@ -20,7 +20,7 @@ namespace Metroidvania.Animations
                 foreach (SpriteSheetAnimation animation in _animator.animationsBundle.animations)
                 {
                     _animator.SetSheet(animation);
-                    yield return CoroutinesUtility.GetYieldSeconds(animation.duration);
+                    yield return Helpers.GetYieldSeconds(animation.duration);
                 }
             }
         }

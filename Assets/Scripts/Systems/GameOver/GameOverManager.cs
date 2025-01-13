@@ -43,7 +43,7 @@ namespace Metroidvania.GameOver
 
         private IEnumerator DoCharacterDie()
         {
-            yield return CoroutinesUtility.GetYieldSeconds(m_timeAfterCharacterDie);
+            yield return Helpers.GetYieldSeconds(m_timeAfterCharacterDie);
             yield return DOGameOver();
         }
 
@@ -54,7 +54,7 @@ namespace Metroidvania.GameOver
             InputReader.instance.DisableAllInput();
             _gameOverScreen.SetActive(true);
             yield return FadeScreen.instance.DOFadeIn(m_fadeTime).WaitForCompletion();
-            yield return CoroutinesUtility.GetYieldSeconds(m_gameOverScreenTime);
+            yield return Helpers.GetYieldSeconds(m_gameOverScreenTime);
             m_onGameOverChannel?.Raise();
             GameData gameData = DataManager.instance.gameData;
             yield return SceneLoader.instance.LoadSceneWithoutTransition(m_gameOverScene, SceneLoader.SceneTransitionData.GameOver);

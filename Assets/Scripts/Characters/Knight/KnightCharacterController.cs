@@ -180,7 +180,7 @@ namespace Metroidvania.Characters.Knight
             if (_invincibilityAnimationsCount > 0 && _invincibilityAnimationCoroutine == null)
                 _invincibilityAnimationCoroutine = StartCoroutine(StartInvincibilityAnimation());
 
-            yield return CoroutinesUtility.GetYieldSeconds(time);
+            yield return Helpers.GetYieldSeconds(time);
 
             _invincibilityCount--;
             if (shouldAnim)

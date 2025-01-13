@@ -16,7 +16,7 @@ namespace Metroidvania.TMPUtility
 
         public void OnPointerClick(PointerEventData eventData)
         {
-            int linkIndex = TMP_TextUtilities.FindIntersectingLink(text, eventData.position, CameraUtility.mainCamera);
+            int linkIndex = TMP_TextUtilities.FindIntersectingLink(text, eventData.position, Helpers.mainCamera);
             if (linkIndex != -1)
             {
                 TMP_LinkInfo linkInfo = text.textInfo.linkInfo[linkIndex];

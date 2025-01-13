@@ -12,12 +12,12 @@ namespace Metroidvania
         public Canvas canvas => m_canvas;
         public CanvasGroup canvasGroup => m_canvasGroup;
 
-        public Tweener DOFadeIn(float fadeDuration = UIUtility.TransitionTime)
+        public Tweener DOFadeIn(float fadeDuration = Helpers.TransitionTime)
         {
             return DOFade(fadeDuration, true);
         }
 
-        public Tweener DOFadeOut(float fadeDuration = UIUtility.TransitionTime)
+        public Tweener DOFadeOut(float fadeDuration = Helpers.TransitionTime)
         {
             return DOFade(fadeDuration, false);
         }

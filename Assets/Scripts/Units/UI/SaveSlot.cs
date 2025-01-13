@@ -47,7 +47,7 @@ namespace Metroidvania.Serialization.Menus
 
             DataManager.instance.DeleteUser(GetUserId());
             SetData(null);
-            UIUtility.eventSystem.SetSelectedGameObject(button.gameObject);
+            Helpers.eventSystem.SetSelectedGameObject(button.gameObject);
         }
     }
 }

@@ -10,7 +10,7 @@ namespace Metroidvania.UI.Menus
 
         public void SetFirstSelected()
         {
-            UIUtility.eventSystem.SetSelectedGameObject(firstSelected);
+            Helpers.eventSystem.SetSelectedGameObject(firstSelected);
         }
     }
 }
