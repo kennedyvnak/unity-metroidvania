@@ -195,6 +195,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1778636295426458610}
+  - component: {fileID: 4425799062418330490}
   m_Layer: 5
   m_Name: StatusBar
   m_TagString: Untagged
@@ -225,6 +226,19 @@ RectTransform:
   m_AnchoredPosition: {x: 32, y: -32}
   m_SizeDelta: {x: 542, y: 112}
   m_Pivot: {x: 0, y: 1}
+--- !u!114 &4425799062418330490
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1169212432249372776}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 141acd87cc0c52a47930362975c8dc91, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_lifeSlider: {fileID: 7779568895958108685}
 --- !u!1 &1874220791735041718
 GameObject:
   m_ObjectHideFlags: 0
@@ -446,7 +460,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1375414612535734261}
   - component: {fileID: 2622563733051961656}
-  - component: {fileID: 4014755233338156141}
+  - component: {fileID: 7779568895958108685}
   m_Layer: 5
   m_Name: Fill
   m_TagString: Untagged
@@ -525,7 +539,7 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
---- !u!114 &4014755233338156141
+--- !u!114 &7779568895958108685
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -534,11 +548,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 1993805512254859307}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e11f9d06a9103424cbb0ef553b6e6ae5, type: 3}
+  m_Script: {fileID: 11500000, guid: fc3cbaaca96a64b4ab64191291f3c7a3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_LifeField: {fileID: 11400000, guid: 22044c12a3552f142ab0b117c9caeb2b, type: 2}
-  m_AnimationScale: 3
+  m_ease: 4
+  m_duration: 0.4
 --- !u!1 &2262513064318034745
 GameObject:
   m_ObjectHideFlags: 0

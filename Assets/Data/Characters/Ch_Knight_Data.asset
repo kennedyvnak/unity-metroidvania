@@ -12,7 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0cc224e4817ecdf4bbe5f9f6c38cb63c, type: 3}
   m_Name: Ch_Knight_Data
   m_EditorClassIdentifier: 
-  maxLife: 50
+  lifeAttributeData:
+    startValue: 50
+    stepPerLevel: 8
   onDieChannel: {fileID: 11400000, guid: 5959ba2312347864e967625e5df255a8, type: 2}
   onHurtChannel: {fileID: 11400000, guid: c826486e48eeb4446a81b8567216d8cb, type: 2}
   groundLayer:

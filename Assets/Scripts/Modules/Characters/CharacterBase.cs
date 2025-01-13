@@ -9,9 +9,6 @@ namespace Metroidvania.Characters
     {
         public int facingDirection { get; protected set; }
 
-        [SerializeField] private MainCharacterLifeField m_Life;
-        public MainCharacterLifeField life => m_Life;
-
         public abstract void OnTakeHit(EntityHitData hitData);
 
         public abstract void OnSceneTransition(SceneLoader.SceneTransitionData transitionData);

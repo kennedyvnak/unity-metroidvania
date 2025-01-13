@@ -74,6 +74,8 @@ namespace Metroidvania.Characters.Knight
 
         public KnightStateMachine stateMachine { get; private set; }
 
+        public CharacterAttribute<float> lifeAttribute { get; private set; }
+
         public InputAction crouchAction => InputReader.instance.inputActions.Gameplay.Crouch;
         public InputAction dashAction => InputReader.instance.inputActions.Gameplay.Dash;
         public InputAction attackAction => InputReader.instance.inputActions.Gameplay.Attack;
@@ -88,8 +90,16 @@ namespace Metroidvania.Characters.Knight
 
             facingDirection = 1;
 
+            lifeAttribute = new CharacterAttribute<float>(data.lifeAttributeData, at => at.data.startValue + at.currentLevel * at.data.stepPerLevel);
+
             attackHits = new Collider2D[8];
             stateMachine = new KnightStateMachine(this);
+        }
+
+        private void Start()
+        {
+            CharacterStatusBar.instance.ConnectLife(lifeAttribute);
+            CharacterStatusBar.instance.SetLife(lifeAttribute.currentValue);
         }
 
         private void OnEnable()
@@ -256,10 +266,10 @@ namespace Metroidvania.Characters.Knight
             if (isInvincible || isDied)
                 return;
 
-            life.currentLife -= hitData.damage;
+            lifeAttribute.currentValue -= hitData.damage;
             data.onHurtChannel.Raise(this, hitData);
 
-            if (life.currentLife <= 0)
+            if (lifeAttribute.currentValue <= 0)
                 stateMachine.EnterState(stateMachine.dieState);
             else
             {
@@ -277,14 +287,17 @@ namespace Metroidvania.Characters.Knight
 
             FocusCameraOnThis();
 
-            life.SetMaxLife(data.maxLife);
+
             if (transitionData.gameData.ch_knight_died)
             {
-                life.SetLife(data.maxLife, RuntimeFields.RuntimeFieldSetMode.Setup);
                 transitionData.gameData.ch_knight_died = false;
+                lifeAttribute.currentValue = transitionData.gameData.ch_knight_life;
             }
             else
-                life.SetLife(transitionData.gameData.ch_knight_life, RuntimeFields.RuntimeFieldSetMode.Setup);
+            {
+                lifeAttribute.currentValue = transitionData.gameData.ch_knight_life;
+            }
+            CharacterStatusBar.instance.SetLife(lifeAttribute.currentValue);
 
             if (spawnPoint.isHorizontalDoor)
                 stateMachine.fakeWalkState.EnterFakeWalk(data.fakeWalkOnSceneTransitionTime);
@@ -292,7 +305,7 @@ namespace Metroidvania.Characters.Knight
 
         public override void BeforeUnload(SceneLoader.SceneUnloadData unloadData)
         {
-            unloadData.gameData.ch_knight_life = life.currentLife;
+            unloadData.gameData.ch_knight_life = lifeAttribute.currentValue;
             unloadData.gameData.ch_knight_died = isDied;
         }
 

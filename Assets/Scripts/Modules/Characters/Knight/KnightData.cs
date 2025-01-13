@@ -41,7 +41,7 @@ namespace Metroidvania.Characters.Knight
         }
 
         [Header("Properties")]
-        public float maxLife;
+        public CharacterAttributeData<float> lifeAttributeData;
 
         [Header("Events")]
         public ObjectEventChannel onDieChannel;

@@ -1,5 +1,4 @@
-using Metroidvania.RuntimeFields;
-using System.Collections;
+using DG.Tweening;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -8,9 +7,9 @@ namespace Metroidvania.UI
     [RequireComponent(typeof(Slider))]
     public class SliderValueAnimator : MonoBehaviour
     {
-        [SerializeField] private float m_animationScale = 1;
+        [SerializeField] private Ease m_ease;
+        [SerializeField] private float m_duration;
 
-        private Coroutine _animationCoroutine;
         private Slider _slider;
 
         public Slider slider
@@ -23,32 +22,9 @@ namespace Metroidvania.UI
             }
         }
 
-        public void SetValue(float value, RuntimeFieldSetMode setMode)
+        public void Animate(float value)
         {
-            this.EnsureStopCoroutine(ref _animationCoroutine);
-
-            switch (setMode)
-            {
-                case RuntimeFieldSetMode.Update:
-                    _animationCoroutine = StartCoroutine(DOAnimation(value));
-                    break;
-                case RuntimeFieldSetMode.Setup:
-                    slider.value = value;
-                    break;
-            }
-        }
-
-        private IEnumerator DOAnimation(float targetValue)
-        {
-            float startValue = slider.value;
-            float time = 0f;
-            while (slider.value != targetValue)
-            {
-                time += Time.deltaTime * m_animationScale;
-                float normalizedProgress = Mathf.Clamp01(time);
-                slider.value = Mathf.Lerp(startValue, targetValue, normalizedProgress);
-                yield return null;
-            }
+            slider.DOValue(value, m_duration).SetEase(m_ease).SetTarget(slider);
         }
     }
 }
